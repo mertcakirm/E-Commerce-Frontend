@@ -1,0 +1,275 @@
+.urun-detay-container{
+    padding-top: 100px;
+    margin-bottom: 100px;
+}
+
+
+
+
+.urun-detay-col-sol{
+    padding:0% 2%;
+}
+
+.urun-detay-col-sag{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 2% 0%;
+    position: sticky;
+    top: 50px;
+}
+
+
+
+.carousel-container {
+    position: relative;
+  }
+  
+  .active-image {
+    position: relative;
+  }
+  
+  .prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+    height: 80%;
+  }
+  
+  
+  .prev-button {
+    left: 0px;
+  }
+  .prev-button:focus-visible {
+    outline: none;
+}
+.next-button:focus-visible {
+    outline: none;
+}
+
+.next-button {
+    right: 0px;
+  }
+  
+  .thumbnails {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  
+  .thumbnail {
+    margin: 0 5px;
+    width: 100px;
+    cursor: pointer;
+  }
+  
+  .thumbnail.active {
+    border: 2px solid #007bff;
+  }
+  .urun-baslik{
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+  .urun-code{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  .urun-goruntuleme{
+    display: flex;
+    flex-direction: row;
+}
+
+.urun-detay-fiyat-flex{
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.p1-fiyat{
+    font-size: 32px;
+    margin: 0;
+    font-weight: 700;
+}
+
+.p2-fiyat{
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+
+    text-decoration: line-through;
+    color: rgb(163, 163, 163);
+}
+.urun-indirim{
+    background-color: orange;
+    border: 0; 
+    padding: 5px 10px;
+    color: #fff;
+    font-family: 'Jockey One';
+    font-weight: 700;
+    height: 30px;
+    line-height: 20px;
+}
+
+.beden-cards{
+  column-gap: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.beden-cards>button{
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 10px;
+  background: rgb(189, 189, 189);
+  color: #000;
+  font-weight: 700;
+}
+
+.sepet-flex{
+  display: flex;
+  flex-direction: row;
+}
+
+.sepete-ekle-detay-btn{
+  width: 60%;
+  height: 50px;
+  border: 0;
+  background: orange;
+  font-weight: 700;
+  font-size: 20px;
+  transition: .4s;
+  color: #fff;
+
+}
+.sepete-ekle-detay-btn:hover{
+  background: rgb(252, 184, 58);
+  transition: .4s;
+}
+
+.like-detay-btn{
+  width: 30%;
+  height: 50px;
+  border: 0;
+
+}
+
+.tahmini-teslimat{
+  display: flex;
+  flex-direction: row;
+  column-gap: 5px;
+}
+
+.teslimat-span2{
+  font-weight: 700;
+}
+
+.urun-detay-accordion{
+  width: 90%;
+}
+
+.diger-row{
+  margin-top: 100px;
+  background: #ededed;
+  padding: 2% 0%;
+}
+
+.bunlari-da-begen{
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.urun-detay-card{
+  text-decoration: none;
+  padding: 2%;
+
+}
+
+.urun-detay-card:focus-visible{
+  outline: none;
+}
+
+.urun-detay-card>p{
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #000;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.urun-detay-card>span{
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #000;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.slick-next::before{
+  display: none;
+}
+.slick-prev::before{
+  display: none;
+}
+
+.urun-detay-card-spans{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  column-gap:10px;
+}
+
+.urun-detay-card-span1{
+  font-size: 20px;
+  color:#000
+}
+
+
+.urun-detay-card-span2{
+  font-size: 20px;
+  color:gray;
+  text-decoration: line-through;
+}
+@media only screen and (max-width:991px) {
+  .urun-detay-col-sag{
+    padding: 3% 2%;
+    row-gap:30px;
+}
+
+.thumbnail {
+  width: 50px;
+}
+
+
+.sepete-ekle-detay-btn{
+  width: 70%;
+}
+
+
+.urun-detay-accordion{
+  width: 100%;
+}
+
+.bunlari-da-begen{
+  text-align: center;
+}
+
+}
+
+

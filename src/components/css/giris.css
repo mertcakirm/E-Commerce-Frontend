@@ -1,0 +1,90 @@
+
+
+.giris-container{
+    height: 100vh;
+    position: relative;
+    padding: 0;
+}
+
+.giris-bg{
+    object-fit: cover;
+    position: absolute;
+    height: 100vh;
+}
+
+.giris-row{
+    opacity: 0.5;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background: #fff;
+    align-items: center;
+    top: 15%;
+    left: 25%;
+    width: 50%;
+    height: 70%;
+    border: 5px solid gray;
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: .4s;
+
+}
+
+#login-form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 50px;
+    transition: .4s;
+}
+
+
+.login-form-baslik{
+    font-size: 32px;
+    font-weight: 700;
+    font-family: Jockey One;
+    text-align: center;
+}
+
+.form-control{
+    border: 1px solid #000;
+    border-radius: 0px;
+}
+
+.form-control:focus {
+    border-color: #000;
+}
+
+.giris-yap-btn{
+    padding: 10px 30px;
+    border: 0;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: orange;
+}
+
+.kayit-giris-gecis-btn{
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.kayit-giris-gecis-btn>button{
+border: 0;
+font-weight: 700;
+font-size: 16px;
+background: transparent;
+color: orange;
+}
+
+#register-form{
+    display: none;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.giris-row:hover{
+    opacity: 1;
+    transition: .4s;
+}

@@ -1,0 +1,194 @@
+.sss-container{
+    margin-top: 30px;
+    position: absolute;
+}
+
+.footer-container-sss{
+    width: 100%;
+    position: absolute;
+    margin-top: 140vh;    
+    transition: .4s;
+}
+
+.for-bg {
+    position: relative;
+    width: 100%;
+}
+
+.sss-baslik{
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.sss-row{
+    row-gap: 30px;
+    padding: 0% 5%;
+}
+
+.bg-image{
+    height: 100vh;
+    width: 100%;
+    object-fit: cover;
+    position: fixed;
+    
+}
+
+.diger-sorular{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+    margin-top: 70px;
+
+}
+
+.diger-sorular>p{
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.diger-sorular>a{
+    padding: 15px;
+    background-color: #000;
+    width: 250px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+
+}
+
+
+.sss-card{
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    padding: 5%;
+    border-radius: 20px;
+    background: #8b8b8b4d;
+    transition: .4s;
+
+    
+}
+
+.sss-card-baslik{
+    font-size: 24px;
+    font-weight: 800;
+    border: 0;
+    height: 70px;
+    column-gap: 5px;
+    border-bottom: 1px solid gray;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+
+
+.sss-card:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: .4s;
+}
+
+.sss-card-soru{
+    border: 0;
+    font-size: 16px;
+    font-weight: 500;
+    min-height: 50px;
+    border-bottom: 1px solid gray;
+    background: transparent;
+    text-align: start;
+    display: block;
+    margin-bottom: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+
+
+
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 2% 5%;
+    border-radius: 5px;
+    max-width: 600px;
+    min-height: 700px;
+}
+
+.popup p {
+    margin-bottom: 10px;
+}
+
+.popup-close-parent{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.popup-close {
+    background: transparent;
+    border: 0;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+
+.popup-card-baslik{
+    font-size: 24px;
+    font-weight: 700;
+    border: 0;
+    height: 70px;
+    column-gap: 5px;
+    border-bottom: 1px solid gray;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+
+@media only screen and (max-width:1324px) {
+    .footer-container-sss{
+        margin-top: 170vh;    
+    }
+}
+@media only screen and (max-width:991px) {
+    .footer-container-sss{
+        margin-top: 220vh;    
+    }
+}
+
+@media only screen and (max-width:767px) {
+    .footer-container-sss{
+        margin-top: 370vh;    
+    }
+}
+
+
+
+@media only screen and (max-width:360px) {
+    .footer-container-sss{
+        margin-top: 390vh;    
+    }
+}

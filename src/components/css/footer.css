@@ -1,0 +1,134 @@
+.footer-container{
+    background-color: #ededed;
+    padding: 5% 15% 1% 15%;
+    z-index: 300;
+}
+
+.footer-col{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.footer-baslik{
+    font-size: 24px;
+    font-family: Jockey One;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.footer-icerik{
+    font-size: 16px;
+    font-family: Jockey One;
+    font-weight: 600;
+    color: gray;
+    text-decoration: none;
+    transition: .6s;
+    text-transform: uppercase;
+
+}
+
+.footer-icerik:hover{
+    color: #000;
+    transition: .6s;
+}
+
+.bizi-takip-edin-footer-flex{
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+}
+
+.bizi-takip-edin-item{
+    width: 50px;
+    height: 50px;
+    border: 2px solid #000;
+    background-color: rgb(209, 209, 209);
+    border-radius: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    transition: .1s;
+
+}
+.bizi-takip-edin-item:hover{
+    border: 3px solid #000;
+    transition: .1s;
+}
+
+.footer-baslik-odeme{
+    margin-top: 30px;
+    font-size: 24px;
+    font-family: Jockey One;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.odeme-yontemleri-flex{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;
+}
+
+.odeme-yontemleri-flex>img{
+    width: 70px;
+}
+
+.kvkk-flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    column-gap: 10px;
+    border-top: 1px solid #000;
+    height: 40px;
+    margin-top: 50px;
+}
+
+.kvkk-item{
+    color: #000;
+    text-decoration: none;
+    font-family: Jockey One;
+
+}
+
+@media only screen and (max-width:991px) {
+    .footer-container{
+        height: 1000px;
+
+    }
+
+    .footer-col{
+        margin-top: 30px;
+    }
+
+    .kvkk-flex{
+        flex-wrap: wrap;
+    }
+    .footer-container{
+        background-color: #ededed;
+        padding: 5% 15% 1% 15%;
+    }
+}
+
+@media only screen and (max-width:767px) {
+    .footer-container{
+        margin-bottom: 65px;
+    }
+
+    .kvkk-flex{
+        text-align: center;
+
+    }
+}
+
+@media only screen and (max-width:374px) {
+    .footer-container{
+        height: 1060px;
+        margin-bottom: 65px;
+    }
+
+
+
+}
