@@ -1,0 +1,435 @@
+.odeme-fluid{
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+
+
+.progress {
+	display: flex;
+	flex-flow: row nowrap;
+    justify-content: space-between;
+	padding: 0 40px;
+	margin-bottom: 60px;
+    height: 100px;
+    background: transparent;
+}
+.progress h3 {
+	flex-basis: 100%;
+}
+.progress div.step {
+	position: relative;
+	max-width: 63px;
+}
+.progress div.step span {
+	display: block;
+	text-align: center;
+}
+.progress div.step span:nth-of-type(1) {
+	position: relative;
+	height: 55px;
+	width: 55px;
+	list-style-type: none;
+	border-radius: 50%;
+	border: 4px solid #9498a3;
+	background: white;
+	text-align: center;
+	color: #9498a3;
+	line-height: 50px;
+	transition: background-color 150ms ease;
+}
+.progress div.step span:nth-of-type(2) {
+	color: #9498a3;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-top: 10px;
+	white-space: nowrap;
+	text-align: center;
+}
+.progress div:not(.step) {
+	margin-top: 27px;
+	height: 4px;
+	width: calc((100% - 10rem) / 3);
+	background: #9498a3;
+	border: none;
+	transition: background-color 150ms ease;
+}
+.progress div:first-of-type:before {
+	content: none;
+}
+.progress div.current {
+	color: #fff;
+}
+.progress div:not(.step).current {
+	background: orange;
+}
+.progress div.step.current span:nth-of-type(2) {
+	color: orange;
+}
+.progress div.step.current span:first-child {
+	background: orange;
+	border-color: orange;
+	color: #fff;
+}
+.checkout-progress-indicator .button { margin: 0 auto; display: block; }
+
+/* buttons */
+.button-next-step {
+	display: block;
+	font-size: 1.375em;
+	font-weight: 700;
+	letter-spacing: -0.025em;
+	line-height: 50px;
+	height: 50px;
+	width: 100%;
+	text-align: center;
+	margin-bottom: 10px;
+	cursor: pointer;
+}
+.button-next-step {
+	background: orange;
+    border: 0;
+	color: #fff;
+}
+
+/* inputs */
+
+.inputLabel {
+	position: relative;
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 400px;
+	padding: 4px 10px 8px 15px;
+	margin-bottom: 15px;
+	border: 1px solid #e7e7e7;
+	border-radius: 2px;
+	font-size: 20px;
+	color: #787878;
+}
+
+.inputLabel span {
+	position: absolute;
+	top: 50%;
+	left: 15px;
+	transform: translateY(-50%);
+	z-index: 5;
+	transition: top 150ms ease,
+				font-size 150ms ease,
+				color 150ms ease;
+}	
+
+.inputLabel .message {
+	position: absolute;
+	top: calc(100% + 1px);
+	border-radius: 2px;
+	padding: 0 10px;
+	left: 0;
+	width: 100%;
+	background: #d0021b;
+	color: #fff;
+	font-size: 13px;
+	line-height: 3em;
+}
+
+.inputLabel input {
+	margin-top: 30px;
+	background: transparent;
+}
+
+.inputLabel.invalid span {
+	color: #d0021b;
+}
+
+.inputLabel.invalid {
+	margin-bottom: 55px;
+}
+.inputLabel.invalid {
+    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2QwMDIxYjt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPkFydGJvYXJkIDE8L3RpdGxlPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTI1NiwwQTI1NiwyNTYsMCwxLDAsNTEyLDI1NiwyNTUuNjQsMjU1LjY0LDAsMCwwLDI1NiwwWm0wLDQ4My4xOEEyMjcuMTgsMjI3LjE4LDAsMSwxLDQ4My4xOCwyNTYsMjI2LjY4LDIyNi42OCwwLDAsMSwyNTYsNDgzLjE4WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTIzMy4wNiwzNDQuOTRjMC0xMi41NCwxMC4yMy0yMy4xLDIyLjc3LTIzLjFhMjMuMzksMjMuMzksMCwwLDEsMjMuMSwyMy4xYzAsMTIuMjEtMTAuNTYsMjIuNzctMjMuMSwyMi43N0EyMywyMywwLDAsMSwyMzMuMDYsMzQ0Ljk0Wk0yNDEsMjk3LjA5bC02LjI3LTE1Mi43OUgyNzdMMjcxLDI5Ny4wOVoiLz48L3N2Zz4=) no-repeat;
+	background-position: calc(100% - 20px) 50%;
+	background-size: 30px 30px;
+}
+
+/* odeme 1 */
+
+.ozet-baslik{
+    font-size: 24px;
+    font-weight: 600;
+	margin-top: 10px
+}
+
+.sepet-ozet-flex{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.sepet-ozet-card{
+    width: 100%;
+    border: 1px solid #000;
+    padding: 2%;
+    border-radius: 10px;
+	margin: 0;
+}
+
+
+
+.ozet-card-col-2{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 2% 0%;
+}
+
+.ozet-card-col-2-p1{
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.ozet-card-col-2-p2{
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    color: gray;
+}
+
+.ozet-card-col-3{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 2% 0%;
+    row-gap: 30px;
+}
+
+.ozet-card-col-3-sil-btn{
+    background: transparent;
+    border: 0;
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+    column-gap: 5px;
+    align-items: center;
+    color: gray;
+    font-size: 20px;
+    justify-content: end;
+}
+
+.ozet-card-col-3-sil-btn>svg{
+    width: 20px;
+}
+
+.ozet-card-fiyat-flex{
+    display: flex;
+    flex-direction: row;
+    column-gap: 20px;
+}
+
+.ozet-card-fiyat-indirim{
+    padding: 5px 20px;
+    color: #fff;
+    background-color: orange;
+}
+
+.ozet-card-fiyat-1{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.ozet-card-fiyat-2{
+    font-size: 20px;
+    font-weight: 600;
+    color: gray;
+    text-decoration: line-through;
+}
+
+.ozet-panel{
+    background-color: rgb(243, 242, 242);
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 5%;
+    border: 1px solid rgb(214, 214, 214);
+    min-height: 300px;
+}
+
+.ozet-sag-col{
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.ozet-panel-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ozet-panel-item-p1{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ozet-panel-item-p2{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.sepeti-bosalt-flex{
+	justify-content: end;
+	padding-right: 20px;
+}
+
+/* odeme 2 */
+
+.teslimat-bilgileri-panel-parent{
+	display: flex;
+	flex-direction: column;
+	padding: 2%;
+	border: 1px solid gainsboro;
+
+}
+
+.kayitli-adreslerim-parent{
+	display: flex;
+	flex-direction: column;
+	row-gap: 20px;
+	padding: 2%;
+	border-bottom: 1px solid gainsboro;
+}
+
+.kayitli-adresleri-genel-baslik{
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.kayitli-adreslerim-card{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid gainsboro;
+	padding: 2%;
+
+}
+
+.kayitli-adreslerim-card-p1{
+font-weight: 700;
+}
+
+
+.kayitli-adreslerim-card>p{
+	margin: 0;
+}
+
+.kayitli-adreslerim-card>button{
+	border: 1px solid #000;
+	background: gray;
+	color: #fff;
+	padding: 5px 30px;
+}
+
+.adres-input{
+	width: 100%!important;
+	height: 40px;
+	padding-left: 1%;
+	border: 0;
+	border-bottom: 1px solid #000;
+}
+.adres-input:focus-visible{
+	outline: none;
+}
+
+.yeni-adres-row {
+	row-gap: 20px;
+	padding: 2%;
+}
+
+.yeni-adres-olarak-kaydet-chc{
+	background: gainsboro;
+	padding: 5px 30px;
+}
+
+.kargo-row{
+	padding: 5%;
+}
+
+
+.kargo-card{
+	height: 100px;
+	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.kargo-card-row{
+	height: 100%;
+}
+
+.kargo-resim-flex{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.kargo-fiyat-flex{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	font-size: 20px;
+	background: rgb(179, 178, 178);
+	color: #fff;
+	font-weight: 700;
+}
+.kargo-fiyat-flex>p{
+	margin: 0;
+}
+
+
+
+
+
+
+/* odeme3 */
+
+
+
+@media only screen and (max-width:991px) {
+	.kargo-resim-flex>img{
+		width: 52%!important;
+		transition: .4s;
+	}
+}
+
+
+@media only screen and (max-width:767px) {
+	
+.ozet-card-col-3{
+    align-items: baseline;
+}
+
+.ozet-card-col-3-sil-btn{
+    justify-content: start;
+}
+
+
+.sepeti-bosalt-flex{
+	justify-content: start;
+	margin: 30px 0px;
+}
+
+
+}
+
+@media only screen and (max-width:430px) {
+	.kayitli-adreslerim-card{
+		flex-direction: column;
+		justify-content: baseline;
+		row-gap: 20px;
+	}
+
+	.kargo-resim-flex>img{
+		width: 100%!important;
+	}
+
+}

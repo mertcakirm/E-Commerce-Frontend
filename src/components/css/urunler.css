@@ -120,6 +120,7 @@
   height: 800px;
   transition: .4s;
   overflow: hidden;
+  z-index: 50;
 }
 
 .urun-img1{
@@ -148,7 +149,7 @@
   position: absolute;
   height: 50px;
   background-color: gray;
-  z-index: 10;
+  z-index: 100;
   bottom: -5rem;
   transition: .4s;
   display: flex;

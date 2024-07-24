@@ -1,0 +1,30 @@
+.hakkimizda-container{
+    padding-top: 100px;
+}
+
+.hakkimizda-baslik{
+    text-align: center;
+    width: 100%;
+    font-size: 28px;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.hakkimizda-icerik{
+    padding: 2% 0%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+}
+
+.hakkimizda-icerik-p1{
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 500;
+}
+
+.hakkimizda-icerik-baslik{
+    font-size: 24px;
+    font-weight: 600;
+}

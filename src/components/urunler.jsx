@@ -176,9 +176,11 @@ const Urunler = () => {
           {products.map(product => (
             <div className={colClass} key={product.id}>
               <div className="urun-card">
-                <a href="/ürünler-detay">
+                <div>
+                  <a href="/ürünler-detay">
                   <img className='img-fluid w-100 urun-img2' src={product.img1} alt="" />
                   <img className='img-fluid w-100 urun-img1' src={product.img2} alt="" />
+                  </a>
                   <div className="urun-card-content-bottom">
                     <button className='urunler-card-content-bottom-add-btn'>
                       +   
@@ -205,7 +207,7 @@ const Urunler = () => {
                   <div className='urunler-card-content-top'>
                     %20 İNDİRİM
                   </div>
-                </a>
+                </div>
               </div>
               <div className="urun-adi">
                 <p>{product.name}</p>

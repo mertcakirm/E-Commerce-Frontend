@@ -24,7 +24,6 @@ const Footer=()=>{
                 <a href='#' className='footer-icerik'>Hakkımızda</a>
                 <a href='/ürünler' className='footer-icerik'>Ürünler</a>
                 <a href='#' className='footer-icerik'>İletişim</a>
-                <a href='#' className='footer-icerik'>Blog</a>
               </div>
             </div>
             <div className="col-lg-4">
