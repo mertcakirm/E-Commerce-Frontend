@@ -18,6 +18,12 @@
     width: auto;
     border: 0;
     background: transparent;
+
+}
+.grid-btn>img{
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
 }
 
 .grid-svg{
@@ -290,6 +296,10 @@
 
     .urun-img2{
       object-fit: cover;
+    }
+
+    .en-ust-btn{
+      display: none;
     }
   }
 

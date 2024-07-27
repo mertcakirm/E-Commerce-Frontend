@@ -495,9 +495,25 @@
   justify-content: center;
 }
 
+.favori-card-add-flex{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.favori-card-sepete-ekle{
+  border: 0;
+  background: #000;
+  color: #fff;
+  padding: 5px 20px;
+}
+
 @media only screen and (max-width:767px) {
   .mobile-navbar-name{
     display: block;
+    background-color: #fff;
   }
 
   .search-container .form-control {

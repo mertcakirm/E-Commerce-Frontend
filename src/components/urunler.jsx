@@ -82,14 +82,10 @@ const Urunler = () => {
           </div>
           <div className="col-lg-4 row grid-row">
             <button className="grid-btn 3x3-btn" onClick={() => handleGridChange('3x3')}>
-              <svg className='grid-svg' clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="m4 3c-.478 0-1 .379-1 1v16c0 .62.519 1 1 1h16c.621 0 1-.52 1-1v-16c0-.478-.379-1-1-1zm7.25 16.5h-6.75v-6.75h6.75zm8.25-6.75v6.75h-6.75v-6.75zm0-8.25v6.75h-6.75v-6.75zm-15 0h6.75v6.75h-6.75z" fillRule="nonzero"/>
-              </svg>
+            <img src="https://www.svgrepo.com/show/344890/grid-3x3.svg" alt="" />
             </button>
             <button className="grid-btn 4x4-btn" onClick={() => handleGridChange('4x4')}>
-              <svg className='grid-svg' clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="m21 4c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-12.5 15.5h-4v-4h4zm1.5-4h4v4h-4zm9.5 0v4h-4v-4zm-15-5.5h4v4h-4zm5.5 0h4v4h-4zm5.5 0h4v4h-4zm-11-5.5h4v4h-4zm5.5 0h4v4h-4zm5.5 0h4v4h-4z" fillRule="nonzero"/>
-              </svg>
+            <img src="https://media.discordapp.net/attachments/1262163053764415622/1266442758072172574/images.png?ex=66a52a3a&is=66a3d8ba&hm=ed9ab4e06d8d2f8e7da2366e8ab7dbd906e5c618a3d3870539749419fc169a42&=&format=webp&quality=lossless" alt="" />
             </button>
 
             {/* Dropdown Sırala */}

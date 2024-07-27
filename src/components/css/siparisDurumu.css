@@ -1,0 +1,89 @@
+.siparis-durumu-container{
+    padding: 100px 100px;
+
+}
+
+.siparisDurumu-parts{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.siparis-durumu-contents-parent>p{
+    margin: 0;
+    text-indent: 1%;
+}
+
+.siparis-durumu-row-parent{
+    row-gap: 30px;
+}
+
+.siparis-durumu-genel-baslik{
+    width: 100%;
+    background: rgb(204, 204, 204);
+    padding: 5px 10px;
+    font-size: 20px;
+    font-weight: 600;
+
+}
+
+.siparis-durumu-contents-parent{
+    display: flex;
+    flex-direction: column; 
+    row-gap: 10px;
+    padding: 1%;
+}
+
+.siparis-durumu-satir-metin{
+    line-height: 40px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.siparis-durumu-satir-row{
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.green{
+    color: green;
+}
+
+.siparis-durumu-urunler-card{
+    padding: 2%;
+    border: 1px solid rgb(206, 206, 206);
+}
+
+.siparis-durumu-urunler-card-content{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    padding: 2% 0%;
+}
+
+.siparis-durumu-urunler-card-content>p{
+    margin: 0;
+    font-size: 20px;
+}
+
+.large{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.siparis-durumu-contents-parent2{
+    padding: 0% 2%;
+}
+
+.siparis-durumu-contents-parent2-col{
+    padding: 2%;
+}
+
+@media only screen and (max-width:991px) {
+    .siparis-durumu-container{
+        padding:100px 0px;
+    
+    }
+
+    .siparis-durumu-urunler-card-content{
+        padding: 2% 2%;
+    }
+}

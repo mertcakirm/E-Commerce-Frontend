@@ -21,9 +21,9 @@ const Footer=()=>{
             <div className="footer-col">
                 <p className='footer-baslik'>KURUMSAL</p>
                 <a href='/' className='footer-icerik'>Anasayfa</a>
-                <a href='#' className='footer-icerik'>Hakkımızda</a>
+                <a href='/hakkimizda' className='footer-icerik'>Hakkımızda</a>
                 <a href='/ürünler' className='footer-icerik'>Ürünler</a>
-                <a href='#' className='footer-icerik'>İletişim</a>
+                <a href='iletisim' className='footer-icerik'>İletişim</a>
               </div>
             </div>
             <div className="col-lg-4">

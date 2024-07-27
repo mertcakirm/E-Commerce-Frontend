@@ -7,7 +7,8 @@ const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(null);
-
+  const [productCount, setProductCount] = useState(1);
+  
   const handleSidebarMouseEnter = () => {
     setSidebarOpen(true);
   };
@@ -44,6 +45,17 @@ const Navbar = () => {
   const handleMobileCategoryClick = (index) => {
     setMobileSubmenuOpen(mobileSubmenuOpen === index ? null : index);
   };
+
+
+    const incrementProductCount = () => {
+      setProductCount(productCount + 1);
+    };
+  
+    const decrementProductCount = () => {
+      if (productCount > 1) {
+        setProductCount(productCount - 1);
+      }
+    };
 
   return (
     <div>
@@ -400,9 +412,9 @@ const Navbar = () => {
                       <p className="sepet-card-col-2-urun-kodu">Ürün Kodu : US4109SY</p>
                       <p className="sepet-card-col-2-beden">BEDEN : L</p>
                       <div className="updown">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
+                      <button onClick={decrementProductCount}>-</button>
+                          <span>{productCount}</span>
+                          <button onClick={incrementProductCount}>+</button>
                       </div>
                       <div className="sepet-card-col-2-fiyatlar-flex">
                         <p className='sepet-card-col-2-p1-fiyat'>499₺</p>
@@ -423,9 +435,9 @@ const Navbar = () => {
                       <p className="sepet-card-col-2-urun-kodu">Ürün Kodu : US4109SY</p>
                       <p className="sepet-card-col-2-beden">BEDEN : L</p>
                       <div className="updown">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
+                      <button onClick={decrementProductCount}>-</button>
+                          <span>{productCount}</span>
+                          <button onClick={incrementProductCount}>+</button>
                       </div>
                       <div className="sepet-card-col-2-fiyatlar-flex">
                         <p className='sepet-card-col-2-p1-fiyat'>499₺</p>
@@ -446,9 +458,9 @@ const Navbar = () => {
                       <p className="sepet-card-col-2-urun-kodu">Ürün Kodu : US4109SY</p>
                       <p className="sepet-card-col-2-beden">BEDEN : L</p>
                       <div className="updown">
-                        <button>-</button>
-                        <span>1</span>
-                        <button>+</button>
+                      <button onClick={decrementProductCount}>-</button>
+                          <span>{productCount}</span>
+                          <button onClick={incrementProductCount}>+</button>
                       </div>
                       <div className="sepet-card-col-2-fiyatlar-flex">
                         <p className='sepet-card-col-2-p1-fiyat'>499₺</p>
@@ -486,10 +498,22 @@ const Navbar = () => {
                         <p className='sepet-card-col-2-p1-fiyat'>499₺</p>
                         <p className='sepet-card-col-2-p2-fiyat'>789₺</p>
                       </div>
+                      <div className="favori-card-add-flex">
+                        <div className="updown">
+                        <button onClick={decrementProductCount}>-</button>
+                          <span>{productCount}</span>
+                          <button onClick={incrementProductCount}>+</button>
+                        </div>
+                        <select name="favori-size" id="favori-size">
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="L">L</option>
+                        </select>
+                        <button className="favori-card-sepete-ekle">Sepete Ekle</button>
+                      </div>
                     </div>
                     <div className="col-1 favorilerim-canvas-col-3">
                     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd" clipRule="evenodd"><path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z"/></svg>
-
                     </div>
                   </a>
                   <a href="#" className="favorilerim-canvas-card row">
@@ -503,6 +527,19 @@ const Navbar = () => {
                       <div className="sepet-card-col-2-fiyatlar-flex">
                         <p className='sepet-card-col-2-p1-fiyat'>499₺</p>
                         <p className='sepet-card-col-2-p2-fiyat'>789₺</p>
+                      </div>
+                      <div className="favori-card-add-flex">
+                        <div className="updown">
+                        <button onClick={decrementProductCount}>-</button>
+                          <span>{productCount}</span>
+                          <button onClick={incrementProductCount}>+</button>
+                        </div>
+                        <select name="favori-size" id="favori-size">
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="L">L</option>
+                        </select>
+                        <button className="favori-card-sepete-ekle">Sepete Ekle</button>
                       </div>
                     </div>
                     <div className="col-1 favorilerim-canvas-col-3">
@@ -521,6 +558,19 @@ const Navbar = () => {
                       <div className="sepet-card-col-2-fiyatlar-flex">
                         <p className='sepet-card-col-2-p1-fiyat'>499₺</p>
                         <p className='sepet-card-col-2-p2-fiyat'>789₺</p>
+                      </div>
+                      <div className="favori-card-add-flex">
+                        <div className="updown">
+                          <button onClick={decrementProductCount}>-</button>
+                          <span>{productCount}</span>
+                          <button onClick={incrementProductCount}>+</button>
+                        </div>
+                        <select name="favori-size" id="favori-size">
+                          <option value="S">S</option>
+                          <option value="M">M</option>
+                          <option value="L">L</option>
+                        </select>
+                        <button className="favori-card-sepete-ekle">Sepete Ekle</button>
                       </div>
                     </div>
                     <div className="col-1 favorilerim-canvas-col-3">
