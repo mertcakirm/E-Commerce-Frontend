@@ -20,10 +20,10 @@
     justify-content: center;
     background: #fff;
     align-items: center;
-    top: 15%;
-    left: 25%;
-    width: 50%;
-    height: 70%;
+    top: 10%;
+    left: 20%;
+    width: 60%;
+    height: 80%;
     border: 5px solid gray;
     border-radius: 30px;
     backdrop-filter: blur(10px);
@@ -63,6 +63,7 @@
     font-size: 20px;
     font-weight: 700;
     background-color: orange;
+    height: 50px!important;
 }
 
 .kayit-giris-gecis-btn{
@@ -81,10 +82,116 @@ color: orange;
 #register-form{
     display: none;
     flex-direction: column;
-    row-gap: 20px;
+    row-gap: 10px;
 }
 
 .giris-row:hover{
     opacity: 1;
     transition: .4s;
 }
+
+
+.giris-check{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.kayit-check{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.kayit-check-flex{
+    display: flex;
+    flex-direction: row;
+}
+
+.kayit-check-flex>label{
+    font-size: small;
+}
+
+.parola-yenile-container{
+    padding-top:200px;
+    padding-bottom: 200px;
+}
+
+.parola-yenile-flex{
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+    align-items: center;
+}
+
+#parola-yenile-inp{
+    width: 40%;
+    border: 0;
+    border-bottom: 1px solid #000;
+    padding-left: 1%;
+    height: 40px;
+    line-height: 40px;
+}
+
+#parola-yenile-inp:focus-visible {
+    outline: none;
+}
+
+.e-posta-gonder{
+    width: 40%;
+    height: 50px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #000;
+    border: 2px solid #000;
+    border-radius: 10px;
+    transition: .4s;
+}
+
+.e-posta-gonder:hover{
+    color: #000;
+    background-color: #fff;
+    border: 2px solid #000;
+    transition: .4s;
+
+}
+
+
+@media only screen and (max-width:991px) {
+    .giris-row{
+        opacity: 0.5;
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        background: #fff;
+        align-items: center;
+        top: 10%;
+        left: 1.9%;
+        width: 100%;
+        height: 80%;
+        opacity: 1;
+        border: 0;
+    }
+    .giris-bg{
+        display: none;
+    }
+}
+
+@media only screen and (max-width:430px) {
+    .giris-row{
+        opacity: 0.5;
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        background: #fff;
+        align-items: center;
+        top: 10%;
+        left: 4%;
+        width: 100%;
+        opacity: 1;
+    }
+}
+

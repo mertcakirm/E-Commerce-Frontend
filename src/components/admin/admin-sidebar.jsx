@@ -1,0 +1,30 @@
+import React, { Component } from 'react';
+import './admin-css/admin-sidebar.css';
+
+const Admin_sidebar=()=> {
+    return (
+      <div>
+        <div className="admin-sidebar-parent">
+          <div className='admin-sidebar-logo-part'>
+            LOGO
+          </div>
+          <div className='admin-sidebar-links'>
+            <a className='admin-sidebar-link' href="/admin-genel">Admin Panel</a>
+            <a className='admin-sidebar-link' href="/admin-urunler">Ürünler</a>
+            <a className='admin-sidebar-link' href="/admin-aktif-siparisler">Aktif Siparişler</a>
+            <a className='admin-sidebar-link' href="/admin-kategoriler">Kategoriler</a>
+            <a className='admin-sidebar-link' href="/admin-kullanicilar">Kullanıcılar</a>
+            <a className='admin-sidebar-link' href="/admin-sayfalar">Sayfalar</a>
+            <a className='admin-sidebar-link' href="/admin-raporlar">Raporlar</a>
+            <a className='admin-sidebar-link' href="/admin-mesajlar">Mesajlar</a>
+          </div>
+          <button className='admin-sidebar-logout'>
+          <svg fill='white' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 10v-5l8 7-8 7v-5h-8v-4h8zm-16-8v20h14v-2h-12v-16h12v-2h-14z"/></svg><span>Çıkış Yap</span>
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+
+export default Admin_sidebar;

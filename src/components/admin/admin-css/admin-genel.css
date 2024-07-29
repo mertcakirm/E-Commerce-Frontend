@@ -1,0 +1,254 @@
+.admin-sag-container{
+    width: calc(100% - 300px);
+    margin-left: 300px;
+    color: #000;
+    padding: 2% 1%;
+}
+
+
+.site-icerik-shadow{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 5%;
+    border-radius: 20px;
+    margin-top: 30px;
+}
+
+.site-icerik-sayilari-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.alt-basliklar-admin{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.en-cok-row{
+    row-gap: 30px;
+    justify-content: center;
+}
+
+.en-cok-card{
+    padding: 2%;
+    box-shadow: rgba(126, 126, 126, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #000;
+    transition: .6s;
+
+}
+
+.en-cok-card:hover{
+    background: #999999;
+    color: #fff;
+    transition: .6s;
+}
+
+.tumunu-gor-btn-admin{
+    border: 2px solid #03346E;
+    padding: 10px 30px;
+    text-decoration: none;
+    color: #fff;
+    background: #03346E;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+    transition: .6s;
+
+}
+
+.tumunu-gor-btn-admin:hover{
+    border: 2px solid #03346E;
+    padding: 10px 30px;
+    text-decoration: none;
+    color: #000;
+    background: #fff;
+    border-radius: 10px;
+    font-size: 20px;
+    text-align: center;
+    transition: .6s;
+
+}
+
+.en-cok-urunler-admin{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    font-size: 20px;
+}
+
+.en-cok-urunler-admin>p{
+    margin: 0;
+}
+
+.finansal-bakis-anasayfa-admin{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+
+/* admin kullanıcılar */
+
+
+.admin-user-card{
+    box-shadow: rgba(0, 4, 255, 0.35) 0px 5px 15px;
+    padding: 5%;
+    text-align: center;
+    row-gap: 20px;
+}
+
+.user-card-isim{
+    border-bottom:1px solid #000;
+    line-height: 40px;
+}
+
+.user-duzenle-row{
+    display: flex;
+    flex-direction: row;
+    column-gap: 10px;    
+}
+
+.user-edit-btn{
+    border: 0;
+    background: orange;
+    padding: 5px 30px;
+    font-size: 20px;
+    color: #fff;
+}
+.user-sil-btn{
+    border: 0;
+    background: red;
+    padding: 5px 30px;
+    font-size: 20px;
+    color: #fff;
+}
+
+.pagination{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+}
+
+.page-link{
+    color: #000;
+}
+
+.page-link:hover {
+    background: #b9b9b9;
+    color: #000;
+}
+
+.page-link:focus {
+    box-shadow: none;
+    color: #000;
+    background: #fff;
+}
+
+/* admin urunler */
+
+
+.urunler-listesi-img{
+    width: 150px;
+}
+
+.stok-flex{
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-search-inp{
+    width: 600px;
+    padding-left: 1%;
+    border-radius: 20px;
+}
+
+
+/* Add these styles to your CSS file */
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 70%;
+    max-width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .popup-header h2 {
+    margin: 0;
+  }
+  
+  .popup-close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+  
+  .popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .popup-form input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .popup-form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .popup-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .image-preview{
+    width: 50px;
+  }
+
+  .siparis-durumu-btn{
+    border: 0;
+    background: #000;
+    color: #fff;
+    padding: 5px 30px;
+  }
+
+  .admin-mesajlar-mesaj{
+    max-width: 500px;
+  }
+
+  #admin-mesaj-cevap{
+    resize: none;
+  }

@@ -203,7 +203,38 @@ const Urun_detay = () => {
                   </button>
                 </h2>
                 <div id="flush-collapseTwo" className="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                  <div className="accordion-body">...</div>
+                  <div className="accordion-body">
+                  <div className="urunler-yorum-flex">
+                      <h3>Yorum Yap</h3>
+                      <select name="yorum-puan" id="yorum-puan">
+                        <option value="0">0/10</option>
+                        <option value="0">1/10</option>
+                        <option value="0">2/10</option>
+                        <option value="0">3/10</option>
+                        <option value="0">4/10</option>
+                        <option value="0">5/10</option>
+                        <option value="0">6/10</option>
+                        <option value="0">7/10</option>
+                        <option value="0">8/10</option>
+                        <option value="0">9/10</option>
+                        <option value="0">10/10</option>
+                      </select>
+                      <textarea name="yorum-txt" id="yorum-txt"></textarea>
+                      <button className="tumunu-gor-btn">Paylaş</button>
+                    </div>
+                    <div className='urunler-yorumlar'>
+                      <div className="urunler-yorum-card">
+                        <p>Furkan Geren</p>
+                        <p>9/10</p>
+                        <p>Çok güzel dayanıklı ve malzemesi kaliteli bir ürün herkese tavsiye ederim.</p>
+                      </div>
+                      <div className="urunler-yorum-card">
+                        <p>Furkan Geren</p>
+                        <p>9/10</p>
+                        <p>Çok güzel dayanıklı ve malzemesi kaliteli bir ürün herkese tavsiye ederim.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="accordion-item">
