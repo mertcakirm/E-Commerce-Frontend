@@ -113,16 +113,6 @@ const Urunler = () => {
                 <div className="accordion accordion-flush" id="accordionFlushExample">
                   <div className="accordion-item">
                     <h2 className="accordion-header">
-                      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                        Markalar
-                      </button>
-                    </h2>
-                    <div id="flush-collapseOne" className="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
-                      <div className="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                  <div className="accordion-item">
-                    <h2 className="accordion-header">
                       <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                         Beden
                       </button>
@@ -173,7 +163,7 @@ const Urunler = () => {
             <div className={colClass} key={product.id}>
               <div className="urun-card">
                 <div>
-                  <a href="/ürünler-detay">
+                  <a href="/urunler-detay">
                   <img className='img-fluid w-100 urun-img2' src={product.img1} alt="" />
                   <img className='img-fluid w-100 urun-img1' src={product.img2} alt="" />
                   </a>
@@ -185,12 +175,13 @@ const Urunler = () => {
                         width="50"
                         height="24"
                         viewBox="0 0 24 24"
+                        fill='white'
                       >
                         <path d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z" />
                       </svg>
                     </button>
                     <button className="urunler-card-content-bottom-like-btn">
-                      <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" width="50" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <svg clipRule="evenodd" fill='white' fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" width="50" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="m7.234 3.004c-2.652 0-5.234 1.829-5.234 5.177 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-3.353-2.58-5.168-5.229-5.168-1.836 0-3.646.866-4.771 2.554-1.13-1.696-2.935-2.563-4.766-2.563zm0 1.5c1.99.001 3.202 1.353 4.155 2.7.14.198.368.316.611.317.243 0 .471-.117.612-.314.955-1.339 2.19-2.694 4.159-2.694 1.796 0 3.729 1.148 3.729 3.668 0 2.671-2.881 5.673-8.5 11.127-5.454-5.285-8.5-8.389-8.5-11.127 0-1.125.389-2.069 1.124-2.727.673-.604 1.625-.95 2.61-.95z" fillRule="nonzero"/>
                       </svg>
                     </button>

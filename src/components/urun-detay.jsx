@@ -55,9 +55,33 @@ const PrevArrow = (props) => {
   );
 };
 const Urun_detay = () => {
+  
   const [activeIndex, setActiveIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const commentsPerPage = 5;
+  
+  const comments = [
+    { user: 'Furkan Geren', rating: '9/10', text: 'Çok güzel dayanıklı ve malzemesi kaliteli bir ürün herkese tavsiye ederim.' },
+    { user: 'Furkan Geren', rating: '9/10', text: 'Çok güzel dayanıklı ve malzemesi kaliteli bir ürün herkese tavsiye ederim.' },
+    { user: 'Furkan Geren', rating: '8/10', text: 'Güzel ama bazı eksiklikleri var.' },
+    { user: 'Furkan Geren', rating: '7/10', text: 'Fena değil, iş görür.' },
+    { user: 'Furkan Geren', rating: '7/10', text: 'Fena değil, iş görür.' },
+    { user: 'Furkan Geren', rating: '7/10', text: 'Fena değil, iş görür.' },
+    { user: 'Furkan Geren', rating: '7/10', text: 'Fena değil, iş görür.' },
+  ];
+
+  const indexOfLastComment = currentPage * commentsPerPage;
+  const indexOfFirstComment = indexOfLastComment - commentsPerPage;
+  const currentComments = comments.slice(indexOfFirstComment, indexOfLastComment);
+  
+  const totalPages = Math.ceil(comments.length / commentsPerPage);
+
+  const commentsClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const images = [
+    "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
     "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
     "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
     "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
@@ -223,17 +247,26 @@ const Urun_detay = () => {
                       <button className="tumunu-gor-btn">Paylaş</button>
                     </div>
                     <div className='urunler-yorumlar'>
-                      <div className="urunler-yorum-card">
-                        <p>Furkan Geren</p>
-                        <p>9/10</p>
-                        <p>Çok güzel dayanıklı ve malzemesi kaliteli bir ürün herkese tavsiye ederim.</p>
+                    {currentComments.map((comment, index) => (
+                      <div className="urunler-yorum-card" key={index}>
+                        <p style={{fontWeight:'700'}}>{comment.user}</p>
+                        <p>{comment.rating}</p>
+                        <p>{comment.text}</p>
                       </div>
-                      <div className="urunler-yorum-card">
-                        <p>Furkan Geren</p>
-                        <p>9/10</p>
-                        <p>Çok güzel dayanıklı ve malzemesi kaliteli bir ürün herkese tavsiye ederim.</p>
-                      </div>
-                    </div>
+                    ))}
+
+                    <nav aria-label="...">
+                      <ul className="pagination pagination-sm">
+                        {[...Array(totalPages)].map((_, index) => (
+                          <li className={`page-item ${currentPage === index + 1 ? 'active' : ''}`} key={index}>
+                            <span className="page-link" onClick={() => commentsClick(index + 1)}>
+                              {index + 1}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </nav>
+                  </div>
                   </div>
                 </div>
               </div>

@@ -136,6 +136,10 @@ const Admin_product = () => {
                             </svg>
                           </button>
                         </div>
+                        <div className='indirim-uygula-flex'>
+                        <input type="text" maxLength={2} name="indirim-uygula" id="indirim-uygula" />
+                        <button className='siparis-durumu-btn'>İndirim Yap</button>
+                        </div>
                       </td>
                     </tr>
                   ))}

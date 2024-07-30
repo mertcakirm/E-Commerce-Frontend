@@ -177,6 +177,13 @@ color: orange;
     .giris-bg{
         display: none;
     }
+    .e-posta-gonder{
+        width: 70%;
+    }
+
+    #parola-yenile-inp{
+        width: 70%;
+    }
 }
 
 @media only screen and (max-width:430px) {
@@ -192,6 +199,14 @@ color: orange;
         left: 4%;
         width: 100%;
         opacity: 1;
+    }
+
+    .e-posta-gonder{
+        width: 100%;
+    }
+
+    #parola-yenile-inp{
+        width: 100%;
     }
 }
 

@@ -9,6 +9,18 @@ const Profile= ()=> {
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
+
+  useEffect(() => {
+    if (showPopup) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+  
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, [showPopup]);
     return (
       <div>
         <Navbar />
@@ -69,9 +81,9 @@ const Profile= ()=> {
                         </form>
                     </div>
                     <div className="tab-pane fade row" id="pills-adreslerim" role="tabpanel" aria-labelledby="pills-adreslerim-tab" tabIndex="0">
-                                <div className="col-12 text-center profil-pills-content-baslik">ADRESLERİM</div>
+                                <div className="col-12 text-center profil-pills-content-baslik adreslerim-profil-baslik">ADRESLERİM</div>
 
-                                <div className='row col-12'>
+                                <div className='row col-12 adres-ekle-row' style={{justifyContent:'end',textAlign:'center'}}>
                                 
                                 <div className="col-lg-6 profilim-column">
                                 <div className='profil-pills-content-altbaslik'>ADRES EKLE</div>
@@ -101,7 +113,7 @@ const Profile= ()=> {
                                 </div>
                                 <div className="row">
                                     <div className="col-lg-4"><label htmlFor="adreslerim-adres">Adres</label></div>
-                                    <div className='col-lg-8'><textarea name="adreslerim-adres" id="adreslerim-adres" placeholder='Adres...'></textarea></div>
+                                    <div className='col-lg-8'><textarea name="adreslerim-adres" id="adreslerim-adres" ></textarea></div>
                                 </div>
                                 <div className="row">
                                     <div className="col-lg-4"><label htmlFor="adreslerim-tc">T.C. Kimlik No</label></div>
@@ -112,7 +124,7 @@ const Profile= ()=> {
                                 </div>
                                 </div>
 
-                                <div className='col-lg-6 row profilim-column'>
+                                <div className='col-lg-6 row profilim-column adreslerim-row-parent'>
                                     <div className='profil-pills-content-altbaslik col-12'>ADRESLERİM</div>
                                     <div className='row adreslerim-row'>
                                     <div className="col-lg-5 adres-card">
@@ -249,8 +261,53 @@ const Profile= ()=> {
                             <h2>Adresi Düzenle</h2>
                             <button className="popup-close-btn" onClick={togglePopup}>&times;</button>
                         </div>
-                        <form className="popup-form">
+                        <form className="popup-form row mt-3">
+                            <div className="row col-12 pop-up-form-adres">
+                            <div className="col-lg-6 row adres-duzenle-rows" >
+                            <div className="row col-12 align-items-center">
+                            <label className='col-lg-4' htmlFor="adres-duzenle-adres-basligi">Adres Başlığı</label>
+                            <input className='col-lg-8' type="text" id='adres-duzenle-adres-basligi' />
+                            </div>
+                            <div className="row col-12 align-items-center">
+                            <label className='col-lg-4' htmlFor="adres-duzenle-adres-adi-soyadi">Ad Soyad</label>
+                            <input className='col-lg-8' type="text" id='adres-duzenle-adres-adi-soyadi' />
+                            </div>
+                            <div className="row col-12 align-items-center">
+                            <label className='col-lg-4' htmlFor="adres-duzenle-adres-eposta">E-Posta Adresi</label>
+                            <input className='col-lg-8' type="text" id='adres-duzenle-adres-eposta' />
+                            </div>
+                            <div className="row col-12 align-items-center">
+                            <label className='col-lg-4' htmlFor="adres-duzenle-adres-tel">Telefon Numarası</label>
+                            <input className='col-lg-8' type="text" id='adres-duzenle-adres-tel' />
+                            </div>
+                            
+                            </div>
 
+
+                            <div className="col-lg-6 row adres-duzenle-rows" >
+                            <div className="row col-12 align-items-center">
+                            <label className='col-lg-4' htmlFor="adres-duzenle-adres-ulke">Ülke</label>
+                            <input className='col-lg-8' type="text" id='adres-duzenle-adres-ulke' />
+                            </div>
+                            <div className="row col-12 align-items-center">
+                            <label className='col-lg-4' htmlFor="adres-duzenle-adres-il">İl</label>
+                            <input className='col-lg-8' type="text" id='adres-duzenle-adres-il' />
+                            </div>
+                            <div className="row col-12 align-items-center">
+                            <label className='col-lg-4' htmlFor="adres-duzenle-adres-adres">Adres</label>
+                            <textarea style={{resize:'none' , border:'1px solid #ccc',borderRadius:'5px'}} className='col-lg-8' name="adres-duzenle-adres-adres" id="adres-duzenle-adres-adres"></textarea>
+                            </div>
+                            <div className="row col-12 align-items-center">
+                            <label className='col-lg-4' htmlFor="adres-duzenle-adres-tc">T.C. Kimlik Numarası</label>
+                            <input className='col-lg-8' type="text" id='adres-duzenle-adres-tc' />
+                            </div>
+                            
+                            </div>
+
+                            </div>
+                            <div className='row justify-content-center'>
+                            <button className="adres-duzenle-btn mt-5 col-lg-4">Adresi Düzenle</button>
+                            </div>
                         </form>
                         </div>
                     </div>

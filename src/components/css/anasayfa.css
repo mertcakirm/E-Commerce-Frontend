@@ -113,7 +113,7 @@
     float: left;
     height: 100%;
     min-height: 1px;
-    margin-top: 114px;
+    margin-top: 0px;
 }
 
 
@@ -249,6 +249,9 @@
         height: 700px;
         object-fit: cover;
     }
+    .slick-slide {
+        margin-top: 0px;
+    }
 }
 
 
@@ -297,6 +300,10 @@
         font-size: 16px;
     }
 
+    .slick-slide {
+        margin-top: 0px;
+    }
+
 
 
 }
@@ -342,4 +349,6 @@
         font-weight: 700;
     
     }
+
+
 }

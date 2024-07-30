@@ -41,7 +41,7 @@ const Admin_mesajlar = () => {
               <tbody className='table-group-divider'>
                 {currentMessages.map((message, index) => (
                   <tr key={index}>
-                    <th scope="row">{message.email}</th>
+                    <td>{message.email}</td>
                     <td>{message.subject}</td>
                     <td><p className='admin-mesajlar-mesaj'>{message.message}</p></td>
                     <td><span className='green'>{message.answered ? 'Evet' : 'Hayır'}</span></td>

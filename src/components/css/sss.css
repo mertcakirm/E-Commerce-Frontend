@@ -183,6 +183,9 @@
     .footer-container-sss{
         margin-top: 370vh;    
     }
+    .sss-baslik {
+        margin-top: 60px;
+    }
 }
 
 
@@ -191,4 +194,5 @@
     .footer-container-sss{
         margin-top: 390vh;    
     }
+
 }

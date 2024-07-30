@@ -32,52 +32,52 @@ const Admin_anasayfa=()=> {
                   <div className="row en-cok-row">
                     <div className="col-12 alt-basliklar-admin">En Çok Ürün Alan Kullanıcılar</div>
 
-                    <a href='#' className="col-12 en-cok-card row">
+                    <div className="col-12 en-cok-card row">
                       <div className="col-lg-4">Furkan Geren</div>
                       <div className="col-lg-5">FurkanGeren@gmail.com</div>
                       <div className="col-lg-3">05378231123</div>
-                    </a>
+                    </div>
 
 
-                    <a href='#' className="col-12 en-cok-card row">
+                    <div className="col-12 en-cok-card row">
                       <div className="col-lg-4">Furkan Geren</div>
                       <div className="col-lg-5">FurkanGeren@gmail.com</div>
                       <div className="col-lg-3">05378231123</div>
-                    </a>
+                    </div>
 
 
-                    <a href='#' className="col-12 en-cok-card row">
+                    <div className="col-12 en-cok-card row">
                       <div className="col-lg-4">Furkan Geren</div>
                       <div className="col-lg-5">FurkanGeren@gmail.com</div>
                       <div className="col-lg-3">05378231123</div>
-                    </a>
+                    </div>
 
-                    <a href='#' className="col-12 en-cok-card row">
+                    <div className="col-12 en-cok-card row">
                       <div className="col-lg-4">Furkan Geren</div>
                       <div className="col-lg-5">FurkanGeren@gmail.com</div>
                       <div className="col-lg-3">05378231123</div>
-                    </a>
+                    </div>
                     
 
-                    <a href='#' className="col-12 en-cok-card row">
+                    <div className="col-12 en-cok-card row">
                       <div className="col-lg-4">Furkan Geren</div>
                       <div className="col-lg-5">FurkanGeren@gmail.com</div>
                       <div className="col-lg-3">05378231123</div>
-                    </a>
+                    </div>
 
-                    <a href='#' className="col-12 en-cok-card row">
+                    <div className="col-12 en-cok-card row">
                       <div className="col-lg-4">Furkan Geren</div>
                       <div className="col-lg-5">FurkanGeren@gmail.com</div>
                       <div className="col-lg-3">05378231123</div>
-                    </a>
+                    </div>
 
-                    <a href='#' className="col-12 en-cok-card row">
+                    <div className="col-12 en-cok-card row">
                       <div className="col-lg-4">Furkan Geren</div>
                       <div className="col-lg-5">FurkanGeren@gmail.com</div>
                       <div className="col-lg-3">05378231123</div>
-                    </a>
+                    </div>
 
-                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="#">Tüm Kullanıcıları Gör</a></div>
+                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="/admin-kullanicilar">Tüm Kullanıcıları Gör</a></div>
                     
                     </div>
 
@@ -111,7 +111,7 @@ const Admin_anasayfa=()=> {
 
 
 
-                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="#">Tüm Raporları Gör</a></div>                    
+                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="/admin-raporlar">Tüm Raporları Gör</a></div>                    
                     </div>
                 </div>
               </div>
@@ -181,7 +181,7 @@ const Admin_anasayfa=()=> {
 
 
                     
-                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="#">Tüm Ürünleri Gör</a></div>
+                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="/admin-urunler">Tüm Ürünleri Gör</a></div>
                     
                     </div>
 

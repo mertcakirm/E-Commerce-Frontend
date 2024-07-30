@@ -52,7 +52,7 @@
     position: absolute;
     background-color: white;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 70;
     max-width: 100px;
   }
   
@@ -175,6 +175,7 @@
 .urunler-card-content-bottom-add-btn{
   border: 0;
   background: transparent;
+  color: #fff;
 }
 
 .urunler-card-content-bottom-like-btn{
@@ -207,8 +208,12 @@
   border: 0;
   border-radius: 10px;
   background: rgb(189, 189, 189);
-  color: #000;
+  color: #fff;
   font-weight: 700;
+}
+
+.selected-size{
+  background-color: rgb(150, 150, 150);
 }
 
 
@@ -314,3 +319,8 @@
 
 
   }
+
+  .offcanvas-backdrop.show {
+    opacity: .5;
+    display: none;
+}

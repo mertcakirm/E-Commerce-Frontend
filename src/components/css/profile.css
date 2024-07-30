@@ -122,9 +122,26 @@ textarea:focus-visible{
     background-color: #DC143C;
 }
 
+.adres-duzenle-rows{
+    row-gap: 30px;
+}
+
 .kampanya-row{
     row-gap: 50px;
 }
+
+.adres-duzenle-btn {
+    text-align: center;
+    background: #000!important;
+    padding: 10px 30px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid #000;
+    transition: .4s;
+}
+
 
 .kampanya-card{
     display: flex;
@@ -189,6 +206,7 @@ textarea:focus-visible{
     row-gap: 20px;
 }
 
+
 @media only screen and (max-width:991px) {
     .siparis-card{
         height: auto;
@@ -212,6 +230,39 @@ textarea:focus-visible{
     .tab-content2:hover{
         box-shadow: none;
     }
+
+    .adres-duzenle-rows{
+        row-gap: 10px;
+        justify-content: center;
+    }
+
+    .popup-form{
+        align-items: center;
+    }
+
+    .popup-content {
+        width: 100%!important;
+    }
+
+    .pop-up-form-adres{
+        justify-content: center;
+
+    }
+
+    .adreslerim-profil-baslik{
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 30px;
+    }
+
+    .adreslerim-row-parent{
+        margin-top: 30px;
+    }
+
+    .adres-ekle-row {
+        margin-left: auto!important;
+        margin-right: auto!important;
+    }
+
 }
 
 @media only screen and (max-width:460px) {
@@ -222,3 +273,7 @@ textarea:focus-visible{
         font-size: 14px;
     }
 }
+
+.no-scroll {
+    overflow: hidden;
+  }

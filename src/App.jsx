@@ -10,6 +10,8 @@ import Hakkimizda from './components/hakkimizda';
 import Iletisim from './components/iletisim';
 import Admin_login from './components/admin/admin-login';
 import Admin_product from './components/admin/admin-product';
+import Admin_product_detail from './components/admin/admin-product-detail';
+import Admin_kategori_detail from './components/admin/admin-kategori-detail';
 import Admin_anasayfa from './components/admin/admin-anasayfa';
 import Admin_users from './components/admin/admin-users';
 import Admin_raporlar from './components/admin/admin-raporlar';
@@ -19,6 +21,7 @@ import Admin_kategoriler from './components/admin/admin-kategoriler';
 import Parola_yenile from './components/parola-yenile';
 import Admin_aktif_siparis from './components/admin/admin-aktif-siparis';
 import Admin_mesajlar from './components/admin/admin-mesajlar';
+import Bilgilendirmeler from './components/bilgilendirmeler';
 
 function App() {
   return (
@@ -26,11 +29,12 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Anasayfa />} />
-          <Route path="/ürünler" element={<Urunler />} />
+          <Route path="/urunler" element={<Urunler />} />
           <Route path="/hakkimizda" element={<Hakkimizda />} />
           <Route path="/iletisim" element={<Iletisim />} />
-          <Route path="/ürünler-detay" element={<Urun_detay />} />
+          <Route path="/urunler-detay" element={<Urun_detay />} />
           <Route path="/profilim" element={<Profile />} />
+          <Route path="/bilgilendirmeler" element={<Bilgilendirmeler />} />
           <Route path="/girisyap" element={<Giris />} />
           <Route path="/siparis/kargo" element={<Odeme />} />
           <Route path="/siparis/ozet" element={<Odeme />} />
@@ -42,6 +46,8 @@ function App() {
           <Route path="/admin-login" element={<Admin_login />} />
           <Route path="/admin-girisyap" element={<Admin_login />} />
           <Route path="/admin-urunler" element={<Admin_product />} />
+          <Route path="/admin-urunler-guncelle" element={<Admin_product_detail />} />
+          <Route path="/admin-kategori-guncelle" element={<Admin_kategori_detail />} />
           <Route path="/admin-genel" element={<Admin_anasayfa />} />
           <Route path="/admin-kullanicilar" element={<Admin_users />} />
           <Route path="/admin-raporlar" element={<Admin_raporlar />} />

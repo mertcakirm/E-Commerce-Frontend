@@ -93,6 +93,17 @@
 
 }
 
+/* bilgilendirmeler */
+.bilgilendirmeler-container{
+    padding: 10% 0%;
+}
+
+.accordion-body-height{
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: visible;
+}
+
 @media only screen and (max-width:991px) {
     .footer-container{
         height: 1000px;

@@ -154,10 +154,10 @@ const SiparisDurumu = () => {
 
                     <div className="col-lg-6 siparis-durumu-contents-parent2-col">
                     <div className="row siparis-durumu-urunler-card">
-                        <div className="col-lg-4">
+                        <div className="col-lg-4 col-6">
                             <img className='img-fluid w-100' src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg" alt="" />
                         </div>
-                        <div className="col-lg-8 siparis-durumu-urunler-card-content">
+                        <div className="col-lg-8 col-6 siparis-durumu-urunler-card-content">
                             <p className='large'>Los Angeles LA Erkek Kolej Ceket</p>
                             <p>Beden : M</p>
                             <p>Ürün Kodu : 28323</p>
@@ -169,10 +169,10 @@ const SiparisDurumu = () => {
 
                     <div className="col-lg-6 siparis-durumu-contents-parent2-col">
                     <div className="row siparis-durumu-urunler-card">
-                        <div className="col-lg-4">
+                        <div className="col-lg-4 col-6">
                             <img className='img-fluid w-100' src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg" alt="" />
                         </div>
-                        <div className="col-lg-8 siparis-durumu-urunler-card-content">
+                        <div className="col-lg-8 col-6 siparis-durumu-urunler-card-content">
                             <p className='large'>Los Angeles LA Erkek Kolej Ceket</p>
                             <p>Beden : M</p>
                             <p>Ürün Kodu : 28323</p>
@@ -184,10 +184,10 @@ const SiparisDurumu = () => {
                     
                     <div className="col-lg-6 siparis-durumu-contents-parent2-col">
                     <div className="row siparis-durumu-urunler-card">
-                        <div className="col-lg-4">
+                        <div className="col-lg-4 col-6">
                             <img className='img-fluid w-100' src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg" alt="" />
                         </div>
-                        <div className="col-lg-8 siparis-durumu-urunler-card-content">
+                        <div className="col-lg-8 col-6 siparis-durumu-urunler-card-content">
                             <p className='large'>Los Angeles LA Erkek Kolej Ceket</p>
                             <p>Beden : M</p>
                             <p>Ürün Kodu : 28323</p>

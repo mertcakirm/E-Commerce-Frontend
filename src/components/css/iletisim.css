@@ -1,5 +1,6 @@
 .iletisim-container{
     padding: 5% 15%;
+    transition: .4s;
 }
 
 .iletisim-row{
@@ -22,4 +23,18 @@
     padding: 10px 100px;
     border: 0;
     border-radius: 10px;
+}
+
+
+@media only screen and (max-width:991px) {
+    .iletisim-container {
+        padding: 10% 0%;
+    }
+}
+
+
+@media only screen and (max-width:767px) {
+    .iletisim-container {
+        padding: 25% 1%;
+    }
 }

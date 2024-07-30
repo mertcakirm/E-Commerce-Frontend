@@ -14,7 +14,7 @@ const Admin_sidebar=()=> {
             <a className='admin-sidebar-link' href="/admin-aktif-siparisler">Aktif Siparişler</a>
             <a className='admin-sidebar-link' href="/admin-kategoriler">Kategoriler</a>
             <a className='admin-sidebar-link' href="/admin-kullanicilar">Kullanıcılar</a>
-            <a className='admin-sidebar-link' href="/admin-sayfalar">Sayfalar</a>
+            <a className='admin-sidebar-link' href="/admin-sayfalar">Sayfa İçerikleri</a>
             <a className='admin-sidebar-link' href="/admin-raporlar">Raporlar</a>
             <a className='admin-sidebar-link' href="/admin-mesajlar">Mesajlar</a>
           </div>

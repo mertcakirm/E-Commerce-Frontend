@@ -22,7 +22,7 @@ const Footer=()=>{
                 <p className='footer-baslik'>KURUMSAL</p>
                 <a href='/' className='footer-icerik'>Anasayfa</a>
                 <a href='/hakkimizda' className='footer-icerik'>Hakkımızda</a>
-                <a href='/ürünler' className='footer-icerik'>Ürünler</a>
+                <a href='/urunler' className='footer-icerik'>Ürünler</a>
                 <a href='iletisim' className='footer-icerik'>İletişim</a>
               </div>
             </div>
@@ -55,11 +55,11 @@ const Footer=()=>{
 
 
           <div className="kvkk-flex">
-            <a className='kvkk-item' href="#">Kullanım Koşulları</a>
-            <a className='kvkk-item' href="#">Gizlilik ve Güvenlik</a>
-            <a className='kvkk-item' href="#">Tüketici Haklarının Korunması Kanunu</a>
-            <a className='kvkk-item' href="#">Mesafeli Satış Sözleşmesi</a>
-            <a className='kvkk-item' href="#">KVKK</a>
+            <a className='kvkk-item' href="/bilgilendirmeler">Kullanım Koşulları</a>
+            <a className='kvkk-item' href="/bilgilendirmeler">Gizlilik ve Güvenlik</a>
+            <a className='kvkk-item' href="/bilgilendirmeler">Tüketici Haklarının Korunması Kanunu</a>
+            <a className='kvkk-item' href="/bilgilendirmeler">Mesafeli Satış Sözleşmesi</a>
+            <a className='kvkk-item' href="/bilgilendirmeler">KVKK</a>
           </div>
         </div>
       </div>
