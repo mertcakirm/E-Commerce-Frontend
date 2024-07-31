@@ -8,7 +8,6 @@ import Giris from './components/giris';
 import Odeme from './components/odeme/odeme';
 import Hakkimizda from './components/hakkimizda';
 import Iletisim from './components/iletisim';
-import Admin_login from './components/admin/admin-login';
 import Admin_product from './components/admin/admin-product';
 import Admin_product_detail from './components/admin/admin-product-detail';
 import Admin_kategori_detail from './components/admin/admin-kategori-detail';
@@ -43,8 +42,6 @@ function App() {
           <Route path="/siparis/onay" element={<Odeme />} />
           <Route path="/sss" element={<Sss />} />
           <Route path="/parola-yenile" element={<Parola_yenile />} />
-          <Route path="/admin-login" element={<Admin_login />} />
-          <Route path="/admin-girisyap" element={<Admin_login />} />
           <Route path="/admin-urunler" element={<Admin_product />} />
           <Route path="/admin-urunler-guncelle" element={<Admin_product_detail />} />
           <Route path="/admin-kategori-guncelle" element={<Admin_kategori_detail />} />
