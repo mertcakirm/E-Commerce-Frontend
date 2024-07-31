@@ -4,6 +4,25 @@ import './admin-css/admin-genel.css';
 
 
 const Admin_anasayfa=()=> {
+  const productsData = [
+    { id: 1, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 19  , harcama:"30000" ,fiyat:699,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:2,small:3,large:5,xlarge:1,xsmall:2}},
+    { id: 1, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 19  , harcama:"30000" ,fiyat:699,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:5,small:3,large:5,xlarge:1,xsmall:2}},
+    { id: 3, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 19  , harcama:"30000" ,fiyat:699,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 4, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 19  , harcama:"30000" ,fiyat:699,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 5, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 19  , harcama:"30000" ,fiyat:699,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 6, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 19  , harcama:"30000" ,fiyat:699,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 7, name: "search", Kategori: "Üst Giyim", stok: 64  , harcama:"30000" ,fiyat:699,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 8, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 64  , harcama:"30000" ,fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 9, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 64  , harcama:"30000" ,fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 10, name:"Mob Wear Şort", Kategori: "Üst Giyim", stok: 64 , harcama:"30000" , fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 11, name:"Mob Wear Şort", Kategori: "Üst Giyim", stok: 64 , harcama:"30000" , fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+    { id: 12, name:"Mob Wear Şort", Kategori: "Üst Giyim", stok: 64 , harcama:"30000" , fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
+  ];
+
+  const lowStockProducts = productsData.filter(product => {
+    const totalStock = Object.values(product.stoklar).reduce((acc, curr) => acc + curr, 0);
+    return totalStock < 20; 
+  });
     return (
       <div>
         <Admin_sidebar />
@@ -182,11 +201,47 @@ const Admin_anasayfa=()=> {
 
                     
                     <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="/admin-urunler">Tüm Ürünleri Gör</a></div>
-                    
                     </div>
 
+
                 </div>
+
               </div>
+              <div className="col-12 site-icerik-shadow mt-5">
+                <h3>Stoğu Azalanlar</h3>
+              <div className="table-responsive mt-5">
+                <table class="table">
+                  <thead class="table">
+                    <tr>
+                      <th scope="col">Ürün Kodu</th>
+                      <th scope="col">Ürün Görseli</th>
+                      <th scope="col">Ürün Adı</th>
+                      <th scope="col">Ürün Kategorisi</th>
+                      <th scope="col">Stok Sayısı</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {lowStockProducts.map(product => (
+                    <tr key={product.id}>
+                      <th scope="row">{product.id}</th>
+                      <td><img src={product.img} alt={product.name} className="img-fluid" style={{ maxWidth: '50px' }} /></td>
+                      <td>{product.name}</td>
+                      <td>{product.Kategori}</td>
+                      <td style={{color:'red',fontWeight:'700'}}>{Object.values(product.stoklar).reduce((acc, curr) => acc + curr, 0)}</td>
+                    </tr>
+                  ))}
+
+
+
+                  </tbody>
+                </table>
+                <div className="col-12 row justify-content-center mt-5"><a className='tumunu-gor-btn-admin col-6' href="/admin-urunler">Tüm Ürünleri Gör</a></div>
+
+
+
+
+                </div>
+                </div>
 
 
             </div>

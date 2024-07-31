@@ -12,13 +12,12 @@ const productsData = [
   { id: 8, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 64  , harcama:"30000" ,fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
   { id: 9, name: "Mob Wear Şort", Kategori: "Üst Giyim", stok: 64  , harcama:"30000" ,fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
   { id: 10, name:"Mob Wear Şort", Kategori: "Üst Giyim", stok: 64 , harcama:"30000" , fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
-  { id: 11, name:"Mob Wear Şort", Kategori: "Üst Giyim", stok: 64 , harcama:"30000" , fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
-  { id: 12, name:"Mob Wear Şort", Kategori: "Üst Giyim", stok: 64 , harcama:"30000" , fiyat:399,img:"https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg" , stoklar:{medium:9,small:20,large:5,xlarge:10,xsmall:20}},
 ];
 
 
 
 const Admin_product = () => {
+  const [images, setImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [showPopup, setShowPopup] = useState(false);
@@ -48,6 +47,11 @@ const Admin_product = () => {
 
   const togglePopup = () => {
     setShowPopup(!showPopup);
+  };
+
+  const handleImageUpload = (event) => {
+    const files = Array.from(event.target.files);
+    setImages((prevImages) => [...prevImages, ...files]);
   };
 
   const handleImageChange = (event) => {
@@ -125,7 +129,7 @@ const Admin_product = () => {
                       </td>
                       <td>
                         <div className="user-duzenle-row">
-                          <a href="#" className="user-edit-btn">
+                          <a href="/admin-urunler-guncelle" className="user-edit-btn">
                             <svg fill="white" width="30" height="30" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                               <path d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.75c0-.414.336-.75.75-.75s.75.336.75.75v9.25c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm-2.011 6.526c-1.045 3.003-1.238 3.45-1.238 3.84 0 .441.385.626.627.626.272 0 1.108-.301 3.829-1.249zm.888-.889 3.22 3.22 8.408-8.4c.163-.163.245-.377.245-.592 0-.213-.082-.427-.245-.591-.58-.578-1.458-1.457-2.039-2.036-.163-.163-.377-.245-.591-.245-.213 0-.428.082-.592.245z" fillRule="nonzero" />
                             </svg>
@@ -174,13 +178,15 @@ const Admin_product = () => {
               </div>
               <form className="popup-form">
               <div>
-                <label htmlFor="productImages">Ürün Resimleri:</label>
-                <input
-                  type="file"
-                  id="productImages"
-                  multiple
-                  onChange={handleImageChange}
-                />
+              <input type="file" multiple onChange={handleImageUpload} />
+              <div className="preview-flex" >
+                {images.map((image, index) => (
+                  <div className="preview-flex-child" key={index}>
+                    <img src={URL.createObjectURL(image)} alt={`uploaded-img-${index}`} width="100" />
+                    <p>{image.name}</p>
+                  </div>
+                ))}
+              </div>
               </div>
                 <div className="image-previews">
                   {selectedImages.map((image, index) => (
@@ -188,10 +194,9 @@ const Admin_product = () => {
                   ))}
                 </div>
                 <input type="text" placeholder="Ürün Adı" required />
-                <input type="text" placeholder="Ürün Kodu" required />
                 <input type="text" placeholder="Ürün Kategorisi" required />
                 <input type="text" placeholder="Stok Sayısı" required />
-                <input type="text" placeholder="Ürün Fiyatı" required />
+                <input type="number" placeholder="Ürün Fiyatı" required />
                 <button type="submit">Kaydet</button>
               </form>
             </div>
