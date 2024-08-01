@@ -49,6 +49,10 @@ const Admin_product_detail=()=> {
                     <input type="text" id='urun-detay-edit-kategori' className='col-8' />
                   </div>
                   <div className="row mt-3">
+                    <label htmlFor="urun-detay-edit-content" className="col-4">Ürün Açıklaması</label>
+                    <input type="text" id='urun-detay-edit-content' className='col-8' />
+                  </div>
+                  <div className="row mt-3">
                     <label htmlFor="urun-detay-edit-fiyat" className="col-4">Ürün Fiyatı</label>
                     <input type="number" id='urun-detay-edit-fiyat' className='col-8' />
                   </div>

@@ -195,6 +195,7 @@ const Admin_product = () => {
                 </div>
                 <input type="text" placeholder="Ürün Adı" required />
                 <input type="text" placeholder="Ürün Kategorisi" required />
+                <input type="text" placeholder="Ürün Açıklaması" required />
                 <input type="text" placeholder="Stok Sayısı" required />
                 <input type="number" placeholder="Ürün Fiyatı" required />
                 <button type="submit">Kaydet</button>
