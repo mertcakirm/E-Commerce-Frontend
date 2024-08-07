@@ -1,9 +1,30 @@
 import React, { Component } from 'react'
+import { Helmet } from "react-helmet";
 import "../css/odeme.css";
 
 const Odeme1=()=>{
     return (
         <div className="row">
+            <Helmet>
+            <title>Sepet Özetim</title>
+            <meta
+              name="description"
+              content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
+            />
+            <meta
+              name="keywords"
+              content="tişört,pantolon,giyim,moda,erkek giyim"
+            />
+            <meta name="author" content="MOB WEAR" />
+            <meta property="og:title" content="Kaliteli Kıyafetler" />
+            <meta
+              property="og:description"
+              content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
+            />
+            <meta property="og:image" content="URL_of_image" />
+            <meta property="og:url" content="URL_of_your_website" />
+            <meta property="og:type" content="website" />
+          </Helmet>
           <div className="col-lg-8">
             <p className="ozet-baslik">Ürünlerim</p>
             <div className="sepet-ozet-flex">

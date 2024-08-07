@@ -6,6 +6,7 @@ const Admin_sayfalar =()=> {
       <div>
         <Admin_sidebar />
         <div className="admin-sag-container">
+        <div className="col-12 alt-basliklar-admin">Sayfa İçerikleri</div>
           <div className="row admin-genel-row">
             <div className="col-12">
               <div className="site-icerik-shadow2 row">

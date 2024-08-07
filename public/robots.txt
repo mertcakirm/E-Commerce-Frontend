@@ -1,0 +1,22 @@
+User-agent: *
+Disallow: /profilim
+Disallow: /siparis/kargo
+Disallow: /siparis/ozet
+Disallow: /siparis-durumu
+Disallow: /siparis/odeme
+Disallow: /siparis/onay
+Disallow: /parola-yenile
+Disallow: /admin-urunler
+Disallow: /admin-urunler-guncelle
+Disallow: /admin-kategori-guncelle
+Disallow: /admin-genel
+Disallow: /admin-kullanicilar
+Disallow: /admin-raporlar
+Disallow: /admin-sayfalar
+Disallow: /admin-kategoriler
+Disallow: /admin-aktif-siparisler
+Disallow: /admin-mesajlar
+
+Allow: /
+
+Sitemap: https://www.mobwear.com/sitemap.xml

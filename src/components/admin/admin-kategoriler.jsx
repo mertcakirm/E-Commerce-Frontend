@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import Admin_sidebar from './admin-sidebar';
 
 const categoriesData = [
-  { id: 1, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Üst Giyim", productCount: 50 },
-  { id: 2, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Alt Giyim", productCount: 40 },
-  { id: 3, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Aksesuarlar", productCount: 30 },
-  { id: 4, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Ayakkabılar", productCount: 20 },
-  { id: 5, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Çantalar", productCount: 10 },
-  { id: 6, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Şapka", productCount: 15 },
-  { id: 7, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Gözlük", productCount: 25 },
-  { id: 8, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Saatler", productCount: 35 },
-  { id: 9, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Ceketler", productCount: 45 },
-  { id: 10, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Pantolonlar", productCount: 55 },
-  { id: 11, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Kazaklar", productCount: 65 },
-  { id: 12, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Montlar", productCount: 75 },
-  { id: 13, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Tişörtler", productCount: 85 },
-  { id: 14, image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Gömlekler", productCount: 95 },
+  { id: 1, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Üst Giyim", productCount: 50 },
+  { id: 2, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Alt Giyim", productCount: 40 },
+  { id: 3, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Aksesuarlar", productCount: 30 },
+  { id: 4, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Ayakkabılar", productCount: 20 },
+  { id: 5, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Çantalar", productCount: 10 },
+  { id: 6, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Şapka", productCount: 15 },
+  { id: 7, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Gözlük", productCount: 25 },
+  { id: 8, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Saatler", productCount: 35 },
+  { id: 9, boyut:"1/2",image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg", adres:"/tisort",name: "Ceketler", productCount: 45 },
+  { id: 10,boyut:"1/2", image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Pantolonlar", productCount: 55 },
+  { id: 11,boyut:"1/2", image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Kazaklar", productCount: 65 },
+  { id: 12,boyut:"1/2", image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Montlar", productCount: 75 },
+  { id: 13,boyut:"1/2", image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Tişörtler", productCount: 85 },
+  { id: 14,boyut:"1/2", image: "https://cdn.aksesuarix.com/Fotograflar/575/90032-polo-yaka-ekru-erkek-tisort-us4152ek-us4152ek-01-1.jpg",adres:"/tisort", name: "Gömlekler", productCount: 95 },
 ];
 
 const slidercategoriesData = [
@@ -90,6 +90,7 @@ const Admin_kategoriler = () => {
                     <th scope="col">Kategori Kodu</th>
                     <th scope="col">Kategori Kapağı</th>
                     <th scope="col">Kategori Adı</th>
+                    <th scope="col">Kategori Boyutu</th>
                     <th scope="col">Kategori İçindeki Ürün Sayısı</th>
                     <th scope="col">Yönlendirdiği Adres</th>
                     <th scope="col">İşlem</th>
@@ -101,6 +102,7 @@ const Admin_kategoriler = () => {
                       <th scope="row">{category.id}</th>
                       <td><img src={category.image} className="img-fluid urunler-listesi-img" alt={category.name} /></td>
                       <td>{category.name}</td>
+                      <td>{category.boyut}</td>
                       <td>{category.productCount}</td>
                       <td>{category.adres}</td>
                       <td>
@@ -227,6 +229,11 @@ const Admin_kategoriler = () => {
               </div>
                 <input type="text" placeholder="Kategori Adı" required />
                 <input type="text" placeholder="Kategori Adresi" required />
+                <select  style={{height:'50px',borderColor:'#dcdcdc'}} name="kategori-grid" id="kategori-grid">
+                  <option value="12">Full</option>
+                  <option value="6">1/2</option>
+                  <option value="4">1/3</option>
+                </select>
                 <select  style={{height:'50px',borderColor:'#dcdcdc'}} name="hangi-kategori" id="hangi-kategori">
                   <option value="kart-kategori">Kart Kategori</option>
                   <option value="slider-kategori">Slider Kategori</option>

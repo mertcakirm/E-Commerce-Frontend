@@ -48,7 +48,7 @@ const Admin_anasayfa=()=> {
 
               <div className="col-lg-6">
                 <div className="site-icerik-shadow">
-                  <div className="row en-cok-row">
+                  <div className="row en-cok-row scroll-table">
                     <div className="col-12 alt-basliklar-admin">En Çok Ürün Alan Kullanıcılar</div>
 
                     <div className="col-12 en-cok-card row">
@@ -96,15 +96,15 @@ const Admin_anasayfa=()=> {
                       <div className="col-lg-3">05378231123</div>
                     </div>
 
-                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="/admin-kullanicilar">Tüm Kullanıcıları Gör</a></div>
                     
                     </div>
+                    <div className="col-12 row justify-content-center mt-5"><a className='tumunu-gor-btn-admin col-6' href="/admin-kullanicilar">Tüm Kullanıcıları Gör</a></div>
 
                 </div>
 
 
-                <div className="site-icerik-shadow">
-                  <div className="row en-cok-row">
+                <div className="site-icerik-shadow ">
+                  <div className="row en-cok-row scroll-table">
                     <div className="col-12 alt-basliklar-admin">Aylık Finansal Genel Bakış</div>
                       <div className="row col-12">
                         <div className="col-lg-6 finansal-bakis-anasayfa-admin">Havale ile Alınan Ödeme</div>
@@ -130,15 +130,16 @@ const Admin_anasayfa=()=> {
 
 
 
-                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="/admin-raporlar">Tüm Raporları Gör</a></div>                    
                     </div>
+                    <div className="col-12 row justify-content-center mt-5"><a className='tumunu-gor-btn-admin col-6' href="/admin-raporlar">Tüm Raporları Gör</a></div>                    
+
                 </div>
               </div>
 
 
               <div className="col-lg-6">
                 <div className="site-icerik-shadow">
-                  <div className="row en-cok-row">
+                  <div className="row scroll-table en-cok-row">
                     <div className="col-12 alt-basliklar-admin">En Çok Satın Alınan Ürünler</div>
 
                     <a href='#' className="col-12 en-cok-card row">
@@ -200,8 +201,8 @@ const Admin_anasayfa=()=> {
 
 
                     
-                    <div className="col-12 row justify-content-center"><a className='tumunu-gor-btn-admin col-6' href="/admin-urunler">Tüm Ürünleri Gör</a></div>
                     </div>
+                    <div className="col-12 row justify-content-center mt-5"><a className='tumunu-gor-btn-admin col-6' href="/admin-urunler">Tüm Ürünleri Gör</a></div>
 
 
                 </div>
@@ -209,9 +210,9 @@ const Admin_anasayfa=()=> {
               </div>
               <div className="col-12 site-icerik-shadow mt-5">
                 <h3>Stoğu Azalanlar</h3>
-              <div className="table-responsive mt-5">
-                <table class="table">
-                  <thead class="table">
+              <div className="table-responsive scroll-table2 mt-5">
+                <table className="table ">
+                  <thead className="table">
                     <tr>
                       <th scope="col">Ürün Kodu</th>
                       <th scope="col">Ürün Görseli</th>
@@ -235,12 +236,13 @@ const Admin_anasayfa=()=> {
 
                   </tbody>
                 </table>
-                <div className="col-12 row justify-content-center mt-5"><a className='tumunu-gor-btn-admin col-6' href="/admin-urunler">Tüm Ürünleri Gör</a></div>
 
 
 
 
                 </div>
+                <div className="col-12 row justify-content-center mt-5"><a className='tumunu-gor-btn-admin col-6' href="/admin-urunler">Tüm Ürünleri Gör</a></div>
+
                 </div>
 
 
