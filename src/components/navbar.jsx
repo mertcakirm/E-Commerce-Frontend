@@ -27,10 +27,27 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    const handleScroll = () => {
+      const button = document.getElementById('nav-col-mid');
+      
+      if (window.scrollY > 500) {
+        button.classList.add('hidden-site-name');
+      } else {
+        button.classList.remove('hidden-site-name');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener('scroll', handleScroll);
+
     };
+
+    
   }, []);
 
   const handleMobileSidebarOpen = () => {
@@ -403,6 +420,29 @@ const Navbar = () => {
             <div className="tab-content" id="pills-tabContent">
               <div className="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabIndex="0">
                 <div className="sepet-flex2">
+                  <a href="#" className="sepet-card row">
+                    <div className="col-4 sepet-card-col-1">
+                      <img src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg" className="img-fluid w-100 sepet-resim" alt="" />
+                    </div>
+                    <div className="col-6 sepet-card-col-2">
+                      <p className="sepet-card-col-2-p-1">NY Monogram Drytech Erkek Şort</p>
+                      <p className="sepet-card-col-2-urun-kodu">Ürün Kodu : US4109SY</p>
+                      <p className="sepet-card-col-2-beden">BEDEN : L</p>
+                      <div className="updown">
+                      <button onClick={decrementProductCount}>-</button>
+                          <span>{productCount}</span>
+                          <button onClick={incrementProductCount}>+</button>
+                      </div>
+                      <div className="sepet-card-col-2-fiyatlar-flex">
+                        <p className='sepet-card-col-2-p1-fiyat'>499₺</p>
+                        <p className='sepet-card-col-2-p2-fiyat'>789₺</p>
+                      </div>
+                    </div>
+                    <div className="col-2 sepet-card-col-3">
+                      <button className="sepet-card-col-3-like-btn"><svg width="30" height="30" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z" fillRule="nonzero"/></svg></button>
+                    </div>
+                  </a>
+
                   <a href="#" className="sepet-card row">
                     <div className="col-4 sepet-card-col-1">
                       <img src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg" className="img-fluid w-100 sepet-resim" alt="" />

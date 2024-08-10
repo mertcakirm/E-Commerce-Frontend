@@ -264,18 +264,7 @@ const Profile = () => {
                         />
                       </div>
                     </div>
-                    <div className="row">
-                      <div className="col-lg-4">
-                        <label htmlFor="adreslerim-ulke">Ülke</label>
-                      </div>
-                      <div className="col-lg-8">
-                        <input
-                          type="text"
-                          id="adreslerim-ulke"
-                          className="profilim-inputs"
-                        />
-                      </div>
-                    </div>
+
                     <div className="row">
                       <div className="col-lg-4">
                         <label htmlFor="adreslerim-il">İl</label>
@@ -284,6 +273,18 @@ const Profile = () => {
                         <input
                           type="text"
                           id="adreslerim-il"
+                          className="profilim-inputs"
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-lg-4">
+                        <label htmlFor="adreslerim-ilce">İlçe</label>
+                      </div>
+                      <div className="col-lg-8">
+                        <input
+                          type="text"
+                          id="adreslerim-ilce"
                           className="profilim-inputs"
                         />
                       </div>
@@ -530,7 +531,7 @@ const Profile = () => {
                       </a>
                       <div className="col-lg-10 col-md-6 col-sm-6 col-6 row siparislerim-card-detays">
                         <div className="siparis-card-isim col-lg-6">
-                          <p>Beymen Tişört</p>
+                          <p>Sipariş Tarihi : 04.03.2024</p>
                         </div>
                         <div className="siparis-card-siparis-durum col-lg-5">
                           <svg
@@ -573,7 +574,7 @@ const Profile = () => {
                       </a>
                       <div className="col-lg-10 col-md-6 col-sm-6 col-6 row  siparislerim-card-detays">
                         <div className="siparis-card-isim col-lg-6">
-                          <p>Beymen Tişört</p>
+                          <p>Sipariş Tarihi : 04.03.2024</p>
                         </div>
                         <div className="siparis-card-siparis-durum col-lg-5">
                           <svg
@@ -616,7 +617,7 @@ const Profile = () => {
                       </a>
                       <div className="col-lg-10 col-md-6 col-sm-6 col-6 row siparislerim-card-detays">
                         <div className="siparis-card-isim col-lg-6">
-                          <p>Beymen Tişört</p>
+                          <p>Sipariş Tarihi : 04.03.2024</p>
                         </div>
                         <div className="siparis-card-siparis-durum col-lg-5">
                           <svg

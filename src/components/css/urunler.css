@@ -83,6 +83,12 @@
     z-index: 130;
 
 }
+
+.accordion-button{
+  font-size: 20px;
+  font-weight: 600;
+}
+
 .accordion-button:focus {
     z-index: 3;
     outline: 0;

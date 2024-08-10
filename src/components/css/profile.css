@@ -4,7 +4,7 @@
 
 
 .profil-pills-content-baslik{
-    font-size: 24px;
+    font-size: 32px;
 }
 
 .tab-content2{
@@ -24,6 +24,7 @@
     flex-direction: column;
     row-gap: 30px;
     padding: 2% 2%;
+    font-size: 20px;
 }
 
 .profilim-inputs{

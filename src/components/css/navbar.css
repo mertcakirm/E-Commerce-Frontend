@@ -2,7 +2,7 @@
   background: transparent;
   padding-top: 20px;
   position: absolute;
-  z-index: 50;
+  z-index: 100;
   position: fixed;
 }
 
@@ -509,6 +509,12 @@
   color: #fff;
   padding: 5px 20px;
   border-radius: 10px;
+}
+
+.hidden-site-name{
+  opacity: 0;
+  transition: .4s;
+  cursor: unset;
 }
 
 @media only screen and (max-width:767px) {

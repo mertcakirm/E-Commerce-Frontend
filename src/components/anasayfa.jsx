@@ -238,70 +238,70 @@ const Anasayfa = () => {
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
           <a href="#" className="slick-card">
             <img
               src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
               alt=""
             />
-            <h3>sweat</h3>
+            <p>sweat</p>
           </a>
         </Slider>
       </div>

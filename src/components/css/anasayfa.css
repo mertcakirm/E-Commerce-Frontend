@@ -42,6 +42,12 @@
     font-family: 'Open Sans';
 }
 
+.carousel-item-child>h5{
+    font-size: 32px;
+    font-weight: 700;
+    font-family: 'Open Sans';
+}
+
 .slider-alisverise-basla-btn{
     width: 20%;
     border: 2px solid #000;
@@ -52,7 +58,7 @@
     text-decoration: none;
     border-radius: 15px;
     transition: .4s;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .slider-alisverise-basla-btn:hover{
@@ -93,12 +99,13 @@
     align-items: center;
     text-align: center;
     font-family: 'Open Sans';
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 32px;
+    font-weight: 600;
     text-decoration: none;
     color: #000;
 
 }
+
 
 
 .slick-card>img{
@@ -296,8 +303,8 @@
         height: 300px;
     }
 
-    .h3, h3 {
-        font-size: 16px;
+    .slick-card>p {
+        font-size: 24px;
     }
 
     .slick-slide {
