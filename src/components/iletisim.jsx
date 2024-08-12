@@ -30,7 +30,7 @@ const iletisim = () => {
       <Navbar />
 
       <div className="container iletisim-container">
-        <div className="row">
+        <div className="row iletisim-row-parent">
           <div className="col-12">
             <p className="hakkimizda-baslik">İLETİŞİM</p>
             <form>

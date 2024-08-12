@@ -727,7 +727,7 @@ const Sss = () => {
 
           <div className="row justify-content-center text-center diger-sorular">
             <p>Dİğer Sorularınız İçİn</p>
-            <a href="#">İletişim</a>
+            <a className="diger-sorular-button" href="#">İletişim</a>
           </div>
         </div>
         <div className="footer-container-sss">

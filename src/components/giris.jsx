@@ -1,10 +1,109 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import "./css/giris.css";
 import { Helmet } from "react-helmet";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 
 const Giris = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    consent: false,
+  });
+
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const navigate = useNavigate(); 
+  const [errorMessage, setErrorMessage] = useState(""); 
+
+  const handleChange = (e) => {
+    const { id, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [id]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleLoginChange = (e) => {
+    const { id, value } = e.target;
+    setLoginData({
+      ...loginData,
+      [id]: value,
+    });
+  };
+
+  const handleRegister = () => {
+    if (formData.password !== formData.confirmPassword) {
+      alert("Parolalar eşleşmiyor!");
+      return;
+    }
+
+    const registerDTO = {
+      nameSurname: formData.name,
+      phoneNumber: formData.phone,
+      email: formData.email,
+      password: formData.password,
+      confirmPassword: formData.confirmPassword,
+      acceptEmails: formData.consent,
+    };
+
+    fetch("http://213.142.159.49:8083/api/member/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(registerDTO),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Kayıt başarılı!");
+          window.location.reload();
+        } else {
+          alert("Kayıt başarısız!");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const handleLogin = async () => {
+    const loginDTO = {
+      email: loginData.email,
+      password: loginData.password,
+    };
+
+    try {
+      const response = await fetch("http://213.142.159.49:8083/api/member/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginDTO),
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok && responseData.token) {
+        localStorage.setItem("token", responseData.token);
+        navigate("/")
+      } else {
+        setErrorMessage("Giriş başarısız: Geçersiz kullanıcı adı veya parola.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setErrorMessage("Giriş sırasında bir hata oluştu.");
+    }
+  };
+
   const kayit_gecis = () => {
     const register = document.getElementById("register-form");
     register.style.display = "flex";
@@ -53,23 +152,30 @@ const Giris = () => {
             <div className="login-card">
               <form id="login-form" action="#" style={{ display: "flex" }}>
                 <p className="login-form-baslik">Giriş Yap</p>
+                {errorMessage && (
+                  <p style={{ color: "red" }}>{errorMessage}</p>
+                )}
                 <div className="form-floating">
                   <input
                     className="form-control"
                     type="text"
                     placeholder="Leave a comment here"
-                    id="giris-mail"
+                    id="email"
+                    value={loginData.email}
+                    onChange={handleLoginChange}
                   />
-                  <label htmlFor="giris-mail">E-Posta Adresi</label>
+                  <label htmlFor="email">E-Posta Adresi</label>
                 </div>
                 <div className="form-floating">
                   <input
                     className="form-control"
                     type="password"
                     placeholder="Leave a comment here"
-                    id="floatingTextarea2"
+                    id="password"
+                    value={loginData.password}
+                    onChange={handleLoginChange}
                   />
-                  <label htmlFor="floatingTextarea2">Parola</label>
+                  <label htmlFor="password">Parola</label>
                 </div>
                 <div className="giris-check">
                   <div>
@@ -85,7 +191,11 @@ const Giris = () => {
                     Şifremi Unuttum
                   </a>
                 </div>
-                <button className="giris-yap-btn" type="button">
+                <button
+                  className="giris-yap-btn"
+                  type="button"
+                  onClick={handleLogin}
+                >
                   Giriş Yap
                 </button>
                 <div className="kayit-giris-gecis-btn">
@@ -102,75 +212,79 @@ const Giris = () => {
                     className="form-control"
                     type="text"
                     placeholder="Leave a comment here"
-                    id="kayit-isim"
+                    id="name"
+                    value={formData.name}
+                    onChange={handleChange}
                   />
-                  <label htmlFor="kayit-isim">Ad Soyad</label>
+                  <label htmlFor="name">Ad Soyad</label>
                 </div>
                 <div className="form-floating">
                   <input
                     className="form-control"
                     type="text"
                     placeholder="Leave a comment here"
-                    id="kayit-tel"
+                    id="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                   />
-                  <label htmlFor="kayit-tel">Telefon Numarası</label>
+                  <label htmlFor="phone">Telefon Numarası</label>
                 </div>
                 <div className="form-floating">
                   <input
                     className="form-control"
                     type="text"
                     placeholder="Leave a comment here"
-                    id="kayit-mail"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
-                  <label htmlFor="kayit-mail">E-Posta Adresi</label>
+                  <label htmlFor="email">E-Posta Adresi</label>
                 </div>
                 <div className="form-floating">
                   <input
                     className="form-control"
                     type="password"
                     placeholder="Leave a comment here"
-                    id="kayit-password"
+                    id="password"
+                    value={formData.password}
+                    onChange={handleChange}
                   />
-                  <label htmlFor="kayit-password">Parola</label>
+                  <label htmlFor="password">Parola</label>
                 </div>
                 <div className="form-floating">
                   <input
                     className="form-control"
                     type="password"
                     placeholder="Leave a comment here"
-                    id="kayit-password-confirm"
+                    id="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
                   />
-                  <label htmlFor="kayit-password-confirm">Parola Tekrar</label>
+                  <label htmlFor="confirmPassword">Parola Tekrar</label>
                 </div>
                 <div className="kayit-check">
                   <div className="kayit-check-flex">
                     <input
                       style={{ marginRight: "5px" }}
                       type="checkbox"
-                      id="kosullar-check"
-                      name="kosullar-check"
+                      id="consent"
+                      name="consent"
+                      checked={formData.consent}
+                      onChange={handleChange}
                     />
-                    <label htmlFor="kosullar-check">
-                      {" "}
+                    <label htmlFor="consent">
                       Kişisel Verilere İlişkin Aydınlatma Metni doğrultusunda
                       Gizlilik ve Çerez Politikası, Kullanım Koşulları ve
                       Kişisel Verilere İlişkin Beyan ve Rıza Onay Metni'ni
                       okudum, onaylıyorum.
                     </label>
                   </div>
-                  <div className="kayit-check-flex">
-                    <input
-                      style={{ marginRight: "5px" }}
-                      type="checkbox"
-                      id="e-posta-bildirim-check"
-                      name="e-posta-bildirim-check"
-                    />
-                    <label htmlFor="e-posta-bildirim-check">
-                      Kampanyalar hakkında e-posta almak istiyorum
-                    </label>
-                  </div>
                 </div>
-                <button className="giris-yap-btn" type="button">
+                <button
+                  className="giris-yap-btn"
+                  type="button"
+                  onClick={handleRegister}
+                >
                   Kayıt Ol
                 </button>
                 <div className="kayit-giris-gecis-btn">

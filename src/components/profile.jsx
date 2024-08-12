@@ -7,10 +7,62 @@ import kampanya from "../assets/kampanya.jpg";
 
 const Profile = () => {
   const [showPopup, setShowPopup] = useState(false);
+  const [user, setUser] = useState(null);
+  const [address, setAddress] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const togglePopup = () => {
     setShowPopup(!showPopup);
   };
-
+  const token = localStorage.getItem("token"); 
+  
+  
+  // profil güncelle
+  const updateProfile = async () => {
+    const userDTO1 = {
+      nameSurname: document.getElementById('bilgilerim-isim').value,
+      email: document.getElementById('bilgilerim-mail').value,
+      phoneNumber: document.getElementById('bilgilerim-tel').value
+    };
+  
+    const changePasswordDTO1 = {
+      password: document.getElementById('bilgilerim-password').value,
+      confirmPassword: document.getElementById('bilgilerim-confirm').value
+    };
+  
+    // Retrieve the existing token from localStorage
+    const token = localStorage.getItem('token');
+  
+    const formData = new FormData();
+    formData.append('UserDTO', new Blob([JSON.stringify(userDTO1)], { type: 'application/json' }));
+    formData.append('ChangePasswordDTO', new Blob([JSON.stringify(changePasswordDTO1)], { type: 'application/json' }));
+  
+    try {
+      const response = await fetch('http://213.142.159.49:8083/api/user/update', {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`
+          // Do not set Content-Type header; FormData will set it automatically
+        },
+        body: formData
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('User information updated:', data);
+  
+        if (data) { 
+          localStorage.removeItem("token")
+          localStorage.setItem("token",data.token)
+        }
+      } else {
+        console.error('Failed to update profile:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+  
   useEffect(() => {
     if (showPopup) {
       document.body.classList.add("no-scroll");
@@ -22,30 +74,97 @@ const Profile = () => {
       document.body.classList.remove("no-scroll");
     };
   }, [showPopup]);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('http://213.142.159.49:8083/api/user/profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        const data = await response.json();
+        document.getElementById('bilgilerim-isim').value = data.nameSurname;
+        document.getElementById('bilgilerim-mail').value = data.email;
+        document.getElementById('bilgilerim-tel').value = data.phoneNumber;
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchProfile();
+  }, [token]);
+
+
+// adres 
+
+
+
+
+const newAddress = async () => {
+  const addressDTO = {
+    addressTitle: document.getElementById('adreslerim-baslik').value,
+    nameSurname: document.getElementById('adreslerim-isim').value,
+    email: document.getElementById('adreslerim-mail').value,
+    phoneNumber: document.getElementById('adreslerim-tel').value,
+    city: document.getElementById('adreslerim-il').value,
+    town: document.getElementById('adreslerim-ilce').value,
+    address: document.getElementById('adreslerim-adres').value,
+    identityNumber: document.getElementById('adreslerim-tc').value
+  };
+
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await fetch('http://213.142.159.49:8083/api/address/add', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(addressDTO)
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Address added successfully:', data);
+    } else {
+      console.error('Failed to add address:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+  window.location.reload()
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div>
       <Helmet>
         <title>Profilim</title>
-        <meta
-          name="description"
-          content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-        />
-        <meta
-          name="keywords"
-          content="tişört,pantolon,giyim,moda,erkek giyim"
-        />
+        <meta name="description" content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz." />
+        <meta name="keywords" content="tişört,pantolon,giyim,moda,erkek giyim" />
         <meta name="author" content="MOB WEAR" />
         <meta property="og:title" content="Kaliteli Kıyafetler" />
-        <meta
-          property="og:description"
-          content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-        />
+        <meta property="og:description" content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz." />
         <meta property="og:image" content="URL_of_image" />
         <meta property="og:url" content="URL_of_your_website" />
         <meta property="og:type" content="website" />
       </Helmet>
       <Navbar />
-
       <div className="container-fluid profile-container">
         <div className="row">
           <div className="col-lg-12">
@@ -134,13 +253,11 @@ const Profile = () => {
                     </div>
                     <div className="row">
                       <div className="col-lg-4">
-                        <label htmlFor="bilgilerim-mail">
-                          E-Posta Adresiniz
-                        </label>
+                        <label htmlFor="bilgilerim-mail">E-Posta Adresiniz</label>
                       </div>
                       <div className="col-lg-8">
                         <input
-                          type="text"
+                          type="email"
                           id="bilgilerim-mail"
                           className="profilim-inputs"
                         />
@@ -148,13 +265,11 @@ const Profile = () => {
                     </div>
                     <div className="row">
                       <div className="col-lg-4">
-                        <label htmlFor="bilgilerim-tel">
-                          Telefon Numaranız
-                        </label>
+                        <label htmlFor="bilgilerim-tel">Telefon Numaranız</label>
                       </div>
                       <div className="col-lg-8">
                         <input
-                          type="text"
+                          type="tel"
                           id="bilgilerim-tel"
                           className="profilim-inputs"
                         />
@@ -176,9 +291,7 @@ const Profile = () => {
                     </div>
                     <div className="row">
                       <div className="col-lg-4">
-                        <label htmlFor="bilgilerim-confirm">
-                          Şifreniz Tekrar
-                        </label>
+                        <label htmlFor="bilgilerim-confirm">Şifreniz Tekrar</label>
                       </div>
                       <div className="col-lg-8">
                         <input
@@ -189,11 +302,13 @@ const Profile = () => {
                       </div>
                     </div>
                     <div>
-                      <button id="uyeligi-sil-btn">Üyeliğimi Sil</button>
+                      <button type="button" id="uyeligi-sil-btn">Üyeliğimi Sil</button>
                     </div>
                   </div>
                   <div className="col-12 guncelle-flex">
-                    <button>Bilgilerimi Güncelle</button>
+                    <button type="button" id="bilgileri-guncelle-btn-profile" onClick={updateProfile}>
+                      Bilgilerimi Güncelle
+                    </button>
                   </div>
                 </form>
               </div>
@@ -225,6 +340,7 @@ const Profile = () => {
                           type="text"
                           id="adreslerim-baslik"
                           className="profilim-inputs"
+                          maxLength={15}
                         />
                       </div>
                     </div>
@@ -314,7 +430,7 @@ const Profile = () => {
                       </div>
                     </div>
                     <div className="col-12 guncelle-flex">
-                      <button>Adresimi Ekle</button>
+                      <button onClick={newAddress}>Adresimi Ekle</button>
                     </div>
                   </div>
 
@@ -359,114 +475,7 @@ const Profile = () => {
                           </button>
                         </div>
                       </div>
-                      <div className="col-lg-5 adres-card">
-                        <div>EV</div>
-                        <div className="adres-card-flex">
-                          <button className="adres-card-flex-btn1">
-                            <svg
-                              onClick={togglePopup}
-                              clipRule="evenodd"
-                              fillRule="evenodd"
-                              strokeLinejoin="round"
-                              strokeMiterlimit="2"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.75c0-.414.336-.75.75-.75s.75.336.75.75v9.25c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm-2.011 6.526c-1.045 3.003-1.238 3.45-1.238 3.84 0 .441.385.626.627.626.272 0 1.108-.301 3.829-1.249zm.888-.889 3.22 3.22 8.408-8.4c.163-.163.245-.377.245-.592 0-.213-.082-.427-.245-.591-.58-.578-1.458-1.457-2.039-2.036-.163-.163-.377-.245-.591-.245-.213 0-.428.082-.592.245z"
-                                fillRule="nonzero"
-                              />
-                            </svg>
-                          </button>
-                          <button className="adres-card-flex-btn2">
-                            <svg
-                              clipRule="evenodd"
-                              fillRule="evenodd"
-                              strokeLinejoin="round"
-                              strokeMiterlimit="2"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z"
-                                fillRule="nonzero"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                      <div className="col-lg-5 adres-card">
-                        <div>EV</div>
-                        <div className="adres-card-flex">
-                          <button className="adres-card-flex-btn1">
-                            <svg
-                              onClick={togglePopup}
-                              clipRule="evenodd"
-                              fillRule="evenodd"
-                              strokeLinejoin="round"
-                              strokeMiterlimit="2"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.75c0-.414.336-.75.75-.75s.75.336.75.75v9.25c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm-2.011 6.526c-1.045 3.003-1.238 3.45-1.238 3.84 0 .441.385.626.627.626.272 0 1.108-.301 3.829-1.249zm.888-.889 3.22 3.22 8.408-8.4c.163-.163.245-.377.245-.592 0-.213-.082-.427-.245-.591-.58-.578-1.458-1.457-2.039-2.036-.163-.163-.377-.245-.591-.245-.213 0-.428.082-.592.245z"
-                                fillRule="nonzero"
-                              />
-                            </svg>
-                          </button>
-                          <button className="adres-card-flex-btn2">
-                            <svg
-                              clipRule="evenodd"
-                              fillRule="evenodd"
-                              strokeLinejoin="round"
-                              strokeMiterlimit="2"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z"
-                                fillRule="nonzero"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                      <div className="col-lg-5 adres-card">
-                        <div>EV</div>
-                        <div className="adres-card-flex">
-                          <button className="adres-card-flex-btn1">
-                            <svg
-                              onClick={togglePopup}
-                              clipRule="evenodd"
-                              fillRule="evenodd"
-                              strokeLinejoin="round"
-                              strokeMiterlimit="2"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.75c0-.414.336-.75.75-.75s.75.336.75.75v9.25c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm-2.011 6.526c-1.045 3.003-1.238 3.45-1.238 3.84 0 .441.385.626.627.626.272 0 1.108-.301 3.829-1.249zm.888-.889 3.22 3.22 8.408-8.4c.163-.163.245-.377.245-.592 0-.213-.082-.427-.245-.591-.58-.578-1.458-1.457-2.039-2.036-.163-.163-.377-.245-.591-.245-.213 0-.428.082-.592.245z"
-                                fillRule="nonzero"
-                              />
-                            </svg>
-                          </button>
-                          <button className="adres-card-flex-btn2">
-                            <svg
-                              clipRule="evenodd"
-                              fillRule="evenodd"
-                              strokeLinejoin="round"
-                              strokeMiterlimit="2"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z"
-                                fillRule="nonzero"
-                              />
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -721,19 +730,6 @@ const Profile = () => {
                         <div className="row col-12 align-items-center">
                           <label
                             className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-ulke"
-                          >
-                            Ülke
-                          </label>
-                          <input
-                            className="col-lg-8"
-                            type="text"
-                            id="adres-duzenle-adres-ulke"
-                          />
-                        </div>
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
                             htmlFor="adres-duzenle-adres-il"
                           >
                             İl
@@ -742,6 +738,19 @@ const Profile = () => {
                             className="col-lg-8"
                             type="text"
                             id="adres-duzenle-adres-il"
+                          />
+                        </div>
+                        <div className="row col-12 align-items-center">
+                          <label
+                            className="col-lg-4"
+                            htmlFor="adres-duzenle-adres-ilce"
+                          >
+                            İlçe
+                          </label>
+                          <input
+                            className="col-lg-8"
+                            type="text"
+                            id="adres-duzenle-adres-ilce"
                           />
                         </div>
                         <div className="row col-12 align-items-center">

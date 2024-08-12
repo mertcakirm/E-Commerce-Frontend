@@ -310,7 +310,7 @@ const Anasayfa = () => {
       <div className="container-fluid categori-card-fluid">
         <div className="row">
           <div className="col-lg-6">
-            <a href="#">
+            <a href="/urunler/tisort">
               <div className="categori-card">
                 <img
                   src="https://cdn.aksesuarix.com/Fotograflar/88114-tee.jpg"
@@ -327,7 +327,7 @@ const Anasayfa = () => {
             </a>
           </div>
           <div className="col-lg-6">
-            <a href="#">
+            <a href="/urunler/sort">
               <div className="categori-card">
                 <img
                   src="https://cdn.aksesuarix.com/Fotograflar/88115-sort.jpg"

@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Anasayfa from './components/anasayfa';
-import Urunler from './components/urunler';
+import Urunler from './components/urunler';  
 import Urun_detay from './components/urun-detay';
 import Sss from './components/sss';
 import Profile from './components/profile';
@@ -23,40 +23,55 @@ import Admin_mesajlar from './components/admin/admin-mesajlar';
 import Bilgilendirmeler from './components/bilgilendirmeler';
 
 function App() {
+  const ProtectedRoute = ({ element }) => {
+    const token = localStorage.getItem('token');
+    return token ? element : <Navigate to="/girisyap" replace />;
+  };
+
+  const UnprotectedRoute = ({ element }) => {
+    const token = localStorage.getItem('token');
+    return token ? <Navigate to="/profilim" replace /> : element;
+  };
+
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Anasayfa />} />
-          <Route path="/urunler" element={<Urunler />} />
-          <Route path="/hakkimizda" element={<Hakkimizda />} />
-          <Route path="/iletisim" element={<Iletisim />} />
-          <Route path="/urunler-detay" element={<Urun_detay />} />
-          <Route path="/profilim" element={<Profile />} />
-          <Route path="/bilgilendirmeler" element={<Bilgilendirmeler />} />
-          <Route path="/girisyap" element={<Giris />} />
-          <Route path="/siparis/kargo" element={<Odeme />} />
-          <Route path="/siparis/ozet" element={<Odeme />} />
-          <Route path="/siparis-durumu" element={<SiparisDurumu />} />
-          <Route path="/siparis/odeme" element={<Odeme />} />
-          <Route path="/siparis/onay" element={<Odeme />} />
-          <Route path="/sss" element={<Sss />} />
-          <Route path="/parola-yenile" element={<Parola_yenile />} />
-          <Route path="/admin-urunler" element={<Admin_product />} />
-          <Route path="/admin-urunler-guncelle" element={<Admin_product_detail />} />
-          <Route path="/admin-kategori-guncelle" element={<Admin_kategori_detail />} />
-          <Route path="/admin-genel" element={<Admin_anasayfa />} />
-          <Route path="/admin-kullanicilar" element={<Admin_users />} />
-          <Route path="/admin-raporlar" element={<Admin_raporlar />} />
-          <Route path="/admin-sayfalar" element={<Admin_sayfalar />} />
-          <Route path="/admin-kategoriler" element={<Admin_kategoriler />} />
-          <Route path="/admin-aktif-siparisler" element={<Admin_aktif_siparis />} />
-          <Route path="/admin-mesajlar" element={<Admin_mesajlar />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Anasayfa />} />
+        
+        {/* Dinamik kategoriye göre ürünlerin listelendiği sayfa */}
+        <Route path="/urunler/:category" element={<Urunler />} />
+        
+        <Route path="/urunler-detay/:id" element={<Urun_detay />} />
+        <Route path="/hakkimizda" element={<Hakkimizda />} />
+        <Route path="/iletisim" element={<Iletisim />} />
 
+        {/* Unprotected Routes */}
+        <Route path="/girisyap" element={<UnprotectedRoute element={<Giris />} />} />
+        <Route path="/parola-yenile" element={<UnprotectedRoute element={<Parola_yenile />} />} />
 
-        </Routes>
-      </BrowserRouter>
-    </>
+        {/* Protected Routes */}
+        <Route path="/profilim" element={<ProtectedRoute element={<Profile />} />} />
+        <Route path="/siparis/kargo" element={<ProtectedRoute element={<Odeme />} />} />
+        <Route path="/siparis/ozet" element={<ProtectedRoute element={<Odeme />} />} />
+        <Route path="/siparis-durumu" element={<ProtectedRoute element={<SiparisDurumu />} />} />
+        <Route path="/siparis/odeme" element={<ProtectedRoute element={<Odeme />} />} />
+        <Route path="/siparis/onay" element={<ProtectedRoute element={<Odeme />} />} />
+        <Route path="/sss" element={<ProtectedRoute element={<Sss />} />} />
+        <Route path="/bilgilendirmeler" element={<ProtectedRoute element={<Bilgilendirmeler />} />} />
+        
+        {/* Admin Routes */}
+        <Route path="/admin-urunler" element={<ProtectedRoute element={<Admin_product />} />} />
+        <Route path="/admin-urunler-guncelle" element={<ProtectedRoute element={<Admin_product_detail />} />} />
+        <Route path="/admin-kategori-guncelle" element={<ProtectedRoute element={<Admin_kategori_detail />} />} />
+        <Route path="/admin-genel" element={<ProtectedRoute element={<Admin_anasayfa />} />} />
+        <Route path="/admin-kullanicilar" element={<ProtectedRoute element={<Admin_users />} />} />
+        <Route path="/admin-raporlar" element={<ProtectedRoute element={<Admin_raporlar />} />} />
+        <Route path="/admin-sayfalar" element={<ProtectedRoute element={<Admin_sayfalar />} />} />
+        <Route path="/admin-kategoriler" element={<ProtectedRoute element={<Admin_kategoriler />} />} />
+        <Route path="/admin-aktif-siparisler" element={<ProtectedRoute element={<Admin_aktif_siparis />} />} />
+        <Route path="/admin-mesajlar" element={<ProtectedRoute element={<Admin_mesajlar />} />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
