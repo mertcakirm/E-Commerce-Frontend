@@ -229,10 +229,11 @@
   right: 20px;
   background-color: orange;
   border: 0; 
-  padding: 5px 10px;
+  padding: 0px 10px;
   color: #fff;
   font-family: 'Jockey One';
   font-weight: 700;
+  padding-top: 15px;
 
 }
 

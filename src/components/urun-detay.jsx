@@ -6,6 +6,8 @@ import { Helmet } from "react-helmet";
 import Navbar from "./navbar";
 import Footer from "./footer";
 import "./css/urun-detay.css";
+import logo from '../assets/mob_logo.png';
+
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
@@ -55,32 +57,40 @@ const PrevArrow = (props) => {
     </div>
   );
 };
+
+
+
 const Urun_detay = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [product, setProduct] = useState(null); 
   const commentsPerPage = 5;
 
-  const comments = [
-    {
-      user: "Furkan Geren",
-      rating: "9/10",
-      text: "Çok güzel dayanıklı ve malzemesi kaliteli bir ürün herkese tavsiye ederim.",
-    },
-    {
-      user: "Furkan Geren",
-      rating: "9/10",
-      text: "Çok güzel dayanıklı ve malzemesi kaliteli bir ürün herkese tavsiye ederim.",
-    },
-    {
-      user: "Furkan Geren",
-      rating: "8/10",
-      text: "Güzel ama bazı eksiklikleri var.",
-    },
-    { user: "Furkan Geren", rating: "7/10", text: "Fena değil, iş görür." },
-    { user: "Furkan Geren", rating: "7/10", text: "Fena değil, iş görür." },
-    { user: "Furkan Geren", rating: "7/10", text: "Fena değil, iş görür." },
-    { user: "Furkan Geren", rating: "7/10", text: "Fena değil, iş görür." },
-  ];
+
+  const urlpop = location.pathname.split('/').pop();
+  const productUrl = `http://213.142.159.49:8083/api/admin/product/get/${urlpop}`;
+
+  useEffect(() => {
+    // Bileşen yüklendiğinde veri çek
+    fetch(productUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        setProduct(data);
+      })
+      .catch(error => {
+        console.error("Veri çekilirken bir hata oluştu:", error);
+      });
+  }, [productUrl]);
+
+  const comments = product?.comments || [];  // Yorumlar varsa çek
+  const images = product?.images || [];  // Görseller varsa çek
+
+
 
   const indexOfLastComment = currentPage * commentsPerPage;
   const indexOfFirstComment = indexOfLastComment - commentsPerPage;
@@ -95,13 +105,7 @@ const Urun_detay = () => {
     setCurrentPage(pageNumber);
   };
 
-  const images = [
-    "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
-    "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
-    "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
-    "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
-    "https://cdn.aksesuarix.com/UserFiles/Fotograflar/80508-ny-monogram-drytech-erkek-sort-uk1156sygr-uk1156sygr-01.jpg",
-  ];
+
 
   const handleThumbnailClick = (index) => {
     setActiveIndex(index);
@@ -183,7 +187,7 @@ const Urun_detay = () => {
       <div className="container-fluid urun-detay-container">
         <div className="row justify-content-center">
           <div className="col-11">
-            <p>Anasayfa - Urun-detay</p>
+            <p>Anasayfa - Ürünler - {product.productName}</p>
           </div>
         </div>
 
@@ -235,11 +239,13 @@ const Urun_detay = () => {
             </div>
           </div>
           <div className="col-lg-6 urun-detay-col-sag">
+          {product && (
+
             <div className="urun-detay-col-sag">
               <p className="urun-baslik">
-                Kahve Logo Oversize Erkek Jogger Eşofman Altı
+                {product.productName}
               </p>
-              <p className="urun-code">UK1156SYGR</p>
+              <p className="urun-code">{product.productCode}</p>
               <div className="urun-goruntuleme">
                 <svg
                   width="40"
@@ -260,12 +266,12 @@ const Urun_detay = () => {
               </div>
               <div className="urun-goruntuleme">
               <svg xmlns="http://www.w3.org/2000/svg" width="45" height="30" viewBox="0 0 24 24"><path d="M13.299 3.74c-.207-.206-.299-.461-.299-.711 0-.524.407-1.029 1.02-1.029.262 0 .522.1.721.298l3.783 3.783c-.771.117-1.5.363-2.158.726l-3.067-3.067zm-.299 8.76c0-1.29.381-2.489 1.028-3.5h-14.028v2h.643c.535 0 1.021.304 1.256.784l4.101 10.216h12l1.211-3.015c-3.455-.152-6.211-2.993-6.211-6.485zm-2.299-8.76c.207-.206.299-.461.299-.711 0-.524-.407-1.029-1.02-1.029-.261 0-.522.1-.72.298l-4.701 4.702h2.883l3.259-3.26zm8.799 4.26c-2.486 0-4.5 2.015-4.5 4.5s2.014 4.5 4.5 4.5c2.484 0 4.5-2.015 4.5-4.5s-2.016-4.5-4.5-4.5zm-.469 6.484l-1.688-1.637.695-.697.992.94 2.115-2.169.697.696-2.811 2.867z"/></svg>
-                <span className="mt-1">Bu ürün 90 kişinin sepetinde</span>
+                <span className="mt-1">Bu ürün {product.countInBasket} kişinin sepetinde</span>
               </div>
               <div className="urun-detay-fiyat-flex">
-                <p className="p1-fiyat">499₺</p>
-                <p className="p2-fiyat">789₺</p>
-                <div className="urun-indirim">%20 İNDİRİM</div>
+                <p className="p1-fiyat">{product.priceWithDiscount}₺</p>
+                <p className="p2-fiyat">{product.priceWithOutDiscount}₺</p>
+                <div className="urun-indirim">{product.discountRate}% İNDİRİM</div>
               </div>
               <div className="beden">
                 <p>BEDEN:</p>
@@ -334,7 +340,10 @@ const Urun_detay = () => {
                       className="accordion-collapse collapse"
                       data-bs-parent="#accordionFlushExample"
                     >
-                      <div className="accordion-body">...</div>
+                      <div className="accordion-body">
+                      {product.description}
+
+                      </div>
                     </div>
                   </div>
                   <div className="accordion-item">
@@ -432,6 +441,7 @@ const Urun_detay = () => {
                 </div>
               </div>
             </div>
+          )}
           </div>
         </div>
 
@@ -504,79 +514,14 @@ const Urun_detay = () => {
           </div>
         </div>
 
-        <div className="row diger-row justify-content-center">
-          <div className="col-11">
-            <p className="bunlari-da-begen">SON GEZDİKLERİNİZ</p>
-            <Slider {...settings}>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89679-ekru-boxy-oversize-keten-erkek-gomlek-uk1348ek-uk1348ek-00.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89679-ekru-boxy-oversize-keten-erkek-gomlek-uk1348ek-uk1348ek-00.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89679-ekru-boxy-oversize-keten-erkek-gomlek-uk1348ek-uk1348ek-00.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89679-ekru-boxy-oversize-keten-erkek-gomlek-uk1348ek-uk1348ek-00.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89679-ekru-boxy-oversize-keten-erkek-gomlek-uk1348ek-uk1348ek-00.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-            </Slider>
-          </div>
-        </div>
+
       </div>
       <div className="container logo-container">
-        <div className="row justify-content-center logo">
-          <a className="logo-a" href="/">
+        <div className="row justify-content-center">
+          <a style={{display:'flex',justifyContent:'center'}} className="logo-a" href="/">
             <img
-              src="https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2020/06/896/500/TESLA-LOGO.jpg?ve=1&tl=1"
+              src={logo}
+              className="img-fluid"
               alt=""
             />
           </a>

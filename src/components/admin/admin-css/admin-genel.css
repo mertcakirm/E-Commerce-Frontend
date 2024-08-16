@@ -206,6 +206,29 @@
 
 
 
+.stok-giris-inp>input{
+  width: 60px;
+}
+
+.stoklar-card-flex{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.stok-card{
+  border: 1px solid #000;
+  height: fit-content;
+  padding: 10px 20px;
+}
+
+
+
+
+
+
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -345,6 +368,14 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   flex-direction: column;
   width: 100px;
+  height: 150px;
+  position: relative;
+}
+
+.resim-sil-btn{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .degisiklikleri-kaydet-btn{
@@ -440,4 +471,12 @@ outline: none;
   height: 50px;
   margin-bottom: 20px;
   text-align: center;
+}
+
+
+.stok-ekle-btn{
+  background-color: #000;
+  color: #fff;
+  padding: 10px 0px;
+  border-radius: 10px;
 }

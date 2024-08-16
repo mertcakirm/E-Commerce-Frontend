@@ -6,6 +6,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Footer from "./footer";
 import { Helmet } from "react-helmet";
+import logo from '../assets/mob_logo.png';
+
 
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -416,10 +418,11 @@ const Anasayfa = () => {
       </div>
 
       <div className="container logo-container">
-        <div className="row justify-content-center logo">
-          <a className="logo-a" href="/">
+        <div className="row justify-content-center">
+          <a style={{display:'flex',justifyContent:'center'}} className="logo-a" href="/">
             <img
-              src="https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2020/06/896/500/TESLA-LOGO.jpg?ve=1&tl=1"
+              src={logo}
+              className="img-fluid"
               alt=""
             />
           </a>

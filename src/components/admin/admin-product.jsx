@@ -15,6 +15,11 @@ const Admin_product = () => {
   const [productDescription, setProductDescription] = useState('');
   const [productStock, setProductStock] = useState('');
   const [productPrice, setProductPrice] = useState('');
+  const [purchasePrice, setPurchasePrice] = useState('');
+  const [productType, setProductType] = useState('');
+  const [sizes, setSizes] = useState([]);
+  const [sizeInput, setSizeInput] = useState('');
+  const [quantityInput, setQuantityInput] = useState('');
   const productsPerPage = 10;
   const token = localStorage.getItem('token');
 
@@ -99,73 +104,139 @@ const Admin_product = () => {
   };
 
   const applyDiscount = () => {
-    fetch(`/product/update/discount/${selectedProductCode}`, {
+    const discountRate = parseInt(discountValue);
+    if (isNaN(discountRate) || discountRate < 0) {
+      console.error('Invalid discount value');
+      return;
+    }
+  
+    const discountDTO = {
+      discount: discountRate,
+    };
+  
+    console.log('Sending discountDTO:', discountDTO);
+  
+    fetch(`http://213.142.159.49:8083/api/admin/product/update/discount/${selectedProductCode}`, {
       method: 'PUT',
       headers: {
-        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ discountRate: parseFloat(discountValue) }),
+      body: JSON.stringify(discountDTO),
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          return response.json().then(err => {
+            console.error('Server Error:', err);
+            throw new Error('Network response was not ok');
+          });
         }
         return response.json();
       })
       .then(data => {
-        // Update the product list with the new discount rate
+        console.log('Discount applied successfully:', data);
         setProducts(products.map(product =>
-          product.productCode === selectedProductCode ? { ...product, discountRate: data.discountRate } : product
+          product.productCode === selectedProductCode
+            ? { ...product, discountRate: discountRate }
+            : product
         ));
-        // Clear the discount value and close the popup
         setDiscountValue('');
         setSelectedProductCode(null);
-        togglePopup();
       })
       .catch(error => console.error('Error applying discount:', error));
+      window.setTimeout(()=>window.location.reload(),1000)
   };
+  
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('productName', productName);
-    formData.append('productCategory', productCategory);
-    formData.append('productDescription', productDescription);
-    formData.append('productStock', productStock);
-    formData.append('productPrice', productPrice);
 
-    images.forEach(image => formData.append('images', image));
 
-    fetch('http://213.142.159.49:8083/product/add', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json',
 
-      },
-      body: formData,
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+
+  
+  
+  
+  
+
+
+  const handleSubmit = () => {
+  
+    const productDTO = new FormData();
+    productDTO.append('productName', productName);
+    productDTO.append('description', productDescription);
+    productDTO.append('categoryString', productCategory);
+    productDTO.append('type', productType);
+    productDTO.append('sizes', JSON.stringify(sizes));
+    productDTO.append('priceWithOutDiscount', productPrice);
+    productDTO.append('purchasePrice',purchasePrice)
+  
+    const files = new FormData();
+    images.forEach((image) => {
+      files.append('productImage', image);
+    });
+
+    const combinedData = new FormData();
+    combinedData.append('productDTO', productDTO);
+    combinedData.append('files',files);
+  
+    fetch('http://213.142.159.49:8083/api/admin/add/product', {
+        body: combinedData,
+        method:'POST',
+      }, {
+        withCredentials: true,
+      })
+      .then((response) => console.log(response.data))
+      .catch((error) => console.error(error));
+  };
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const addStock = (event) => {
+    event.preventDefault(); 
+  
+    if (sizeInput && quantityInput) {
+      const updatedSizes = sizes.slice(); 
+      let found = false;
+  
+      // Update stock if the size already exists
+      for (let i = 0; i < updatedSizes.length; i++) {
+        if (updatedSizes[i].size === sizeInput) {
+          updatedSizes[i].stock += parseInt(quantityInput, 10);
+          found = true;
+          break;
         }
-        return response.json();
-      })
-      .then(data => {
-        // Optionally, update products with the newly added product
-        setProducts(prevProducts => [...prevProducts, data]);
-        // Close the popup and clear form fields
-        togglePopup();
-        setProductName('');
-        setProductCategory('');
-        setProductDescription('');
-        setProductStock('');
-        setProductPrice('');
-        setImages([]);
-      })
-      .catch(error => console.error('Error adding product:', error));
+      }
+  
+      // If size not found, add it to the list
+      if (!found) {
+        updatedSizes.push({ size: sizeInput, stock: parseInt(quantityInput, 10) });
+      }
+  
+      // Calculate total stock (if needed, but do not add to the list)
+      const totalStock = updatedSizes.reduce((total, item) => total + item.stock, 0);
+  
+      console.log('Total Stock:', sizes); // Optional: log the total stock
+  
+      setSizes(updatedSizes); // Immediately update the state with the new sizes array
+      setSizeInput(''); // Clear the input field for size
+      setQuantityInput(''); // Clear the input field for quantity
+    }
   };
+  
+  
+
+
 
   return (
     <div>
@@ -207,7 +278,7 @@ const Admin_product = () => {
                         {product.productImage.length > 0 ? (
                           <img className="img-fluid urunler-listesi-img" src={`http://213.142.159.49:8083/api/files/image/${product.productImage[0]?.url}`} alt="" />
                         ) : (
-                          <p>No image</p>
+                          <p>Ürün Görseli Yok</p>
                         )}
                       </td>
                       <td>{product.productName}</td>
@@ -231,7 +302,7 @@ const Admin_product = () => {
                       </td>
                       <td>
                         <div className="user-duzenle-row">
-                          <a href="/admin-urunler-guncelle" className="user-edit-btn">
+                          <a href={`/admin-urunler-guncelle/${product.productCode}`}  className="user-edit-btn">
                           <svg fill="white" width="30" height="30" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                               <path d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.75c0-.414.336-.75.75-.75s.75.336.75.75v9.25c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm-2.011 6.526c-1.045 3.003-1.238 3.45-1.238 3.84 0 .441.385.626.627.626.272 0 1.108-.301 3.829-1.249zm.888-.889 3.22 3.22 8.408-8.4c.163-.163.245-.377.245-.592 0-.213-.082-.427-.245-.591-.58-.578-1.458-1.457-2.039-2.036-.163-.163-.377-.245-.591-.245-.213 0-.428.082-.592.245z" fillRule="nonzero" />
                             </svg>
@@ -244,7 +315,7 @@ const Admin_product = () => {
                         </div>
                         <div className='indirim-uygula-flex'>
                           <input
-                            type="text"
+                            type="number"
                             maxLength={2}
                             value={selectedProductCode === product.productCode ? discountValue : ''}
                             onChange={(e) => setDiscountValue(e.target.value)}
@@ -289,11 +360,14 @@ const Admin_product = () => {
         <div className="popup-overlay">
           <div className="popup-content">
             <div className="popup-header">
-              <h2>Ürün Ekle</h2>
+              <div></div>
               <button className="popup-close-btn" onClick={togglePopup}>&times;</button>
             </div>
             <form className="popup-form" onSubmit={handleSubmit}>
-              <div>
+              <div className='row' style={{rowGap:'10px'}}>
+              <div className='col-6'>
+              <h4>Resim Yönetim Paneli</h4>
+
                 <input type="file" multiple onChange={handleImageUpload} />
                 <div className="preview-flex">
                   {images.map((image, index) => (
@@ -304,43 +378,93 @@ const Admin_product = () => {
                   ))}
                 </div>
               </div>
-
+              <div className="col-6">
+                <h4>Stok Yönetim Paneli</h4>
+                <div className="row mt-3">
+                  <div className="col-3 row">
+                    <div style={{padding:'0'}} className="col-6 stok-giris-inp">
+                      <input
+                        type="text"
+                        placeholder="XL"
+                        value={sizeInput}
+                        onChange={(e) => setSizeInput(e.target.value)}
+                      />
+                    </div>
+                    <div className="col-6 stok-giris-inp">
+                      <input
+                        type="number"
+                        placeholder="0"
+                        value={quantityInput}
+                        onChange={(e) => setQuantityInput(e.target.value)}
+                      />
+                    </div>
+                    <button className="mt-3 col-12" onClick={addStock}>Stok Ekle</button>
+                  </div>
+                  <div className="col-9 stoklar-card-flex">
+                    {sizes.map((item, index) => (
+                      <div key={index} className="stok-card">
+                        {item.size}: {item.stock}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <h4>Ürün Yönetim Paneli</h4>
+              
               <input
                 type="text"
                 placeholder="Ürün Adı"
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
-                required
+                
+                className='col-12'
               />
               <input
                 type="text"
                 placeholder="Ürün Kategorisi"
                 value={productCategory}
                 onChange={(e) => setProductCategory(e.target.value)}
-                required
+                
+                className='col-12'
+
+              />
+              <input
+                type="text"
+                placeholder="Ürün Türü"
+                value={productType}
+                onChange={(e) => setProductType(e.target.value)}
+                
+                className='col-12'
+
               />
               <input
                 type="text"
                 placeholder="Ürün Açıklaması"
                 value={productDescription}
                 onChange={(e) => setProductDescription(e.target.value)}
-                required
+                
+                className='col-12'
+
               />
               <input
-                type="text"
-                placeholder="Stok Sayısı"
-                value={productStock}
-                onChange={(e) => setProductStock(e.target.value)}
-                required
+                type="number"
+                placeholder="Ürün Alış Fiyatı"
+                value={purchasePrice}
+                onChange={(e) => setPurchasePrice(e.target.value)}
+                className='col-12'
+
               />
               <input
                 type="number"
                 placeholder="Ürün Fiyatı"
                 value={productPrice}
                 onChange={(e) => setProductPrice(e.target.value)}
-                required
+                
+                className='col-12'
+
               />
-              <button type="submit">Kaydet</button>
+              <button onClick={handleSubmit} type="submit">Kaydet</button>
+              </div>
             </form>
           </div>
         </div>

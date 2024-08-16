@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './admin-css/admin-sidebar.css';
-
+import logo from '../../assets/mob_logo.png';
 const Admin_sidebar=()=> {
     return (
       <div>
         <div className="admin-sidebar-parent">
           <div className='admin-sidebar-logo-part'>
-            LOGO
+            <img src={logo} className='img-fluid logo' alt="" />
           </div>
           <div className='admin-sidebar-links'>
             <a className='admin-sidebar-link' href="/admin-genel">Admin Panel</a>

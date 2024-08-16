@@ -234,6 +234,17 @@
   text-decoration: none;
 }
 
+.logo2{
+  width: 20%;
+}
+
+.logo3{
+  width: 40%;
+}
+
+.top-canvas-logo{
+  width: 10%;
+}
 
 .offcanvas-body-top{
   display: flex;
@@ -527,10 +538,21 @@
   .search-container .form-control {
     width: 200px;
   }
+
+  .mobile-navbar-name>img{
+    width: 10%;
+  }
+
+  .top-canvas-logo{
+    width: 30%;
+  }
 }
 
 @media only screen and (max-width:500px) {
   .offcanvas.offcanvas-end {
     width: 320px;
+  }
+  .mobile-navbar-name>img{
+    width: 20%;
   }
 }

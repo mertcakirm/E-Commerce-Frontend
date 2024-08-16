@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/navbar.css";
+import logo from '../assets/mob_logo.png';
+
 
 const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,26 +31,29 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const button = document.getElementById("nav-col-mid");
-
-      if (button) {
+      const mobilebutton = document.getElementById("mobile-navbar-name-scroll");
+      
+      // Her iki butonun da tanımlı olup olmadığını kontrol edin
+      if (button && mobilebutton) {
         if (window.scrollY > 500) {
           button.classList.add("hidden-site-name");
+          mobilebutton.classList.add("hidden-site-name");
         } else {
           button.classList.remove("hidden-site-name");
+          mobilebutton.classList.remove("hidden-site-name");
         }
       }
     };
-
+  
     window.addEventListener("scroll", handleScroll);
-
-    window.addEventListener("scroll", handleScroll);
-
     window.addEventListener("resize", handleResize);
+  
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
 
   const handleMobileSidebarOpen = () => {
     setMobileSidebarOpen(true);
@@ -77,7 +82,9 @@ const Navbar = () => {
     <div>
       {/* Desktop Sidebar */}
 
-      <a href="/" className="mobile-navbar-name">Mob Wear</a>
+      <a href="/" id="mobile-navbar-name-scroll" className="mobile-navbar-name">
+        <img src={logo} className="logo3 img-fluid" alt="" />
+      </a>
 
       <div
         className={`sidebar ${sidebarOpen ? "sidebar-open" : ""} ${
@@ -169,7 +176,9 @@ const Navbar = () => {
               </button>
             </div>
             <div className="col-4" id="nav-col-mid">
-              <a href="/">Mob Wear</a>
+              <a href="/">
+                <img src={logo} className="logo2 img-fluid" alt="" />
+              </a>
             </div>
 
             <div
@@ -898,7 +907,10 @@ const Navbar = () => {
         id="offcanvasTop"
         aria-labelledby="offcanvasTopLabel2"
       >
-        <div className="offcanvas-header2">Mob Wear</div>
+        <div className="offcanvas-header2">
+          <img src={logo} className="img-fluid top-canvas-logo" alt="" />
+
+        </div>
 
         <div className="offcanvas-body-top">
           <div className="search-container">

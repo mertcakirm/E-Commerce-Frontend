@@ -61,7 +61,7 @@ function App() {
         
         {/* Admin Routes */}
         <Route path="/admin-urunler" element={<ProtectedRoute element={<Admin_product />} />} />
-        <Route path="/admin-urunler-guncelle" element={<ProtectedRoute element={<Admin_product_detail />} />} />
+        <Route path="/admin-urunler-guncelle/:id" element={<ProtectedRoute element={<Admin_product_detail />} />} />
         <Route path="/admin-kategori-guncelle" element={<ProtectedRoute element={<Admin_kategori_detail />} />} />
         <Route path="/admin-genel" element={<ProtectedRoute element={<Admin_anasayfa />} />} />
         <Route path="/admin-kullanicilar" element={<ProtectedRoute element={<Admin_users />} />} />

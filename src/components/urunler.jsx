@@ -4,20 +4,22 @@ import { Helmet } from "react-helmet";
 import Footer from "./footer";
 import { useLocation } from 'react-router-dom';
 import "./css/urunler.css";
+import logo from '../assets/mob_logo.png';
+
 
 const Urunler = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [colClass, setColClass] = useState("col-lg-4");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const location = useLocation(); // URL'yi almak için kullanılır.
-  const [selectedSize, setSelectedSize] = useState(null);
+  const location = useLocation();
+  const [selectedSize, setSelectedSize] = useState([]);
 
   const handleSizeClick = (productCode, size) => {
-    setSelectedSizes(prevSelectedSizes => ({
+    setSelectedSize((prevSelectedSizes) => ({
       ...prevSelectedSizes,
-      [productCode]: prevSelectedSizes[productCode] === size ? null : size
+      [productCode]: prevSelectedSizes[productCode] === size ? null : size,
     }));
-};
+  };
 
   useEffect(() => {
     const fetchAndFilterProducts = async () => {
@@ -276,7 +278,7 @@ const Urunler = () => {
     <div className={colClass} key={product.productCode}>
       <div className="urun-card">
         <div>
-          <a href="/urunler-detay">
+          <a href={`/urunler-detay/${product.productCode}`}>
             {/* Display the first image from productImage */}
             <img
               className="img-fluid w-100 urun-img2"
@@ -324,16 +326,16 @@ const Urunler = () => {
           <div className="urunler-card-content-left">
             {product.sizes.map((sizeObj) => (
               <button
-                className={`urunler-card-content-left-size-btn ${selectedSize === sizeObj.size ? 'selected-size' : ''}`}
+                className={`urunler-card-content-left-size-btn ${selectedSize[product.productCode] === sizeObj.size ? 'selected-size' : ''}`}
                 key={sizeObj.size}
-                onClick={() => handleSizeClick(sizeObj.size)}
+                onClick={() => handleSizeClick(product.productCode, sizeObj.size)}
               >
                 {sizeObj.size}
               </button>
             ))}
           </div>
           {product.discountRate > 0 && (
-                  <div className="discount-banner">
+                  <div className="urunler-card-content-top">
                     <p>{product.discountRate}% İndirim</p>
                   </div>
                 )}
@@ -351,16 +353,16 @@ const Urunler = () => {
       </div>
 
       <div className="container logo-container">
-        <div className="row justify-content-center logo">
-          <a className="logo-a" href="/">
+        <div className="row justify-content-center">
+          <a style={{display:'flex',justifyContent:'center'}} className="logo-a" href="/">
             <img
-              src="https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2020/06/896/500/TESLA-LOGO.jpg?ve=1&tl=1"
+              src={logo}
+              className="img-fluid"
               alt=""
             />
           </a>
         </div>
       </div>
-
       <Footer />
     </div>
   );
