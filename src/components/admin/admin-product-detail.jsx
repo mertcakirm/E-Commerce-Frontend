@@ -71,7 +71,6 @@ const Admin_product_detail = () => {
         fetch(`http://213.142.159.49:8083/api/admin/add/photo/${productCodeFromUrl}`, {
             method: 'POST',
             body: files,
-            // No need to set Content-Type header manually
         })
         .then(response => response.json())
         .then(data => {
@@ -90,19 +89,71 @@ const Admin_product_detail = () => {
         window.setTimeout(()=>window.location.reload(),1000)
         }
 
+
+
+
+        // const handleUpload = () => {
+        //     if (selectedFiles.length === 0) {
+        //         alert('Lütfen yüklemek için bir dosya seçin.');
+        //         return;
+        //     }
+        
+        //     const filePromises = Array.from(selectedFiles).map(file => {
+        //         return new Promise((resolve, reject) => {
+        //             const reader = new FileReader();
+        //             reader.onloadend = () => {
+        //                 const base64String = reader.result.split(',')[1]; // Extract base64 part
+        //                 resolve({ fileName: file.name, base64String });
+        //             };
+        //             reader.onerror = reject;
+        //             reader.readAsDataURL(file);
+        //         });
+        //     });
+        
+        //     Promise.all(filePromises)
+        //         .then(filesBase64 => {
+        //             const productCodeFromUrl = location.pathname.split('/').pop();
+        //             const payload = filesBase64.map(({ fileName, base64String }) => ({
+        //                 fileName,
+        //                 base64String
+        //             }));
+        
+        //             return fetch(`http://213.142.159.49:8083/api/admin/add/photo/${productCodeFromUrl}`, {
+        //                 method: 'POST',
+        //                 headers: {
+        //                     'Content-Type': 'application/json'
+        //                 },
+        //                 body: JSON.stringify(payload),
+        //             });
+        //         })
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             console.log('Dosyalar yüklendi:', data);
+        //             return fetch(`http://213.142.159.49:8083/api/admin/product/get/${productCodeFromUrl}`);
+        //         })
+        //         .then(response => response.json())
+        //         .then(updatedProduct => {
+        //             setProduct(updatedProduct);
+        //             // Reload the page after the product is successfully updated
+        //             window.location.reload();
+        //         })
+        //         .catch(error => {
+        //             console.error('Dosyalar yüklenirken bir hata oluştu:', error);
+        //         });
+        // };
+
     const handleSaveChanges = () => {
         const updatedProduct = {
             productCode: product.productCode,
             productName: productName,
             description: description,
-            categoryString:categoryName,
-            type:type,
             priceWithOutDiscount: priceWithOutDiscount,
         };
         const jsonitem=JSON.stringify(updatedProduct)
+        const urlpop = location.pathname.split('/').pop();
         
         
-        fetch(`http://213.142.159.49:8083/api/admin/product/update`, {
+        fetch(`http://213.142.159.49:8083/api/admin/product/update/${urlpop}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -114,13 +165,15 @@ const Admin_product_detail = () => {
         .then(response => response)
         .then(data => {
             console.log('Product updated:', data);
-            alert('Ürün başarıyla güncellendi.');
         })
         .catch(error => {
             console.error('Ürün güncellenirken bir hata oluştu:', error);
             alert('Ürün güncellenirken bir hata oluştu.');
         });
+        window.setTimeout(()=>window.location.reload(),1000)
+
     };
+
 
     if (!product) return <div>Loading...</div>;
 
@@ -150,7 +203,7 @@ const Admin_product_detail = () => {
                                 <div className="resim-preview-card" key={image.id}>
                                     <img 
                                         className='img-fluid w-100' 
-                                        src={`http://213.142.159.49:8083/api/files/image/${image.url}`} 
+                                        src={`data:http://213.142.159.49:8083/api/files/image/${image.url};base64,${image.bytes}`} 
                                         alt={`Product Image ${index + 1}`} 
                                     />
                                     <button 
@@ -174,26 +227,7 @@ const Admin_product_detail = () => {
                                         onChange={(e) => setProductName(e.target.value)}
                                     />
                                 </div>
-                                <div className="row mt-3">
-                                    <label htmlFor="urun-detay-edit-kategori" className="col-4">Ürün Kategorisi</label>
-                                    <input 
-                                        type="text" 
-                                        id='urun-detay-edit-kategori' 
-                                        className='col-8' 
-                                        value={categoryName}
-                                        onChange={(e) => setCategoryName(e.target.value)}
-                                    />
-                                </div>
-                                <div className="row mt-3">
-                                    <label htmlFor="urun-detay-edit-kategori" className="col-4">Ürün Türü</label>
-                                    <input 
-                                        type="text" 
-                                        id='urun-detay-edit-tur' 
-                                        className='col-8' 
-                                        value={type}
-                                        onChange={(e) => setType(e.target.value)}
-                                    />
-                                </div>
+
                                 <div className="row mt-3">
                                     <label htmlFor="urun-detay-edit-content" className="col-4">Ürün Açıklaması</label>
                                     <input 
@@ -221,31 +255,7 @@ const Admin_product_detail = () => {
                                     Ürün Bilgilerini Kaydet
                                 </button>
                             </div>
-                            <div className="col-lg-6" style={{padding:'2% 5%'}}>
-                                <h4>Stok Yönetim Paneli</h4>
-                                <div className="row mt-3">
-                                <div className="col-3 row">
-                                    <div style={{padding:'0'}} className="col-6 stok-giris-inp">
-                                    <input
-                                        type="text"
-                                        placeholder="XL"
-                                    />
-                                    </div>
-                                    <div className="col-6 stok-giris-inp">
-                                    <input
-                                        type="number"
-                                        placeholder="0"
-                                    />
-                                    </div>
-                                    <button className="mt-3 col-12 stok-ekle-btn" >Stok Ekle</button>
-                                </div>
-                                <div className="col-9 stoklar-card-flex" style={{paddingLeft:'35px'}}>
-                                    <div className="stok-card">
-                                        L : 20
-                                    </div>
-                                </div>
-                                </div>
-                            </div>
+
                         </div>
                     </div> 
                 </div>

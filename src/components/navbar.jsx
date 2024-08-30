@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/navbar.css";
 import logo from '../assets/mob_logo.png';
+import { data } from "jquery";
 
 
 const Navbar = () => {
@@ -10,6 +11,8 @@ const Navbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(null);
   const [productCount, setProductCount] = useState(1);
+  const [favoriteproduct, setFavoriteproduct] = useState([]);
+
 
   const handleSidebarMouseEnter = () => {
     setSidebarOpen(true);
@@ -33,9 +36,8 @@ const Navbar = () => {
       const button = document.getElementById("nav-col-mid");
       const mobilebutton = document.getElementById("mobile-navbar-name-scroll");
       
-      // Her iki butonun da tanımlı olup olmadığını kontrol edin
       if (button && mobilebutton) {
-        if (window.scrollY > 500) {
+        if (window.scrollY > 300) {
           button.classList.add("hidden-site-name");
           mobilebutton.classList.add("hidden-site-name");
         } else {
@@ -52,7 +54,11 @@ const Navbar = () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+
+    
+  },
+  
+  []);
   
 
   const handleMobileSidebarOpen = () => {
@@ -77,6 +83,38 @@ const Navbar = () => {
       setProductCount(productCount - 1);
     }
   };
+
+  useEffect(() => {
+    const fetchFavoriteData = async () => {
+      const token = localStorage.getItem('token');
+
+      try {
+        const response = await fetch('http://213.142.159.49:8083/api/favorite/get', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          const favoritedata = await response.json();
+          setFavoriteproduct(favoritedata);
+        } else {
+          throw new Error('Network response was not ok');
+        }
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
+    };
+
+    fetchFavoriteData();
+  }, []);
+
+
+
+
+  
 
   return (
     <div>
@@ -658,243 +696,68 @@ const Navbar = () => {
               tabIndex="0"
             >
               <div className="favorilerim-canvas-flex">
-                <a href="#" className="favorilerim-canvas-card row">
-                  <div className="col-3 favorilerim-canvas-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-8 favorilerim-canvas-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                    <div className="favori-card-add-flex">
-                      <div className="updown">
-                        <button onClick={decrementProductCount}>-</button>
-                        <span>{productCount}</span>
-                        <button onClick={incrementProductCount}>+</button>
-                      </div>
-                      <select name="favori-size" id="favori-size">
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                      </select>
-                      <button className="favori-card-sepete-ekle">
-                        Sepete Ekle
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-1 favorilerim-canvas-col-3">
-                    <svg
-                      width="24"
-                      height="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                    >
-                      <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-                    </svg>
-                  </div>
-                </a>
-                <a href="#" className="favorilerim-canvas-card row">
-                  <div className="col-3 favorilerim-canvas-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-8 favorilerim-canvas-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                    <div className="favori-card-add-flex">
-                      <div className="updown">
-                        <button onClick={decrementProductCount}>-</button>
-                        <span>{productCount}</span>
-                        <button onClick={incrementProductCount}>+</button>
-                      </div>
-                      <select name="favori-size" id="favori-size">
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                      </select>
-                      <button className="favori-card-sepete-ekle">
-                        Sepete Ekle
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-1 favorilerim-canvas-col-3">
-                    <svg
-                      width="24"
-                      height="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                    >
-                      <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-                    </svg>
-                  </div>
-                </a>
-                <a href="#" className="favorilerim-canvas-card row">
-                  <div className="col-3 favorilerim-canvas-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-8 favorilerim-canvas-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                    <div className="favori-card-add-flex">
-                      <div className="updown">
-                        <button onClick={decrementProductCount}>-</button>
-                        <span>{productCount}</span>
-                        <button onClick={incrementProductCount}>+</button>
-                      </div>
-                      <select name="favori-size" id="favori-size">
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                      </select>
-                      <button className="favori-card-sepete-ekle">
-                        Sepete Ekle
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-1 favorilerim-canvas-col-3">
-                    <svg
-                      width="24"
-                      height="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                    >
-                      <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-                    </svg>
-                  </div>
-                </a>
 
-                <a href="#" className="favorilerim-canvas-card row">
-                  <div className="col-3 favorilerim-canvas-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-8 favorilerim-canvas-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                    <div className="favori-card-add-flex">
-                      <div className="updown">
-                        <button onClick={decrementProductCount}>-</button>
-                        <span>{productCount}</span>
-                        <button onClick={incrementProductCount}>+</button>
-                      </div>
-                      <select name="favori-size" id="favori-size">
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                      </select>
-                      <button className="favori-card-sepete-ekle">
-                        Sepete Ekle
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-1 favorilerim-canvas-col-3">
-                    <svg
-                      width="24"
-                      height="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                    >
-                      <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-                    </svg>
-                  </div>
-                </a>
+              <div>
+      {favoriteproduct && favoriteproduct.length > 0 ? (
+        favoriteproduct.map((product, index) => (
+          <a href="#" className="favorilerim-canvas-card row" key={index}>
+            <div className="col-3 favorilerim-canvas-col-1">
+              <img
+                src={product.image || "https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"}
+                className="img-fluid w-100 sepet-resim"
+                alt={product.productName || "Ürün resmi"}
+              />
+            </div>
+            <div className="col-8 favorilerim-canvas-col-2">
+              <p className="sepet-card-col-2-p-1">
+                {product.productName}
+              </p>
+              <p className="sepet-card-col-2-urun-kodu">
+                Ürün Kodu : {product.productCode}
+              </p>
+              <div className="sepet-card-col-2-fiyatlar-flex">
+                <p className="sepet-card-col-2-p1-fiyat">{product.priceWithDiscount}₺</p>
+                <p className="sepet-card-col-2-p2-fiyat">{product.priceWithOutDiscount}₺</p>
+              </div>
+              <div className="favori-card-add-flex">
+                <div className="updown">
+                  <button onClick={() => decrementProductCount(index)}>-</button>
+                  <span>{productCount[index] || 1}</span>
+                  <button onClick={() => incrementProductCount(index)}>+</button>
+                </div>
+                <select name="favori-size" id="favori-size">
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                </select>
+                <button className="favori-card-sepete-ekle">
+                  Sepete Ekle
+                </button>
+              </div>
+            </div>
+            <div className="col-1 favorilerim-canvas-col-3">
+              <svg
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+                fillRule="evenodd"
+                clipRule="evenodd"
+              >
+                <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
+              </svg>
+            </div>
+          </a>
+        ))
+      ) : (
+        <div style={{padding:'2%'}}>
+          <h4>Favori listeniz boş</h4>
+        </div>
+      )}
+    </div>
 
-                <a href="#" className="favorilerim-canvas-card row">
-                  <div className="col-3 favorilerim-canvas-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-8 favorilerim-canvas-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                    <div className="favori-card-add-flex">
-                      <div className="updown">
-                        <button onClick={decrementProductCount}>-</button>
-                        <span>{productCount}</span>
-                        <button onClick={incrementProductCount}>+</button>
-                      </div>
-                      <select name="favori-size" id="favori-size">
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                      </select>
-                      <button className="favori-card-sepete-ekle">
-                        Sepete Ekle
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-1 favorilerim-canvas-col-3">
-                    <svg
-                      width="24"
-                      height="24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                    >
-                      <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-                    </svg>
-                  </div>
-                </a>
+
+
+
               </div>
             </div>
           </div>

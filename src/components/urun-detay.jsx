@@ -60,18 +60,18 @@ const PrevArrow = (props) => {
 
 
 
+
+
 const Urun_detay = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [product, setProduct] = useState(null); 
   const commentsPerPage = 5;
 
-
   const urlpop = location.pathname.split('/').pop();
   const productUrl = `http://213.142.159.49:8083/api/admin/product/get/${urlpop}`;
 
   useEffect(() => {
-    // Bileşen yüklendiğinde veri çek
     fetch(productUrl)
       .then(response => {
         if (!response.ok) {
@@ -87,9 +87,13 @@ const Urun_detay = () => {
       });
   }, [productUrl]);
 
-  const comments = product?.comments || [];  // Yorumlar varsa çek
-  const images = product?.images || [];  // Görseller varsa çek
-
+  const comments = product?.productComment || []; 
+  const sizes = product?.sizes || [];
+  const images = product?.productImage || [];  
+  if (!images || images.length === 0) {
+    return <p>Fotoğraf Yok!</p>;
+  }
+  
 
 
   const indexOfLastComment = currentPage * commentsPerPage;
@@ -119,6 +123,41 @@ const Urun_detay = () => {
       (prevIndex) => (prevIndex - 1 + images.length) % images.length
     );
   };
+
+  const hasDiscount = product.discountRate > 0;
+
+  const handleLikeClick = async (productCode) => {
+    try {
+      const token = localStorage.getItem("token");
+      const favoriteData = JSON.stringify({ productCode: productCode });
+      
+      const response = await fetch("http://213.142.159.49:8083/api/favorite/add", {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+          'Content-Type': 'application/json',
+        },
+        body: favoriteData, 
+      });
+  
+      if (!response.ok) {
+        throw new Error("Favori eklenemedi");
+      }
+      
+      console.log("Ürün favorilere eklendi");
+      console.log(response);
+  
+      const likeBtnColor = document.getElementById("like-btn-color");
+      if (likeBtnColor) {
+        likeBtnColor.style.fill = "red";
+      }
+    } catch (error) {
+      console.error("Favorilere eklenirken bir hata oluştu:", error);
+    }
+    window.setTimeout(()=>window.location.reload(),1000)
+
+  };
+
 
   const settings = {
     dots: false,
@@ -186,58 +225,58 @@ const Urun_detay = () => {
 
       <div className="container-fluid urun-detay-container">
         <div className="row justify-content-center">
+        {product && (
           <div className="col-11">
             <p>Anasayfa - Ürünler - {product.productName}</p>
           </div>
+        )}
         </div>
 
         <div className="row">
-          <div className="col-lg-6 urun-detay-col-sol">
-            <div className="carousel-container">
-              <div className="active-image">
-                <img
-                  src={images[activeIndex]}
-                  alt={`Slide ${activeIndex}`}
-                  className="img-fluid w-100"
-                />
-              </div>
-              <button className="prev-button" onClick={handlePrevClick}>
-                <svg
-                  width="24"
-                  height="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                >
-                  <path d="M20 .755l-14.374 11.245 14.374 11.219-.619.781-15.381-12 15.391-12 .609.755z" />
-                </svg>
-              </button>
-              <button className="next-button" onClick={handleNextClick}>
-                <svg
-                  width="24"
-                  height="24"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fillRule="evenodd"
-                  clipRule="evenodd"
-                >
-                  <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-                </svg>
-              </button>
-              <div className="thumbnails">
-                {images.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`Thumbnail ${index}`}
-                    className={`thumbnail ${
-                      index === activeIndex ? "active" : ""
-                    }`}
-                    onClick={() => handleThumbnailClick(index)}
-                  />
-                ))}
-              </div>
-            </div>
+      <div className="col-lg-6 urun-detay-col-sol">
+        <div className="carousel-container">
+          <div className="active-image">
+            <img
+              src={`http://213.142.159.49:8083/api/files/image/${images[activeIndex].url}`}
+              alt={`Slide ${activeIndex}`}
+              className="img-fluid w-100 active-img-detay"
+            />
           </div>
+          <button className="prev-button" onClick={handlePrevClick}>
+            <svg
+              width="24"
+              height="24"
+              xmlns="http://www.w3.org/2000/svg"
+              fillRule="evenodd"
+              clipRule="evenodd"
+            >
+              <path d="M20 .755l-14.374 11.245 14.374 11.219-.619.781-15.381-12 15.391-12 .609.755z" />
+            </svg>
+          </button>
+          <button className="next-button" onClick={handleNextClick}>
+            <svg
+              width="24"
+              height="24"
+              xmlns="http://www.w3.org/2000/svg"
+              fillRule="evenodd"
+              clipRule="evenodd"
+            >
+              <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
+            </svg>
+          </button>
+          <div className="thumbnails">
+            {images.map((image, index) => (
+              <img
+                key={index}
+                src={`http://213.142.159.49:8083/api/files/image/${image.url}`}
+                alt={`Thumbnail ${index}`}
+                className={`thumbnail ${index === activeIndex ? 'active' : ''}`}
+                onClick={() => handleThumbnailClick(index)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
           <div className="col-lg-6 urun-detay-col-sag">
           {product && (
 
@@ -246,7 +285,7 @@ const Urun_detay = () => {
                 {product.productName}
               </p>
               <p className="urun-code">{product.productCode}</p>
-              <div className="urun-goruntuleme">
+              {/* <div className="urun-goruntuleme">
                 <svg
                   width="40"
                   height="30"
@@ -263,29 +302,36 @@ const Urun_detay = () => {
                   />
                 </svg>
                 <span>Bu ürünü 70 kişi görüntüledi</span>
-              </div>
+              </div> */}
               <div className="urun-goruntuleme">
               <svg xmlns="http://www.w3.org/2000/svg" width="45" height="30" viewBox="0 0 24 24"><path d="M13.299 3.74c-.207-.206-.299-.461-.299-.711 0-.524.407-1.029 1.02-1.029.262 0 .522.1.721.298l3.783 3.783c-.771.117-1.5.363-2.158.726l-3.067-3.067zm-.299 8.76c0-1.29.381-2.489 1.028-3.5h-14.028v2h.643c.535 0 1.021.304 1.256.784l4.101 10.216h12l1.211-3.015c-3.455-.152-6.211-2.993-6.211-6.485zm-2.299-8.76c.207-.206.299-.461.299-.711 0-.524-.407-1.029-1.02-1.029-.261 0-.522.1-.72.298l-4.701 4.702h2.883l3.259-3.26zm8.799 4.26c-2.486 0-4.5 2.015-4.5 4.5s2.014 4.5 4.5 4.5c2.484 0 4.5-2.015 4.5-4.5s-2.016-4.5-4.5-4.5zm-.469 6.484l-1.688-1.637.695-.697.992.94 2.115-2.169.697.696-2.811 2.867z"/></svg>
                 <span className="mt-1">Bu ürün {product.countInBasket} kişinin sepetinde</span>
               </div>
               <div className="urun-detay-fiyat-flex">
                 <p className="p1-fiyat">{product.priceWithDiscount}₺</p>
-                <p className="p2-fiyat">{product.priceWithOutDiscount}₺</p>
-                <div className="urun-indirim">{product.discountRate}% İNDİRİM</div>
+
+                {hasDiscount && (
+                  <>
+                    <p className="p2-fiyat">{product.priceWithOutDiscount}₺</p>
+
+                    <div className="urun-indirim">{product.discountRate}% İNDİRİM</div>
+                  </>
+                )}
               </div>
               <div className="beden">
                 <p>BEDEN:</p>
                 <div className="beden-cards">
-                  <button>S</button>
-                  <button>M</button>
-                  <button>L</button>
-                  <button>XL</button>
-                </div>
+                {sizes.map((size,index)=>
+
+                  <button>{size.size}</button>
+                )}
+
+                  </div>
               </div>
 
               <div className="sepet-flex">
                 <button className="sepete-ekle-detay-btn">Sepete Ekle</button>
-                <button className="like-detay-btn">
+                <button className="like-detay-btn" onClick={() => handleLikeClick(product.productCode)}>
                   <svg
                     width="30"
                     height="30"
@@ -304,7 +350,7 @@ const Urun_detay = () => {
                 </button>
               </div>
 
-              <div className="tahmini-teslimat">
+              {/* <div className="tahmini-teslimat">
                 <svg
                   width="24"
                   height="24"
@@ -316,7 +362,7 @@ const Urun_detay = () => {
                 </svg>
                 <span>Tahmini Teslimat</span>
                 <span className="teslimat-span2">16 Temmuz</span>
-              </div>
+              </div> */}
               <div className="urun-detay-accordion">
                 <div
                   className="accordion accordion-flush"
@@ -384,7 +430,7 @@ const Urun_detay = () => {
                           <button className="tumunu-gor-btn">Paylaş</button>
                         </div>
                         <div className="urunler-yorumlar">
-                          {currentComments.map((comment, index) => (
+                          {comments.map((comment, index) => (
                             <div className="urunler-yorum-card" key={index}>
                               <p style={{ fontWeight: "700" }}>
                                 {comment.user}

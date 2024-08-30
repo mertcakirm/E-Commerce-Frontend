@@ -21,6 +21,15 @@ const Admin_kategori_detail =()=> {
             <div className="col-lg-6">
               <input className='kategori-adi-detay-inp mt-3' type="text" name="kategori-yolu-detay" id="kategori-yolu-detay" placeholder='Yeni Kategori Yolunu Giriniz...' />
               <input className='kategori-adi-detay-inp mt-3' type="text" name="kategori-adi-detay" id="kategori-adi-detay" placeholder='Yeni Kategori Adını Giriniz...' />
+              
+              <div className='mt-3'>
+              <input
+                  type="file"
+                  id="productImagesKart"
+                  multiple
+                  className='w-100'
+                />
+              </div>
               <select className='mt-4' style={{height:'40px',borderColor:'#000',marginRight:'10px',borderRadius:'5px'}} name="kategori-grid" id="kategori-grid">
                   <option value="12">Full</option>
                   <option value="6">1/2</option>

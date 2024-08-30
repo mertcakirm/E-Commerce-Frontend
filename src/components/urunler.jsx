@@ -6,13 +6,13 @@ import { useLocation } from 'react-router-dom';
 import "./css/urunler.css";
 import logo from '../assets/mob_logo.png';
 
-
 const Urunler = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [colClass, setColClass] = useState("col-lg-4");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const location = useLocation();
   const [selectedSize, setSelectedSize] = useState([]);
+  const [favoriteProducts, setFavoriteProducts] = useState([]);
 
   const handleSizeClick = (productCode, size) => {
     setSelectedSize((prevSelectedSizes) => ({
@@ -20,12 +20,45 @@ const Urunler = () => {
       [productCode]: prevSelectedSizes[productCode] === size ? null : size,
     }));
   };
+  
 
   useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://213.142.159.49:8083/api/favorite/get", {
+          method: "GET",
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setFavoriteProducts(data);
+        } else {
+          throw new Error("Favoriler alınamadı");
+        }
+      } catch (error) {
+        console.error("Favorileri alırken bir hata oluştu:", error);
+      }
+    };
+
+    
+
+    fetchFavorites();
+  }, [favoriteProducts]);
+
+
+  
+  useEffect(() => {
     const fetchAndFilterProducts = async () => {
+      const token = localStorage.getItem("token");
+
       try {
         const currentCategory = location.pathname.split('/').pop();
-  
+        
         let response;
         if (currentCategory === 'tum-urunler') {
           response = await fetch('http://213.142.159.49:8083/api/product/all', {
@@ -35,17 +68,17 @@ const Urunler = () => {
             },
           });
         } else {
-          response = await fetch(`http://213.142.159.49:8083/api/product/category/${currentCategory}`, {
+          response = await fetch(`http://213.142.159.49:8083/api/category/get/category/${currentCategory}`, {
             method: 'GET',
             headers: {
+            'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           });
         }
-  
+    
         const data = await response.json();
-  
-  
+    
         if (Array.isArray(data.content)) {
           setFilteredProducts(data.content);
         } else {
@@ -75,6 +108,43 @@ const Urunler = () => {
   };
 
 
+  const calculateOriginalPrice = (priceWithDiscount, discountRate) => {
+    if (discountRate > 0) {
+      return (priceWithDiscount / (1 - discountRate / 100)).toFixed(2);
+    }
+    return priceWithDiscount;
+  };
+
+  const handleLikeClick = async (productCode) => {
+    try {
+      const token = localStorage.getItem("token");
+      const favoriteData = JSON.stringify({ productCode: productCode });
+      
+      const response = await fetch("http://213.142.159.49:8083/api/favorite/add", {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`, 
+          'Content-Type': 'application/json',
+        },
+        body: favoriteData, 
+      });
+  
+      if (!response.ok) {
+        throw new Error("Favori eklenemedi");
+      }
+      
+      console.log("Ürün favorilere eklendi");
+      console.log(response);
+  
+      const likeBtnColor = document.getElementById("like-btn-color");
+      if (likeBtnColor) {
+        likeBtnColor.style.fill = "red";
+      }
+    } catch (error) {
+      console.error("Favorilere eklenirken bir hata oluştu:", error);
+    }
+  };
+  
 
 
   return (
@@ -147,7 +217,6 @@ const Urunler = () => {
                 </div>
               )}
             </div>
-
             {/* Filtre */}
             <button
               className="btn offcanvas-button"
@@ -279,17 +348,17 @@ const Urunler = () => {
       <div className="urun-card">
         <div>
           <a href={`/urunler-detay/${product.productCode}`}>
-            {/* Display the first image from productImage */}
             <img
               className="img-fluid w-100 urun-img2"
-              src={`http://213.142.159.49:8083/api/files/image/${product.productImage[0]?.url}`}
+              src={`http://213.142.159.49:8083/api/files/image/${product.productImage[1]?.url}`}
               alt={product.productName}
             />
             <img
               className="img-fluid w-100 urun-img1"
-              src={`http://213.142.159.49:8083/api/files/image/${product.productImage[1]?.url}`}
+              src={`http://213.142.159.49:8083/api/files/image/${product.productImage[0]?.url}`}
               alt={product.productName}
             />
+
           </a>
           <div className="urun-card-content-bottom">
             <button className="urunler-card-content-bottom-add-btn">
@@ -304,7 +373,7 @@ const Urunler = () => {
                 <path d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z" />
               </svg>
             </button>
-            <button className="urunler-card-content-bottom-like-btn">
+            <button id="like-btn-color" className="urunler-card-content-bottom-like-btn" onClick={() => handleLikeClick(product.productCode)} >
               <svg
                 clipRule="evenodd"
                 fill="white"
@@ -345,8 +414,13 @@ const Urunler = () => {
         <p>{product.productName}</p>
       </div>
       <div className="urun-fiyat">
-        <p>{product.priceWithDiscount}₺</p>
-      </div>
+  <p style={{ fontSize: '20px' }} className="p1-fiyat">{product.priceWithDiscount}₺</p>
+  {product.discountRate > 0 && (
+    <p style={{ fontSize: '20px' }} className="p2-fiyat">
+      {calculateOriginalPrice(product.priceWithDiscount, product.discountRate)}₺
+    </p>
+  )}
+</div>
     </div>
   ))}
 </div>

@@ -4,6 +4,7 @@ import Footer from "./footer";
 import { Helmet } from "react-helmet";
 import "./css/profile.css";
 import kampanya from "../assets/kampanya.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -20,7 +21,6 @@ const Profile = () => {
   const updateProfile = async () => {
     const userDTO1 = {
       nameSurname: document.getElementById('bilgilerim-isim').value,
-      email: document.getElementById('bilgilerim-mail').value,
       phoneNumber: document.getElementById('bilgilerim-tel').value
     };
   
@@ -41,7 +41,6 @@ const Profile = () => {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
-          // Do not set Content-Type header; FormData will set it automatically
         },
         body: formData
       });
@@ -61,7 +60,14 @@ const Profile = () => {
       console.error('Error:', error);
     }
   };
-  
+
+  const navigate = useNavigate();
+
+  const cikisyap = () => {
+    localStorage.removeItem("token");
+    navigate('/girisyap');
+  };
+
   
   useEffect(() => {
     if (showPopup) {
@@ -81,17 +87,18 @@ const Profile = () => {
         const response = await fetch('http://213.142.159.49:8083/api/user/profile', {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`,
+            'Authentication': `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         });
+        
         const data = await response.json();
         document.getElementById('bilgilerim-isim').value = data.nameSurname;
-        document.getElementById('bilgilerim-mail').value = data.email;
         document.getElementById('bilgilerim-tel').value = data.phoneNumber;
       } catch (error) {
         console.error('Error:', error);
       }
+
     };
 
     fetchProfile();
@@ -139,11 +146,6 @@ const newAddress = async () => {
   window.location.reload()
 
 };
-
-
-
-
-
 
 
 
@@ -253,18 +255,6 @@ const newAddress = async () => {
                     </div>
                     <div className="row">
                       <div className="col-lg-4">
-                        <label htmlFor="bilgilerim-mail">E-Posta Adresiniz</label>
-                      </div>
-                      <div className="col-lg-8">
-                        <input
-                          type="email"
-                          id="bilgilerim-mail"
-                          className="profilim-inputs"
-                        />
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-lg-4">
                         <label htmlFor="bilgilerim-tel">Telefon Numaranız</label>
                       </div>
                       <div className="col-lg-8">
@@ -274,6 +264,9 @@ const newAddress = async () => {
                           className="profilim-inputs"
                         />
                       </div>
+                    </div>
+                    <div>
+                      <button type="button" onClick={cikisyap} id="cikis-btn">Çıkış Yap</button>
                     </div>
                   </div>
                   <div className="col-lg-6 profilim-column">
