@@ -61,6 +61,9 @@ const PrevArrow = (props) => {
 
 const Anasayfa = () => {
   const [showButton, setShowButton] = useState(false);
+  const [sliderData, setSliderData] = useState([]);
+  const [cartData, setCartData] = useState([]);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -120,6 +123,47 @@ const Anasayfa = () => {
       },
     ],
   };
+
+
+
+  useEffect(() => {
+    const fetchSliderData = async () => {
+      try {
+        const response = await fetch('http://213.142.159.49:8083/api/slider/main/get');
+        if (response.ok) {
+          const data = await response.json();
+          setSliderData(data); // Update state with fetched data
+        } else {
+          console.error("Failed to fetch slider data");
+        }
+      } catch (error) {
+        console.error("Error fetching slider data:", error);
+      }
+    };
+
+    fetchSliderData();
+  }, []);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const response = await fetch('http://213.142.159.49:8083/api/product/get/cart');
+        if (response.ok) {
+          const data = await response.json();
+          setCartData(data);
+        } else {
+          console.error("Failed to fetch cart data");
+        }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+    fetchCartData();
+  }, []);
+
+
+
+
   return (
     <div>
       <Helmet>
@@ -157,81 +201,45 @@ const Anasayfa = () => {
           </svg>
         </button>
       )}
-      <div
-        id="carouselExampleAutoplaying"
-        className="carousel slide"
-        data-bs-ride="carousel"
-      >
-        <div className="carousel-indicators">
+    <div
+      id="carouselExampleAutoplaying"
+      className="carousel slide"
+      data-bs-ride="carousel"
+    >
+      <div className="carousel-indicators">
+        {sliderData.map((_, index) => (
           <button
+            key={index}
             type="button"
             data-bs-target="#carouselExampleAutoplaying"
-            data-bs-slide-to="0"
-            className="active"
-            aria-current="true"
-            aria-label="Slide 1"
+            data-bs-slide-to={index}
+            className={index === 0 ? "active" : ""}
+            aria-current={index === 0 ? "true" : "false"}
+            aria-label={`Slide ${index + 1}`}
           ></button>
-          <button
-            type="button"
-            data-bs-target="#carouselExampleAutoplaying"
-            data-bs-slide-to="1"
-            aria-label="Slide 2"
-          ></button>
-          <button
-            type="button"
-            data-bs-target="#carouselExampleAutoplaying"
-            data-bs-slide-to="2"
-            aria-label="Slide 3"
-          ></button>
-        </div>
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/89948-sort.jpg"
-              className="d-block w-100 img-fluid"
-              alt="Image 1"
-            />
-            <div className="carousel-item-child">
-              <h5>T-SHİRT</h5>
-              <p>%40 İNDİRİM</p>
-              <h5>Büyük Yaz İndirimi</h5>
-              <a href="#" className="slider-alisverise-basla-btn">
-                Alışverişe Başla
-              </a>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87087-outlet.jpg"
-              className="d-block w-100 img-fluid"
-              alt="Image 2"
-            />
-            <div className="carousel-item-child">
-              <h5>T-SHİRT</h5>
-              <p>%40 İNDİRİM</p>
-              <h5>Büyük Yaz İndirimi</h5>
-              <a href="#" className="slider-alisverise-basla-btn">
-                Alışverişe Başla
-              </a>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/89950-pant.jpg"
-              className="d-block w-100 img-fluid"
-              alt="Image 3"
-            />
-            <div className="carousel-item-child">
-              <h5>T-SHİRT</h5>
-              <p>%40 İNDİRİM</p>
-              <h5>Büyük Yaz İndirimi</h5>
-              <a href="#" className="slider-alisverise-basla-btn">
-                Alışverişe Başla
-              </a>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
+      <div className="carousel-inner">
+        {sliderData.map((slide, index) => (
+          <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+            <img
+              src={`data:image/jpeg;base64,${slide.image.bytes}`}
+              className="d-block w-100 img-fluid"
+              style={{maxHeight:'900px',objectFit:'cover'}}
+              alt={`Slide ${index + 1}`}
+            />
+            <div className="carousel-item-child">
+              <h5>{slide.topTitle}</h5>               
+              <p>{slide.middleTitle}</p>
+              <h5>{slide.underTitle}</h5> 
+              <a href={`/urunler/${slide.category}`} className="slider-alisverise-basla-btn">
+                Alışverişe Başla
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
       {/* urunler-card */}
       <div className="container-fluid" id="urunler-fluid">
         <Slider {...settings}>
@@ -310,112 +318,49 @@ const Anasayfa = () => {
 
       {/* kategori cards */}
       <div className="container-fluid categori-card-fluid">
-        <div className="row">
-          <div className="col-lg-6">
-            <a href="/urunler/tisort">
-              <div className="categori-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/88114-tee.jpg"
-                  className="w-100 img-fluid"
-                  alt=""
-                />
-                <div className="categori-card-child">
-                  <p className="categori-baslik">t-shirt</p>
-                  <button className="categori-hemen-kesfet">
-                    Hemen Keşfet
-                  </button>
-                </div>
+      <div className="row">
+      {cartData.map((item, index) => {
+            // Sütun boyutunu almak için item.viewType'i kullan
+            const columnSize = item.viewType;
+            let height;
+
+            // Sütun boyutuna göre height değerini belirle
+            switch (columnSize) {
+              case '12': // col-lg-12 için
+                height = '700px';
+                break;
+              case '4': // col-lg-4 için
+                height = '900px';
+                break;
+              case '6': // col-lg-6 içi
+                height = '1200px';
+                break;
+              // Diğer sütun boyutlarına göre daha fazla case ekleyebilirsin
+              default:
+                height = 'auto'; // Varsayılan height
+            }
+
+            return (
+              <div key={index} className={`col-lg-${item.viewType}`}>
+                <a href={item.link}>
+                  <div className="categori-card" >
+                    <img
+                      src={`data:image/jpeg;base64,${item.image.bytes}`}
+                      className="w-100 img-fluid"
+                      alt={item.title}
+                      style={{ height , objectFit: 'cover' }}
+                    />
+                    <div className="categori-card-child">
+                      <p className="categori-baslik">{item.cartName}</p>
+                      <button className="categori-hemen-kesfet">Hemen Keşfet</button>
+                    </div>
+                  </div>
+                </a>
               </div>
-            </a>
-          </div>
-          <div className="col-lg-6">
-            <a href="/urunler/sort">
-              <div className="categori-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/88115-sort.jpg"
-                  className="w-100 img-fluid"
-                  alt=""
-                />
-                <div className="categori-card-child">
-                  <p className="categori-baslik">şort</p>
-                  <button className="categori-hemen-kesfet">
-                    Hemen Keşfet
-                  </button>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div className="col-lg-4">
-            <a href="#">
-              <div className="categori-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/88116-pant.jpg"
-                  className="w-100 img-fluid"
-                  alt=""
-                />
-                <div className="categori-card-child">
-                  <p className="categori-baslik">pantolon</p>
-                  <button className="categori-hemen-kesfet">
-                    Hemen Keşfet
-                  </button>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div className="col-lg-4">
-            <a href="#">
-              <div className="categori-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/88119-go-n.jpg"
-                  className="w-100 img-fluid"
-                  alt=""
-                />
-                <div className="categori-card-child">
-                  <p className="categori-baslik">gömlek</p>
-                  <button className="categori-hemen-kesfet">
-                    Hemen Keşfet
-                  </button>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div className="col-lg-4">
-            <a href="#">
-              <div className="categori-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/88118-esof.jpg"
-                  className="w-100 img-fluid"
-                  alt=""
-                />
-                <div className="categori-card-child">
-                  <p className="categori-baslik">eşofman</p>
-                  <button className="categori-hemen-kesfet">
-                    Hemen Keşfet
-                  </button>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div className="col-12">
-            <a href="#">
-              <div className="categori-card categori-card-full">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/89963-aaaaa.jpg"
-                  className="w-100 img-fluid"
-                  alt=""
-                />
-                <div className="categori-card-child">
-                  <div className="categori-p2">Havluda ikinci ürüne</div>
-                  <p className="categori-baslik">%50 indirim</p>
-                  <button className="categori-hemen-kesfet-full">
-                    Hemen Keşfet
-                  </button>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
+            );
+          })}
       </div>
+    </div>
 
       <div className="container logo-container">
         <div className="row justify-content-center">

@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import './admin-css/admin-sidebar.css';
 import logo from '../../assets/mob_logo.png';
+import { useNavigate } from 'react-router-dom';
 const Admin_sidebar=()=> {
+  
+  const navigate = useNavigate();
+
+  const cikisyap = () => {
+    localStorage.removeItem("token");
+    navigate('/girisyap');
+  };
+
     return (
       <div>
         <div className="admin-sidebar-parent">
@@ -18,7 +27,7 @@ const Admin_sidebar=()=> {
             <a className='admin-sidebar-link' href="/admin-raporlar">Raporlar</a>
             <a className='admin-sidebar-link' href="/admin-mesajlar">Mesajlar</a>
           </div>
-          <button className='admin-sidebar-logout'>
+          <button className='admin-sidebar-logout' onClick={cikisyap} >
           <svg fill='white' xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 10v-5l8 7-8 7v-5h-8v-4h8zm-16-8v20h14v-2h-12v-16h12v-2h-14z"/></svg><span>Çıkış Yap</span>
           </button>
         </div>

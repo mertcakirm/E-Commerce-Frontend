@@ -48,7 +48,8 @@ const Admin_product_detail = () => {
         .catch(error => {
             console.error('Error deleting image:', error);
         });
-        window.location.reload();
+        window.setTimeout(()=>window.location.reload(),1000)
+
     };
 
     const handleFileChange = (event) => {

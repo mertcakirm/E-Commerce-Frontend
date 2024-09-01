@@ -540,3 +540,9 @@ outline: none;
   align-items: center;
   justify-content: space-between;
 }
+
+.sayfa-icerikleri-overflow{
+  max-height: 400px;
+  overflow: hidden;
+  overflow-y: scroll;
+}

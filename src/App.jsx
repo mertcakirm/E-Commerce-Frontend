@@ -10,7 +10,7 @@ import Hakkimizda from './components/hakkimizda';
 import Iletisim from './components/iletisim';
 import Admin_product from './components/admin/admin-product';
 import Admin_product_detail from './components/admin/admin-product-detail';
-import Admin_kategori_detail from './components/admin/admin-kategori-detail';
+// import Admin_kategori_detail from './components/admin/admin-kategori-detail';
 import Admin_anasayfa from './components/admin/admin-anasayfa';
 import Admin_users from './components/admin/admin-users';
 import Admin_raporlar from './components/admin/admin-raporlar';
@@ -62,7 +62,7 @@ function App() {
         {/* Admin Routes */}
         <Route path="/admin-urunler" element={<ProtectedRoute element={<Admin_product />} />} />
         <Route path="/admin-urunler-guncelle/:id" element={<ProtectedRoute element={<Admin_product_detail />} />} />
-        <Route path="/admin-kategori-guncelle" element={<ProtectedRoute element={<Admin_kategori_detail />} />} />
+        {/* <Route path="/admin-kategori-guncelle" element={<ProtectedRoute element={<Admin_kategori_detail />} />} /> */}
         <Route path="/admin-genel" element={<ProtectedRoute element={<Admin_anasayfa />} />} />
         <Route path="/admin-kullanicilar" element={<ProtectedRoute element={<Admin_users />} />} />
         <Route path="/admin-raporlar" element={<ProtectedRoute element={<Admin_raporlar />} />} />

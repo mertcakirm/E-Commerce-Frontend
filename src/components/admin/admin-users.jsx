@@ -33,6 +33,26 @@ const Admin_users = () => {
     }
   };
 
+  const toggleUserActivity = (userId) => {
+    fetch(`http://213.142.159.49:8083/api/admin/user/inactive?userId=${userId}`, {
+      method: 'PUT',
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Update the user data in the state
+          setUsersData(prevData =>
+            prevData.map(user =>
+              user.id === userId ? { ...user, active: !user.active } : user
+            )
+          );
+        } else {
+          console.error('Failed to change user activity');
+        }
+      })
+      .catch(error => console.error('Error toggling user activity:', error));
+  };
+
   return (
     <div>
       <Admin_sidebar />
@@ -58,6 +78,7 @@ const Admin_users = () => {
                     <th scope="col">Telefon</th>
                     <th scope="col">Toplam Harcama</th>
                     <th scope="col">Toplam Sipariş</th>
+                    <th scope="col">Aktiflik Durumu</th>
                     <th scope="col">İşlem</th>
                   </tr>
                 </thead>
@@ -69,12 +90,15 @@ const Admin_users = () => {
                       <td>{user.phoneNumber}</td>
                       <td>{user.totalSpent}</td>
                       <td>{user.totalOrder}</td>
+                      <td>{user.active ? 'Aktif' : 'Pasif'}</td>
                       <td>
                         <div className="user-duzenle-row">
-                          <button className="user-sil-btn">
-                            <svg clipRule="evenodd" fillRule="evenodd" width="30" height="30" fill="white" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                              <path d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z" fillRule="nonzero"/>
-                            </svg>
+                          <button
+                            className="user-sil-btn"
+                            style={{ background: '#000', fontWeight: '600' }}
+                            onClick={() => toggleUserActivity(user.id)}
+                          >
+                            {user.active ? 'Pasif Yap' : 'Aktif Yap'}
                           </button>
                         </div>
                       </td>

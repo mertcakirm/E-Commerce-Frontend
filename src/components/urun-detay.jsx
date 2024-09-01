@@ -202,7 +202,7 @@ const Urun_detay = () => {
   return (
     <div>
       <Helmet>
-        <title>Ürün Detayı</title>
+        <title>Ürün Detayı-{urlpop}</title>
         <meta
           name="description"
           content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
@@ -237,7 +237,7 @@ const Urun_detay = () => {
         <div className="carousel-container">
           <div className="active-image">
             <img
-              src={`http://213.142.159.49:8083/api/files/image/${images[activeIndex].url}`}
+              src={`data:image/jpeg;base64,${product.productImage[activeIndex].bytes}`}
               alt={`Slide ${activeIndex}`}
               className="img-fluid w-100 active-img-detay"
             />
@@ -268,7 +268,7 @@ const Urun_detay = () => {
             {images.map((image, index) => (
               <img
                 key={index}
-                src={`http://213.142.159.49:8083/api/files/image/${image.url}`}
+                src={`data:image/jpeg;base64,${image.bytes}`}
                 alt={`Thumbnail ${index}`}
                 className={`thumbnail ${index === activeIndex ? 'active' : ''}`}
                 onClick={() => handleThumbnailClick(index)}

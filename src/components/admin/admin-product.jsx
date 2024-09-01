@@ -161,15 +161,15 @@ const Admin_product = () => {
       const reader = new FileReader();
 
       reader.onloadend = function () {
-        const base64String = reader.result.split(",")[1]; // Base64 verisini al
-        resolve(base64String); // Base64 formatını döndür
+        const base64String = reader.result.split(",")[1]; 
+        resolve(base64String); 
       };
 
       reader.onerror = function () {
         reject(new Error("Dosya okuma hatası"));
       };
 
-      reader.readAsDataURL(file); // Görüntüyü base64 formatına çevirmek için Data URL olarak oku
+      reader.readAsDataURL(file); 
     });
   };
 
@@ -205,7 +205,7 @@ const Admin_product = () => {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${token}`,
+            // Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(productDTO),
@@ -213,7 +213,7 @@ const Admin_product = () => {
       );
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = response;
         console.error("Error response:", errorData);
         throw new Error("Failed to send data");
       }
@@ -262,6 +262,7 @@ const Admin_product = () => {
   };
 
 
+console.log(currentProducts);
 
 
 

@@ -68,10 +68,9 @@ const Urunler = () => {
             },
           });
         } else {
-          response = await fetch(`http://213.142.159.49:8083/api/category/get/category/${currentCategory}`, {
+          response = await fetch(`http://213.142.159.49:8083/api/category/get/${currentCategory}`, {
             method: 'GET',
             headers: {
-            'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
           });
@@ -350,12 +349,12 @@ const Urunler = () => {
           <a href={`/urunler-detay/${product.productCode}`}>
             <img
               className="img-fluid w-100 urun-img2"
-              src={`http://213.142.159.49:8083/api/files/image/${product.productImage[1]?.url}`}
+              src={`data:image/jpeg;base64,${product.productImage[0].bytes}`}
               alt={product.productName}
             />
             <img
               className="img-fluid w-100 urun-img1"
-              src={`http://213.142.159.49:8083/api/files/image/${product.productImage[0]?.url}`}
+              src={`data:image/jpeg;base64,${product.productImage[1].bytes}`}
               alt={product.productName}
             />
 
