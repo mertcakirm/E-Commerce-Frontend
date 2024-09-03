@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./css/navbar.css";
-import logo from '../assets/mob_logo.png';
+import logo from "../assets/mob_logo.png";
 import { data } from "jquery";
-
 
 const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -12,8 +11,10 @@ const Navbar = () => {
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(null);
   const [productCount, setProductCount] = useState(1);
   const [favoriteproduct, setFavoriteproduct] = useState([]);
-
-
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalprice, setTotalprice] = useState(0);
+  
   const handleSidebarMouseEnter = () => {
     setSidebarOpen(true);
   };
@@ -31,11 +32,44 @@ const Navbar = () => {
     setIsMobile(window.innerWidth < 768);
   };
 
+
+  const deleteItemFromBasket = (productCode) => {
+    const token = localStorage.getItem('token');  // Get the token from localStorage
+  
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+  
+    fetch(`http://213.142.159.49:8083/api/basket/delete/${productCode}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'  // Set the content type to JSON
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          throw new Error('Network response was not ok.');
+        }
+      })
+      .then(data => {
+        console.log('Item deleted:', data);
+        // Optionally, update the cart state or UI here
+      })
+      .catch(error => {
+        console.error('Error deleting item:', error);
+      });
+  };
+  
+
   useEffect(() => {
     const handleScroll = () => {
       const button = document.getElementById("nav-col-mid");
       const mobilebutton = document.getElementById("mobile-navbar-name-scroll");
-      
+
       if (button && mobilebutton) {
         if (window.scrollY > 300) {
           button.classList.add("hidden-site-name");
@@ -46,20 +80,38 @@ const Navbar = () => {
         }
       }
     };
-  
+
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
-  
+
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
 
-    
-  },
-  
-  []);
-  
+  }, []);
+
+
+  useEffect(() => {
+    fetch('http://213.142.159.49:8083/api/basket/get', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`, 
+        "Content-Type": "application/json",
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Fetched data:', data);  
+        setCartItems(data.bucketItems); 
+        setTotalprice(data.price)
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching cart data:', error);
+        setLoading(false);
+      });
+  }, []);
+
 
   const handleMobileSidebarOpen = () => {
     setMobileSidebarOpen(true);
@@ -74,47 +126,109 @@ const Navbar = () => {
     setMobileSubmenuOpen(mobileSubmenuOpen === index ? null : index);
   };
 
-  const incrementProductCount = () => {
-    setProductCount(productCount + 1);
-  };
 
-  const decrementProductCount = () => {
-    if (productCount > 1) {
-      setProductCount(productCount - 1);
-    }
-  };
 
+  const incrementProductCount = (productCode) => {
+    fetch(`http://213.142.159.49:8083/api/basket/increase/quantity/${productCode}`, {
+      method: 'GET', // or 'POST' if that's what your API expects
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          setProductCount(prevCount => prevCount + 1);
+        } else {
+          console.error('Error incrementing product count');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+  
+  const decrementProductCount = (productCode) => {
+      fetch(`http://213.142.159.49:8083/api/basket/decrease/quantity/${productCode}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+        .then(response => {
+          if (response.ok) {
+            setProductCount(prevCount => prevCount - 1);
+          } else {
+            console.error('Error decrementing product count');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+  };
   useEffect(() => {
     const fetchFavoriteData = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
 
       try {
-        const response = await fetch('http://213.142.159.49:8083/api/favorite/get', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+        const response = await fetch(
+          "http://213.142.159.49:8083/api/favorite/get",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
           }
-        });
+        );
 
         if (response.ok) {
           const favoritedata = await response.json();
           setFavoriteproduct(favoritedata);
         } else {
-          throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
       } catch (error) {
-        console.error('There was a problem with the fetch operation:', error);
+        console.error("There was a problem with the fetch operation:", error);
       }
     };
 
     fetchFavoriteData();
   }, []);
 
+  const handleLikeClick = async (productCode) => {
+    try {
+      const token = localStorage.getItem("token");
+      const favoriteData = JSON.stringify({ productCode: productCode });
+
+      const response = await fetch(
+        "http://213.142.159.49:8083/api/favorite/add",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: favoriteData,
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Favori eklenemedi");
+      }
+
+      const likeBtnColor = document.getElementById("like-btn-color");
+      if (likeBtnColor) {
+        likeBtnColor.style.fill = "red";
+      }
+    } catch (error) {
+      console.error("Favorilere eklenirken bir hata oluştu:", error);
+    }
+    window.setTimeout(() => window.location.reload(), 1000);
 
 
-
-  
+  };
 
   return (
     <div>
@@ -486,202 +600,59 @@ const Navbar = () => {
               aria-labelledby="pills-home-tab"
               tabIndex="0"
             >
-              <div className="sepet-flex2">
-                <a href="#" className="sepet-card row">
-                  <div className="col-4 sepet-card-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-6 sepet-card-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <p className="sepet-card-col-2-beden">BEDEN : L</p>
-                    <div className="updown">
-                      <button onClick={decrementProductCount}>-</button>
-                      <span>{productCount}</span>
-                      <button onClick={incrementProductCount}>+</button>
-                    </div>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                  </div>
-                  <div className="col-2 sepet-card-col-3">
-                    <button className="sepet-card-col-3-like-btn">
-                      <svg
-                        width="30"
-                        height="30"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                        strokeLinejoin="round"
-                        strokeMiterlimit="2"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z"
-                          fillRule="nonzero"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </a>
-
-                <a href="#" className="sepet-card row">
-                  <div className="col-4 sepet-card-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-6 sepet-card-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <p className="sepet-card-col-2-beden">BEDEN : L</p>
-                    <div className="updown">
-                      <button onClick={decrementProductCount}>-</button>
-                      <span>{productCount}</span>
-                      <button onClick={incrementProductCount}>+</button>
-                    </div>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                  </div>
-                  <div className="col-2 sepet-card-col-3">
-                    <button className="sepet-card-col-3-like-btn">
-                      <svg
-                        width="30"
-                        height="30"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                        strokeLinejoin="round"
-                        strokeMiterlimit="2"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z"
-                          fillRule="nonzero"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </a>
-
-                <a href="#" className="sepet-card row">
-                  <div className="col-4 sepet-card-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-6 sepet-card-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <p className="sepet-card-col-2-beden">BEDEN : L</p>
-                    <div className="updown">
-                      <button onClick={decrementProductCount}>-</button>
-                      <span>{productCount}</span>
-                      <button onClick={incrementProductCount}>+</button>
-                    </div>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                  </div>
-                  <div className="col-2 sepet-card-col-3">
-                    <button className="sepet-card-col-3-like-btn">
-                      <svg
-                        width="30"
-                        height="30"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                        strokeLinejoin="round"
-                        strokeMiterlimit="2"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z"
-                          fillRule="nonzero"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </a>
-
-                <a href="#" className="sepet-card row">
-                  <div className="col-4 sepet-card-col-1">
-                    <img
-                      src="https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"
-                      className="img-fluid w-100 sepet-resim"
-                      alt=""
-                    />
-                  </div>
-                  <div className="col-6 sepet-card-col-2">
-                    <p className="sepet-card-col-2-p-1">
-                      NY Monogram Drytech Erkek Şort
-                    </p>
-                    <p className="sepet-card-col-2-urun-kodu">
-                      Ürün Kodu : US4109SY
-                    </p>
-                    <p className="sepet-card-col-2-beden">BEDEN : L</p>
-                    <div className="updown">
-                      <button onClick={decrementProductCount}>-</button>
-                      <span>{productCount}</span>
-                      <button onClick={incrementProductCount}>+</button>
-                    </div>
-                    <div className="sepet-card-col-2-fiyatlar-flex">
-                      <p className="sepet-card-col-2-p1-fiyat">499₺</p>
-                      <p className="sepet-card-col-2-p2-fiyat">789₺</p>
-                    </div>
-                  </div>
-                  <div className="col-2 sepet-card-col-3">
-                    <button className="sepet-card-col-3-like-btn">
-                      <svg
-                        width="30"
-                        height="30"
-                        clipRule="evenodd"
-                        fillRule="evenodd"
-                        strokeLinejoin="round"
-                        strokeMiterlimit="2"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z"
-                          fillRule="nonzero"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </a>
-
-                <br />
-                <br />
-                <br />
+      <div className="sepet-flex2">
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        cartItems.map((item) => (
+          <div className="sepet-card row" key={item.productCode}>
+            <a  href={`/urunler-detay/${item.productCode}`} className="col-4 sepet-card-col-1">
+              <img
+                src={`data:image/jpeg;base64,${item.image.bytes}`}
+                className="img-fluid w-100 sepet-resim"
+                alt={item.productName}
+              />
+            </a>
+            <div className="col-6 sepet-card-col-2">
+              <p className="sepet-card-col-2-p-1">{item.productName}</p>
+              <p className="sepet-card-col-2-urun-kodu">Ürün Kodu : {item.productCode}</p>
+              <p className="sepet-card-col-2-beden">BEDEN : {item.size}</p>
+              <div className="updown">
+                <button onClick={() => decrementProductCount(item.productCode)}>-</button>
+                <span>{item.quantity}</span>
+                <button onClick={() => incrementProductCount(item.productCode)}>+</button>
               </div>
+              <div className="sepet-card-col-2-fiyatlar-flex">
+                <p className="sepet-card-col-2-p1-fiyat">{item.priceWithDiscount}₺</p>
+                <p className="sepet-card-col-2-p2-fiyat">{item.priceWithOutDiscount}₺</p> 
+              </div>
+            </div>
+            <div className="col-2 sepet-card-col-3">
+              <button className="sepet-card-col-3-like-btn" onClick={()=>deleteItemFromBasket(item.productCode)}>
+                <svg
+                  width="30"
+                  height="30"
+                  clipRule="evenodd"
+                  fillRule="evenodd"
+                  strokeLinejoin="round"
+                  strokeMiterlimit="2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="m4.015 5.494h-.253c-.413 0-.747-.335-.747-.747s.334-.747.747-.747h5.253v-1c0-.535.474-1 1-1h4c.526 0 1 .465 1 1v1h5.254c.412 0 .746.335.746.747s-.334.747-.746.747h-.254v15.435c0 .591-.448 1.071-1 1.071-2.873 0-11.127 0-14 0-.552 0-1-.48-1-1.071zm14.5 0h-13v15.006h13zm-4.25 2.506c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm-4.5 0c-.414 0-.75.336-.75.75v8.5c0 .414.336.75.75.75s.75-.336.75-.75v-8.5c0-.414-.336-.75-.75-.75zm3.75-4v-.5h-3v.5z"
+                    fillRule="nonzero"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        ))
+      )}
+    </div>
               <div className="toplam-tutar">
                 <p>TOPLAM</p>
-                <p>499₺</p>
+                <p>{totalprice}₺</p>
               </div>
               <a href="#" className="sepeti-tamamla-btn">
                 Sepeti Tamamla
@@ -696,68 +667,117 @@ const Navbar = () => {
               tabIndex="0"
             >
               <div className="favorilerim-canvas-flex">
-
-              <div>
-      {favoriteproduct && favoriteproduct.length > 0 ? (
-        favoriteproduct.map((product, index) => (
-          <a href="#" className="favorilerim-canvas-card row" key={index}>
-            <div className="col-3 favorilerim-canvas-col-1">
-              <img
-                src={product.image || "https://www.aksesuarix.com/UserFiles/Fotograflar/107x161/90117-story-of-radio-oversize-siyah-erkek-tisort-us4109sy-us4109sy-01.jpg"}
-                className="img-fluid w-100 sepet-resim"
-                alt={product.productName || "Ürün resmi"}
-              />
-            </div>
-            <div className="col-8 favorilerim-canvas-col-2">
-              <p className="sepet-card-col-2-p-1">
-                {product.productName}
-              </p>
-              <p className="sepet-card-col-2-urun-kodu">
-                Ürün Kodu : {product.productCode}
-              </p>
-              <div className="sepet-card-col-2-fiyatlar-flex">
-                <p className="sepet-card-col-2-p1-fiyat">{product.priceWithDiscount}₺</p>
-                <p className="sepet-card-col-2-p2-fiyat">{product.priceWithOutDiscount}₺</p>
-              </div>
-              <div className="favori-card-add-flex">
-                <div className="updown">
-                  <button onClick={() => decrementProductCount(index)}>-</button>
-                  <span>{productCount[index] || 1}</span>
-                  <button onClick={() => incrementProductCount(index)}>+</button>
+                <div>
+                  {favoriteproduct && favoriteproduct.length > 0 ? (
+                    favoriteproduct.map((product, index) => (
+                      <div
+                        className="favorilerim-canvas-card row"
+                      >
+                        <div className="col-3 favorilerim-canvas-col-1">
+                          <a
+                            href={`/urunler-detay/${product.productCode}`} 
+                          >
+                          <img
+                            src={`data:image/jpeg;base64,${product.imageBytes}`}
+                            className="img-fluid w-100 sepet-resim"
+                            alt={product.productName || "Ürün resmi"}
+                          />
+                          </a>
+                        </div>
+                        <div className="col-8 favorilerim-canvas-col-2">
+                          <div
+                            style={{
+                              display: "flex",
+                              zIndex: "20",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <p className="sepet-card-col-2-p-1">
+                              {product.productName}
+                            </p>
+                            <button
+                              id="like-btn-color"
+                              className="urunler-card-content-bottom-like-btn"
+                              onClick={() =>
+                                handleLikeClick(product.productCode)
+                              }
+                            >
+                              <svg
+                                clipRule="evenodd"
+                                width="50"
+                                height="24"
+                                fill="red"
+                                fillRule="evenodd"
+                                strokeLinejoin="round"
+                                strokeMiterlimit="2"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                              >
+                                <path
+                                  d="m12 5.72c-2.624-4.517-10-3.198-10 2.461 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-5.678-7.396-6.944-10-2.461z"
+                                  fillRule="nonzero"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                          <p className="sepet-card-col-2-urun-kodu">
+                            Ürün Kodu : {product.productCode}
+                          </p>
+                          <div className="sepet-card-col-2-fiyatlar-flex">
+                            <p className="sepet-card-col-2-p1-fiyat">
+                              {product.priceWithDiscount}₺
+                            </p>
+                            <p className="sepet-card-col-2-p2-fiyat">
+                              {product.priceWithOutDiscount}₺
+                            </p>
+                          </div>
+                          <div className="favori-card-add-flex">
+                            {/* <div className="updown">
+                              <button
+                                onClick={() => decrementProductCount(index)}
+                              >
+                                -
+                              </button>
+                              <span>{productCount[index] || 1}</span>
+                              <button
+                                onClick={() => incrementProductCount(index)}
+                              >
+                                +
+                              </button>
+                            </div> */}
+                            {product.sizes.map((sizeObj)=>(
+                            <select name="favori-size" id="favori-size">
+                              <option value={sizeObj.size}>{sizeObj.size}</option>
+                            </select>
+                            ))}
+                            <button className="favori-card-sepete-ekle">
+                              Sepete Ekle
+                            </button>
+                          </div>
+                        </div>
+                        <div className="col-1 favorilerim-canvas-col-3">
+                        <a
+                            href={`/urunler-detay/${product.productCode}`} 
+                          >
+                          <svg
+                            width="24"
+                            height="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                          >
+                            <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
+                          </svg>
+                        </a>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div style={{ padding: "2%" }}>
+                      <h4>Favori listeniz boş</h4>
+                    </div>
+                  )}
                 </div>
-                <select name="favori-size" id="favori-size">
-                  <option value="S">S</option>
-                  <option value="M">M</option>
-                  <option value="L">L</option>
-                </select>
-                <button className="favori-card-sepete-ekle">
-                  Sepete Ekle
-                </button>
-              </div>
-            </div>
-            <div className="col-1 favorilerim-canvas-col-3">
-              <svg
-                width="24"
-                height="24"
-                xmlns="http://www.w3.org/2000/svg"
-                fillRule="evenodd"
-                clipRule="evenodd"
-              >
-                <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-              </svg>
-            </div>
-          </a>
-        ))
-      ) : (
-        <div style={{padding:'2%'}}>
-          <h4>Favori listeniz boş</h4>
-        </div>
-      )}
-    </div>
-
-
-
-
               </div>
             </div>
           </div>
@@ -772,7 +792,6 @@ const Navbar = () => {
       >
         <div className="offcanvas-header2">
           <img src={logo} className="img-fluid top-canvas-logo" alt="" />
-
         </div>
 
         <div className="offcanvas-body-top">

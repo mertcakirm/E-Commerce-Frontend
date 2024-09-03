@@ -176,9 +176,26 @@ const Admin_sayfalar = () => {
 
   };
   
+  const deleteCart = async (id) => {
+    try {
+      const response = await fetch(`http://213.142.159.49:8083/api/admin/cart/delete?cartId=${id}` , {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
   
+      if (response.ok) {
+        setCartData(sliderData.filter(cart => cart.id !== id));
+      } else {
+      }
+      } catch (error) {
+        console.error("Request error: ", error);
+      }
+      window.setTimeout(() => window.location.reload(), 500);
 
-  // Fetch slider data when the component mounts
+  };
+
   useEffect(() => {
     const fetchSliderData = async () => {
       try {
@@ -288,7 +305,7 @@ const Admin_sayfalar = () => {
                     <p>Kart Kategori Adı : {cart.cartName}</p>
                     <p>Kategori : {cart.category}</p>
                     <p>Boyut : {cart.viewType}</p>
-                    <button type="button" className='tumunu-gor-btn-admin'>Sil</button>
+                    <button type="button" style={{width:'100%'}} onClick={() => deleteCart(cart.id)} className='tumunu-gor-btn-admin'>Sil</button>
                   </div>
                 </div>
 )}

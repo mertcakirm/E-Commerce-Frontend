@@ -1,8 +1,104 @@
-import React, { Component } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { Helmet } from "react-helmet";
 import "../css/odeme.css";
 
 const Odeme1=()=>{
+
+  const [productCount, setProductCount] = useState(1);
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [totalprice, setTotalprice] = useState(0);
+
+  useEffect(() => {
+    fetch('http://213.142.159.49:8083/api/basket/get', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`, 
+        "Content-Type": "application/json",
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Fetched data:', data);  
+        setCartItems(data.bucketItems); 
+        setTotalprice(data.price)
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching cart data:', error);
+        setLoading(false);
+      });
+  }, []);
+
+  const deleteItemFromBasket = (productCode) => {
+    const token = localStorage.getItem('token');  // Get the token from localStorage
+  
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+  
+    fetch(`http://213.142.159.49:8083/api/basket/delete/${productCode}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'  // Set the content type to JSON
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          return response;
+        } else {
+          throw new Error('Network response was not ok.');
+        }
+      })
+      .then(data => {
+        console.log('Item deleted:', data);
+        // Optionally, update the cart state or UI here
+      })
+      .catch(error => {
+        console.error('Error deleting item:', error);
+      });
+  };
+
+  const incrementProductCount = (productCode) => {
+    fetch(`http://213.142.159.49:8083/api/basket/increase/quantity/${productCode}`, {
+      method: 'GET', // or 'POST' if that's what your API expects
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
+      .then(response => {
+        if (response.ok) {
+          setProductCount(prevCount => prevCount + 1);
+        } else {
+          console.error('Error incrementing product count');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+  
+  const decrementProductCount = (productCode) => {
+      fetch(`http://213.142.159.49:8083/api/basket/decrease/quantity/${productCode}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+        .then(response => {
+          if (response.ok) {
+            setProductCount(prevCount => prevCount - 1);
+          } else {
+            console.error('Error decrementing product count');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+  };
     return (
         <div className="row">
             <Helmet>

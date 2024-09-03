@@ -37,10 +37,9 @@ const Admin_users = () => {
     fetch(`http://213.142.159.49:8083/api/admin/user/inactive?userId=${userId}`, {
       method: 'PUT',
     })
-      .then(response => response.json())
+      .then(response => response)
       .then(data => {
-        if (data.success) {
-          // Update the user data in the state
+        if (data.ok) {
           setUsersData(prevData =>
             prevData.map(user =>
               user.id === userId ? { ...user, active: !user.active } : user

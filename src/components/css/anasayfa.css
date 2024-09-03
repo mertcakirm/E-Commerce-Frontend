@@ -106,12 +106,20 @@
 
 }
 
+.slick-track {
+    margin-top: 50px;
+}
+
 
 
 .slick-card>img{
     margin: auto!important;
     width: 200px;
     user-select: none;
+    object-fit: contain;
+    height: 300px;
+    aspect-ratio: 1/1;
+
 
 }
 
@@ -132,17 +140,9 @@
 .categori-card{
     padding: 5% 0%;
     position: relative;
-    
-}
-.categori-card-full{
-    height: 700px;
 }
 
-.categori-card-full>img{
-    height: 700px;
-    object-fit: cover;
-    user-select: none;
-}
+
 
 .categori-card-child{
     display: flex;
@@ -307,6 +307,9 @@
         margin-top: 0px;
     }
 
+    .categori-card>img{
+        height: 700px!important;
+    }
 
 
 }
@@ -351,6 +354,9 @@
         font-family: 'Open Sans';
         font-weight: 700;
     
+    }
+    .categori-card>img{
+        height: 500px!important;
     }
 
 

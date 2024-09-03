@@ -63,7 +63,7 @@ const Anasayfa = () => {
   const [showButton, setShowButton] = useState(false);
   const [sliderData, setSliderData] = useState([]);
   const [cartData, setCartData] = useState([]);
-
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,6 +125,8 @@ const Anasayfa = () => {
   };
 
 
+  
+
 
   useEffect(() => {
     const fetchSliderData = async () => {
@@ -140,8 +142,18 @@ const Anasayfa = () => {
         console.error("Error fetching slider data:", error);
       }
     };
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://213.142.159.49:8083/api/category/admin/get/all");
+        const data = await response.json();
+        setCategories(data); 
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
 
     fetchSliderData();
+    fetchCategories();
   }, []);
 
   useEffect(() => {
@@ -241,108 +253,44 @@ const Anasayfa = () => {
       </div>
     </div>
       {/* urunler-card */}
-      <div className="container-fluid" id="urunler-fluid">
-        <Slider {...settings}>
-          <a href="#" className="slick-card">
+    <div className="container-fluid" id="urunler-fluid">
+      <Slider {...settings}>
+        {categories.map((category) => (
+          <a key={category.id} href="#" className="slick-card">
             <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
+              src={`data:image/jpeg;base64,${category.image.bytes}`} // Görüntüyü base64 formatında dönüştürüp kullan
+              alt={category.categoryName}
             />
-            <p>sweat</p>
+            <p>{category.categoryName}</p>
           </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-          <a href="#" className="slick-card">
-            <img
-              src="https://cdn.aksesuarix.com/Fotograflar/thumbs/87057-sweat.jpg"
-              alt=""
-            />
-            <p>sweat</p>
-          </a>
-        </Slider>
-      </div>
+        ))}
+      </Slider>
+    </div>
 
-      {/* kategori cards */}
+
       <div className="container-fluid categori-card-fluid">
       <div className="row">
       {cartData.map((item, index) => {
-            // Sütun boyutunu almak için item.viewType'i kullan
             const columnSize = item.viewType;
             let height;
 
-            // Sütun boyutuna göre height değerini belirle
             switch (columnSize) {
-              case '12': // col-lg-12 için
+              case '12': 
                 height = '700px';
                 break;
-              case '4': // col-lg-4 için
+              case '4': 
                 height = '900px';
                 break;
-              case '6': // col-lg-6 içi
+              case '6': 
                 height = '1200px';
                 break;
-              // Diğer sütun boyutlarına göre daha fazla case ekleyebilirsin
               default:
-                height = 'auto'; // Varsayılan height
+                height = 'auto'; 
             }
 
             return (
               <div key={index} className={`col-lg-${item.viewType}`}>
-                <a href={item.link}>
+                <a href={`/urunler/${item.category}`}>
                   <div className="categori-card" >
                     <img
                       src={`data:image/jpeg;base64,${item.image.bytes}`}
