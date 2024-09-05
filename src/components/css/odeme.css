@@ -316,6 +316,10 @@
 
 .kayitli-adreslerim-card-p1{
 font-weight: 700;
+  width: 100px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -962,4 +966,12 @@ Credit Card
 #popup-adresi-kaydet-btn{
   width: 80%;
 }
+}
+
+
+.cut-text {
+  width: 250px; /* Genişliği ayarlayın */
+  white-space: nowrap; /* Tek satır yapar */
+  overflow: hidden; /* Taşan kısmı gizler */
+  text-overflow: ellipsis; /* Kesilmiş metnin sonuna "..." ekler */
 }

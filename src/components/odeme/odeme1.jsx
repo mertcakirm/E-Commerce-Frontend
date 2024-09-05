@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useState } from 'react'
 import { Helmet } from "react-helmet";
 import "../css/odeme.css";
+import Sepet_ozeti from './sepet-ozeti';
 
 const Odeme1=()=>{
 
@@ -99,6 +100,16 @@ const Odeme1=()=>{
           console.error('Error:', error);
         });
   };
+
+    if (loading) {
+    return (
+      <div className="d-flex justify-content-center" style={{ height: '50vh', alignItems: 'center' }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
     return (
         <div className="row">
             <Helmet>
@@ -172,16 +183,10 @@ const Odeme1=()=>{
                   </div> */}
           </div>
             <div className="col-lg-4 ozet-sag-col">
-              <p className="ozet-baslik">Sepet Özetim</p>
-              <div className="ozet-panel">
-                  <div className="ozet-panel-item">
-                    <p className="ozet-panel-item-p1">Ara Toplam</p>
-                    <p className="ozet-panel-item-p2">{totalprice}₺</p>
-                  </div>
-              </div>
-              <button className="button-next-step primary" id="stepper" >
-                Sonraki Adım
-              </button>
+                  <Sepet_ozeti />
+                  <button className="button-next-step primary" id="stepper" >
+                    Sonraki Adım
+                  </button>
             </div>
         </div>
     )

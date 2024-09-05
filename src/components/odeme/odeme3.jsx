@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
+import Sepet_ozeti from './sepet-ozeti';
 
 const Odeme3 = () => {
   const [cardNumber, setCardNumber] = useState(["", "", "", ""]);
@@ -482,16 +483,10 @@ Siparişin gerçekleşmesi durumunda Alıcı işbu sözleşmenin tüm koşullar�
         </div>
       </div>
       <div className="col-lg-4 ozet-sag-col">
-              <p className="ozet-baslik">Sepet Özetim</p>
-              <div className="ozet-panel">
-                  <div className="ozet-panel-item">
-                    <p className="ozet-panel-item-p1">Ara Toplam</p>
-                    <p className="ozet-panel-item-p2">695₺</p>
-                  </div>
-              </div>
-              <button className="button-next-step primary" id="stepper" >
-                Siparişi Onayla
-              </button>
+          <Sepet_ozeti />
+          <button className="button-next-step primary" id="stepper" >
+          Siparişi Onayla
+        </button>
             </div>
     </div>
   );

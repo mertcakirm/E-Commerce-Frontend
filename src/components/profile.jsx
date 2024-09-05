@@ -10,9 +10,16 @@ const Profile = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addresses, setAddresses] = useState([]);
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
-  };
+  const [addressTitle, setAddressTitle] = useState('');
+const [nameSurname, setNameSurname] = useState('');
+const [email, setEmail] = useState('');
+const [phoneNumber, setPhoneNumber] = useState('');
+const [city, setCity] = useState('');
+const [town, setTown] = useState('');
+const [address, setAddress] = useState('');
+const [identityNumber, setIdentityNumber] = useState('');
+
+
   const token = localStorage.getItem("token"); 
   
   
@@ -121,7 +128,6 @@ const newAddress = async () => {
     identityNumber: document.getElementById('adreslerim-tc').value
   };
 
-  const token = localStorage.getItem('token');
 
   try {
     const response = await fetch('http://213.142.159.49:8083/api/address/add', {
@@ -142,7 +148,8 @@ const newAddress = async () => {
   } catch (error) {
     console.error('Error:', error);
   }
-  window.location.reload()
+  window.setTimeout(() => window.location.reload(), 1000);
+
 
 };
 
@@ -193,6 +200,59 @@ const deleteAddress = async (id) => {
     console.error('Error:', error);
   }
 };
+const handleOpenPopup = (address) => {
+  setSelectedAddress(address);
+  setAddressTitle(address.addressTitle || '');
+  setNameSurname(address.nameSurname || '');
+  setEmail(address.email || '');
+  setPhoneNumber(address.phoneNumber || '');
+  setCity(address.city || '');
+  setTown(address.town || '');
+  setAddress(address.address || '');
+  setIdentityNumber(address.identityNumber || '');
+  setShowPopup(true);
+};
+
+
+const updateAddress = async (event) => {
+  event.preventDefault(); // Prevent default form submission behavior
+
+  const addressDTO = {
+    addressTitle,
+    nameSurname,
+    email,
+    phoneNumber,
+    city,
+    town,
+    address,
+    identityNumber,
+  };
+
+  const token = localStorage.getItem('token');
+
+  try {
+    const response = await fetch(`http://213.142.159.49:8083/api/address/update/${selectedAddress.id}`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(addressDTO),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Address updated successfully:', data);
+      setShowPopup(false); // Close the popup
+      fetchAddresses(); // Refresh the address list
+    } else {
+      console.error('Failed to update address:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+};
+
 
 
   return (
@@ -478,22 +538,24 @@ const deleteAddress = async (id) => {
                         <div key={index} className="col-lg-5 adres-card">
                           <div>{address.addressTitle}</div> 
                           <div className="adres-card-flex">
-                            <button className="adres-card-flex-btn1">
-                              <svg
-                                onClick={() => console.log("Edit clicked")}
-                                clipRule="evenodd"
-                                fillRule="evenodd"
-                                strokeLinejoin="round"
-                                strokeMiterlimit="2"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
+                          <button
+                                className="adres-card-flex-btn1"
+                                onClick={() => handleOpenPopup(address)} // Pass the address data
                               >
-                                <path
-                                  d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.75c0-.414.336-.75.75-.75s.75.336.75.75v9.25c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm-2.011 6.526c-1.045 3.003-1.238 3.45-1.238 3.84 0 .441.385.626.627.626.272 0 1.108-.301 3.829-1.249zm.888-.889 3.22 3.22 8.408-8.4c.163-.163.245-.377.245-.592 0-.213-.082-.427-.245-.591-.58-.578-1.458-1.457-2.039-2.036-.163-.163-.377-.245-.591-.245-.213 0-.428.082-.592.245z"
-                                  fillRule="nonzero"
-                                />
-                              </svg>
-                            </button>
+                                <svg
+                                  clipRule="evenodd"
+                                  fillRule="evenodd"
+                                  strokeLinejoin="round"
+                                  strokeMiterlimit="2"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="m11.25 6c.398 0 .75.352.75.75 0 .414-.336.75-.75.75-1.505 0-7.75 0-7.75 0v12h17v-8.75c0-.414.336-.75.75-.75s.75.336.75.75v9.25c0 .621-.522 1-1 1h-18c-.48 0-1-.379-1-1v-13c0-.481.38-1 1-1zm-2.011 6.526c-1.045 3.003-1.238 3.45-1.238 3.84 0 .441.385.626.627.626.272 0 1.108-.301 3.829-1.249zm.888-.889 3.22 3.22 8.408-8.4c.163-.163.245-.377.245-.592 0-.213-.082-.427-.245-.591-.58-.578-1.458-1.457-2.039-2.036-.163-.163-.377-.245-.591-.245-.213 0-.428.082-.592.245z"
+                                    fillRule="nonzero"
+                                  />
+                                </svg>
+                              </button>
                             <button className="adres-card-flex-btn2" onClick={()=>deleteAddress(address.id)}>
                               <svg
                                 clipRule="evenodd"
@@ -697,141 +759,96 @@ const deleteAddress = async (id) => {
                 </div>
               </div>
             </div>
-            {showPopup && (
-              <div className="popup-overlay">
-                <div className="popup-content">
-                  <div className="popup-header">
-                    <h2>Adresi Düzenle</h2>
-                    <button className="popup-close-btn" onClick={togglePopup}>
-                      &times;
-                    </button>
-                  </div>
-                  <form className="popup-form row mt-3">
-                    <div className="row col-12 pop-up-form-adres">
-                      <div className="col-lg-6 row adres-duzenle-rows">
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-basligi"
-                          >
-                            Adres Başlığı
-                          </label>
-                          <input
-                            className="col-lg-8"
-                            type="text"
-                            id="adres-duzenle-adres-basligi"
-                          />
-                        </div>
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-adi-soyadi"
-                          >
-                            Ad Soyad
-                          </label>
-                          <input
-                            className="col-lg-8"
-                            type="text"
-                            id="adres-duzenle-adres-adi-soyadi"
-                          />
-                        </div>
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-eposta"
-                          >
-                            E-Posta Adresi
-                          </label>
-                          <input
-                            className="col-lg-8"
-                            type="text"
-                            id="adres-duzenle-adres-eposta"
-                          />
-                        </div>
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-tel"
-                          >
-                            Telefon Numarası
-                          </label>
-                          <input
-                            className="col-lg-8"
-                            type="text"
-                            id="adres-duzenle-adres-tel"
-                          />
-                        </div>
+            {showPopup && selectedAddress && (
+              <div className="modal">
+                <div className="modal-content">
+                  <span className="close" onClick={() => setShowPopup(false)}>&times;</span>
+                  <form onSubmit={updateAddress}>
+                    <div className="row yeni-adres-row">
+                      <div className="col-12">
+                        <input
+                          className='adres-input'
+                          type="text"
+                          placeholder='Adres Başlığı'
+                          value={addressTitle}
+                          onChange={(e) => setAddressTitle(e.target.value)}
+                        />
                       </div>
-
-                      <div className="col-lg-6 row adres-duzenle-rows">
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-il"
-                          >
-                            İl
-                          </label>
-                          <input
-                            className="col-lg-8"
-                            type="text"
-                            id="adres-duzenle-adres-il"
-                          />
-                        </div>
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-ilce"
-                          >
-                            İlçe
-                          </label>
-                          <input
-                            className="col-lg-8"
-                            type="text"
-                            id="adres-duzenle-adres-ilce"
-                          />
-                        </div>
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-adres"
-                          >
-                            Adres
-                          </label>
-                          <textarea
-                            style={{
-                              resize: "none",
-                              border: "1px solid #ccc",
-                              borderRadius: "5px",
-                            }}
-                            className="col-lg-8"
-                            name="adres-duzenle-adres-adres"
-                            id="adres-duzenle-adres-adres"
-                          ></textarea>
-                        </div>
-                        <div className="row col-12 align-items-center">
-                          <label
-                            className="col-lg-4"
-                            htmlFor="adres-duzenle-adres-tc"
-                          >
-                            T.C. Kimlik Numarası
-                          </label>
-                          <input
-                            className="col-lg-8"
-                            type="text"
-                            id="adres-duzenle-adres-tc"
-                          />
-                        </div>
+                      <div className="col-12">
+                        <input
+                          className='adres-input'
+                          type="text"
+                          placeholder='Ad Soyad'
+                          value={nameSurname}
+                          onChange={(e) => setNameSurname(e.target.value)}
+                        />
                       </div>
-                    </div>
-                    <div className="row justify-content-center">
-                      <button className="adres-duzenle-btn mt-5 col-lg-4">
-                        Adresi Düzenle
+                      <div className="col-lg-6">
+                        <input
+                          className='adres-input'
+                          type="text"
+                          placeholder='E-Posta Adresi'
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                        />
+                      </div>
+                      <div className="col-lg-6">
+                        <input
+                          className='adres-input'
+                          type="text"
+                          placeholder='Telefon Numarası'
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
+                        />
+                      </div>
+                      <div className="col-lg-6">
+                        <input
+                          className='adres-input'
+                          type="text"
+                          placeholder='İl'
+                          value={city}
+                          onChange={(e) => setCity(e.target.value)}
+                        />
+                      </div>
+                      <div className="col-lg-6">
+                        <input
+                          className='adres-input'
+                          type="text"
+                          placeholder='İlçe'
+                          value={town}
+                          onChange={(e) => setTown(e.target.value)}
+                        />
+                      </div>
+                      <div className="col-12">
+                        <textarea
+                          name="adres-uzun"
+                          id="adres-uzun"
+                          placeholder='Adres Tarifi'
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                        />
+                      </div>
+                      <div className="col-12">
+                        <textarea
+                          name="hediye-card"
+                          id="hediye-card"
+                          placeholder='T.C. Kimlik Numaranız'
+                          value={identityNumber}
+                          onChange={(e) => setIdentityNumber(e.target.value)}
+                        />
+                      </div>
+                      <button
+                        id='popup-adresi-kaydet-btn'
+                        type="submit"
+                      >
+                        Adresi Güncelle
                       </button>
                     </div>
                   </form>
                 </div>
               </div>
             )}
+
           </div>
         </div>
       </div>

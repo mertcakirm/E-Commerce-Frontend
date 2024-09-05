@@ -1,12 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import './css/errorpage.css';
+const ErrorPage = () => {
+  const location = useLocation();
+  const { state } = location;
+  const errorMessage = state?.errorMessage || 'Bir hata oluştu';
 
-const errorPage =(props)=> {
-    return (
-      <div>
-        
-      </div>
-    )
-  }
+  return (
+    <div className='error-page-parent'>
+    <div className="error-page">
+      <h1>Oops! Bir şeyler yanlış gitti.</h1>
+      <p>{errorMessage}</p>
+      <h3>Hata Kodu:404</h3>
+      <a className='error-page-a' href="/">Ana Sayfaya Dön</a>
+    </div>
+    </div>
+  );
+};
 
-
-export default errorPage;
+export default ErrorPage;

@@ -10,7 +10,6 @@ import Hakkimizda from './components/hakkimizda';
 import Iletisim from './components/iletisim';
 import Admin_product from './components/admin/admin-product';
 import Admin_product_detail from './components/admin/admin-product-detail';
-// import Admin_kategori_detail from './components/admin/admin-kategori-detail';
 import Admin_anasayfa from './components/admin/admin-anasayfa';
 import Admin_users from './components/admin/admin-users';
 import Admin_raporlar from './components/admin/admin-raporlar';
@@ -22,6 +21,30 @@ import Admin_aktif_siparis from './components/admin/admin-aktif-siparis';
 import Admin_mesajlar from './components/admin/admin-mesajlar';
 import Bilgilendirmeler from './components/bilgilendirmeler';
 import Admin_login from './components/admin/admin-login';
+import ErrorPage from './components/errorPage';
+
+
+function checkTokenExpiration() {
+  const token = localStorage.getItem('token');
+
+  if (!token) return false;
+
+  try {
+    const tokenPayload = JSON.parse(atob(token.split('.')[1])); // JWT kullanıyorsanız tokenin payload'ını alır
+    const currentTime = Math.floor(Date.now() / 1000); // Şu anki zaman (saniye cinsinden)
+    
+    if (tokenPayload.exp < currentTime) {
+      localStorage.removeItem('token'); // Tokenin süresi dolmuşsa sil
+      return true; // Süresi dolmuş
+    }
+
+    return false; // Süresi dolmamış
+  } catch (e) {
+    console.error('Geçersiz token:', e);
+    localStorage.removeItem('token'); // Geçersiz token ise sil
+    return true; // Süresi dolmuş veya geçersiz
+  }
+}
 
 function App() {
   const ProtectedRoute = ({ element }) => {
@@ -39,7 +62,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Anasayfa />} />
         <Route path="/admin-giris" element={<Admin_login />} />
-        
+        <Route path="/error" element={<ErrorPage />} />
+
+        <Route path="*" element={<Navigate to="/error" state={{ errorMessage: 'Sayfa bulunamadı' }} />} />
         {/* Dinamik kategoriye göre ürünlerin listelendiği sayfa */}
         <Route path="/urunler/:category" element={<Urunler />} />
         
