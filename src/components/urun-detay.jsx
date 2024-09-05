@@ -66,12 +66,21 @@ const Urun_detay = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [product, setProduct] = useState(null); 
+  const [selectedSize, setSelectedSize] = useState([]);
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const commentsPerPage = 5;
 
   const urlpop = location.pathname.split('/').pop();
   const productUrl = `http://213.142.159.49:8083/api/admin/product/get/${urlpop}`;
+
+
+  const handleSizeClick = (productCode, size) => {
+    setSelectedSize((prevSelectedSizes) => ({
+      ...prevSelectedSizes,
+      [productCode]: prevSelectedSizes[productCode] === size ? null : size,
+    }));
+  };
 
   useEffect(() => {
     fetch(productUrl)
@@ -94,7 +103,12 @@ const Urun_detay = () => {
   const sizes = product?.sizes || [];
   const images = product?.productImage || [];
   if (!images || images.length === 0) {
-    return <p>Fotoğraf Yok!</p>;
+    return (
+        <div class="d-flex justify-content-center" style={{height:'100vh',alignItems:'center'}}>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>);
   }
 
   const indexOfLastComment = currentPage * commentsPerPage;
@@ -233,7 +247,35 @@ const Urun_detay = () => {
 
   };
 
-  
+  const handleAddToBasket = async (productCode, size) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "/girisyap";
+        return;
+      }
+      const requestData = JSON.stringify({ productCode, size });
+      
+      const response = await fetch("http://213.142.159.49:8083/api/basket/add", {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: requestData,
+      });
+
+      if (response.ok) {
+        console.log("Ürün sepete eklendi");
+      } else {
+        throw new Error("Ürün sepete eklenemedi");
+      }
+    } catch (error) {
+      console.error("Ürün sepete eklenirken bir hata oluştu:", error);
+    }
+  };
+
+
   return (
     <div>
       <Helmet>
@@ -320,24 +362,6 @@ const Urun_detay = () => {
                 {product.productName}
               </p>
               <p className="urun-code">{product.productCode}</p>
-              {/* <div className="urun-goruntuleme">
-                <svg
-                  width="40"
-                  height="30"
-                  clipRule="evenodd"
-                  fillRule="evenodd"
-                  strokeLinejoin="round"
-                  strokeMiterlimit="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm.002 3c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5z"
-                    fillRule="nonzero"
-                  />
-                </svg>
-                <span>Bu ürünü 70 kişi görüntüledi</span>
-              </div> */}
               <div className="urun-goruntuleme">
               <svg xmlns="http://www.w3.org/2000/svg" width="45" height="30" viewBox="0 0 24 24"><path d="M13.299 3.74c-.207-.206-.299-.461-.299-.711 0-.524.407-1.029 1.02-1.029.262 0 .522.1.721.298l3.783 3.783c-.771.117-1.5.363-2.158.726l-3.067-3.067zm-.299 8.76c0-1.29.381-2.489 1.028-3.5h-14.028v2h.643c.535 0 1.021.304 1.256.784l4.101 10.216h12l1.211-3.015c-3.455-.152-6.211-2.993-6.211-6.485zm-2.299-8.76c.207-.206.299-.461.299-.711 0-.524-.407-1.029-1.02-1.029-.261 0-.522.1-.72.298l-4.701 4.702h2.883l3.259-3.26zm8.799 4.26c-2.486 0-4.5 2.015-4.5 4.5s2.014 4.5 4.5 4.5c2.484 0 4.5-2.015 4.5-4.5s-2.016-4.5-4.5-4.5zm-.469 6.484l-1.688-1.637.695-.697.992.94 2.115-2.169.697.696-2.811 2.867z"/></svg>
                 <span className="mt-1">Bu ürün {product.countInBasket} kişinin sepetinde</span>
@@ -356,15 +380,18 @@ const Urun_detay = () => {
               <div className="beden">
                 <p>BEDEN:</p>
                 <div className="beden-cards">
-                {sizes.map((size,index)=>
+                {sizes.map((sizes,index)=>
 
-                  <button>{size.size}</button>
+                  <button   className={` ${selectedSize[product.productCode] === sizes.size ? 'selected-size' : ''}`}
+                  onClick={() => handleSizeClick(product.productCode, sizes.size)}
+                
+                  >{sizes.size}</button>
                 )}
 
                   </div>
               </div>
               <div className="sepet-flex">
-                <button className="sepete-ekle-detay-btn">Sepete Ekle</button>
+                <button className="sepete-ekle-detay-btn" onClick={() => handleAddToBasket(product.productCode, selectedSize[product.productCode])}>Sepete Ekle</button>
                 <button className="like-detay-btn" onClick={() => handleLikeClick(product.productCode)}>
                 <svg
                     clipRule="evenodd"

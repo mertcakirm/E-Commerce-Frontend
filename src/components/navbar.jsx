@@ -14,7 +14,8 @@ const Navbar = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalprice, setTotalprice] = useState(0);
-  
+  const [selectedSizes, setSelectedSizes] = useState({});
+
   const handleSidebarMouseEnter = () => {
     setSidebarOpen(true);
   };
@@ -32,9 +33,44 @@ const Navbar = () => {
     setIsMobile(window.innerWidth < 768);
   };
 
+  const handleSizeChange = (e, index) => {
+    const size = e.target.value;
+    setSelectedSizes((prevSizes) => ({
+      ...prevSizes,
+      [index]: size,
+    }));
+  };
+
+  const handleAddToBasket = async (productCode, size) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        window.location.href = "/girisyap";
+        return;
+      }
+      const requestData = JSON.stringify({ productCode, size });
+      
+      const response = await fetch("http://213.142.159.49:8083/api/basket/add", {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: requestData,
+      });
+
+      if (response.ok) {
+        console.log("Ürün sepete eklendi");
+      } else {
+        throw new Error("Ürün sepete eklenemedi");
+      }
+    } catch (error) {
+      console.error("Ürün sepete eklenirken bir hata oluştu:", error);
+    }
+  };
 
   const deleteItemFromBasket = (productCode) => {
-    const token = localStorage.getItem('token');  // Get the token from localStorage
+    const token = localStorage.getItem('token');  
   
     if (!token) {
       console.error('No token found');
@@ -602,7 +638,11 @@ const Navbar = () => {
             >
       <div className="sepet-flex2">
       {loading ? (
-        <p>Loading...</p>
+        <div className="d-flex justify-content-center">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
       ) : (
         cartItems.map((item) => (
           <div className="sepet-card row" key={item.productCode}>
@@ -667,21 +707,17 @@ const Navbar = () => {
               tabIndex="0"
             >
               <div className="favorilerim-canvas-flex">
-                <div>
+              <div>
                   {favoriteproduct && favoriteproduct.length > 0 ? (
                     favoriteproduct.map((product, index) => (
-                      <div
-                        className="favorilerim-canvas-card row"
-                      >
+                      <div className="favorilerim-canvas-card row" key={index}>
                         <div className="col-3 favorilerim-canvas-col-1">
-                          <a
-                            href={`/urunler-detay/${product.productCode}`} 
-                          >
-                          <img
-                            src={`data:image/jpeg;base64,${product.imageBytes}`}
-                            className="img-fluid w-100 sepet-resim"
-                            alt={product.productName || "Ürün resmi"}
-                          />
+                          <a href={`/urunler-detay/${product.productCode}`}>
+                            <img
+                              src={`data:image/jpeg;base64,${product.imageBytes}`}
+                              className="img-fluid w-100 sepet-resim"
+                              alt={product.productName || "Ürün resmi"}
+                            />
                           </a>
                         </div>
                         <div className="col-8 favorilerim-canvas-col-2">
@@ -692,15 +728,11 @@ const Navbar = () => {
                               justifyContent: "space-between",
                             }}
                           >
-                            <p className="sepet-card-col-2-p-1">
-                              {product.productName}
-                            </p>
+                            <p className="sepet-card-col-2-p-1">{product.productName}</p>
                             <button
                               id="like-btn-color"
                               className="urunler-card-content-bottom-like-btn"
-                              onClick={() =>
-                                handleLikeClick(product.productCode)
-                              }
+                              onClick={() => handleLikeClick(product.productCode)}
                             >
                               <svg
                                 clipRule="evenodd"
@@ -720,55 +752,43 @@ const Navbar = () => {
                               </svg>
                             </button>
                           </div>
-                          <p className="sepet-card-col-2-urun-kodu">
-                            Ürün Kodu : {product.productCode}
-                          </p>
+                          <p className="sepet-card-col-2-urun-kodu">Ürün Kodu : {product.productCode}</p>
                           <div className="sepet-card-col-2-fiyatlar-flex">
-                            <p className="sepet-card-col-2-p1-fiyat">
-                              {product.priceWithDiscount}₺
-                            </p>
-                            <p className="sepet-card-col-2-p2-fiyat">
-                              {product.priceWithOutDiscount}₺
-                            </p>
+                            <p className="sepet-card-col-2-p1-fiyat">{product.priceWithDiscount}₺</p>
+                            <p className="sepet-card-col-2-p2-fiyat">{product.priceWithOutDiscount}₺</p>
                           </div>
                           <div className="favori-card-add-flex">
-                            {/* <div className="updown">
-                              <button
-                                onClick={() => decrementProductCount(index)}
-                              >
-                                -
-                              </button>
-                              <span>{productCount[index] || 1}</span>
-                              <button
-                                onClick={() => incrementProductCount(index)}
-                              >
-                                +
-                              </button>
-                            </div> */}
-                            {product.sizes.map((sizeObj)=>(
-                            <select name="favori-size" id="favori-size">
-                              <option value={sizeObj.size}>{sizeObj.size}</option>
+                            <select
+                              name="favori-size"
+                              id="favori-size"
+                              onChange={(e) => handleSizeChange(e, index)}
+                            >
+                              {product.sizes.map((sizeObj) => (
+                                <option key={sizeObj.size} value={sizeObj.size}>
+                                  {sizeObj.size}
+                                </option>
+                              ))}
                             </select>
-                            ))}
-                            <button className="favori-card-sepete-ekle">
+                            <button
+                              className="favori-card-sepete-ekle"
+                              onClick={() => handleAddToBasket(product.productCode, selectedSizes[index] || product.sizes[0].size)}
+                            >
                               Sepete Ekle
                             </button>
                           </div>
                         </div>
                         <div className="col-1 favorilerim-canvas-col-3">
-                        <a
-                            href={`/urunler-detay/${product.productCode}`} 
-                          >
-                          <svg
-                            width="24"
-                            height="24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                          >
-                            <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-                          </svg>
-                        </a>
+                          <a href={`/urunler-detay/${product.productCode}`}>
+                            <svg
+                              width="24"
+                              height="24"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                            >
+                              <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
+                            </svg>
+                          </a>
                         </div>
                       </div>
                     ))
@@ -778,6 +798,7 @@ const Navbar = () => {
                     </div>
                   )}
                 </div>
+
               </div>
             </div>
           </div>

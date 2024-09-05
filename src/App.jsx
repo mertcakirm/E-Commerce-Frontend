@@ -21,6 +21,7 @@ import Parola_yenile from './components/parola-yenile';
 import Admin_aktif_siparis from './components/admin/admin-aktif-siparis';
 import Admin_mesajlar from './components/admin/admin-mesajlar';
 import Bilgilendirmeler from './components/bilgilendirmeler';
+import Admin_login from './components/admin/admin-login';
 
 function App() {
   const ProtectedRoute = ({ element }) => {
@@ -37,6 +38,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Anasayfa />} />
+        <Route path="/admin-giris" element={<Admin_login />} />
         
         {/* Dinamik kategoriye göre ürünlerin listelendiği sayfa */}
         <Route path="/urunler/:category" element={<Urunler />} />

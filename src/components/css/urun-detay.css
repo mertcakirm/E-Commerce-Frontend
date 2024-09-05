@@ -24,7 +24,9 @@
   object-fit: cover;
 }
 
-
+.selected-size{
+  background-color: rgb(150, 150, 150);
+}
 
 .carousel-container {
     position: relative;

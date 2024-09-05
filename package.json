@@ -24,7 +24,8 @@
     "react-helmet": "^6.1.0",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.1.4"
+    "swiper": "^11.1.4",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

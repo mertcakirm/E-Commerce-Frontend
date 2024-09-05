@@ -8,7 +8,6 @@ import Footer from "./footer";
 import { Helmet } from "react-helmet";
 import logo from '../assets/mob_logo.png';
 
-
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
   return (
@@ -64,6 +63,7 @@ const Anasayfa = () => {
   const [sliderData, setSliderData] = useState([]);
   const [cartData, setCartData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -79,8 +79,48 @@ const Anasayfa = () => {
     };
   }, []);
 
+
   const handleClick = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Veri çekme fonksiyonları
+  const fetchSliderData = async () => {
+    try {
+      const response = await fetch('http://213.142.159.49:8083/api/slider/main/get');
+      if (response.ok) {
+        const data = await response.json();
+        setSliderData(data);
+      } else {
+        console.error("Failed to fetch slider data");
+      }
+    } catch (error) {
+      console.error("Error fetching slider data:", error);
+    }
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch("http://213.142.159.49:8083/api/category/admin/get/all");
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error("Error fetching categories data:", error);
+    }
+  };
+
+  const fetchCartData = async () => {
+    try {
+      const response = await fetch('http://213.142.159.49:8083/api/product/get/cart');
+      if (response.ok) {
+        const data = await response.json();
+        setCartData(data);
+      } else {
+        console.error("Failed to fetch cart data");
+      }
+    } catch (error) {
+      console.error("Error fetching cart data:", error);
+    }
   };
 
   const settings = {
@@ -124,56 +164,64 @@ const Anasayfa = () => {
     ],
   };
 
-
-  
-
-
   useEffect(() => {
-    const fetchSliderData = async () => {
-      try {
-        const response = await fetch('http://213.142.159.49:8083/api/slider/main/get');
-        if (response.ok) {
-          const data = await response.json();
-          setSliderData(data); // Update state with fetched data
-        } else {
-          console.error("Failed to fetch slider data");
-        }
-      } catch (error) {
-        console.error("Error fetching slider data:", error);
-      }
+    const fetchData = async () => {
+      await Promise.all([fetchSliderData(), fetchCategories(), fetchCartData()]);
+      setLoading(false);
     };
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("http://213.142.159.49:8083/api/category/admin/get/all");
-        const data = await response.json();
-        setCategories(data); 
-      } catch (error) {
-        console.error("Error fetching data: ", error);
+
+    fetchData();
+    
+    // WebSocket bağlantısını kur
+    const socket = new WebSocket('ws://213.142.159.49:8083/api/slider/main/get');
+
+    socket.onopen = () => {
+      console.log('WebSocket bağlantısı kuruldu');
+      socket.send(JSON.stringify({ type: "CONNECT", message: "Merhaba Sunucu!" })); 
+    };
+
+    socket.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      console.log('Sunucudan gelen mesaj:', message);
+
+      // Mesaj türüne göre ilgili işlemi tetikle
+      switch (message.type) {
+        case "UPDATE_SLIDER":
+          fetchSliderData(); // Slider verisini güncelle
+          break;
+        case "UPDATE_CATEGORIES":
+          fetchCategories(); // Kategorileri güncelle
+          break;
+        case "UPDATE_CART":
+          fetchCartData(); // Sepet verisini güncelle
+          break;
+        default:
+          console.warn("Bilinmeyen mesaj türü:", message.type);
       }
     };
 
-    fetchSliderData();
-    fetchCategories();
+    socket.onerror = (error) => {
+      console.error('WebSocket hatası:', error);
+    };
+
+    socket.onclose = () => {
+      console.log('WebSocket bağlantısı kapatıldı');
+    };
+
+    return () => {
+      socket.close();
+    };
   }, []);
 
-  useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        const response = await fetch('http://213.142.159.49:8083/api/product/get/cart');
-        if (response.ok) {
-          const data = await response.json();
-          setCartData(data);
-        } else {
-          console.error("Failed to fetch cart data");
-        }
-      } catch (error) {
-        console.error("Error fetching cart data:", error);
-      }
-    };
-    fetchCartData();
-  }, []);
-
-
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center" style={{ height: '100vh', alignItems: 'center' }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
 
   return (

@@ -10,19 +10,18 @@ const Urunler = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [colClass, setColClass] = useState("col-lg-4");
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const location = useLocation();
   const [selectedSize, setSelectedSize] = useState([]);
   const [favoriteProducts, setFavoriteProducts] = useState([]);
-  const [isfavorite, setIsFavorite] = useState([]);
+  const [isFavorite, setIsFavorite] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+  const location = useLocation();
 
-  
   const handleSizeClick = (productCode, size) => {
     setSelectedSize((prevSelectedSizes) => ({
       ...prevSelectedSizes,
       [productCode]: prevSelectedSizes[productCode] === size ? null : size,
     }));
   };
-  
 
   useEffect(() => {
     const fetchFavorites = async () => {
@@ -46,15 +45,10 @@ const Urunler = () => {
         console.error("Favorileri alırken bir hata oluştu:", error);
       }
     };
-    
+
     fetchFavorites();
-    
   }, []);
 
-  
-  
-  const currentCategory = location.pathname.split('/').pop();
-  
   const handleLikeClick = async (productCode) => {
     try {
       const token = localStorage.getItem("token");
@@ -79,34 +73,31 @@ const Urunler = () => {
       const likeBtnColor = document.getElementById("like-btn-color");
       if (likeBtnColor) {
         likeBtnColor.style.fill = "red";
-      }else{
-        likeBtnColor.style.fill="white"
+      } else {
+        likeBtnColor.style.fill = "white";
       }
-            setIsFavorite((prevStatus) => ({
-              ...prevStatus,
-              [productCode]: true,
-            }));
+      setIsFavorite((prevStatus) => ({
+        ...prevStatus,
+        [productCode]: true,
+      }));
     } catch (error) {
       console.error("Favorilere eklenirken bir hata oluştu:", error);
     }
-    
-    // window.setTimeout(() => window.location.reload(), 1000);
-
   };
-  
+  const currentCategory = location.pathname.split('/').pop();
+
   useEffect(() => {
     const fetchAndFilterProducts = async () => {
       const token = localStorage.getItem("token");
       const headers = {
         'Content-Type': 'application/json',
       };
-  
+
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
-  
+
       try {
-        const currentCategory = location.pathname.split('/').pop();
         let response;
         
         if (currentCategory === 'tum-urunler') {
@@ -120,9 +111,9 @@ const Urunler = () => {
             headers,
           });
         }
-  
+
         const data = await response.json();
-  
+
         if (Array.isArray(data.content)) {
           setFilteredProducts(data.content);
         } else {
@@ -131,14 +122,13 @@ const Urunler = () => {
         }
       } catch (error) {
         console.error('Error fetching products:', error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching data
       }
     };
-  
+
     fetchAndFilterProducts();
   }, [location]);
-  
-  
-  
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -152,17 +142,12 @@ const Urunler = () => {
     }
   };
 
-
   const calculateOriginalPrice = (priceWithDiscount, discountRate) => {
     if (discountRate > 0) {
       return (priceWithDiscount / (1 - discountRate / 100)).toFixed(2);
     }
     return priceWithDiscount;
   };
-
-
-
-
 
   const handleAddToBasket = async (productCode, size) => {
     try {
@@ -191,6 +176,18 @@ const Urunler = () => {
       console.error("Ürün sepete eklenirken bir hata oluştu:", error);
     }
   };
+
+  // Show loading spinner while fetching data
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center" style={{ height: '100vh', alignItems: 'center' }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   
 
   return (
