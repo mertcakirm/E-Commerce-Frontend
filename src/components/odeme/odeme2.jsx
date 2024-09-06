@@ -5,7 +5,7 @@ import Sepet_ozeti from './sepet-ozeti';
 const Odeme2 = () => {
   const [showModal, setShowModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
-  const [selectedaddresses, setSelectedAddresses] = useState([]);
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(null); // Only one selected address
   const [addressTitle, setAddressTitle] = useState('');
   const [nameSurname, setNameSurname] = useState('');
   const [email, setEmail] = useState('');
@@ -35,8 +35,8 @@ const Odeme2 = () => {
       document.body.style.overflow = 'auto';
     };
   }, [showModal]);
-  const token = localStorage.getItem('token');
 
+  const token = localStorage.getItem('token');
 
   const newAddress = async (event) => {
     event.preventDefault(); 
@@ -51,7 +51,6 @@ const Odeme2 = () => {
       address,
       identityNumber,
     };
-  
   
     try {
       const response = await fetch('http://213.142.159.49:8083/api/address/add', {
@@ -73,12 +72,7 @@ const Odeme2 = () => {
       console.error('Error:', error);
     }
     window.setTimeout(() => window.location.reload(), 1000);
-
   };
-  
-  
-  
-  
   
   useEffect(() => {
     const fetchAddresses = async () => {
@@ -105,7 +99,19 @@ const Odeme2 = () => {
   
     fetchAddresses();
   }, []);
-  console.log(addresses);
+
+  const handleSelectAddress = (index) => {
+    if (selectedAddressIndex === index) {
+      // Deselect the address if it's already selected
+      setSelectedAddressIndex(null);
+      console.log('No address selected');
+    } else {
+      // Select a new address
+      setSelectedAddressIndex(index);
+      console.log('Selected Address:', addresses[index]);
+    }
+  };
+
   if (loading) {
     return (
       <div className="d-flex justify-content-center" style={{ height: '50vh', alignItems: 'center' }}>
@@ -115,6 +121,7 @@ const Odeme2 = () => {
       </div>
     );
   }
+
   return (
     <div className='row'>
       <Helmet>
@@ -142,15 +149,15 @@ const Odeme2 = () => {
         <div className="teslimat-bilgileri-panel-parent">
           <div className="kayitli-adreslerim-parent">
             <p className='kayitli-adresleri-genel-baslik'>Kayıtlı Adreslerim</p>
-            {addresses.map((address,index)=>(
-            <div key={index} className="kayitli-adreslerim-card">
-              <p className='kayitli-adreslerim-card-p1'>{address.addressTitle}</p>
-              <p className="cut-text">{address.address}</p>
-              <button>Kullan</button>
-            </div>
-
+            {addresses.map((address, index) => (
+              <div key={index} className="kayitli-adreslerim-card">
+                <p className='kayitli-adreslerim-card-p1'>{address.addressTitle}</p>
+                <p className="cut-text">{address.address}</p>
+                <button onClick={() => handleSelectAddress(index)}>
+                  {selectedAddressIndex === index ? 'Vazgeç' : 'Kullan'}
+                </button>
+              </div>
             ))}
-
           </div>
 
           <button id='yeni-adres-ekle-btn' onClick={handleOpenModal}>Yeni Adres Ekle</button>
@@ -159,11 +166,11 @@ const Odeme2 = () => {
         {/* Modal */}
         {showModal && (
           <div className="modal">
-            <div className="modal-content" >
-              <span className="close" onClick={handleCloseModal} >&times;</span>
+            <div className="modal-content">
+              <span className="close" onClick={handleCloseModal}>&times;</span>
               <form>
-              <div className="row yeni-adres-row">
-              <div className="col-12">
+                <div className="row yeni-adres-row">
+                  <div className="col-12">
                     <input
                       className='adres-input'
                       type="text"
@@ -242,25 +249,19 @@ const Odeme2 = () => {
                     Adresi Kaydet
                   </button>
                 </div>
-
               </form>
             </div>
           </div>
         )}
-
-        {/* Diğer içerik buraya gelecek */}
       </div>
       <div className="col-lg-5 ozet-sag-col">
-
-      <Sepet_ozeti />
-      <button className="button-next-step primary" id="stepper" >
+        <Sepet_ozeti />
+        <button className="button-next-step primary" id="stepper">
           Ödemeye Geç
         </button>
-    </div>
+      </div>
     </div>
   );
 };
-
-
 
 export default Odeme2;

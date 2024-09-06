@@ -907,6 +907,11 @@ Credit Card
 		width: 100%!important;
 	}
 
+  .kayitli-adreslerim-card>p{
+    margin: 0;
+    text-align: center;
+  }
+
 	.credit-card-box {
 		perspective: 1000;
 		width: 300px;

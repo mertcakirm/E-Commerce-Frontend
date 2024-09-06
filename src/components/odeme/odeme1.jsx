@@ -184,7 +184,7 @@ const Odeme1=()=>{
           </div>
             <div className="col-lg-4 ozet-sag-col">
                   <Sepet_ozeti />
-                  <button className="button-next-step primary" id="stepper" >
+                  <button className="button-next-step primary" onClick={()=>window.location.href="/siparis/kargo"} id="stepper" >
                     Sonraki Adım
                   </button>
             </div>

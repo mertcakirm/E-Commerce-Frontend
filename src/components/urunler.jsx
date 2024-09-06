@@ -92,14 +92,15 @@ const Urunler = () => {
       const headers = {
         'Content-Type': 'application/json',
       };
-
+  
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
-
+  
       try {
         let response;
-        
+  
+        // Determine the API endpoint based on the selected category
         if (currentCategory === 'tum-urunler') {
           response = await fetch('http://213.142.159.49:8083/api/product/all', {
             method: 'GET',
@@ -111,13 +112,18 @@ const Urunler = () => {
             headers,
           });
         }
-
+  
         const data = await response.json();
-
-        if (Array.isArray(data.content)) {
+  
+        // Handle the structure for different endpoints
+        if (data._embedded && Array.isArray(data._embedded.productDTOList)) {
+          // For the '/product/all' endpoint
+          setFilteredProducts(data._embedded.productDTOList);
+        } else if (Array.isArray(data.content)) {
+          // For the '/category/get/{currentCategory}' endpoint
           setFilteredProducts(data.content);
         } else {
-          console.error('Fetched data content is not an array:', data.content);
+          console.error('Unexpected data format:', data);
           setFilteredProducts([]);
         }
       } catch (error) {
@@ -126,9 +132,10 @@ const Urunler = () => {
         setLoading(false); // Set loading to false after fetching data
       }
     };
-
+  
     fetchAndFilterProducts();
   }, [location]);
+  
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);

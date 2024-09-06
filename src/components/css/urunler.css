@@ -328,7 +328,9 @@
       height: 430px;
     }
 
-
+    .urunler-sayfa-baslik {
+      font-size: 20px;
+  }
   }
 
   .offcanvas-backdrop.show {

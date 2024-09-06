@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./css/navbar.css";
 import logo from "../assets/mob_logo.png";
-import { data } from "jquery";
 
 const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -81,7 +80,7 @@ const Navbar = () => {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'  // Set the content type to JSON
+        'Content-Type': 'application/json' 
       }
     })
       .then(response => {
@@ -93,7 +92,6 @@ const Navbar = () => {
       })
       .then(data => {
         console.log('Item deleted:', data);
-        // Optionally, update the cart state or UI here
       })
       .catch(error => {
         console.error('Error deleting item:', error);
@@ -321,7 +319,7 @@ const Navbar = () => {
         )}
       </div>
 
-      {/* Mobile Navigation */}
+      {/* desktop Navigation */}
       {!isMobile ? (
         <div className="container-fluid" id="nav-container">
           <div className="row">
@@ -690,11 +688,22 @@ const Navbar = () => {
         ))
       )}
     </div>
-              <div className="toplam-tutar">
+        <div className="toplam-tutar">
                 <p>TOPLAM</p>
                 <p>{totalprice}₺</p>
               </div>
-              <a href="#" className="sepeti-tamamla-btn">
+              <a
+                href="#"
+                className="sepeti-tamamla-btn"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (totalprice === 0) {
+                    window.location.href = "/urunler/tum-urunler";
+                  } else {
+                    window.location.href = "/siparis/ozet";
+                  }
+                }}
+              >
                 Sepeti Tamamla
               </a>
             </div>
