@@ -3,8 +3,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Helmet } from "react-helmet";
-import Navbar from "./navbar";
-import Footer from "./footer";
+import Navbar from "../components/childcomponents/navbar";
+import Footer from "../components/childcomponents/footer";
 import "./css/urun-detay.css";
 import logo from '../assets/mob_logo.png';
 

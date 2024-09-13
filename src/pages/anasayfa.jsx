@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./css/anasayfa.css";
-import Navbar from "./navbar";
+import Navbar from "../components/childcomponents/navbar";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Footer from "./footer";
+import Footer from "../components/childcomponents/footer";
 import { Helmet } from "react-helmet";
 import logo from '../assets/mob_logo.png';
 

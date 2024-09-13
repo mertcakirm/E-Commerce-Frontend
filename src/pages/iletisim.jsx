@@ -1,10 +1,23 @@
-import React, { Component } from "react";
-import Navbar from "./navbar";
-import Footer from "./footer";
+import React, { useEffect } from "react";
+import Navbar from "../components/childcomponents/navbar";
+import Footer from "../components/childcomponents/footer";
 import "./css/iletisim.css";
 import { Helmet } from "react-helmet";
 
-const iletisim = () => {
+const Iletisim = () => {
+  useEffect(() => {
+    window.$("#telefon").mask("(999) 999-9999"); 
+
+    window.$("#eposta").on("input", function () {
+      const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!pattern.test(this.value)) {
+        this.setCustomValidity("Geçerli bir e-posta adresi girin.");
+      } else {
+        this.setCustomValidity("");
+      }
+    });
+  }, []);
+
   return (
     <div>
       <Helmet>
@@ -40,6 +53,7 @@ const iletisim = () => {
                     type="text"
                     className="adres-input"
                     placeholder="Ad Soyad"
+                    id="adsoyad"
                   />
                 </div>
                 <div className="col-12">
@@ -47,6 +61,7 @@ const iletisim = () => {
                     type="text"
                     className="adres-input"
                     placeholder="E-Posta Adresiniz"
+                    id="eposta"
                   />
                 </div>
                 <div className="col-12">
@@ -54,6 +69,7 @@ const iletisim = () => {
                     type="text"
                     className="adres-input"
                     placeholder="Telefon Numaranız"
+                    id="telefon"
                   />
                 </div>
                 <div className="col-12">
@@ -61,6 +77,7 @@ const iletisim = () => {
                     type="text"
                     className="adres-input"
                     placeholder="Konu"
+                    id="konu"
                   />
                 </div>
                 <div className="col-12">
@@ -85,4 +102,4 @@ const iletisim = () => {
   );
 };
 
-export default iletisim;
+export default Iletisim;

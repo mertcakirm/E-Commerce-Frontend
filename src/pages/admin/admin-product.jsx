@@ -2,268 +2,286 @@ import React, { useState, useEffect } from "react";
 import Admin_sidebar from "./admin-sidebar";
 import axios from "axios";
 const Admin_product = () => {
-  const [products, setProducts] = useState([]);
-  const [images, setImages] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [showPopup, setShowPopup] = useState(false);
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [selectedProductCode, setSelectedProductCode] = useState(null);
-  const [discountValue, setDiscountValue] = useState("");
-  const [productName, setProductName] = useState("");
-  const [productCategory, setProductCategory] = useState("");
-  const [productDescription, setProductDescription] = useState("");
-  const [productStock, setProductStock] = useState("");
-  const [productPrice, setProductPrice] = useState(0.0);
-  const [purchasePrice, setPurchasePrice] = useState(0.0);
-  const [sizes, setSizes] = useState([]);
-  const [sizeInput, setSizeInput] = useState("");
-  const [quantityInput, setQuantityInput] = useState("");
-
-  const productsPerPage = 10;
-  const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    fetch("http://213.142.159.49:8083/api/admin/product/all")
-      .then((response) => response.json())
-      .then((data) => setProducts(data.content))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      images.forEach((image) => URL.revokeObjectURL(image.preview));
-    };
-  }, [images]);
-
-  const filteredProducts = products.filter((product) => {
-    const productNameLower = product.productName?.toLowerCase() || "";
-    const categoryName = product.category?.name?.toLowerCase() || "";
-    const productCode = product.productCode?.toLowerCase() || "";
-    const productId = product.id?.toString() || "";
-
-    return (
-      productNameLower.includes(searchTerm.toLowerCase()) ||
-      categoryName.includes(searchTerm.toLowerCase()) ||
-      productCode.includes(searchTerm.toLowerCase()) ||
-      productId.includes(searchTerm)
-    );
-  });
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = filteredProducts.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct
-  );
-
-  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-
-  const handleClick = (event, pageNumber) => {
-    event.preventDefault();
-    setCurrentPage(pageNumber);
-  };
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-    setCurrentPage(1);
-  };
-
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
-  };
-
-  const handleImageUpload = (event) => {
-    const files = Array.from(event.target.files);
-    const imagePreviews = files.map((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      return new Promise((resolve) => {
-        reader.onload = () => resolve({ file, preview: reader.result });
-      });
-    });
-
-    Promise.all(imagePreviews).then((images) => {
-      setSelectedImages(images);
-      setImages((prevImages) => [...prevImages, ...files]);
-    });
-  };
-
-  const handleDelete = (productCode) => {
-    fetch(`http://213.142.159.49:8083/api/admin/product/delete/${productCode}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-      })
-      .catch((error) => console.error("Error deleting product:", error));
-      window.setTimeout(() => window.location.reload(), 1000);
-
-  };
+    const [products, setProducts] = useState([]);
+    const [images, setImages] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [showPopup, setShowPopup] = useState(false);
+    const [selectedImages, setSelectedImages] = useState([]);
+    const [selectedProductCode, setSelectedProductCode] = useState(null);
+    const [discountValue, setDiscountValue] = useState("");
+    const [productName, setProductName] = useState("");
+    const [productCategory, setProductCategory] = useState("");
+    const [productDescription, setProductDescription] = useState("");
+    const [productStock, setProductStock] = useState("");
+    const [productPrice, setProductPrice] = useState(0.0);
+    const [purchasePrice, setPurchasePrice] = useState(0.0);
+    const [sizes, setSizes] = useState([]);
+    const [sizeInput, setSizeInput] = useState("");
+    const [quantityInput, setQuantityInput] = useState("");
+    const [nextPage, setNextPage] = useState("http://213.142.159.49:8083/api/admin/product/all?page=0&size=10");
+    const [currentPage, setCurrentPage] = useState(1);
   
-
-  const applyDiscount = () => {
-    const discountRate = parseInt(discountValue);
-    if (isNaN(discountRate) || discountRate < 0) {
-      console.error("Invalid discount value");
-      return;
-    }
-
-    const discountDTO = {
-      discount: discountRate,
-    };
-
-    console.log("Sending discountDTO:", discountDTO);
-
-    fetch(
-      `http://213.142.159.49:8083/api/admin/product/update/discount/${selectedProductCode}`,
-      {
-        method: "PUT",
+    const productsPerPage = 10;
+    const token = localStorage.getItem("token");
+  
+    useEffect(() => {
+      if (!nextPage) return;
+  
+      fetch(nextPage, {
         headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setProducts((prevProducts) => [...prevProducts, ...data.content]);
+          setNextPage(data._links?.next?.href || null);
+        })
+        .catch((error) => console.error("Error fetching data:", error));
+    }, [nextPage]);
+  
+    useEffect(() => {
+      return () => {
+        images.forEach((image) => URL.revokeObjectURL(image.preview));
+      };
+    }, [images]);
+  
+    const filteredProducts = products.filter((product) => {
+      const productNameLower = product.productName?.toLowerCase() || "";
+      const categoryName = product.category?.name?.toLowerCase() || "";
+      const productCode = product.productCode?.toLowerCase() || "";
+      const productId = product.id?.toString() || "";
+  
+      return (
+        productNameLower.includes(searchTerm.toLowerCase()) ||
+        categoryName.includes(searchTerm.toLowerCase()) ||
+        productCode.includes(searchTerm.toLowerCase()) ||
+        productId.includes(searchTerm)
+      );
+    });
+  
+    // Calculate current products to display
+    const currentProducts = filteredProducts.slice(
+      (currentPage - 1) * productsPerPage,
+      currentPage * productsPerPage
+    );
+  
+    const handleClick = (e, page) => {
+      e.preventDefault();
+      setCurrentPage(page);
+      setNextPage(`http://213.142.159.49:8083/api/admin/product/all?page=${page - 1}&size=10`);
+    };
+  
+    const handleSearch = (event) => {
+      setSearchTerm(event.target.value);
+      setCurrentPage(1);
+      setNextPage("http://213.142.159.49:8083/api/admin/product/all?page=0&size=10");
+      setProducts([]); 
+    };
+  
+    const togglePopup = () => {
+      setShowPopup(!showPopup);
+    };
+  
+    const handleImageUpload = (event) => {
+      const files = Array.from(event.target.files);
+      const imagePreviews = files.map((file) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        return new Promise((resolve) => {
+          reader.onload = () => resolve({ file, preview: reader.result });
+        });
+      });
+  
+      Promise.all(imagePreviews).then((images) => {
+        setSelectedImages(images);
+        setImages((prevImages) => [...prevImages, ...files]);
+      });
+    };
+  
+    const handleDelete = (productCode) => {
+      fetch(`http://213.142.159.49:8083/api/admin/product/delete/${productCode}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(discountDTO),
-      }
-    )
-      .then((response) => {
-        if (!response.ok) {
-          return response.json().then((err) => {
-            console.error("Server Error:", err);
+      })
+        .then((response) => {
+          if (!response.ok) {
             throw new Error("Network response was not ok");
-          });
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Discount applied successfully:", data);
-        setProducts(
-          products.map((product) =>
-            product.productCode === selectedProductCode
-              ? { ...product, discountRate: discountRate }
-              : product
-          )
-        );
-        setDiscountValue("");
-        setSelectedProductCode(null);
-      })
-      .catch((error) => console.error("Error applying discount:", error));
-    window.setTimeout(() => window.location.reload(), 1000);
-  };
-
-  const convertImageToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onloadend = function () {
-        const base64String = reader.result.split(",")[1]; 
-        resolve(base64String); 
-      };
-
-      reader.onerror = function () {
-        reject(new Error("Dosya okuma hatası"));
-      };
-
-      reader.readAsDataURL(file); 
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const productDTO = {
-      productName: productName,
-      description: productDescription,
-      categoryString: productCategory || "",
-      sizes: sizes || [],
-      price: parseFloat(productPrice) || 0.0,
-      purchasePrice: parseFloat(purchasePrice) || 0.0,
+          }
+        })
+        .catch((error) => console.error("Error deleting product:", error));
+      window.setTimeout(() => window.location.reload(), 1000);
     };
-
-    try {
-      const imageBase64Array = [];
-      for (const image of images) {
-        if (image instanceof File || image instanceof Blob) {
-          const base64String = await convertImageToBase64(image);
-          imageBase64Array.push({ bytes: base64String });
-        } else {
-          console.error("Hatalı dosya tipi: ", image);
-        }
+  
+    const applyDiscount = () => {
+      const discountRate = parseInt(discountValue);
+      if (isNaN(discountRate) || discountRate < 0) {
+        console.error("Invalid discount value");
+        return;
       }
-
-      productDTO.images = imageBase64Array;
-
-      console.log("Sending productDTO:", productDTO); 
-
-      const response = await fetch(
-        `http://213.142.159.49:8083/api/admin/product/add`,
+  
+      const discountDTO = {
+        discount: discountRate,
+      };
+  
+      fetch(
+        `http://213.142.159.49:8083/api/admin/product/update/discount/${selectedProductCode}`,
         {
-          method: "POST",
+          method: "PUT",
           headers: {
-            // Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(productDTO),
+          body: JSON.stringify(discountDTO),
         }
-      );
-
-      if (!response.ok) {
-        const errorData = response;
-        console.error("Error response:", errorData);
-        throw new Error("Failed to send data");
-      }
-
-      console.log("Veriler ve dosyalar başarıyla gönderildi");
+      )
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((err) => {
+              console.error("Server Error:", err);
+              throw new Error("Network response was not ok");
+            });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setProducts(
+            products.map((product) =>
+              product.productCode === selectedProductCode
+                ? { ...product, discountRate: discountRate }
+                : product
+            )
+          );
+          setDiscountValue("");
+          setSelectedProductCode(null);
+        })
+        .catch((error) => console.error("Error applying discount:", error));
       window.setTimeout(() => window.location.reload(), 1000);
-    } catch (error) {
-      console.error("Error:", error.message);
-    }
-  };
-
-  const addStock = (event) => {
-    event.preventDefault();
-
-    if (sizeInput && quantityInput) {
-      const updatedSizes = sizes.slice();
-      let found = false;
-
-      // Update stock if the size already exists
-      for (let i = 0; i < updatedSizes.length; i++) {
-        if (updatedSizes[i].size === sizeInput) {
-          updatedSizes[i].stock += parseInt(quantityInput, 10);
-          found = true;
-          break;
+    };
+  
+    const convertImageToBase64 = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+  
+        reader.onloadend = function () {
+          const base64String = reader.result.split(",")[1];
+          resolve(base64String);
+        };
+  
+        reader.onerror = function () {
+          reject(new Error("Dosya okuma hatası"));
+        };
+  
+        reader.readAsDataURL(file);
+      });
+    };
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+  
+      const productDTO = {
+        productName: productName,
+        description: productDescription,
+        categoryString: productCategory || "",
+        sizes: sizes || [],
+        price: parseFloat(productPrice) || 0.0,
+        purchasePrice: parseFloat(purchasePrice) || 0.0,
+      };
+  
+      try {
+        const imageBase64Array = [];
+        for (const image of images) {
+          if (image instanceof File || image instanceof Blob) {
+            const base64String = await convertImageToBase64(image);
+            imageBase64Array.push({ bytes: base64String });
+          } else {
+            console.error("Hatalı dosya tipi: ", image);
+          }
         }
+  
+        productDTO.images = imageBase64Array;
+  
+        const response = await fetch(
+          `http://213.142.159.49:8083/api/admin/product/add`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productDTO),
+          }
+        );
+  
+        if (!response.ok) {
+          const errorData = response;
+          console.error("Error response:", errorData);
+          throw new Error("Failed to send data");
+        }
+  
+        console.log("Veriler ve dosyalar başarıyla gönderildi");
+        window.setTimeout(() => window.location.reload(), 1000);
+      } catch (error) {
+        console.error("Error:", error.message);
       }
-
-      // If size not found, add it to the list
-      if (!found) {
-        updatedSizes.push({
-          size: sizeInput,
-          stock: parseInt(quantityInput, 10),
-        });
+    };
+  
+    const addStock = (event) => {
+      event.preventDefault();
+  
+      if (sizeInput && quantityInput) {
+        const updatedSizes = sizes.slice();
+        let found = false;
+  
+        for (let i = 0; i < updatedSizes.length; i++) {
+          if (updatedSizes[i].size === sizeInput) {
+            updatedSizes[i].stock += parseInt(quantityInput, 10);
+            found = true;
+            break;
+          }
+        }
+  
+        if (!found) {
+          updatedSizes.push({
+            size: sizeInput,
+            stock: parseInt(quantityInput, 10),
+          });
+        }
+  
+        const totalStock = updatedSizes.reduce(
+          (total, item) => total + item.stock,
+          0
+        );
+  
+        setSizes(updatedSizes);
+        setProductStock(totalStock);
+        setSizeInput("");
+        setQuantityInput("");
       }
-
-      // Calculate total stock (if needed, but do not add to the list)
-      const totalStock = updatedSizes.reduce(
-        (total, item) => total + item.stock,
-        0
-      );
-
-      setSizes(updatedSizes); // Immediately update the state with the new sizes array
-      setSizeInput(""); // Clear the input field for size
-      setQuantityInput(""); // Clear the input field for quantity
-    }
-  };
-
-
-console.log(currentProducts);
-
+    };
+  
+    const handleSizeInputChange = (e) => {
+      setSizeInput(e.target.value);
+    };
+  
+    const handleQuantityInputChange = (e) => {
+      setQuantityInput(e.target.value);
+    };
+  
+    const handleImageClick = (image) => {
+      window.open(URL.createObjectURL(image));
+    };
+  
+    const handleProductClick = (product) => {
+      setProductName(product.productName);
+      setProductCategory(product.categoryString);
+      setProductDescription(product.description);
+      setProductPrice(product.price);
+      setPurchasePrice(product.purchasePrice);
+      setSizes(product.sizes || []);
+      setShowPopup(true);
+    };
 
 
   return (
@@ -416,49 +434,27 @@ console.log(currentProducts);
               </table>
             </div>
             <ul className="pagination">
-              <li
-                className={`page-item ${currentPage === 1 ? "disabled" : ""}`}
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                aria-label="Previous"
+                onClick={(e) => handleClick(e, currentPage - 2)}
               >
-                <a
-                  className="page-link"
-                  href="#"
-                  aria-label="Previous"
-                  onClick={(e) => handleClick(e, currentPage - 1)}
-                >
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              {[...Array(totalPages)].map((_, index) => (
-                <li
-                  key={index}
-                  className={`page-item ${
-                    currentPage === index + 1 ? "active" : ""
-                  }`}
-                >
-                  <a
-                    className="page-link"
-                    href="#"
-                    onClick={(e) => handleClick(e, index + 1)}
-                  >
-                    {index + 1}
-                  </a>
-                </li>
-              ))}
-              <li
-                className={`page-item ${
-                  currentPage === totalPages ? "disabled" : ""
-                }`}
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li className="page-item">
+              <a
+                className="page-link"
+                href="#"
+                onClick={(e) => handleClick(e, currentPage + 1)}
+                disabled={!nextPage}
               >
-                <a
-                  className="page-link"
-                  href="#"
-                  aria-label="Next"
-                  onClick={(e) => handleClick(e, currentPage + 1)}
-                >
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
-            </ul>
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
           </div>
         </div>
       </div>

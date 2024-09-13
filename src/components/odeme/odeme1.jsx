@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from 'react'
 import { Helmet } from "react-helmet";
-import "../css/odeme.css";
+import "../../pages/css/odeme.css";
 import Sepet_ozeti from './sepet-ozeti';
 
 const Odeme1=()=>{

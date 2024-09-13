@@ -166,6 +166,21 @@ const newAddress = async () => {
       console.error('Error:', error);
     }
   };
+
+  useEffect(() => {
+    window.$("#adreslerim-tel").mask("(999) 999-9999"); 
+
+    window.$("#adreslerim-mail").on("input", function () {
+      const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!pattern.test(this.value)) {
+        this.setCustomValidity("Geçerli bir e-posta adresi girin.");
+      } else {
+        this.setCustomValidity("");
+      }
+    });
+  }, []);
+
+
     return (
         <div className="row col-12">
                 <div className="col-12 text-center profil-pills-content-baslik adreslerim-profil-baslik">

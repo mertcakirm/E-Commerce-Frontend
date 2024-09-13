@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 const Profilechild = () => {
     const token = localStorage.getItem("token"); 
 
-      // profil güncelle
   const updateProfile = async () => {
     const userDTO1 = {
       nameSurname: document.getElementById('bilgilerim-isim').value,
@@ -54,28 +53,41 @@ const Profilechild = () => {
     navigate('/girisyap');
   };
 
-    useEffect(() => {
-        const fetchProfile = async () => {
-          try {
-            const response = await fetch('http://213.142.159.49:8083/api/user/profile', {
-              method: 'GET',
-              headers: {
-                'Authentication': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-              }
-            });
-            
-            const data = await response.json();
-            document.getElementById('bilgilerim-isim').value = data.nameSurname;
-            document.getElementById('bilgilerim-tel').value = data.phoneNumber;
-          } catch (error) {
-            console.error('Error:', error);
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch('http://213.142.159.49:8083/api/user/profile', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json'
           }
-    
-        };
-    
-        fetchProfile();
-      }, [token]);
+        });
+  
+        if (response.ok) {
+          const data = await response.json(); // Parse JSON response
+          document.getElementById('bilgilerim-isim').value = data.nameSurname;
+          document.getElementById('bilgilerim-tel').value = data.phoneNumber;
+        } else if (response.status === 403) {
+          console.error('Forbidden: You do not have permission to access this resource.');
+          localStorage.removeItem("token")
+          window.location.href="/girisyap"
+        } else {
+          console.error('Error:', response.statusText);
+          localStorage.removeItem("token")
+          window.location.href="/girisyap"
+
+
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+  
+    if (token) {
+      fetchProfile();
+    }
+  }, [token]);
     
     return (
 
@@ -138,7 +150,7 @@ const Profilechild = () => {
                       </div>
                     </div>
                     <div>
-                      <button type="button" id="uyeligi-sil-btn">Üyeliğimi Sil</button>
+                      <button onClick={()=>window.location.href="../iletisim"} type="button" id="uyeligi-sil-btn">Üyeliğimi Sil</button>
                     </div>
                   </div>
                   <div className="col-12 guncelle-flex">

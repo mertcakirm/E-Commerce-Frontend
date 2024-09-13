@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import Navbar from "../navbar";
-import Footer from "../footer";
-import Odeme1 from "./odeme1";
-import Odeme2 from "./odeme2";
-import Odeme3 from "./odeme3";
-import Odeme4 from "./odeme4";
-import "../css/odeme.css";
+import Navbar from "../components/childcomponents/navbar";
+import Footer from "../components/childcomponents/footer";
+import Odeme1 from "../components/odeme/odeme1";
+import Odeme2 from "../components/odeme/odeme2";
+import Odeme3 from "../components/odeme/odeme3";
+import Odeme4 from "../components/odeme/odeme4";
+import "./css/odeme.css";
 
 const Odeme = () => {
   const [currentStep, setCurrentStep] = useState(1);

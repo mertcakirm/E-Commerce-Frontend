@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Navbar from "./navbar";
-import Footer from "./footer";
+import Navbar from "../components/childcomponents/navbar";
+import Footer from "../components/childcomponents/footer";
 import { Helmet } from "react-helmet";
 import "./css/giris.css";
 const Parola_yenile = () => {

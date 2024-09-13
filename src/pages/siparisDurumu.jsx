@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./navbar";
+import Navbar from "../components/childcomponents/navbar";
 import { Helmet } from "react-helmet";
-import Footer from "./footer";
+import Footer from "../components/childcomponents/footer";
 import "./css/siparisDurumu.css";
 
 const SiparisDurumu = () => {

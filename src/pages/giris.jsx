@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Navbar from "./navbar";
-import Footer from "./footer";
+import React, { useState, useEffect } from "react";
+import Navbar from "../components/childcomponents/navbar";
+import Footer from "../components/childcomponents/footer";
 import "./css/giris.css";
 import { Helmet } from "react-helmet";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
+import { useNavigate } from "react-router-dom";
 
 const Giris = () => {
   const [formData, setFormData] = useState({
@@ -20,8 +20,22 @@ const Giris = () => {
     password: "",
   });
 
-  const navigate = useNavigate(); 
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    window.$("#phone").mask("(999) 999-9999"); 
+
+    // E-posta için doğrulama
+    window.$("#email").on("input", function () {
+      const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!pattern.test(this.value)) {
+        this.setCustomValidity("Geçerli bir e-posta adresi girin.");
+      } else {
+        this.setCustomValidity("");
+      }
+    });
+  }, []);
 
   const handleChange = (e) => {
     const { id, value, type, checked } = e.target;
@@ -94,7 +108,7 @@ const Giris = () => {
 
       if (response.ok && responseData.token) {
         localStorage.setItem("token", responseData.token);
-        navigate("/")
+        navigate("/");
       } else {
         setErrorMessage("Giriş başarısız: Geçersiz kullanıcı adı veya parola.");
       }
@@ -179,13 +193,13 @@ const Giris = () => {
                 </div>
                 <div className="giris-check">
                   <div>
-                    <input
+                    {/* <input
                       style={{ marginRight: "5px" }}
                       type="checkbox"
                       id="beni-hatirla"
                       name="beni-hatirla"
                     />
-                    <label htmlFor="beni-hatirla">Beni Hatırla</label>
+                    <label htmlFor="beni-hatirla">Beni Hatırla</label> */}
                   </div>
                   <a style={{ color: "#000" }} href="/parola-yenile">
                     Şifremi Unuttum
@@ -227,7 +241,7 @@ const Giris = () => {
                     value={formData.phone}
                     onChange={handleChange}
                   />
-                  <label htmlFor="phone">Telefon Numarası</label>
+                  <label htmlFor="phone">Telefon</label>
                 </div>
                 <div className="form-floating">
                   <input
@@ -262,21 +276,17 @@ const Giris = () => {
                   />
                   <label htmlFor="confirmPassword">Parola Tekrar</label>
                 </div>
-                <div className="kayit-check">
-                  <div className="kayit-check-flex">
+                <div className="giris-check">
+                  <div>
                     <input
                       style={{ marginRight: "5px" }}
                       type="checkbox"
                       id="consent"
-                      name="consent"
                       checked={formData.consent}
                       onChange={handleChange}
                     />
                     <label htmlFor="consent">
-                      Kişisel Verilere İlişkin Aydınlatma Metni doğrultusunda
-                      Gizlilik ve Çerez Politikası, Kullanım Koşulları ve
-                      Kişisel Verilere İlişkin Beyan ve Rıza Onay Metni'ni
-                      okudum, onaylıyorum.
+                      Kampanyalardan haberdar olmak istiyorum
                     </label>
                   </div>
                 </div>
@@ -288,7 +298,7 @@ const Giris = () => {
                   Kayıt Ol
                 </button>
                 <div className="kayit-giris-gecis-btn">
-                  Hesabın var mı? Hemen{" "}
+                  Zaten bir hesabın var mı?{" "}
                   <button type="button" onClick={giris_gecis}>
                     Giriş Yap
                   </button>

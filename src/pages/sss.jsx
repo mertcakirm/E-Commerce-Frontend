@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import Navbar from "./navbar";
-import Footer from "./footer";
+import Navbar from "../components/childcomponents/navbar";
+import Footer from "../components/childcomponents/footer";
 import "./css/sss.css";
 
 const Sss = () => {

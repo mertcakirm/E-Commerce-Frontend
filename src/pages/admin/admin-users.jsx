@@ -1,29 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import Admin_sidebar from './admin-sidebar';
-import './admin-css/admin-genel.css';
+import React, { useState, useEffect } from "react";
+import Admin_sidebar from "./admin-sidebar";
+import "./admin-css/admin-genel.css";
 
 const Admin_users = () => {
   const [usersData, setUsersData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
-
+  const [searchQuery, setSearchQuery] = useState("");
   const usersPerPage = 10;
 
   useEffect(() => {
-    // Fetch the data from the API
-    fetch(`http://213.142.159.49:8083/api/admin/user/all?page=${currentPage - 1}&size=${usersPerPage}`)
-      .then(response => response.json())
-      .then(data => {
+    fetch(
+      `http://213.142.159.49:8083/api/admin/user/all?page=${
+        currentPage - 1
+      }&size=${usersPerPage}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
         setUsersData(data.content);
         setTotalPages(data.totalPages);
       })
-      .catch(error => console.error('Error fetching user data:', error));
+      .catch((error) => console.error("Error fetching user data:", error));
   }, [currentPage]);
 
-  const filteredUsers = usersData.filter(user =>
-    user.nameSurname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    user.phoneNumber.includes(searchQuery)
+  const filteredUsers = usersData.filter(
+    (user) =>
+      user.nameSurname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.phoneNumber.includes(searchQuery)
   );
 
   const handleClick = (event, pageNumber) => {
@@ -34,22 +37,27 @@ const Admin_users = () => {
   };
 
   const toggleUserActivity = (userId) => {
-    fetch(`http://213.142.159.49:8083/api/admin/user/inactive?userId=${userId}`, {
-      method: 'PUT',
-    })
-      .then(response => response)
-      .then(data => {
+    console.log(userId);
+
+    fetch(
+      `http://213.142.159.49:8083/api/admin/user/inactive?userId=${userId}`,
+      {
+        method: "PUT",
+      }
+    )
+      .then((response) => response)
+      .then((data) => {
         if (data.ok) {
-          setUsersData(prevData =>
-            prevData.map(user =>
+          setUsersData((prevData) =>
+            prevData.map((user) =>
               user.id === userId ? { ...user, active: !user.active } : user
             )
           );
         } else {
-          console.error('Failed to change user activity');
+          console.error("Failed to change user activity");
         }
       })
-      .catch(error => console.error('Error toggling user activity:', error));
+      .catch((error) => console.error("Error toggling user activity:", error));
   };
 
   return (
@@ -64,7 +72,7 @@ const Admin_users = () => {
               className="admin-search-inp"
               placeholder="Ara..."
               value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
           <div className="col-12 mt-5">
@@ -82,22 +90,22 @@ const Admin_users = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredUsers.map(user => (
+                  {filteredUsers.map((user) => (
                     <tr key={user.id}>
                       <th scope="row">{user.id}</th>
                       <td>{user.nameSurname}</td>
                       <td>{user.phoneNumber}</td>
                       <td>{user.totalSpent}</td>
                       <td>{user.totalOrder}</td>
-                      <td>{user.active ? 'Aktif' : 'Pasif'}</td>
+                      <td>{user.active ? "Aktif" : "Pasif"}</td>
                       <td>
                         <div className="user-duzenle-row">
                           <button
                             className="user-sil-btn"
-                            style={{ background: '#000', fontWeight: '600' }}
+                            style={{ background: "#000", fontWeight: "600" }}
                             onClick={() => toggleUserActivity(user.id)}
                           >
-                            {user.active ? 'Pasif Yap' : 'Aktif Yap'}
+                            {user.active ? "Pasif Yap" : "Aktif Yap"}
                           </button>
                         </div>
                       </td>
@@ -108,18 +116,47 @@ const Admin_users = () => {
               <div className="row col-12 justify-content-center">
                 <nav aria-label="Page navigation example" className="col-5">
                   <ul className="pagination">
-                    <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                      <a className="page-link" href="#" aria-label="Previous" onClick={(e) => handleClick(e, currentPage - 1)}>
+                    <li
+                      className={`page-item ${
+                        currentPage === 1 ? "disabled" : ""
+                      }`}
+                    >
+                      <a
+                        className="page-link"
+                        href="#"
+                        aria-label="Previous"
+                        onClick={(e) => handleClick(e, currentPage - 1)}
+                      >
                         <span aria-hidden="true">&laquo;</span>
                       </a>
                     </li>
                     {[...Array(totalPages)].map((_, index) => (
-                      <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
-                        <a className="page-link" href="#" onClick={(e) => handleClick(e, index + 1)}>{index + 1}</a>
+                      <li
+                        key={index}
+                        className={`page-item ${
+                          currentPage === index + 1 ? "active" : ""
+                        }`}
+                      >
+                        <a
+                          className="page-link"
+                          href="#"
+                          onClick={(e) => handleClick(e, index + 1)}
+                        >
+                          {index + 1}
+                        </a>
                       </li>
                     ))}
-                    <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                      <a className="page-link" href="#" aria-label="Next" onClick={(e) => handleClick(e, currentPage + 1)}>
+                    <li
+                      className={`page-item ${
+                        currentPage === totalPages ? "disabled" : ""
+                      }`}
+                    >
+                      <a
+                        className="page-link"
+                        href="#"
+                        aria-label="Next"
+                        onClick={(e) => handleClick(e, currentPage + 1)}
+                      >
                         <span aria-hidden="true">&raquo;</span>
                       </a>
                     </li>
@@ -132,6 +169,6 @@ const Admin_users = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Admin_users;
