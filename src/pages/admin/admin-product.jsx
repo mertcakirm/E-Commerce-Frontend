@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Admin_sidebar from "./admin-sidebar";
-import axios from "axios";
 const Admin_product = () => {
     const [products, setProducts] = useState([]);
     const [images, setImages] = useState([]);
@@ -146,7 +145,7 @@ const Admin_product = () => {
           }
           return response.json();
         })
-        .then((data) => {
+        .then(() => {
           setProducts(
             products.map((product) =>
               product.productCode === selectedProductCode
@@ -261,27 +260,27 @@ const Admin_product = () => {
       }
     };
   
-    const handleSizeInputChange = (e) => {
-      setSizeInput(e.target.value);
-    };
+    // const handleSizeInputChange = (e) => {
+    //   setSizeInput(e.target.value);
+    // };
   
-    const handleQuantityInputChange = (e) => {
-      setQuantityInput(e.target.value);
-    };
+    // const handleQuantityInputChange = (e) => {
+    //   setQuantityInput(e.target.value);
+    // };
   
-    const handleImageClick = (image) => {
-      window.open(URL.createObjectURL(image));
-    };
+    // const handleImageClick = (image) => {
+    //   window.open(URL.createObjectURL(image));
+    // };
   
-    const handleProductClick = (product) => {
-      setProductName(product.productName);
-      setProductCategory(product.categoryString);
-      setProductDescription(product.description);
-      setProductPrice(product.price);
-      setPurchasePrice(product.purchasePrice);
-      setSizes(product.sizes || []);
-      setShowPopup(true);
-    };
+    // const handleProductClick = (product) => {
+    //   setProductName(product.productName);
+    //   setProductCategory(product.categoryString);
+    //   setProductDescription(product.description);
+    //   setProductPrice(product.price);
+    //   setPurchasePrice(product.purchasePrice);
+    //   setSizes(product.sizes || []);
+    //   setShowPopup(true);
+    // };
 
 
   return (

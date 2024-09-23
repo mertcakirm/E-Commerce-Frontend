@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Footer from "../components/childcomponents/footer";
 import { Helmet } from "react-helmet";
 import logo from '../assets/mob_logo.png';
+import { fetchSliderData, fetchCategories, fetchCartData } from "./api/anasayfa-api"; // API fonksiyonlarını içe aktardık
 
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -59,169 +60,97 @@ const PrevArrow = (props) => {
 };
 
 const Anasayfa = () => {
-  const [showButton, setShowButton] = useState(false);
-  const [sliderData, setSliderData] = useState([]);
-  const [cartData, setCartData] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 200) {
-        setShowButton(true);
-      } else {
-        setShowButton(false);
-      }
+  
+    const [showButton, setShowButton] = useState(false);
+    const [sliderData, setSliderData] = useState([]);
+    const [cartData, setCartData] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      const handleScroll = () => {
+        if (window.scrollY > 200) {
+          setShowButton(true);
+        } else {
+          setShowButton(false);
+        }
+      };
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, []);
+  
+    const handleClick = () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  
+    // Tüm veri çekme işlemlerini çağırıyoruz
+    useEffect(() => {
+      const fetchData = async () => {
+        const sliderData = await fetchSliderData();
+        const categoriesData = await fetchCategories();
+        const cartData = await fetchCartData();
+        setSliderData(sliderData);
+        setCategories(categoriesData);
+        setCartData(cartData);
+        setLoading(false);
+      };
+  
+      fetchData();
+    }, []);
 
 
-  const handleClick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // Veri çekme fonksiyonları
-  const fetchSliderData = async () => {
-    try {
-      const response = await fetch('http://213.142.159.49:8083/api/slider/main/get');
-      if (response.ok) {
-        const data = await response.json();
-        setSliderData(data);
-      } else {
-        console.error("Failed to fetch slider data");
-      }
-    } catch (error) {
-      console.error("Error fetching slider data:", error);
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch("http://213.142.159.49:8083/api/category/admin/get/all");
-      const data = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.error("Error fetching categories data:", error);
-    }
-  };
-
-  const fetchCartData = async () => {
-    try {
-      const response = await fetch('http://213.142.159.49:8083/api/product/get/cart');
-      if (response.ok) {
-        const data = await response.json();
-        setCartData(data);
-      } else {
-        console.error("Failed to fetch cart data");
-      }
-    } catch (error) {
-      console.error("Error fetching cart data:", error);
-    }
-  };
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    cssEase: "linear",
-    centerMode: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1440,
-        settings: {
-          slidesToShow: 5,
-          slidesToScroll: 1,
+    const settings = {
+      dots: false,
+      infinite: true,
+      slidesToShow: 5,
+      slidesToScroll: 1,
+      cssEase: "linear",
+      centerMode: true,
+      nextArrow: <NextArrow />,
+      prevArrow: <PrevArrow />,
+      responsive: [
+        {
+          breakpoint: 1440,
+          settings: {
+            slidesToShow: 5,
+            slidesToScroll: 1,
+          },
         },
-      },
-      {
-        breakpoint: 1124,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
+        {
+          breakpoint: 1124,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+          },
         },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+          },
         },
-      },
-      {
-        breakpoint: 460,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+        {
+          breakpoint: 460,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
         },
-      },
-    ],
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await Promise.all([fetchSliderData(), fetchCategories(), fetchCartData()]);
-      setLoading(false);
+      ],
     };
-
-    fetchData();
-    
-    // WebSocket bağlantısını kur
-    const socket = new WebSocket('ws://213.142.159.49:8083/api/slider/main/get');
-
-    socket.onopen = () => {
-      console.log('WebSocket bağlantısı kuruldu');
-      socket.send(JSON.stringify({ type: "CONNECT", message: "Merhaba Sunucu!" })); 
-    };
-
-    socket.onmessage = (event) => {
-      const message = JSON.parse(event.data);
-      console.log('Sunucudan gelen mesaj:', message);
-
-      // Mesaj türüne göre ilgili işlemi tetikle
-      switch (message.type) {
-        case "UPDATE_SLIDER":
-          fetchSliderData(); // Slider verisini güncelle
-          break;
-        case "UPDATE_CATEGORIES":
-          fetchCategories(); // Kategorileri güncelle
-          break;
-        case "UPDATE_CART":
-          fetchCartData(); // Sepet verisini güncelle
-          break;
-        default:
-          console.warn("Bilinmeyen mesaj türü:", message.type);
-      }
-    };
-
-    socket.onerror = (error) => {
-      console.error('WebSocket hatası:', error);
-    };
-
-    socket.onclose = () => {
-      console.log('WebSocket bağlantısı kapatıldı');
-    };
-
-    return () => {
-      socket.close();
-    };
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="d-flex justify-content-center" style={{ height: '100vh', alignItems: 'center' }}>
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
+  
+    if (loading) {
+      return (
+        <div className="d-flex justify-content-center" style={{ height: '100vh', alignItems: 'center' }}>
+          <div className="spinner-border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
 
   return (

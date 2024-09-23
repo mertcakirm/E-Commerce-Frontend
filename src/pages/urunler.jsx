@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "../components/childcomponents/navbar";
 import { Helmet } from "react-helmet";
 import Footer from "../components/childcomponents/footer";
@@ -7,6 +7,8 @@ import "./css/urunler.css";
 import logo from '../assets/mob_logo.png';
 import Filtercomponent from "../components/childcomponents/filtercomponent";
 import { fetchFavoriteData , fetchCartData } from "../components/http/bridge";
+import { fetchProductsByCategory, handleLikeProduct } from "./api/urunler-api";
+import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
 
 const Urunler = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -16,65 +18,14 @@ const Urunler = () => {
   const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [isFavorite, setIsFavorite] = useState([]);
   const [loading, setLoading] = useState(true); 
+  const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const location = useLocation();
   const observerRef = useRef();
 
-
   const currentCategory = location.pathname.split('/').pop();
-
-  useEffect(() => {
-    const fetchAndFilterProducts = async (page) => {
-      const token = localStorage.getItem("token");
-      const headers = {
-        'Content-Type': 'application/json',
-      };
-
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-
-      try {
-        setLoading(true);
-        let response;
-
-        if (currentCategory === 'tum-urunler') {
-          response = await fetch(`http://213.142.159.49:8083/api/product/all?page=${page}&size=10`, {
-            method: 'GET',
-            headers,
-          });
-        } else {
-          response = await fetch(`http://213.142.159.49:8083/api/category/get/${currentCategory}?page=${page}&size=10`, {
-            method: 'GET',
-            headers,
-          });
-        }
-
-        const data = await response.json();
-
-        if (data._embedded && Array.isArray(data._embedded.productDTOList)) {
-          setFilteredProducts((prevProducts) => [
-            ...prevProducts,
-            ...data._embedded.productDTOList,
-          ]);
-        } else if (Array.isArray(data.content)) {
-          setFilteredProducts((prevProducts) => [...prevProducts, ...data.content]);
-        }        
-        if (data.page) {
-          setTotalPages(data.page.totalPages);
-        }
-      } catch (error) {
-        console.error("Ürünleri çekerken hata oluştu:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-
-    fetchAndFilterProducts(currentPage);
-  }, [location, currentPage]);
-  console.log(filteredProducts);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -106,67 +57,24 @@ const Urunler = () => {
     }));
   };
 
+
+
+
+
   useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch("http://213.142.159.49:8083/api/favorite/get", {
-          method: "GET",
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
+    fetchProductsByCategory(currentCategory, currentPage, setFilteredProducts, setTotalPages, setLoading);
+  }, [location, currentPage]);
 
-        if (response.ok) {
-          const data = await response.json();
-          setFavoriteProducts(data);
-        } else {
-          throw new Error("Favoriler alınamadı");
-        }
-      } catch (error) {
-        console.error("Favorileri alırken bir hata oluştu:", error);
-      }
-    };
-
-    fetchFavorites();
+  useEffect(() => {
+    fetchFavoriteData(setFavoriteProducts);
+    fetchCartData(setCartItems, setTotalPrice, setLoading);
   }, []);
 
-  const handleLikeClick = async (productCode) => {
-    try {
-      const token = localStorage.getItem("token");
-      const favoriteData = JSON.stringify({ productCode: productCode });
-      
-      const response = await fetch("http://213.142.159.49:8083/api/favorite/add", {
-        method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: favoriteData, 
-      });
-  
-      if (!response.ok) {
-        throw new Error("Favori eklenemedi");
-      }
-      
-      console.log("Ürün favorilere eklendi");
-      console.log(response);
-
-      const updateFavoriteTrue = filteredProducts.map((product) => {
-        if (product.productCode === productCode) {
-          return {
-            ...product,
-            favorite: true,
-          };
-        }
-        return product;
-      });
-      setFilteredProducts(updateFavoriteTrue)
-    } catch (error) {
-      console.error("Favorilere eklenirken bir hata oluştu:", error);
-    }
+  const handleLikeClick = (productCode) => {
+    triggerToggleRefreshData()
+    handleLikeProduct(productCode, filteredProducts, setFilteredProducts);
   };
+
 
 
   
@@ -216,6 +124,8 @@ const Urunler = () => {
     } catch (error) {
       console.error("Ürün sepete eklenirken bir hata oluştu:", error);
     }
+    triggerToggleRefreshData()
+
   };
 
   // Show loading spinner while fetching data

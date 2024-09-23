@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
+import { useEffect, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Helmet } from "react-helmet";
@@ -7,72 +6,39 @@ import Navbar from "../components/childcomponents/navbar";
 import Footer from "../components/childcomponents/footer";
 import "./css/urun-detay.css";
 import logo from '../assets/mob_logo.png';
-
-const NextArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block" }}
-      onClick={onClick}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="50"
-        height="50"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M9 18l6-6-6-6" />
-      </svg>
-    </div>
-  );
-};
-
-const PrevArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{ ...style, display: "block" }}
-      onClick={onClick}
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="50"
-        height="50"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M15 18l-6-6 6-6" />
-      </svg>
-    </div>
-  );
-};
-
-
-
-
+import { fetchProduct, addFavorite, addComment, addToBasket } from './api/urun-detay-api';
+import Dahafazla from "../components/childcomponents/dahafazla";
+import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
 
 const Urun_detay = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [product, setProduct] = useState(null); 
+  const [product, setProduct] = useState(null);
   const [selectedSize, setSelectedSize] = useState([]);
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const commentsPerPage = 5;
 
   const urlpop = location.pathname.split('/').pop();
-  const productUrl = `http://213.142.159.49:8083/api/admin/product/get/${urlpop}`;
+
+  useEffect(() => {
+    fetchProduct(urlpop)
+      .then(data => setProduct(data))
+      .catch(error => console.error("Error fetching product:", error));
+  }, [urlpop]);
+
+  const comments = product?.productComment || [];
+  const sizes = product?.sizes || [];
+  const images = product?.productImage || [];
+  if (!images || images.length === 0) {
+    return (
+      <div className="d-flex justify-content-center" style={{height:'100vh',alignItems:'center'}}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
 
   const handleSizeClick = (productCode, size) => {
@@ -81,35 +47,6 @@ const Urun_detay = () => {
       [productCode]: prevSelectedSizes[productCode] === size ? null : size,
     }));
   };
-
-  useEffect(() => {
-    fetch(productUrl)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok " + response.statusText);
-        }
-        return response.json();
-      })
-      .then(data => {
-        setProduct(data);
-      })
-      .catch(error => {
-        console.error("Veri çekilirken bir hata oluştu:", error);
-      });
-      
-  }, [productUrl]);
-
-  const comments = product?.productComment || [];
-  const sizes = product?.sizes || [];
-  const images = product?.productImage || [];
-  if (!images || images.length === 0) {
-    return (
-        <div class="d-flex justify-content-center" style={{height:'100vh',alignItems:'center'}}>
-          <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>);
-  }
 
   const indexOfLastComment = currentPage * commentsPerPage;
   const indexOfFirstComment = indexOfLastComment - commentsPerPage;
@@ -120,21 +57,17 @@ const Urun_detay = () => {
   const commentsClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  
-
-
 
   const handleThumbnailClick = (index) => {
     setActiveIndex(index);
   };
+
   const handleNextClick = () => {
     setActiveIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
   const handlePrevClick = () => {
-    setActiveIndex(
-      (prevIndex) => (prevIndex - 1 + images.length) % images.length
-    );
+    setActiveIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
   const hasDiscount = product.discountRate > 0;
@@ -142,109 +75,25 @@ const Urun_detay = () => {
   const handleLikeClick = async (productCode) => {
     try {
       const token = localStorage.getItem("token");
-      const favoriteData = JSON.stringify({ productCode: productCode });
-      
-      const response = await fetch("http://213.142.159.49:8083/api/favorite/add", {
-        method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`, 
-          'Content-Type': 'application/json',
-        },
-        body: favoriteData, 
-      });
-  
-      if (!response.ok) {
-        throw new Error("Favori eklenemedi");
-      }
-      
-      console.log("Ürün favorilere eklendi");
-      console.log(response);
-  
-      const likeBtnColor = document.getElementById("like-btn-color");
-      if (likeBtnColor) {
-        likeBtnColor.style.fill = "red";
-      }
+      await addFavorite(productCode, token);
+      console.log("Product added to favorites");
+      document.getElementById("like-btn-color").style.fill = "red";
     } catch (error) {
-      console.error("Favorilere eklenirken bir hata oluştu:", error);
+      console.error("Error adding favorite:", error);
     }
-    window.setTimeout(()=>window.location.reload(),1000)
-
+    triggerToggleRefreshData()
   };
-  
-
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    cssEase: "linear",
-    centerMode: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    responsive: [
-      {
-        breakpoint: 1440,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 1124,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 460,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-
-
-  const token = localStorage.getItem("token");
 
   const commentSubmit = async () => {
-
-    const commentData = {
-      title,
-      comment,
-    };
-
+    const commentData = { title, comment };
     try {
-      const response = await fetch(`http://213.142.159.49:8083/api/comment/add/${urlpop}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, 
-
-        },
-        body: JSON.stringify(commentData),
-      });
-
-      if (response.ok) {
-        setTitle('');
-        setComment('');
-      } else {
-      }
+      const token = localStorage.getItem("token");
+      await addComment(urlpop, commentData, token);
+      setTitle('');
+      setComment('');
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error submitting comment:', error);
     }
-    // window.setTimeout(()=>window.location.reload(),1000)
-
   };
 
   const handleAddToBasket = async (productCode, size) => {
@@ -254,26 +103,19 @@ const Urun_detay = () => {
         window.location.href = "/girisyap";
         return;
       }
-      const requestData = JSON.stringify({ productCode, size });
-      
-      const response = await fetch("http://213.142.159.49:8083/api/basket/add", {
-        method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: requestData,
-      });
-
-      if (response.ok) {
-        console.log("Ürün sepete eklendi");
-      } else {
-        throw new Error("Ürün sepete eklenemedi");
-      }
+      await addToBasket(productCode, size, token);
+      console.log("Product added to basket");
     } catch (error) {
-      console.error("Ürün sepete eklenirken bir hata oluştu:", error);
+      console.error("Error adding to basket:", error);
     }
+    triggerToggleRefreshData()
+
   };
+
+
+
+
+
 
 
   return (
@@ -380,14 +222,15 @@ const Urun_detay = () => {
               <div className="beden">
                 <p>BEDEN:</p>
                 <div className="beden-cards">
-                {sizes.map((sizes,index)=>
-
-                  <button   className={` ${selectedSize[product.productCode] === sizes.size ? 'selected-size' : ''}`}
-                  onClick={() => handleSizeClick(product.productCode, sizes.size)}
-                
-                  >{sizes.size}</button>
-                )}
-
+                {sizes.map((size, index) => (
+                  <button
+                    key={index} // Benzersiz anahtar
+                    className={` ${selectedSize[product.productCode] === size.size ? 'selected-size' : ''}`}
+                    onClick={() => handleSizeClick(product.productCode, size.size)}
+                  >
+                    {size.size}
+                  </button>
+                ))}
                   </div>
               </div>
               <div className="sepet-flex">
@@ -561,74 +404,7 @@ const Urun_detay = () => {
           </div>
         </div>
 
-        <div className="row diger-row justify-content-center">
-          <div className="col-11">
-            <p className="bunlari-da-begen">BUNLARI DA BEĞENEBİLİRSİNİZ</p>
-
-            <Slider {...settings}>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89539-yesil-otantik-kapitone-oversize-erkek-gomlek-us4123ys-untitled-session5038-copy-1.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89539-yesil-otantik-kapitone-oversize-erkek-gomlek-us4123ys-untitled-session5038-copy-1.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89539-yesil-otantik-kapitone-oversize-erkek-gomlek-us4123ys-untitled-session5038-copy-1.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89539-yesil-otantik-kapitone-oversize-erkek-gomlek-us4123ys-untitled-session5038-copy-1.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-              <a href="#" className="urun-detay-card">
-                <img
-                  src="https://cdn.aksesuarix.com/Fotograflar/575/89539-yesil-otantik-kapitone-oversize-erkek-gomlek-us4123ys-untitled-session5038-copy-1.jpg"
-                  alt=""
-                  className="img-fluid w-100"
-                />
-                <p>sweat</p>
-                <div className="urun-detay-card-spans">
-                  <span className="urun-detay-card-span1">499₺</span>
-                  <span className="urun-detay-card-span2">799₺</span>
-                </div>
-              </a>
-            </Slider>
-          </div>
-        </div>
+          <Dahafazla />
 
 
       </div>

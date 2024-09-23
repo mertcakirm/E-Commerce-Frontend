@@ -1,15 +1,24 @@
-import React, { Component, useEffect, useState } from "react";
+import{ useEffect, useState } from "react";
 import logo from "../../assets/mob_logo.png";
 import { fetchCartData,fetchFavoriteData } from "../http/bridge";
+import { setToggleRefreshData } from "./reflesh";
 
 
 const Navbarpc = () => {
-  const [productCount, setProductCount] = useState(1);
   const [favoriteproduct, setFavoriteproduct] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalprice, setTotalprice] = useState(0);
   const [selectedSizes, setSelectedSizes] = useState({});
+  const [refleshData,setRefleshData] = useState(true);
+  
+  const toggleRefreshData = () => {
+    setRefleshData(prev => !prev);
+  };
+
+  useEffect(() => {
+    setToggleRefreshData(toggleRefreshData);
+  }, []);
 
   const handleSizeChange = (e, index) => {
     const size = e.target.value;
@@ -18,7 +27,6 @@ const Navbarpc = () => {
       [index]: size,
     }));
   };
-
 
   const handleAddToBasket = async (productCode, size) => {
     try {
@@ -49,6 +57,10 @@ const Navbarpc = () => {
     } catch (error) {
       console.error("Ürün sepete eklenirken bir hata oluştu:", error);
     }
+    toggleRefreshData()
+    setTimeout(()=>setTotalprice,2000)
+
+
   };
 
   const deleteItemFromBasket = (productCode) => {
@@ -79,34 +91,32 @@ const Navbarpc = () => {
       .catch((error) => {
         console.error("Error deleting item:", error);
       });
+      toggleRefreshData()
+      setTimeout(()=>setTotalprice,2000)
+
+
+
   };
 
-  const fetchData = async (url, setter) => {
-    const token = localStorage.getItem("token");
 
+
+  const fetchFullData = async () => {
+    setLoading(true);
     try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setter(data);
-      } else {
-        throw new Error(`Failed to fetch data from ${url}`);
-      }
+      await fetchFavoriteData(setFavoriteproduct);
+      await fetchCartData(setCartItems, setTotalprice, setLoading);
     } catch (error) {
-      console.error(`Error fetching data from ${url}:`, error);
+      console.error("Data fetching error:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchFavoriteData(setFavoriteproduct)
-    fetchCartData(setCartItems,setTotalprice,setLoading)
-  }, []);
+    fetchFullData();
+  }, [refleshData]);
+
+
 
   const incrementProductCount = (productCode) => {
     fetch(
@@ -121,7 +131,7 @@ const Navbarpc = () => {
     )
       .then((response) => {
         if (response.ok) {
-          setProductCount((prevCount) => prevCount + 1);
+          fetchCartData()
         } else {
           console.error("Error incrementing product count");
         }
@@ -129,6 +139,12 @@ const Navbarpc = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
+      toggleRefreshData()
+      setTimeout(()=>setTotalprice,2000)
+
+
+
+
       
   };
 
@@ -145,7 +161,7 @@ const Navbarpc = () => {
     )
       .then((response) => {
         if (response.ok) {
-          setProductCount((prevCount) => prevCount - 1);
+          fetchCartData()
         } else {
           console.error("Error decrementing product count");
         }
@@ -153,6 +169,9 @@ const Navbarpc = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
+      toggleRefreshData()
+      setTimeout(()=>setTotalprice,2000)
+
   };
 
 
@@ -184,8 +203,10 @@ const Navbarpc = () => {
     } catch (error) {
       console.error("Favorilere eklenirken bir hata oluştu:", error);
     }
-    window.setTimeout(() => window.location.reload(), 1000);
+    toggleRefreshData()
   };
+
+  
 
   return (
     <div>
@@ -288,9 +309,11 @@ const Navbarpc = () => {
                           <p className="sepet-card-col-2-p1-fiyat">
                             {item.priceWithDiscount}₺
                           </p>
-                          <p className="sepet-card-col-2-p2-fiyat">
-                            {item.priceWithOutDiscount}₺
-                          </p>
+                          {item.discount === 0 && (
+                            <p className="sepet-card-col-2-p2-fiyat">
+                              {item.priceWithOutDiscount}₺
+                            </p>
+                          )}
                         </div>
                       </div>
                       <div className="col-2 sepet-card-col-3">
@@ -316,6 +339,7 @@ const Navbarpc = () => {
                         </button>
                       </div>
                     </div>
+                    
                   ))
                 )}
               </div>

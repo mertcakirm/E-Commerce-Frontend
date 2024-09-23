@@ -5,7 +5,7 @@ import Sepet_ozeti from './sepet-ozeti';
 const Odeme2 = () => {
   const [showModal, setShowModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
-  const [selectedAddressIndex, setSelectedAddressIndex] = useState(null); // Only one selected address
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(null); 
   const [addressTitle, setAddressTitle] = useState('');
   const [nameSurname, setNameSurname] = useState('');
   const [email, setEmail] = useState('');

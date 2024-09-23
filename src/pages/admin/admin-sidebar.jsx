@@ -6,7 +6,7 @@ const Admin_sidebar=()=> {
   
   const navigate = useNavigate();
 
-          window.location.href="/giris"
+  window.location.href="/giris"
   const cikisyap = () => {
     localStorage.removeItem("token");
     navigate('/girisyap');

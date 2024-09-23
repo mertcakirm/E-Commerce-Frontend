@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Admin_product from './admin-product';
 import Admin_product_detail from './admin-product-detail';
@@ -15,7 +14,6 @@ import Admin_login from './admin-login';
 const Admin_Router = () => {
 
   const ProtectedRoute = ({ element }) => {
-
     const token = localStorage.getItem('token');
     return token ? element : <Navigate to="/giris" replace />;
   };

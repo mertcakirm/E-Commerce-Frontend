@@ -13,29 +13,7 @@ import Parola_yenile from './pages/parola-yenile';
 import Bilgilendirmeler from './pages/bilgilendirmeler';
 import ErrorPage from './pages/errorPage';
 import Admin_Router from './pages/admin/admin-router';
-
-
-function checkTokenExpiration() {
-  const token = localStorage.getItem('token');
-
-  if (!token) return false;
-
-  try {
-    const tokenPayload = JSON.parse(atob(token.split('.')[1])); // JWT kullanıyorsanız tokenin payload'ını alır
-    const currentTime = Math.floor(Date.now() / 1000); // Şu anki zaman (saniye cinsinden)
-    
-    if (tokenPayload.exp < currentTime) {
-      localStorage.removeItem('token'); // Tokenin süresi dolmuşsa sil
-      return true; // Süresi dolmuş
-    }
-
-    return false; // Süresi dolmamış
-  } catch (e) {
-    console.error('Geçersiz token:', e);
-    localStorage.removeItem('token'); // Geçersiz token ise sil
-    return true; // Süresi dolmuş veya geçersiz
-  }
-}
+import { useEffect } from 'react';
 
 function App() {
   const ProtectedRoute = ({ element }) => {
@@ -48,18 +26,35 @@ function App() {
     return token ? <Navigate to="/profilim" replace /> : element;
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return;
+
+    try {
+      const tokenPayload = JSON.parse(atob(token.split('.')[1])); // JWT kullanıyorsanız tokenin payload'ını alır
+      const currentTime = Math.floor(Date.now() / 1000); // Şu anki zaman (saniye cinsinden)
+      
+      if (tokenPayload.exp < currentTime) {
+        localStorage.removeItem('token'); // Token süresi dolmuşsa sil
+      }
+    } catch (e) {
+      console.error('Geçersiz token:', e);
+      localStorage.removeItem('token'); // Geçersiz token ise sil
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Anasayfa />} />
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/admin/*" element={<Admin_Router />} />
-
-
+        
         <Route path="*" element={<Navigate to="/error" state={{ errorMessage: 'Sayfa bulunamadı' }} />} />
+        
         {/* Dinamik kategoriye göre ürünlerin listelendiği sayfa */}
         <Route path="/urunler/:category" element={<Urunler />} />
-        
         <Route path="/urunler-detay/:id" element={<Urun_detay />} />
         <Route path="/hakkimizda" element={<Hakkimizda />} />
         <Route path="/iletisim" element={<Iletisim />} />
@@ -77,9 +72,6 @@ function App() {
         <Route path="/siparis/onay" element={<ProtectedRoute element={<Odeme />} />} />
         <Route path="/sss" element={<ProtectedRoute element={<Sss />} />} />
         <Route path="/bilgilendirmeler" element={<ProtectedRoute element={<Bilgilendirmeler />} />} />
-        
-        {/* Admin Routes */}
-
       </Routes>
     </BrowserRouter>
   );

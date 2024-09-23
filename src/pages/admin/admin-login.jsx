@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../../assets/mob_logo.png';
 import './admin-css/admin-login.css';
@@ -33,9 +33,11 @@ const Admin_login = () => {
       if (response.ok && responseData.token) {
         localStorage.setItem('token', responseData.token);
         await sleep(500)
-        navigate('/admin-panel');
+        navigate('/admin/genel');
       } else {
         setErrorMessage("Giriş başarısız: Geçersiz kullanıcı adı veya parola.");
+        navigate('/admin/genel');
+
       }
     } catch (error) {
       console.error("There was an error!", error);

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import "./css/navbar.css";
 import logo from "../../assets/mob_logo.png";
 import Navbarpc from "./navbarcanvas";
-
 const Navbar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [submenuOpen, setSubmenuOpen] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(null);
+
 
   const handleSidebarMouseEnter = () => {
     setSidebarOpen(true);

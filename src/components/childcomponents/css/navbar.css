@@ -343,6 +343,7 @@
   flex-direction: column;
   row-gap: 20px;
   border-top: 5px solid rgb(167, 166, 166);
+  padding-bottom: 120px;
 
 }
 
