@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const Profilechild = () => {
     const token = localStorage.getItem("token"); 
+    const BASE_URL = 'http://213.142.159.49:8083/api';
 
   const updateProfile = async () => {
     const userDTO1 = {
@@ -22,7 +23,7 @@ const Profilechild = () => {
     formData.append('ChangePasswordDTO', new Blob([JSON.stringify(changePasswordDTO1)], { type: 'application/json' }));
   
     try {
-      const response = await fetch('http://213.142.159.49:8083/api/user/update', {
+      const response = await fetch(`${BASE_URL}/user/update`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -44,6 +45,8 @@ const Profilechild = () => {
     } catch (error) {
       console.error('Error:', error);
     }
+    window.setTimeout(() => window.location.reload(), 1000);
+
   };
 
   const navigate = useNavigate();
@@ -56,7 +59,7 @@ const Profilechild = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('http://213.142.159.49:8083/api/user/profile', {
+        const response = await fetch(`${BASE_URL}/user/profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`, 

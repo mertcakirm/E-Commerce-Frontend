@@ -26,6 +26,7 @@ const Urunler = () => {
   const observerRef = useRef();
 
   const currentCategory = location.pathname.split('/').pop();
+  const BASE_URL = 'http://213.142.159.49:8083/api';
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -107,7 +108,7 @@ const Urunler = () => {
       }
       const requestData = JSON.stringify({ productCode, size });
       
-      const response = await fetch("http://213.142.159.49:8083/api/basket/add", {
+      const response = await fetch(`${BASE_URL}/basket/add`, {
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -167,7 +168,7 @@ const Urunler = () => {
       <div className="container-fluid urunler-container">
         <div className="row text-align-center justify-content-center">
           <div className="col-lg-4"></div>
-          <div className="col-lg-4">
+          <div className="col-lg-4  mt-5">
             <p className="text-center urunler-sayfa-baslik" style={{textTransform:'uppercase'}}>
               {currentCategory} / 200 Ürün
             </p>

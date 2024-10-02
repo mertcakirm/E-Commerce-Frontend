@@ -9,9 +9,10 @@ const Odeme1=()=>{
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalprice, setTotalprice] = useState(0);
+  const BASE_URL = 'http://213.142.159.49:8083/api';
 
   useEffect(() => {
-    fetch('http://213.142.159.49:8083/api/basket/get', {
+    fetch(`${BASE_URL}/basket/get`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`, 
         "Content-Type": "application/json",
@@ -38,7 +39,7 @@ const Odeme1=()=>{
       return;
     }
   
-    fetch(`http://213.142.159.49:8083/api/basket/delete/${productCode}`, {
+    fetch(`${BASE_URL}/basket/delete/${productCode}`, {
       method: 'DELETE',
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -62,7 +63,7 @@ const Odeme1=()=>{
   };
 
   const incrementProductCount = (productCode) => {
-    fetch(`http://213.142.159.49:8083/api/basket/increase/quantity/${productCode}`, {
+    fetch(`${BASE_URL}/basket/increase/quantity/${productCode}`, {
       method: 'GET', // or 'POST' if that's what your API expects
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ const Odeme1=()=>{
   };
   
   const decrementProductCount = (productCode) => {
-      fetch(`http://213.142.159.49:8083/api/basket/decrease/quantity/${productCode}`, {
+      fetch(`${BASE_URL}/basket/decrease/quantity/${productCode}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

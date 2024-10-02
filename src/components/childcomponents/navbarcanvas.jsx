@@ -11,7 +11,8 @@ const Navbarpc = () => {
   const [totalprice, setTotalprice] = useState(0);
   const [selectedSizes, setSelectedSizes] = useState({});
   const [refleshData,setRefleshData] = useState(true);
-  
+  const BASE_URL = 'http://213.142.159.49:8083/api';
+
   const toggleRefreshData = () => {
     setRefleshData(prev => !prev);
   };
@@ -38,7 +39,7 @@ const Navbarpc = () => {
       const requestData = JSON.stringify({ productCode, size });
 
       const response = await fetch(
-        "http://213.142.159.49:8083/api/basket/add",
+        `${BASE_URL}/basket/add`,
         {
           method: "POST",
           headers: {
@@ -71,7 +72,7 @@ const Navbarpc = () => {
       return;
     }
 
-    fetch(`http://213.142.159.49:8083/api/basket/delete/${productCode}`, {
+    fetch(`${BASE_URL}/basket/delete/${productCode}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -120,7 +121,7 @@ const Navbarpc = () => {
 
   const incrementProductCount = (productCode) => {
     fetch(
-      `http://213.142.159.49:8083/api/basket/increase/quantity/${productCode}`,
+      `${BASE_URL}/basket/increase/quantity/${productCode}`,
       {
         method: "GET",
         headers: {
@@ -150,7 +151,7 @@ const Navbarpc = () => {
 
   const decrementProductCount = (productCode) => {
     fetch(
-      `http://213.142.159.49:8083/api/basket/decrease/quantity/${productCode}`,
+      `${BASE_URL}/basket/decrease/quantity/${productCode}`,
       {
         method: "GET",
         headers: {
@@ -181,7 +182,7 @@ const Navbarpc = () => {
       const favoriteData = JSON.stringify({ productCode: productCode });
 
       const response = await fetch(
-        "http://213.142.159.49:8083/api/favorite/add",
+        `${BASE_URL}/favorite/add`,
         {
           method: "POST",
           headers: {

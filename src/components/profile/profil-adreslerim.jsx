@@ -16,7 +16,8 @@ const Profil_adreslerim =()=> {
   
     const token = localStorage.getItem('token');
 
-  
+    const BASE_URL = 'http://213.142.159.49:8083/api';
+
     useEffect(() => {
       if (showPopup) {
         document.body.classList.add("no-scroll");
@@ -45,7 +46,7 @@ const newAddress = async () => {
   
   
     try {
-      const response = await fetch('http://213.142.159.49:8083/api/address/add', {
+      const response = await fetch(`${BASE_URL}/address/add`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -73,7 +74,7 @@ const newAddress = async () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch('http://213.142.159.49:8083/api/address/all', {
+        const response = await fetch(`${BASE_URL}/address/all`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -97,7 +98,7 @@ const newAddress = async () => {
   
   const deleteAddress = async (id) => {
     try {
-      const response = await fetch(`http://213.142.159.49:8083/api/address/delete/address/${id}`, {
+      const response = await fetch(`${BASE_URL}/address/delete/address/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -145,7 +146,7 @@ const newAddress = async () => {
   
   
     try {
-      const response = await fetch(`http://213.142.159.49:8083/api/address/update/${selectedAddress.id}`, {
+      const response = await fetch(`${BASE_URL}/address/update/${selectedAddress.id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -165,6 +166,8 @@ const newAddress = async () => {
     } catch (error) {
       console.error('Error:', error);
     }
+    window.setTimeout(() => window.location.reload(), 1000);
+
   };
 
   useEffect(() => {

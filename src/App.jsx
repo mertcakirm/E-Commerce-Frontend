@@ -12,7 +12,6 @@ import SiparisDurumu from './pages/siparisDurumu';
 import Parola_yenile from './pages/parola-yenile';
 import Bilgilendirmeler from './pages/bilgilendirmeler';
 import ErrorPage from './pages/errorPage';
-import Admin_Router from './pages/admin/admin-router';
 import { useEffect } from 'react';
 
 function App() {
@@ -49,7 +48,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Anasayfa />} />
         <Route path="/error" element={<ErrorPage />} />
-        <Route path="/admin/*" element={<Admin_Router />} />
         
         <Route path="*" element={<Navigate to="/error" state={{ errorMessage: 'Sayfa bulunamadı' }} />} />
         

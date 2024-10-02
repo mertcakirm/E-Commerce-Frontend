@@ -1,5 +1,6 @@
 import { triggerToggleRefreshData } from "../../components/childcomponents/reflesh";
 
+const BaseUrl="http://213.142.159.49:8083/api"
 
 export const fetchProductsByCategory = async (category, page, setFilteredProducts, setTotalPages, setLoading) => {
     const token = localStorage.getItem("token");
@@ -12,8 +13,8 @@ export const fetchProductsByCategory = async (category, page, setFilteredProduct
     }
   
     const url = category === 'tum-urunler'
-      ? `http://213.142.159.49:8083/api/product/all?page=${page}&size=10`
-      : `http://213.142.159.49:8083/api/category/get/${category}?page=${page}&size=10`;
+      ? `${BaseUrl}/product/all?page=${page}&size=10`
+      : `${BaseUrl}/category/get/${category}?page=${page}&size=10`;
   
     try {
       setLoading(true);
@@ -41,7 +42,7 @@ export const fetchProductsByCategory = async (category, page, setFilteredProduct
       const token = localStorage.getItem("token");
       const favoriteData = JSON.stringify({ productCode });
       
-      const response = await fetch("http://213.142.159.49:8083/api/favorite/add", {
+      const response = await fetch(`${BaseUrl}/favorite/add`, {
         method: "POST",
         headers: {
           'Authorization': `Bearer ${token}`,

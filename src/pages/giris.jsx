@@ -22,9 +22,10 @@ const Giris = () => {
 
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+  const BASE_URL = 'http://213.142.159.49:8083/api';
 
   useEffect(() => {
-    window.$("#phone").mask("(999) 999-9999"); 
+    window.$("#phone").mask("0 (999) 999-9999"); 
 
     // E-posta için doğrulama
     window.$("#email").on("input", function () {
@@ -68,7 +69,7 @@ const Giris = () => {
       acceptEmails: formData.consent,
     };
 
-    fetch("http://213.142.159.49:8083/api/member/register", {
+    fetch(`${BASE_URL}/member/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +97,7 @@ const Giris = () => {
     };
 
     try {
-      const response = await fetch("http://213.142.159.49:8083/api/member/login", {
+      const response = await fetch(`${BASE_URL}/member/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +115,7 @@ const Giris = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      setErrorMessage("Giriş sırasında bir hata oluştu.");
+      setErrorMessage("Kullanıcı adı veya parola yanlış!");
     }
   };
 

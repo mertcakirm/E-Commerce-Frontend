@@ -15,6 +15,7 @@ const Odeme2 = () => {
   const [address, setAddress] = useState('');
   const [identityNumber, setIdentityNumber] = useState('');
   const [loading, setLoading] = useState(true);
+  const BASE_URL = 'http://213.142.159.49:8083/api';
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -53,7 +54,7 @@ const Odeme2 = () => {
     };
   
     try {
-      const response = await fetch('http://213.142.159.49:8083/api/address/add', {
+      const response = await fetch(`${BASE_URL}/address/add`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -77,7 +78,7 @@ const Odeme2 = () => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await fetch('http://213.142.159.49:8083/api/address/all', {
+        const response = await fetch(`${BASE_URL}/address/all`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

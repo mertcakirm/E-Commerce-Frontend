@@ -1,4 +1,6 @@
 // http/bridge.js
+const BASE_URL = 'http://213.142.159.49:8083/api';
+
 export const fetchData = async (url, setData) => {
   try {
     const token = localStorage.getItem("token");
@@ -22,12 +24,12 @@ export const fetchData = async (url, setData) => {
 };
 
 export const fetchFavoriteData = async (setFavoriteProducts) => {
-  await fetchData("http://213.142.159.49:8083/api/favorite/get", setFavoriteProducts);
+  await fetchData(`${BASE_URL}/favorite/get`, setFavoriteProducts);
 };
 
 export const fetchCartData = async (setCartItems, setTotalPrice, setLoading) => {
   setLoading(true);
-  await fetchData("http://213.142.159.49:8083/api/basket/get", (data) => {
+  await fetchData(`${BASE_URL}/basket/get`, (data) => {
     setCartItems(data.bucketItems);
     setTotalPrice(data.price);
   });
