@@ -2,6 +2,7 @@ import{ useEffect, useState } from "react";
 import logo from "../../assets/mob_logo.png";
 import { fetchCartData,fetchFavoriteData } from "../http/bridge";
 import { setToggleRefreshData } from "./reflesh";
+import { getCookie, setCookie, deleteCookie } from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
 
 
 const Navbarpc = () => {
@@ -12,6 +13,7 @@ const Navbarpc = () => {
   const [selectedSizes, setSelectedSizes] = useState({});
   const [refleshData,setRefleshData] = useState(true);
   const BASE_URL = 'http://213.142.159.49:8083/api';
+  const token = getCookie('token');
 
   const toggleRefreshData = () => {
     setRefleshData(prev => !prev);
@@ -31,7 +33,6 @@ const Navbarpc = () => {
 
   const handleAddToBasket = async (productCode, size) => {
     try {
-      const token = localStorage.getItem("token");
       if (!token) {
         window.location.href = "/girisyap";
         return;
@@ -65,7 +66,6 @@ const Navbarpc = () => {
   };
 
   const deleteItemFromBasket = (productCode) => {
-    const token = localStorage.getItem("token");
 
     if (!token) {
       console.error("No token found");
@@ -126,7 +126,7 @@ const Navbarpc = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     )
@@ -156,7 +156,7 @@ const Navbarpc = () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       }
     )
@@ -178,7 +178,6 @@ const Navbarpc = () => {
 
   const handleLikeClick = async (productCode) => {
     try {
-      const token = localStorage.getItem("token");
       const favoriteData = JSON.stringify({ productCode: productCode });
 
       const response = await fetch(

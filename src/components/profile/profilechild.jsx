@@ -1,9 +1,10 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCookie, setCookie, deleteCookie } from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
 
 const Profilechild = () => {
-    const token = localStorage.getItem("token"); 
-    const BASE_URL = 'http://213.142.159.49:8083/api';
+  const token = getCookie("token"); // Token'ı çerezden alıyoruz
+  const BASE_URL = 'http://213.142.159.49:8083/api';
 
   const updateProfile = async () => {
     const userDTO1 = {
@@ -15,13 +16,11 @@ const Profilechild = () => {
       password: document.getElementById('bilgilerim-password').value,
       confirmPassword: document.getElementById('bilgilerim-confirm').value
     };
-  
-    const token = localStorage.getItem('token');
-  
+
     const formData = new FormData();
     formData.append('UserDTO', new Blob([JSON.stringify(userDTO1)], { type: 'application/json' }));
     formData.append('ChangePasswordDTO', new Blob([JSON.stringify(changePasswordDTO1)], { type: 'application/json' }));
-  
+
     try {
       const response = await fetch(`${BASE_URL}/user/update`, {
         method: 'PUT',
@@ -30,14 +29,14 @@ const Profilechild = () => {
         },
         body: formData
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         console.log('User information updated:', data);
-  
+
         if (data) { 
-          localStorage.removeItem("token")
-          localStorage.setItem("token",data.token)
+          deleteCookie("token"); // Eski token'ı çerezden siliyoruz
+          setCookie("token", data.token, 1); // Yeni token'ı çerezde saklıyoruz (1 gün süre)
         }
       } else {
         console.error('Failed to update profile:', response.statusText);
@@ -46,13 +45,12 @@ const Profilechild = () => {
       console.error('Error:', error);
     }
     window.setTimeout(() => window.location.reload(), 1000);
-
   };
 
   const navigate = useNavigate();
 
   const cikisyap = () => {
-    localStorage.removeItem("token");
+    deleteCookie("token"); // Çerezden token'ı siliyoruz
     navigate('/girisyap');
   };
 
@@ -66,21 +64,19 @@ const Profilechild = () => {
             'Content-Type': 'application/json'
           }
         });
-  
+
         if (response.ok) {
           const data = await response.json(); // Parse JSON response
           document.getElementById('bilgilerim-isim').value = data.nameSurname;
           document.getElementById('bilgilerim-tel').value = data.phoneNumber;
         } else if (response.status === 403) {
           console.error('Forbidden: You do not have permission to access this resource.');
-          localStorage.removeItem("token")
-          window.location.href="/girisyap"
+          deleteCookie("token");
+          window.location.href="/girisyap";
         } else {
           console.error('Error:', response.statusText);
-          localStorage.removeItem("token")
-          window.location.href="/girisyap"
-
-
+          deleteCookie("token");
+          window.location.href="/girisyap";
         }
       } catch (error) {
         console.error('Error:', error);

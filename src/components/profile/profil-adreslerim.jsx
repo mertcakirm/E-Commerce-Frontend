@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState } from 'react'
+import { getCookie, setCookie, deleteCookie } from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
 
 const Profil_adreslerim =()=> {
     // adres 
@@ -14,7 +15,7 @@ const Profil_adreslerim =()=> {
     const [identityNumber, setIdentityNumber] = useState('');
     const [showPopup, setShowPopup] = useState(false);
   
-    const token = localStorage.getItem('token');
+    const token = getCookie('token');
 
     const BASE_URL = 'http://213.142.159.49:8083/api';
 

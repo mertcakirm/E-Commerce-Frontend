@@ -9,6 +9,7 @@ import logo from '../assets/mob_logo.png';
 import { fetchProduct, addFavorite, addComment, addToBasket } from './api/urun-detay-api';
 import Dahafazla from "../components/childcomponents/dahafazla";
 import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
+import { getCookie, setCookie, deleteCookie } from "../components/cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
 
 const Urun_detay = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -20,6 +21,8 @@ const Urun_detay = () => {
   const commentsPerPage = 5;
 
   const urlpop = location.pathname.split('/').pop();
+  const token = getCookie('token');
+
 
   useEffect(() => {
     fetchProduct(urlpop)
@@ -74,7 +77,6 @@ const Urun_detay = () => {
 
   const handleLikeClick = async (productCode) => {
     try {
-      const token = localStorage.getItem("token");
       await addFavorite(productCode, token);
       console.log("Product added to favorites");
       document.getElementById("like-btn-color").style.fill = "red";
@@ -87,7 +89,6 @@ const Urun_detay = () => {
   const commentSubmit = async () => {
     const commentData = { title, comment };
     try {
-      const token = localStorage.getItem("token");
       await addComment(urlpop, commentData, token);
       setTitle('');
       setComment('');
@@ -98,7 +99,6 @@ const Urun_detay = () => {
 
   const handleAddToBasket = async (productCode, size) => {
     try {
-      const token = localStorage.getItem("token");
       if (!token) {
         window.location.href = "/girisyap";
         return;
@@ -355,8 +355,9 @@ const Urun_detay = () => {
                               <p>{comment.comment}</p>
                             </div>
                           ))}
+                          <div className="row justify-content-center">
                           <nav aria-label="Page navigation">
-                            <ul className="pagination pagination-sm">
+                            <ul className="pagination pagination-sm pag-ul">
                               {totalPages > 1 && Array.from({ length: totalPages }, (_, index) => (
                                 <li
                                   className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
@@ -372,6 +373,7 @@ const Urun_detay = () => {
                               ))}
                             </ul>
                           </nav>
+                        </div>
                         </div>
                       </div>
                     </div>

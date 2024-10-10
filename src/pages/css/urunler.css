@@ -31,6 +31,31 @@
     
 }
 
+.pag-ul{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  column-gap: 10px;
+}
+
+
+.page-link{
+  color: #000!important;
+  background: transparent!important;
+  border: 2px solid #000!important;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 10px!important;
+
+}
+
+.page-link:focus{
+  box-shadow: none;
+}
+
+
+
+
 .dropdown {
     position: relative;
     display: inline-block;
@@ -331,6 +356,10 @@
     .urunler-sayfa-baslik {
       font-size: 20px;
   }
+
+  .urunler-container{
+    padding-top: 40px;
+}
   }
 
   .offcanvas-backdrop.show {

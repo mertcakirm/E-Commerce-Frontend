@@ -1,9 +1,13 @@
-// http/bridge.js
+import { getCookie, setCookie, deleteCookie } from "../cookie/cookie";
+
+
 const BASE_URL = 'http://213.142.159.49:8083/api';
 
 export const fetchData = async (url, setData) => {
+  
   try {
-    const token = localStorage.getItem("token");
+    const token = getCookie('token');
+
     const response = await fetch(url, {
       method: "GET",
       headers: {
@@ -28,7 +32,7 @@ export const fetchFavoriteData = async (setFavoriteProducts) => {
 };
 
 export const fetchCartData = async (setCartItems, setTotalPrice, setLoading) => {
-  setLoading(true);
+  // setLoading(true);
   await fetchData(`${BASE_URL}/basket/get`, (data) => {
     setCartItems(data.bucketItems);
     setTotalPrice(data.price);

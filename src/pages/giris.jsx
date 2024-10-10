@@ -4,7 +4,7 @@ import Footer from "../components/childcomponents/footer";
 import "./css/giris.css";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
-
+import { setCookie, getCookie, deleteCookie } from "../components/cookie/cookie";
 const Giris = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -108,7 +108,7 @@ const Giris = () => {
       const responseData = await response.json();
 
       if (response.ok && responseData.token) {
-        localStorage.setItem("token", responseData.token);
+        setCookie("token", responseData.token, 7); // Token'ı 7 gün boyunca çerezde sakla
         navigate("/");
       } else {
         setErrorMessage("Giriş başarısız: Geçersiz kullanıcı adı veya parola.");
@@ -117,7 +117,7 @@ const Giris = () => {
       console.error("Error:", error);
       setErrorMessage("Kullanıcı adı veya parola yanlış!");
     }
-  };
+  }
 
   const kayit_gecis = () => {
     const register = document.getElementById("register-form");

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Anasayfa from './pages/anasayfa';
-import Urunler from './pages/urunler';  
+import Urunler from './pages/urunler';
 import Urun_detay from './pages/urun-detay';
 import Sss from './pages/sss';
 import Profile from './pages/profile';
@@ -13,33 +13,34 @@ import Parola_yenile from './pages/parola-yenile';
 import Bilgilendirmeler from './pages/bilgilendirmeler';
 import ErrorPage from './pages/errorPage';
 import { useEffect } from 'react';
+import { getCookie, deleteCookie } from './components/cookie/cookie'; // Çerez fonksiyonlarını ekliyoruz
 
 function App() {
   const ProtectedRoute = ({ element }) => {
-    const token = localStorage.getItem('token');
+    const token = getCookie('token'); // Çerezden token'ı al
     return token ? element : <Navigate to="/girisyap" replace />;
   };
 
   const UnprotectedRoute = ({ element }) => {
-    const token = localStorage.getItem('token');
+    const token = getCookie('token'); // Çerezden token'ı al
     return token ? <Navigate to="/profilim" replace /> : element;
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getCookie('token'); // Çerezden token'ı al
 
     if (!token) return;
 
     try {
-      const tokenPayload = JSON.parse(atob(token.split('.')[1])); // JWT kullanıyorsanız tokenin payload'ını alır
+      const tokenPayload = JSON.parse(atob(token.split('.')[1])); // JWT kullanıyorsanız token payload'ını alır
       const currentTime = Math.floor(Date.now() / 1000); // Şu anki zaman (saniye cinsinden)
       
       if (tokenPayload.exp < currentTime) {
-        localStorage.removeItem('token'); // Token süresi dolmuşsa sil
+        deleteCookie('token'); // Token süresi dolmuşsa çerezden sil
       }
     } catch (e) {
       console.error('Geçersiz token:', e);
-      localStorage.removeItem('token'); // Geçersiz token ise sil
+      deleteCookie('token'); // Geçersiz token ise sil
     }
   }, []);
 
