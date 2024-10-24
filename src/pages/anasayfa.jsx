@@ -233,7 +233,7 @@ const Anasayfa = () => {
     <div className="container-fluid" id="urunler-fluid">
       <Slider {...settings}>
         {categories.map((category) => (
-          <a key={category.id} href="#" className="slick-card">
+          <a key={category.id} href={`/urunler/${category.categoryName}`} className="slick-card">
             <img
               src={`data:image/jpeg;base64,${category.image.bytes}`} // Görüntüyü base64 formatında dönüştürüp kullan
               alt={category.categoryName}

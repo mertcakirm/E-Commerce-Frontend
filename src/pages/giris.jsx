@@ -4,7 +4,9 @@ import Footer from "../components/childcomponents/footer";
 import "./css/giris.css";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
-import { setCookie, getCookie, deleteCookie } from "../components/cookie/cookie";
+import { Register, Login } from "./api/giris";
+
+
 const Giris = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -22,10 +24,9 @@ const Giris = () => {
 
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
-  const BASE_URL = 'http://213.142.159.49:8083/api';
 
   useEffect(() => {
-    window.$("#phone").mask("0 (999) 999-9999"); 
+    window.$("#phone").mask("0 (999) 999-9999");
 
     // E-posta için doğrulama
     window.$("#email").on("input", function () {
@@ -54,6 +55,20 @@ const Giris = () => {
     });
   };
 
+  const kayit_gecis = () => {
+    const register = document.getElementById("register-form");
+    register.style.display = "flex";
+    const login = document.getElementById("login-form");
+    login.style.display = "none";
+  };
+
+  const giris_gecis = () => {
+    const register = document.getElementById("register-form");
+    register.style.display = "none";
+    const login = document.getElementById("login-form");
+    login.style.display = "flex";
+  };
+
   const handleRegister = () => {
     if (formData.password !== formData.confirmPassword) {
       alert("Parolalar eşleşmiyor!");
@@ -69,25 +84,7 @@ const Giris = () => {
       acceptEmails: formData.consent,
     };
 
-    fetch(`${BASE_URL}/member/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(registerDTO),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          alert("Kayıt başarılı!");
-          window.location.reload();
-        } else {
-          alert("Kayıt başarısız!");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    Register(registerDTO);
   };
 
   const handleLogin = async () => {
@@ -96,43 +93,8 @@ const Giris = () => {
       password: loginData.password,
     };
 
-    try {
-      const response = await fetch(`${BASE_URL}/member/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginDTO),
-      });
-
-      const responseData = await response.json();
-
-      if (response.ok && responseData.token) {
-        setCookie("token", responseData.token, 7); // Token'ı 7 gün boyunca çerezde sakla
-        navigate("/");
-      } else {
-        setErrorMessage("Giriş başarısız: Geçersiz kullanıcı adı veya parola.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      setErrorMessage("Kullanıcı adı veya parola yanlış!");
-    }
-  }
-
-  const kayit_gecis = () => {
-    const register = document.getElementById("register-form");
-    register.style.display = "flex";
-    const login = document.getElementById("login-form");
-    login.style.display = "none";
+    Login(loginData, navigate, setErrorMessage);
   };
-
-  const giris_gecis = () => {
-    const register = document.getElementById("register-form");
-    register.style.display = "none";
-    const login = document.getElementById("login-form");
-    login.style.display = "flex";
-  };
-
   return (
     <div>
       <Helmet>
@@ -167,9 +129,7 @@ const Giris = () => {
             <div className="login-card">
               <form id="login-form" action="#" style={{ display: "flex" }}>
                 <p className="login-form-baslik">Giriş Yap</p>
-                {errorMessage && (
-                  <p style={{ color: "red" }}>{errorMessage}</p>
-                )}
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                 <div className="form-floating">
                   <input
                     className="form-control"

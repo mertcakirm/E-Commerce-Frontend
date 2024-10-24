@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Helmet } from "react-helmet";
@@ -6,10 +6,12 @@ import Navbar from "../components/childcomponents/navbar";
 import Footer from "../components/childcomponents/footer";
 import "./css/urun-detay.css";
 import logo from '../assets/mob_logo.png';
-import { fetchProduct, addFavorite, addComment, addToBasket } from './api/urun-detay-api';
+import { fetchProduct, addFavorite, addComment } from './api/urun-detay-api';
 import Dahafazla from "../components/childcomponents/dahafazla";
 import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
 import { getCookie, setCookie, deleteCookie } from "../components/cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
+import { NotificationCard, showNotification } from '../components/childcomponents/notification';
+import { handleAddToBasketApi } from "./api/urunler-api";
 
 const Urun_detay = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -19,15 +21,15 @@ const Urun_detay = () => {
   const [title, setTitle] = useState('');
   const [comment, setComment] = useState('');
   const commentsPerPage = 5;
-
+  const notificationRef = useRef(null);
   const urlpop = location.pathname.split('/').pop();
   const token = getCookie('token');
-
 
   useEffect(() => {
     fetchProduct(urlpop)
       .then(data => setProduct(data))
       .catch(error => console.error("Error fetching product:", error));
+
   }, [urlpop]);
 
   const comments = product?.productComment || [];
@@ -76,39 +78,32 @@ const Urun_detay = () => {
   const hasDiscount = product.discountRate > 0;
 
   const handleLikeClick = async (productCode) => {
-    try {
-      await addFavorite(productCode, token);
+      await addFavorite(productCode);
       console.log("Product added to favorites");
-      document.getElementById("like-btn-color").style.fill = "red";
-    } catch (error) {
-      console.error("Error adding favorite:", error);
-    }
-    triggerToggleRefreshData()
+      showNotification(notificationRef, 'Ürün favoriye eklendi!');
+      triggerToggleRefreshData();
   };
 
   const commentSubmit = async () => {
     const commentData = { title, comment };
-    try {
-      await addComment(urlpop, commentData, token);
+      await addComment(urlpop, commentData);
       setTitle('');
       setComment('');
-    } catch (error) {
-      console.error('Error submitting comment:', error);
-    }
+      showNotification(notificationRef, 'Yorum yapıldı!');
+
   };
 
   const handleAddToBasket = async (productCode, size) => {
-    try {
       if (!token) {
         window.location.href = "/girisyap";
         return;
       }
-      await addToBasket(productCode, size, token);
+      await handleAddToBasketApi(productCode, size);
       console.log("Product added to basket");
-    } catch (error) {
-      console.error("Error adding to basket:", error);
-    }
-    triggerToggleRefreshData()
+      showNotification(notificationRef, 'Ürün sepete eklendi!');
+
+
+    triggerToggleRefreshData();
 
   };
 
@@ -421,6 +416,7 @@ const Urun_detay = () => {
           </a>
         </div>
       </div>
+      <NotificationCard ref={notificationRef} message="" />
       <Footer />
     </div>
   );

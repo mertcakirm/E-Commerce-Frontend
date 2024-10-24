@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useRef} from "react";
 import Navbar from "../components/childcomponents/navbar";
 import { Helmet } from "react-helmet";
 import Footer from "../components/childcomponents/footer";
@@ -7,13 +7,15 @@ import "./css/urunler.css";
 import logo from "../assets/mob_logo.png";
 import Filtercomponent from "../components/childcomponents/filtercomponent";
 import { fetchFavoriteData, fetchCartData } from "../components/http/bridge";
-import { fetchProductsByCategory, handleLikeProduct } from "./api/urunler-api";
+import { fetchProductsByCategory, handleLikeProduct ,handleAddToBasketApi} from "./api/urunler-api";
 import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
 import {
   getCookie,
   setCookie,
   deleteCookie,
 } from "../components/cookie/cookie";
+import { NotificationCard, showNotification } from '../components/childcomponents/notification';
+
 
 const Urunler = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -27,9 +29,9 @@ const Urunler = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+  const notificationRef = useRef(null);
   const location = useLocation();
   const currentCategory = location.pathname.split("/").pop();
-  const BASE_URL = "http://213.142.159.49:8083/api";
   const token = getCookie("token");
 
   const handlePageChange = (newPage) => {
@@ -52,8 +54,6 @@ const Urunler = () => {
       [productCode]: prevSelectedSizes[productCode] === size ? null : size,
     }));
   };
-  console.log(currentCategory);
-  console.log(currentPage);
   
   useEffect(() => {
     console.log("Fetching products for category:", currentCategory, "and page:", currentPage);
@@ -65,9 +65,13 @@ const Urunler = () => {
     fetchCartData(setCartItems, setTotalPrice, setLoading);
   }, []);
 
-  const handleLikeClick = (productCode) => {
+  const handleLikeClick = async (productCode) => {
+    if(await handleLikeProduct(productCode, filteredProducts, setFilteredProducts)){
+    showNotification(notificationRef, 'Ürün favoriye eklendi!');
+    }else{
+    showNotification(notificationRef, 'Ürün favoriye eklenemedi!');
+    }
     triggerToggleRefreshData();
-    handleLikeProduct(productCode, filteredProducts, setFilteredProducts);
   };
 
   const toggleDropdown = () => {
@@ -90,30 +94,15 @@ const Urunler = () => {
   };
 
   const handleAddToBasket = async (productCode, size) => {
-    try {
-      if (!token) {
-        window.location.href = "/girisyap";
-        return;
-      }
-      const requestData = JSON.stringify({ productCode, size });
-
-      const response = await fetch(`${BASE_URL}/basket/add`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: requestData,
-      });
-
-      if (response.ok) {
-        console.log("Ürün sepete eklendi");
-      } else {
-        throw new Error("Ürün sepete eklenemedi");
-      }
-    } catch (error) {
-      console.error("Ürün sepete eklenirken bir hata oluştu:", error);
-    }
+    if (!token) {
+      window.location.href = "/girisyap";
+      return;
+    } 
+      if(await handleAddToBasketApi(productCode, size)){
+        showNotification(notificationRef, 'Ürün sepete eklendi!');
+        }else{
+        showNotification(notificationRef, 'Ürün sepete eklenemedi!');
+        }
     triggerToggleRefreshData();
   };
 
@@ -396,6 +385,7 @@ const Urunler = () => {
         </div>
       </div>
       <Footer />
+      <NotificationCard ref={notificationRef} message="" />
     </div>
   );
 };

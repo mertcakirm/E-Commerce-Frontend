@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCookie, setCookie, deleteCookie } from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
+import { profilGuncelle,profilGetir } from "./api/profilbilgilerimapi";
+import { NotificationCard, showNotification } from '../childcomponents/notification';
 
 const Profilechild = () => {
-  const token = getCookie("token"); // Token'ı çerezden alıyoruz
+  const token = getCookie("token"); 
   const BASE_URL = 'http://213.142.159.49:8083/api';
+  const notificationRef = useRef(null);
 
   const updateProfile = async () => {
     const userDTO1 = {
@@ -20,31 +23,13 @@ const Profilechild = () => {
     const formData = new FormData();
     formData.append('UserDTO', new Blob([JSON.stringify(userDTO1)], { type: 'application/json' }));
     formData.append('ChangePasswordDTO', new Blob([JSON.stringify(changePasswordDTO1)], { type: 'application/json' }));
-
-    try {
-      const response = await fetch(`${BASE_URL}/user/update`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        },
-        body: formData
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('User information updated:', data);
-
-        if (data) { 
-          deleteCookie("token"); // Eski token'ı çerezden siliyoruz
-          setCookie("token", data.token, 1); // Yeni token'ı çerezde saklıyoruz (1 gün süre)
-        }
-      } else {
-        console.error('Failed to update profile:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error:', error);
+    
+    try{
+      profilGuncelle(formData)
+      showNotification(notificationRef, 'Profil bilgilerin başarıyla güncellendi!');
+    }catch{
+      showNotification(notificationRef, 'Profil bilgilerin güncellenemedi!');
     }
-    window.setTimeout(() => window.location.reload(), 1000);
   };
 
   const navigate = useNavigate();
@@ -55,36 +40,16 @@ const Profilechild = () => {
   };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/user/profile`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`, 
-            'Content-Type': 'application/json'
-          }
-        });
-
-        if (response.ok) {
-          const data = await response.json(); // Parse JSON response
-          document.getElementById('bilgilerim-isim').value = data.nameSurname;
-          document.getElementById('bilgilerim-tel').value = data.phoneNumber;
-        } else if (response.status === 403) {
-          console.error('Forbidden: You do not have permission to access this resource.');
-          deleteCookie("token");
-          window.location.href="/girisyap";
-        } else {
-          console.error('Error:', response.statusText);
-          deleteCookie("token");
-          window.location.href="/girisyap";
-        }
-      } catch (error) {
-        console.error('Error:', error);
+    const loadProfile = async () => {
+      const data = await profilGetir();
+      if (data) {
+        document.getElementById('bilgilerim-isim').value = data.nameSurname;
+        document.getElementById('bilgilerim-tel').value = data.phoneNumber;
       }
     };
-  
+
     if (token) {
-      fetchProfile();
+      loadProfile();
     }
   }, [token]);
     
@@ -157,7 +122,11 @@ const Profilechild = () => {
                       Bilgilerimi Güncelle
                     </button>
                   </div>
+                  <div>
+                    <NotificationCard ref={notificationRef} message="" />
+                  </div>
                 </form>
+                
     )
   }
 

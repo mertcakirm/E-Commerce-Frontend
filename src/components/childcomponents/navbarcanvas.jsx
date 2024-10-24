@@ -1,9 +1,8 @@
-import{ useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "../../assets/mob_logo.png";
-import { fetchCartData,fetchFavoriteData } from "../http/bridge";
+import { fetchCartData, fetchFavoriteData } from "../http/bridge";
 import { setToggleRefreshData } from "./reflesh";
-import { getCookie, setCookie, deleteCookie } from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
-
+import { getCookie, setCookie, deleteCookie } from "../cookie/cookie";
 
 const Navbarpc = () => {
   const [favoriteproduct, setFavoriteproduct] = useState([]);
@@ -11,12 +10,12 @@ const Navbarpc = () => {
   const [loading, setLoading] = useState(true);
   const [totalprice, setTotalprice] = useState(0);
   const [selectedSizes, setSelectedSizes] = useState({});
-  const [refleshData,setRefleshData] = useState(true);
-  const BASE_URL = 'http://213.142.159.49:8083/api';
-  const token = getCookie('token');
+  const [refleshData, setRefleshData] = useState(true);
+  const BASE_URL = "http://213.142.159.49:8083/api";
+  const token = getCookie("token");
 
   const toggleRefreshData = () => {
-    setRefleshData(prev => !prev);
+    setRefleshData((prev) => !prev);
   };
 
   useEffect(() => {
@@ -39,17 +38,14 @@ const Navbarpc = () => {
       }
       const requestData = JSON.stringify({ productCode, size });
 
-      const response = await fetch(
-        `${BASE_URL}/basket/add`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: requestData,
-        }
-      );
+      const response = await fetch(`${BASE_URL}/basket/add`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: requestData,
+      });
 
       if (response.ok) {
         console.log("Ürün sepete eklendi");
@@ -59,14 +55,11 @@ const Navbarpc = () => {
     } catch (error) {
       console.error("Ürün sepete eklenirken bir hata oluştu:", error);
     }
-    toggleRefreshData()
-    setTimeout(()=>setTotalprice,2000)
-
-
+    toggleRefreshData();
+    setTimeout(() => setTotalprice, 2000);
   };
 
   const deleteItemFromBasket = (productCode) => {
-
     if (!token) {
       console.error("No token found");
       return;
@@ -92,14 +85,9 @@ const Navbarpc = () => {
       .catch((error) => {
         console.error("Error deleting item:", error);
       });
-      toggleRefreshData()
-      setTimeout(()=>setTotalprice,2000)
-
-
-
+    toggleRefreshData();
+    setTimeout(() => setTotalprice, 2000);
   };
-
-
 
   const fetchFullData = async () => {
     setLoading(true);
@@ -117,22 +105,17 @@ const Navbarpc = () => {
     fetchFullData();
   }, [refleshData]);
 
-
-
   const incrementProductCount = (productCode) => {
-    fetch(
-      `${BASE_URL}/basket/increase/quantity/${productCode}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetch(`${BASE_URL}/basket/increase/quantity/${productCode}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         if (response.ok) {
-          fetchCartData()
+          fetchCartData();
         } else {
           console.error("Error incrementing product count");
         }
@@ -140,29 +123,21 @@ const Navbarpc = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
-      toggleRefreshData()
-      setTimeout(()=>setTotalprice,2000)
-
-
-
-
-      
+    toggleRefreshData();
+    setTimeout(() => setTotalprice, 2000);
   };
 
   const decrementProductCount = (productCode) => {
-    fetch(
-      `${BASE_URL}/basket/decrease/quantity/${productCode}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    fetch(`${BASE_URL}/basket/decrease/quantity/${productCode}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((response) => {
         if (response.ok) {
-          fetchCartData()
+          fetchCartData();
         } else {
           console.error("Error decrementing product count");
         }
@@ -170,27 +145,22 @@ const Navbarpc = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
-      toggleRefreshData()
-      setTimeout(()=>setTotalprice,2000)
-
+    toggleRefreshData();
+    setTimeout(() => setTotalprice, 2000);
   };
-
 
   const handleLikeClick = async (productCode) => {
     try {
       const favoriteData = JSON.stringify({ productCode: productCode });
 
-      const response = await fetch(
-        `${BASE_URL}/favorite/add`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-          body: favoriteData,
-        }
-      );
+      const response = await fetch(`${BASE_URL}/favorite/add`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: favoriteData,
+      });
 
       if (!response.ok) {
         throw new Error("Favori eklenemedi");
@@ -203,10 +173,8 @@ const Navbarpc = () => {
     } catch (error) {
       console.error("Favorilere eklenirken bir hata oluştu:", error);
     }
-    toggleRefreshData()
+    toggleRefreshData();
   };
-
-  
 
   return (
     <div>
@@ -256,7 +224,7 @@ const Navbarpc = () => {
             </li>
           </ul>
           <div className="tab-content" id="pills-tabContent">
-                      <div
+            <div
               className="tab-pane fade show active"
               id="pills-home"
               role="tabpanel"
@@ -271,13 +239,20 @@ const Navbarpc = () => {
                     </div>
                   </div>
                 ) : cartItems.length === 0 ? (
-                  // Display this when the cart is empty
-                  <div style={{margin:'0'}} className="d-flex row text-center justify-content-center mt-5" >
+                  <div
+                    style={{ margin: "0" }}
+                    className="d-flex row text-center justify-content-center mt-5"
+                  >
                     <h2 className="mt-5">Sepetiniz Boş</h2>
-                    <a className="mt-3" href="../urunler/tum-urunler" style={{fontSize:'24px',color:'#000'}}>Alışverişe Devam Et</a>
+                    <a
+                      className="mt-3"
+                      href="../urunler/tum-urunler"
+                      style={{ fontSize: "24px", color: "#000" }}
+                    >
+                      Alışverişe Devam Et
+                    </a>
                   </div>
                 ) : (
-                  // Display the cart items
                   cartItems.map((item) => (
                     <div className="sepet-card row" key={item.productCode}>
                       <a
@@ -291,17 +266,29 @@ const Navbarpc = () => {
                         />
                       </a>
                       <div className="col-6 sepet-card-col-2">
-                        <p className="sepet-card-col-2-p-1">{item.productName}</p>
+                        <p className="sepet-card-col-2-p-1">
+                          {item.productName}
+                        </p>
                         <p className="sepet-card-col-2-urun-kodu">
                           Ürün Kodu : {item.productCode}
                         </p>
-                        <p className="sepet-card-col-2-beden">BEDEN : {item.size}</p>
+                        <p className="sepet-card-col-2-beden">
+                          BEDEN : {item.size}
+                        </p>
                         <div className="updown">
-                          <button onClick={() => decrementProductCount(item.productCode)}>
+                          <button
+                            onClick={() =>
+                              decrementProductCount(item.productCode)
+                            }
+                          >
                             -
                           </button>
                           <span>{item.quantity}</span>
-                          <button onClick={() => incrementProductCount(item.productCode)}>
+                          <button
+                            onClick={() =>
+                              incrementProductCount(item.productCode)
+                            }
+                          >
                             +
                           </button>
                         </div>
@@ -339,7 +326,6 @@ const Navbarpc = () => {
                         </button>
                       </div>
                     </div>
-                    
                   ))
                 )}
               </div>
@@ -367,7 +353,6 @@ const Navbarpc = () => {
                 </>
               )}
             </div>
-
 
             <div
               className="tab-pane fade"

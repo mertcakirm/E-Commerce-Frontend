@@ -4,6 +4,8 @@ import {
   setCookie,
   deleteCookie,
 } from "../../components/cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
+import { NotificationCard, showNotification } from '../../components/childcomponents/notification';
+
 
 const BaseUrl = "http://213.142.159.49:8083/api";
 const token = getCookie("token");
@@ -26,7 +28,7 @@ export const fetchProductsByCategory = async (
   const url =
     category === "tum-urunler"
       ? `${BaseUrl}/product/all?page=${page}&size=12`
-      : `${BaseUrl}/category/get/${category}?page=${page}&size=20`;
+      : `${BaseUrl}/category/get/${category}?page=${page}&size=48`;
 
   try {
     setLoading(true);
@@ -36,7 +38,7 @@ export const fetchProductsByCategory = async (
     if (data._embedded && Array.isArray(data._embedded.productDTOList)) {
       setFilteredProducts(data._embedded.productDTOList);
     } else if (Array.isArray(data.content)) {
-      setFilteredProducts((prevProducts) => [...prevProducts, ...data.content]);
+      setFilteredProducts(() => data.content);
     }
 
     if (data.page) {
@@ -73,8 +75,37 @@ export const handleLikeProduct = async (
         : product
     );
     setFilteredProducts(updatedFavorites);
+    return true;
   } catch (error) {
     console.error("Error adding favorite:", error);
+    return false;
   }
-  triggerToggleRefreshData();
 };
+
+
+export const handleAddToBasketApi = async (productCode,size)=>{
+  try {
+
+    const requestData = JSON.stringify({ productCode, size });
+
+    const response = await fetch(`${BaseUrl}/basket/add`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: requestData,
+    });
+    console.log(response);
+    if (response.ok) {
+      console.log("Ürün sepete eklendi");
+      return true;
+
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error("Ürün sepete eklenirken bir hata oluştu:", error);
+    return false;
+  }
+}
