@@ -43,7 +43,7 @@ function App() {
       deleteCookie('token'); // Geçersiz token ise sil
     }
   }, []);
-
+  console.log("dneeme")
   return (
     <BrowserRouter>
       <Routes>
