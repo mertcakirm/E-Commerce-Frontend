@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import {useEffect, useState, useRef} from 'react';
 import { Helmet } from "react-helmet";
 import "../../pages/css/odeme.css";
-import Sepet_ozeti from './sepet-ozeti';
 import { adetArttir, adetAzalt, sepetiGetir, sepettenSil } from '../childcomponents/api/sepetapi';
+import Sepet_ozeti from "./sepet-ozeti";
 
 const Odeme1 = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [totalprice, setTotalprice] = useState(0);
-  const [refleshData, setRefleshData] = useState(false);
+  const fUpdater = useRef(null);
+
 
   useEffect(() => {
     fetchSepetData();
   }, []);
 
-  useEffect(() => {
-    fetchSepetData();
-  }, [refleshData]);
 
   const fetchSepetData = async () => {
     try {
       const data = await sepetiGetir();
       setCartItems(data.bucketItems);
-      setTotalprice(data.price);
       setLoading(false);
     } catch (error) {
       console.error('Sepet verileri alınamadı:', error);
@@ -34,6 +30,7 @@ const Odeme1 = () => {
       await sepettenSil(productCode);
       const updatedItems = cartItems.filter(item => item.productCode !== productCode);
       setCartItems(updatedItems);
+
     } catch (error) {
       console.error('Ürün silinemedi:', error);
     }
@@ -58,9 +55,11 @@ const Odeme1 = () => {
   
     try {
       await adetArttir(productCode);
+      fUpdater.current()
     } catch (error) {
       console.error('Ürün adedi arttırılamadı:', error);
     }
+
   };
   
   
@@ -83,9 +82,11 @@ const Odeme1 = () => {
   
     try {
       await adetAzalt(productCode);
+      fUpdater.current()
     } catch (error) {
       console.error('Ürün adedi azaltılamadı:', error);
     }
+
   };
   
 
@@ -150,7 +151,7 @@ const Odeme1 = () => {
         </div>
       </div>
       <div className="col-lg-4 ozet-sag-col">
-        <Sepet_ozeti />
+        <Sepet_ozeti updateTrigger={(f) => fUpdater.current = f} />
         <button className="button-next-step primary" onClick={() => window.location.href = "/siparis/kargo"} id="stepper">
           Sonraki Adım
         </button>

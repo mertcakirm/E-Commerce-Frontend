@@ -1,10 +1,4 @@
-import { triggerToggleRefreshData } from "../../components/childcomponents/reflesh";
-import {
-  getCookie,
-  setCookie,
-  deleteCookie,
-} from "../../components/cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
-import { NotificationCard, showNotification } from '../../components/childcomponents/notification';
+import { getCookie } from "../../components/cookie/cookie";
 
 
 const BaseUrl = "http://213.142.159.49:8083/api";
@@ -67,7 +61,7 @@ export const handleLikeProduct = async (
       body: favoriteData,
     });
     if (!response.ok) {
-      throw new Error("Failed to add product to favorites");
+      console.error("Failed to function")
     }
     const updatedFavorites = filteredProducts.map((product) =>
       product.productCode === productCode

@@ -1,4 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from "../../components/cookie/cookie";
+import { getCookie } from "../../components/cookie/cookie";
 
 const BASE_URL = 'http://213.142.159.49:8083/api';
 const token = getCookie('token');
@@ -8,12 +8,14 @@ const apiFetch = async (endpoint, options = {}) => {
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, options);
     if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
+      console.error(response.statusText)
     }
     var sonuc=null
     try{
     sonuc= await response.json();
-    }catch{}
+    }catch{
+      console.error(response.statusText)
+    }
     return sonuc;
 
   } catch (error) {

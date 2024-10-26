@@ -1,6 +1,6 @@
 import { getCookie, setCookie, deleteCookie } from "../../cookie/cookie"; 
 
-const token = getCookie("token"); // Token'ı çerezden alıyoruz
+const token = getCookie("token");
 
 const BASE_URL = 'http://213.142.159.49:8083/api';
 
@@ -43,8 +43,8 @@ export const profilGetir = async () => {
       });
   
       if (response.ok) {
-        const data = await response.json(); // Parse JSON response
-        return data; // Veriyi geri döndür
+        const data = await response.json();
+        return data;
       } else if (response.status === 403) {
         console.error('Forbidden: You do not have permission to access this resource.');
         deleteCookie("token");

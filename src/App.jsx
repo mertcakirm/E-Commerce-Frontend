@@ -13,37 +13,44 @@ import Parola_yenile from './pages/parola-yenile';
 import Bilgilendirmeler from './pages/bilgilendirmeler';
 import ErrorPage from './pages/errorPage';
 import { useEffect } from 'react';
-import { getCookie, deleteCookie } from './components/cookie/cookie'; // Çerez fonksiyonlarını ekliyoruz
+import { getCookie, deleteCookie } from './components/cookie/cookie';
+import PropTypes from 'prop-types';
 
 function App() {
   const ProtectedRoute = ({ element }) => {
-    const token = getCookie('token'); // Çerezden token'ı al
+    const token = getCookie('token');
     return token ? element : <Navigate to="/girisyap" replace />;
   };
 
+  ProtectedRoute.propTypes = {
+    element: PropTypes.element.isRequired,
+  };
+
   const UnprotectedRoute = ({ element }) => {
-    const token = getCookie('token'); // Çerezden token'ı al
+    const token = getCookie('token');
     return token ? <Navigate to="/profilim" replace /> : element;
   };
 
-  useEffect(() => {
-    const token = getCookie('token'); // Çerezden token'ı al
+  UnprotectedRoute.propTypes = {
+    element: PropTypes.element.isRequired,
+  };
 
+  useEffect(() => {
+    const token = getCookie('token');
     if (!token) return;
 
     try {
-      const tokenPayload = JSON.parse(atob(token.split('.')[1])); // JWT kullanıyorsanız token payload'ını alır
-      const currentTime = Math.floor(Date.now() / 1000); // Şu anki zaman (saniye cinsinden)
+      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000);
       
       if (tokenPayload.exp < currentTime) {
-        deleteCookie('token'); // Token süresi dolmuşsa çerezden sil
+        deleteCookie('token');
       }
     } catch (e) {
       console.error('Geçersiz token:', e);
-      deleteCookie('token'); // Geçersiz token ise sil
+      deleteCookie('token');
     }
   }, []);
-  console.log("dneeme")
   return (
     <BrowserRouter>
       <Routes>
@@ -52,7 +59,6 @@ function App() {
         
         <Route path="*" element={<Navigate to="/error" state={{ errorMessage: 'Sayfa bulunamadı' }} />} />
         
-        {/* Dinamik kategoriye göre ürünlerin listelendiği sayfa */}
         <Route path="/urunler/:category" element={<Urunler />} />
         <Route path="/urunler-detay/:id" element={<Urun_detay />} />
         <Route path="/hakkimizda" element={<Hakkimizda />} />

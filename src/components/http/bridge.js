@@ -1,4 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from "../cookie/cookie";
+import { getCookie } from "../cookie/cookie";
 
 
 const BASE_URL = 'http://213.142.159.49:8083/api';

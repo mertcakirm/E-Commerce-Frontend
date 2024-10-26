@@ -1,4 +1,4 @@
-import { getCookie, setCookie, deleteCookie } from "../../cookie/cookie";
+import { getCookie } from "../../cookie/cookie";
 
 const BASE_URL = "http://213.142.159.49:8083/api";
 const token = getCookie("token");
@@ -61,8 +61,8 @@ export const sepettenSil=async(productCode)=>{
         });
 }
 
-export const adetArttir=(productCode)=>{
-    fetch(`${BASE_URL}/basket/increase/quantity/${productCode}`, {
+export const adetArttir=async (productCode)=>{
+    await fetch(`${BASE_URL}/basket/increase/quantity/${productCode}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -71,6 +71,7 @@ export const adetArttir=(productCode)=>{
       })
         .then((response) => {
           if (response.ok) {
+              console.log("adet arttırıldı")
           } else {
             console.error("Error incrementing product count");
           }
@@ -81,8 +82,8 @@ export const adetArttir=(productCode)=>{
 }
 
 
-export const adetAzalt=(productCode)=>{
-    fetch(`${BASE_URL}/basket/decrease/quantity/${productCode}`, {
+export const adetAzalt= async (productCode)=>{
+    await fetch(`${BASE_URL}/basket/decrease/quantity/${productCode}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -91,6 +92,8 @@ export const adetAzalt=(productCode)=>{
       })
         .then((response) => {
           if (response.ok) {
+              console.log("adet azaltıldı")
+
           } else {
             console.error("Error decrementing product count");
           }
@@ -113,7 +116,7 @@ export const favoriEkle=async(productCode)=>{
           body: favoriteData,
         });
         if (!response.ok) {
-          throw new Error("Favori eklenemedi");
+            console.log("favori eklenemedi")
         }
       } catch (error) {
         console.error("Favorilere eklenirken bir hata oluştu:", error);

@@ -1,8 +1,4 @@
-import {
-  setCookie,
-  getCookie,
-  deleteCookie,
-} from "../../components/cookie/cookie";
+import { setCookie } from "../../components/cookie/cookie";
 const BASE_URL = "http://213.142.159.49:8083/api";
 
 export const Register = (registerDTO) => {
