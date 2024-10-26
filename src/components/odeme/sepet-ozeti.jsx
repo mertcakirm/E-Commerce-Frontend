@@ -1,12 +1,13 @@
 import React, { Component, useEffect, useState } from 'react'
-
+import { getCookie } from '../cookie/cookie';
 const Sepet_ozeti =()=>{
     const [totalprice, setTotalprice] = useState(0);
+    const token = getCookie("token");
 
     useEffect(() => {
         fetch('http://213.142.159.49:8083/api/basket/get', {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, 
+            'Authorization': `Bearer ${token}`, 
             "Content-Type": "application/json",
           }
         })

@@ -16,8 +16,9 @@ const Profil_adreslerim = () => {
   const [address, setAddress] = useState("");
   const [identityNumber, setIdentityNumber] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
   const token = getCookie("token");
-  const BASE_URL = "http://213.142.159.49:8083/api";
   const notificationRef = useRef(null);
 
   useEffect(() => {
@@ -33,7 +34,7 @@ const Profil_adreslerim = () => {
   }, [showPopup]);
 
   useEffect(() => {
-    AdresleriGetir(setAddresses);
+    AdresleriGetir(setAddresses,setLoading);
   }, [token]);
 
   const newAddress = async () => {

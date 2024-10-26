@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet";
 import Sepet_ozeti from './sepet-ozeti';
+import { AdresEkle, AdresleriGetir } from '../profile/api/adresapi'; // Adres API fonksiyonunu ekledik
 
 const Odeme2 = () => {
   const [showModal, setShowModal] = useState(false);
@@ -15,7 +16,6 @@ const Odeme2 = () => {
   const [address, setAddress] = useState('');
   const [identityNumber, setIdentityNumber] = useState('');
   const [loading, setLoading] = useState(true);
-  const BASE_URL = 'http://213.142.159.49:8083/api';
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -37,7 +37,9 @@ const Odeme2 = () => {
     };
   }, [showModal]);
 
-  const token = localStorage.getItem('token');
+  useEffect(() => {
+    AdresleriGetir(setAddresses, setLoading);
+  }, []);
 
   const newAddress = async (event) => {
     event.preventDefault(); 
@@ -53,61 +55,17 @@ const Odeme2 = () => {
       identityNumber,
     };
   
-    try {
-      const response = await fetch(`${BASE_URL}/address/add`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(addressDTO),
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Address added successfully:', data);
-      } else {
-        console.error('Failed to add address:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-    window.setTimeout(() => window.location.reload(), 1000);
+    AdresEkle(addressDTO)
+    setTimeout(() => {
+      window.location.reload()
+    }, 1000);
   };
   
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/address/all`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-  
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-  
-        const result = await response.json(); 
-        setAddresses(result);
-        setLoading(false)
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-  
-    fetchAddresses();
-  }, []);
-
   const handleSelectAddress = (index) => {
     if (selectedAddressIndex === index) {
-      // Deselect the address if it's already selected
       setSelectedAddressIndex(null);
       console.log('No address selected');
     } else {
-      // Select a new address
       setSelectedAddressIndex(index);
       console.log('Selected Address:', addresses[index]);
     }

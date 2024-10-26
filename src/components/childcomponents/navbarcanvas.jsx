@@ -3,6 +3,7 @@ import logo from "../../assets/mob_logo.png";
 import { fetchCartData, fetchFavoriteData } from "../http/bridge";
 import { setToggleRefreshData } from "./reflesh";
 import { getCookie, setCookie, deleteCookie } from "../cookie/cookie";
+import { adetArttir, adetAzalt, favoriEkle, sepeteEkle, sepettenSil } from "./api/sepetapi";
 
 const Navbarpc = () => {
   const [favoriteproduct, setFavoriteproduct] = useState([]);
@@ -30,61 +31,28 @@ const Navbarpc = () => {
     }));
   };
 
-  const handleAddToBasket = async (productCode, size) => {
+  const handleAddToBasket = (productCode, size) => {
     try {
       if (!token) {
         window.location.href = "/girisyap";
         return;
       }
       const requestData = JSON.stringify({ productCode, size });
-
-      const response = await fetch(`${BASE_URL}/basket/add`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: requestData,
-      });
-
-      if (response.ok) {
-        console.log("Ürün sepete eklendi");
-      } else {
-        throw new Error("Ürün sepete eklenemedi");
-      }
-    } catch (error) {
-      console.error("Ürün sepete eklenirken bir hata oluştu:", error);
-    }
-    toggleRefreshData();
-    setTimeout(() => setTotalprice, 2000);
-  };
+      sepeteEkle(requestData)
+      toggleRefreshData();
+      setTimeout(() => setTotalprice, 2000);
+  }catch{
+    console.log("ürün sepete eklenemedi");
+    
+  }
+};
 
   const deleteItemFromBasket = (productCode) => {
     if (!token) {
       console.error("No token found");
       return;
     }
-
-    fetch(`${BASE_URL}/basket/delete/${productCode}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response;
-        } else {
-          throw new Error("Network response was not ok.");
-        }
-      })
-      .then((data) => {
-        console.log("Item deleted:", data);
-      })
-      .catch((error) => {
-        console.error("Error deleting item:", error);
-      });
+    sepettenSil(productCode)
     toggleRefreshData();
     setTimeout(() => setTotalprice, 2000);
   };
@@ -100,79 +68,24 @@ const Navbarpc = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchFullData();
   }, [refleshData]);
 
   const incrementProductCount = (productCode) => {
-    fetch(`${BASE_URL}/basket/increase/quantity/${productCode}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          fetchCartData();
-        } else {
-          console.error("Error incrementing product count");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    adetArttir(productCode)
     toggleRefreshData();
     setTimeout(() => setTotalprice, 2000);
   };
 
   const decrementProductCount = (productCode) => {
-    fetch(`${BASE_URL}/basket/decrease/quantity/${productCode}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          fetchCartData();
-        } else {
-          console.error("Error decrementing product count");
-        }
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    adetAzalt(productCode)
     toggleRefreshData();
     setTimeout(() => setTotalprice, 2000);
   };
 
   const handleLikeClick = async (productCode) => {
-    try {
-      const favoriteData = JSON.stringify({ productCode: productCode });
-
-      const response = await fetch(`${BASE_URL}/favorite/add`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: favoriteData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Favori eklenemedi");
-      }
-
-      const likeBtnColor = document.getElementById("like-btn-color");
-      if (likeBtnColor) {
-        likeBtnColor.style.fill = "red";
-      }
-    } catch (error) {
-      console.error("Favorilere eklenirken bir hata oluştu:", error);
-    }
+    await favoriEkle(productCode)
     toggleRefreshData();
   };
 
