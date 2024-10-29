@@ -214,7 +214,7 @@ const Anasayfa = () => {
             <img
               src={`data:image/jpeg;base64,${slide.image.bytes}`}
               className="d-block w-100 img-fluid"
-              style={{maxHeight:'900px',objectFit:'cover'}}
+              style={{height:'900px',objectFit:'cover'}}
               alt={`Slide ${index + 1}`}
             />
             <div className="carousel-item-child">

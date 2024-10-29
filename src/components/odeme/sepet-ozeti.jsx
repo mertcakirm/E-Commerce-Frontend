@@ -4,6 +4,7 @@ import { fetchBasket } from './api/refleshdata.js';
 const Sepet_ozeti = ({ updateTrigger }) => {
     const [totalprice, setTotalprice] = useState(0);
     const [reflesh, setReflesh] = useState(false);
+
     const basket = async () => {
         const data = await fetchBasket();
         if (data) {
@@ -14,11 +15,16 @@ const Sepet_ozeti = ({ updateTrigger }) => {
     useEffect(() => {
         basket();
     }, []);
+
     useEffect(() => {
         basket();
-        console.log("hi")
     }, [reflesh]);
-    updateTrigger(() => setReflesh(prev=>!prev));
+
+    useEffect(() => {
+        if (typeof updateTrigger === "function") {
+            updateTrigger(() => setReflesh(prev => !prev));
+        }
+    }, [updateTrigger]);
 
     return (
         <>

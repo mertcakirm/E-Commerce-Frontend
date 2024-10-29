@@ -80,7 +80,7 @@ export const AdresleriGetir = async (setAddresses, setLoading) => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      console.log(response.status)
     }
 
     const result = await response.json();

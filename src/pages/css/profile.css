@@ -2,6 +2,14 @@
     padding: 150px 5%;
 }
 
+.address-title-profile{
+    font-weight: 700;
+    width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 .profil-pills-content-baslik{
     font-size: 32px;

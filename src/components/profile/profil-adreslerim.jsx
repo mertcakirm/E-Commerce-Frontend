@@ -20,7 +20,6 @@ const Profil_adreslerim = () => {
   
   const token = getCookie("token");
   const notificationRef = useRef(null);
-
   useEffect(() => {
     if (showPopup) {
       document.body.classList.add("no-scroll");
@@ -36,6 +35,11 @@ const Profil_adreslerim = () => {
   useEffect(() => {
     AdresleriGetir(setAddresses,setLoading);
   }, [token]);
+
+  useEffect(() => {
+    AdresleriGetir(setAddresses,setLoading);
+  }, [addresses]);
+
 
   const newAddress = async () => {
     const addressDTO = {
@@ -242,11 +246,11 @@ const Profil_adreslerim = () => {
           <div className="row adreslerim-row">
             {addresses.map((address, index) => (
               <div key={index} className="col-lg-5 adres-card">
-                <div>{address.addressTitle}</div>
+                <div className="address-title-profile">{address.addressTitle}</div>
                 <div className="adres-card-flex">
                   <button
                     className="adres-card-flex-btn1"
-                    onClick={() => handleOpenPopup(address)} // Pass the address data
+                    onClick={() => handleOpenPopup(address)}
                   >
                     <svg
                       clipRule="evenodd"
