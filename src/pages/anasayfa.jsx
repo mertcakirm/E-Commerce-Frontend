@@ -7,7 +7,8 @@ import "slick-carousel/slick/slick-theme.css";
 import Footer from "../components/childcomponents/footer";
 import { Helmet } from "react-helmet";
 import logo from '../assets/mob_logo.png';
-import { fetchSliderData, fetchCategories, fetchCartData } from "./api/anasayfa-api"; // API fonksiyonlarını içe aktardık
+import { fetchSliderData, fetchCategories, fetchCartData } from "./api/anasayfa-api";
+import Cookie_accept from "../components/cookie/cookie_accept.jsx"; // API fonksiyonlarını içe aktardık
 
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -298,7 +299,7 @@ const Anasayfa = () => {
           </a>
         </div>
       </div>
-
+      <Cookie_accept />
       <Footer />
     </div>
   );

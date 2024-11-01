@@ -1,10 +1,9 @@
 import React, { Component, useEffect, useState,useRef } from "react";
-import { getCookie, setCookie, deleteCookie } from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
+import { getCookie, setCookie, deleteCookie } from "../cookie/cookie";
 import { AdresEkle,AdresSil,AdresGuncelle,AdresleriGetir,} from "./api/adresapi";
 import { NotificationCard, showNotification } from '../childcomponents/notification';
 
 const Profil_adreslerim = () => {
-  // adres
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addresses, setAddresses] = useState([]);
   const [addressTitle, setAddressTitle] = useState("");

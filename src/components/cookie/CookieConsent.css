@@ -1,0 +1,59 @@
+.cookie-consent-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    padding: 30px 10px;
+    z-index: 1000;
+    border-top: 2px solid #000;
+}
+
+.cookie-consent-container p {
+    margin: 0;
+}
+
+.cookie-consent-buttons {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cookie-consent-button {
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.cookie-consent-button.accept {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+    transition: .4s;
+}
+
+.cookie-consent-button.accept:hover {
+    background: transparent;
+    color: #000;
+    transition: .4s;
+
+}
+
+.cookie-consent-button.decline {
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #000;
+    transition: .4s;
+
+}
+
+.cookie-consent-button.decline:hover {
+    background: transparent;
+    color: #000;
+    transition: .4s;
+
+}
