@@ -18,37 +18,32 @@ import PropTypes from 'prop-types';
 
 function App() {
   const ProtectedRoute = ({ element }) => {
-    const token = getCookie('token');
-    return token ? element : <Navigate to="/girisyap" replace />;
+    const sessionid = getCookie('SESSIONID');
+    return sessionid ? element : <Navigate to="/girisyap" replace />;
   };
 
   ProtectedRoute.propTypes = {
-    element: PropTypes.element.isRequired,
+    element: PropTypes.node.isRequired,
   };
 
   const UnprotectedRoute = ({ element }) => {
-    const token = getCookie('token');
-    return token ? <Navigate to="/profilim" replace /> : element;
+    const sessionid = getCookie('SESSIONID');
+    return sessionid ? <Navigate to="/profilim" replace /> : element;
   };
 
   UnprotectedRoute.propTypes = {
-    element: PropTypes.element.isRequired,
+    element: PropTypes.node.isRequired,
   };
 
   useEffect(() => {
-    const token = getCookie('token');
-    if (!token) return;
+    const sessionid = getCookie('SESSIONID'); // Cookie'den sessionid al
+    if (!sessionid) return;
 
     try {
-      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
-      const currentTime = Math.floor(Date.now() / 1000);
-      
-      if (tokenPayload.exp < currentTime) {
-        deleteCookie('token');
-      }
+      // Eğer sessionid ile ilgili bir kontrol yapmanız gerekiyorsa burada yapabilirsiniz.
+      // Örneğin, sessionid'nin geçerlilik süresini kontrol edebilirsiniz.
     } catch (e) {
-      console.error('Geçersiz token:', e);
-      deleteCookie('token');
+      console.error('Geçersiz sessionid:', e);
     }
   }, []);
   return (
@@ -64,12 +59,10 @@ function App() {
         <Route path="/hakkimizda" element={<Hakkimizda />} />
         <Route path="/iletisim" element={<Iletisim />} />
 
-        {/* Unprotected Routes */}
-        <Route path="/girisyap" element={<UnprotectedRoute element={<Giris />} />} />
+        <Route path="/girisyap" element={<Giris />} />
         <Route path="/parola-yenile" element={<UnprotectedRoute element={<Parola_yenile />} />} />
 
-        {/* Protected Routes */}
-        <Route path="/profilim" element={<ProtectedRoute element={<Profile />} />} />
+        <Route path="/profilim" element={<Profile />} />
         <Route path="/siparis/kargo" element={<ProtectedRoute element={<Odeme />} />} />
         <Route path="/siparis/ozet" element={<ProtectedRoute element={<Odeme />} />} />
         <Route path="/siparis-durumu" element={<ProtectedRoute element={<SiparisDurumu />} />} />

@@ -1,8 +1,7 @@
-import { setCookie } from "../../components/cookie/cookie";
-const BASE_URL = "http://213.142.159.49:8083/api";
+const BASE_URL = "http://213.142.159.49:8000/api";
 
 export const Register = (registerDTO) => {
-  fetch(`${BASE_URL}/member/register`, {
+  fetch(`${BASE_URL}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,18 +17,18 @@ export const Login = async (loginData, navigate, setErrorMessage) => {
   };
 
   try {
-    const response = await fetch(`${BASE_URL}/member/login`, {
+    const response = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(loginDTO),
+      credentials: 'include'
     });
 
-    const responseData = await response.json();
 
-    if (response.ok && responseData.token) {
-      setCookie("token", responseData.token, 7);
+    if (response.ok) {
+      setErrorMessage(response.data)
       navigate("/");
     } else {
       setErrorMessage("Giriş başarısız: Geçersiz kullanıcı adı veya parola.");

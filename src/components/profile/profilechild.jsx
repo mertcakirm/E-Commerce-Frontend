@@ -35,7 +35,8 @@ const Profilechild = () => {
   const navigate = useNavigate();
 
   const cikisyap = () => {
-    deleteCookie("token"); // Çerezden token'ı siliyoruz
+    deleteCookie("SESSIONID");
+    deleteCookie("ID");
     navigate('/girisyap');
   };
 

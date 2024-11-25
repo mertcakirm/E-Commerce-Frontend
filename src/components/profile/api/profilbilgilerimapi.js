@@ -20,8 +20,7 @@ export const profilGuncelle = async (formData) =>{
           console.log('User information updated:', data);
   
           if (data) { 
-            deleteCookie("token");
-            setCookie("token", data.token, 1); 
+            setCookie("token", data.token, 1);
           }
         } else {
           console.error('Failed to update profile:', response.statusText);
@@ -47,11 +46,9 @@ export const profilGetir = async () => {
         return data;
       } else if (response.status === 403) {
         console.error('Forbidden: You do not have permission to access this resource.');
-        deleteCookie("token");
         window.location.href = "/girisyap";
       } else {
         console.error('Error:', response.statusText);
-        deleteCookie("token");
         window.location.href = "/girisyap";
       }
     } catch (error) {

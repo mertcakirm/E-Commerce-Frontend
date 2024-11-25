@@ -9,7 +9,7 @@ import logo from '../assets/mob_logo.png';
 import { fetchProduct, addFavorite, addComment } from './api/urun-detay-api';
 import Dahafazla from "../components/childcomponents/dahafazla";
 import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
-import { getCookie, setCookie, deleteCookie } from "../components/cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
+import { getCookie } from "../components/cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
 import { NotificationCard, showNotification } from '../components/childcomponents/notification';
 import { handleAddToBasketApi } from "./api/urunler-api";
 
