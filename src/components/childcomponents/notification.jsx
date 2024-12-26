@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import './css/NotificationCard.css';
 
 const NotificationCard = React.forwardRef(({ message }, ref) => {

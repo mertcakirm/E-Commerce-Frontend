@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet";
 import Sepet_ozeti from './sepet-ozeti';
-import { AdresEkle, AdresleriGetir } from '../profile/api/adresapi'; // Adres API fonksiyonunu ekledik
+import { AdresEkle, AdresleriGetir } from '../profile/api/adresapi';
+import LoadingComponent from "../childcomponents/Loading.jsx";
 
 const Odeme2 = () => {
   const [showModal, setShowModal] = useState(false);
   const [addresses, setAddresses] = useState([]);
-  const [selectedAddressIndex, setSelectedAddressIndex] = useState(null); 
-  const [addressTitle, setAddressTitle] = useState('');
-  const [nameSurname, setNameSurname] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [city, setCity] = useState('');
-  const [town, setTown] = useState('');
-  const [address, setAddress] = useState('');
-  const [identityNumber, setIdentityNumber] = useState('');
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
+  const [newAddress, setNewAddress] = useState({
+    addressTitle:"",nameSurname:"",email:"",phoneNumber:"",city:"",town:"",address:"",identityNumber:""
+  });
+
   const [loading, setLoading] = useState(true);
 
   const handleOpenModal = () => {
@@ -23,6 +20,14 @@ const Odeme2 = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setNewAddress((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   useEffect(() => {
@@ -41,24 +46,22 @@ const Odeme2 = () => {
     AdresleriGetir(setAddresses, setLoading);
   }, []);
 
-  const newAddress = async (event) => {
+  const HandlenewAddress = async (event) => {
     event.preventDefault(); 
   
     const addressDTO = {
-      addressTitle,
-      nameSurname,
-      email,
-      phoneNumber,
-      city,
-      town,
-      address,
-      identityNumber,
+      addressTitle:newAddress.addressTitle,
+      nameSurname:newAddress.nameSurname,
+      email:newAddress.email,
+      phoneNumber:newAddress.phoneNumber,
+      city:newAddress.city,
+      town:newAddress.town,
+      address:newAddress.address,
+      identityNumber:newAddress.identityNumber,
     };
   
-    AdresEkle(addressDTO)
-    setTimeout(() => {
-      window.location.reload()
-    }, 1000);
+    await AdresEkle(addressDTO)
+    setAddresses(AdresleriGetir(setAddresses, setLoading))
   };
   
   const handleSelectAddress = (index) => {
@@ -72,13 +75,7 @@ const Odeme2 = () => {
   };
 
   if (loading) {
-    return (
-      <div className="d-flex justify-content-center" style={{ height: '50vh', alignItems: 'center' }}>
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
+    return <LoadingComponent />
   }
 
   return (
@@ -122,99 +119,105 @@ const Odeme2 = () => {
           <button id='yeni-adres-ekle-btn' onClick={handleOpenModal}>Yeni Adres Ekle</button>
         </div>
 
-        {/* Modal */}
         {showModal && (
           <div className="modal">
             <div className="modal-content">
               <span className="close" onClick={handleCloseModal}>&times;</span>
-              <form>
+              <div>
                 <div className="row yeni-adres-row">
                   <div className="col-12">
                     <input
-                      className='adres-input'
-                      type="text"
-                      placeholder='Adres Başlığı'
-                      value={addressTitle}
-                      onChange={(e) => setAddressTitle(e.target.value)}
+                        className="adres-input"
+                        type="text"
+                        placeholder="Adres Başlığı"
+                        name="addressTitle"
+                        value={newAddress.addressTitle}
+                        onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-12">
                     <input
-                      className='adres-input'
-                      type="text"
-                      placeholder='Ad Soyad'
-                      value={nameSurname}
-                      onChange={(e) => setNameSurname(e.target.value)}
+                        className="adres-input"
+                        type="text"
+                        placeholder="Ad Soyad"
+                        name="nameSurname"
+                        value={newAddress.nameSurname}
+                        onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-lg-6">
                     <input
-                      className='adres-input'
-                      type="text"
-                      placeholder='E-Posta Adresi'
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                        className="adres-input"
+                        type="email"
+                        placeholder="E-Posta Adresi"
+                        name="email"
+                        value={newAddress.email}
+                        onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-lg-6">
                     <input
-                      className='adres-input'
-                      type="text"
-                      placeholder='Telefon Numarası'
-                      value={phoneNumber}
-                      onChange={(e) => setPhoneNumber(e.target.value)}
+                        className="adres-input"
+                        type="text"
+                        placeholder="Telefon Numarası"
+                        name="phoneNumber"
+                        value={newAddress.phoneNumber}
+                        onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-lg-6">
                     <input
-                      className='adres-input'
-                      type="text"
-                      placeholder='İl'
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
+                        className="adres-input"
+                        type="text"
+                        placeholder="İl"
+                        name="city"
+                        value={newAddress.city}
+                        onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-lg-6">
                     <input
-                      className='adres-input'
-                      type="text"
-                      placeholder='İlçe'
-                      value={town}
-                      onChange={(e) => setTown(e.target.value)}
-                    />
-                  </div>
-                  <div className="col-12">
-                    <textarea
-                      name="adres-uzun"
-                      id="adres-uzun"
-                      placeholder='Adres Tarifi'
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                        className="adres-input"
+                        type="text"
+                        placeholder="İlçe"
+                        name="town"
+                        value={newAddress.town}
+                        onChange={handleInputChange}
                     />
                   </div>
                   <div className="col-12">
                     <textarea
-                      name="tc-kimlik"
-                      id="tc-kimlik"
-                      placeholder='T.C. Kimlik Numaranız'
-                      value={identityNumber}
-                      onChange={(e) => setIdentityNumber(e.target.value)}
+                        name="address"
+                        id="adres-uzun"
+                        placeholder="Adres Tarifi"
+                        value={newAddress.address}
+                        onChange={handleInputChange}
+                    />
+                                </div>
+                                <div className="col-12">
+                    <textarea
+                        name="identityNumber"
+                        id="tc-kimlik"
+                        placeholder="T.C. Kimlik Numaranız"
+                        value={newAddress.identityNumber}
+                        onChange={handleInputChange}
                     />
                   </div>
                   <button
-                    id='popup-adresi-kaydet-btn'
-                    onClick={newAddress}
+                      id="popup-adresi-kaydet-btn"
+                      onClick={HandlenewAddress}
                   >
                     Adresi Kaydet
                   </button>
                 </div>
-              </form>
+              </div>
+
             </div>
           </div>
         )}
       </div>
       <div className="col-lg-5 ozet-sag-col">
-        <Sepet_ozeti />
+        <Sepet_ozeti/>
         <button className="button-next-step primary" id="stepper">
           Ödemeye Geç
         </button>

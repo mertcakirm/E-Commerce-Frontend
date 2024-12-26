@@ -176,7 +176,7 @@ const Giris = () => {
                   </button>
                   <div className="kayit-giris-gecis-btn">
                     Hesabın yok mu? Hemen{" "}
-                    <button type="button" onClick={kayit_gecis}>
+                    <button type="button" style={{cursor:'pointer'}} onClick={kayit_gecis}>
                       Kayıt Ol
                     </button>
                   </div>
@@ -261,7 +261,7 @@ const Giris = () => {
                   </button>
                   <div className="kayit-giris-gecis-btn">
                     Zaten bir hesabın var mı?{" "}
-                    <button type="button" onClick={giris_gecis}>
+                    <button type="button" style={{cursor:'pointer'}} onClick={giris_gecis}>
                       Giriş Yap
                     </button>
                   </div>
@@ -270,7 +270,6 @@ const Giris = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
   );
 };

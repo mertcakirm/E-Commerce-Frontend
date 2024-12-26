@@ -13,7 +13,7 @@ import Parola_yenile from './pages/parola-yenile';
 import Bilgilendirmeler from './pages/bilgilendirmeler';
 import ErrorPage from './pages/errorPage';
 import { useEffect } from 'react';
-import { getCookie, deleteCookie } from './components/cookie/cookie';
+import { getCookie } from './components/cookie/cookie';
 import PropTypes from 'prop-types';
 
 function App() {

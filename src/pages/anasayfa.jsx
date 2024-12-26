@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./css/anasayfa.css";
 import Navbar from "../components/childcomponents/navbar";
 import Slider from "react-slick";
@@ -8,7 +8,8 @@ import Footer from "../components/childcomponents/footer";
 import { Helmet } from "react-helmet";
 import logo from '../assets/mob_logo.png';
 import { fetchSliderData, fetchCategories, fetchCartData } from "./api/anasayfa-api";
-import Cookie_accept from "../components/cookie/cookie_accept.jsx"; // API fonksiyonlarını içe aktardık
+import Cookie_accept from "../components/cookie/cookie_accept.jsx";
+import LoadingComponent from "../components/childcomponents/Loading.jsx"; // API fonksiyonlarını içe aktardık
 
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -86,7 +87,6 @@ const Anasayfa = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
   
-    // Tüm veri çekme işlemlerini çağırıyoruz
     useEffect(() => {
       const fetchData = async () => {
         const sliderData = await fetchSliderData();
@@ -144,13 +144,7 @@ const Anasayfa = () => {
     };
   
     if (loading) {
-      return (
-        <div className="d-flex justify-content-center" style={{ height: '100vh', alignItems: 'center' }}>
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      );
+      return <LoadingComponent />
     }
 
 
@@ -210,7 +204,8 @@ const Anasayfa = () => {
         ))}
       </div>
       <div className="carousel-inner">
-        {sliderData.map((slide, index) => (
+        {sliderData && sliderData.length > 0 ? (
+          sliderData.map((slide, index) => (
           <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
             <img
               src={`data:image/jpeg;base64,${slide.image.bytes}`}
@@ -227,64 +222,88 @@ const Anasayfa = () => {
               </a>
             </div>
           </div>
-        ))}
+          ))
+        ) : (
+            <div className="no-data-message">
+              <p>Görüntülenecek kampyanya bulunamadı.</p>
+            </div>
+        )}
       </div>
     </div>
-      {/* urunler-card */}
     <div className="container-fluid" id="urunler-fluid">
       <Slider {...settings}>
-        {categories.map((category) => (
-          <a key={category.id} href={`/urunler/${category.categoryName}`} className="slick-card">
-            <img
-              src={`data:image/jpeg;base64,${category.image.bytes}`} // Görüntüyü base64 formatında dönüştürüp kullan
-              alt={category.categoryName}
-            />
-            <p>{category.categoryName}</p>
-          </a>
-        ))}
+        {categories && categories.length > 0 ? (
+            categories.map((category) => (
+                <a
+                    key={category.id}
+                    href={`/urunler/${category.categoryName}`}
+                    className="slick-card"
+                >
+                  <img
+                      src={`data:image/jpeg;base64,${category.image.bytes}`}
+                      alt={category.categoryName || "Kategori Resmi"}
+                      className="category-image"
+                  />
+                  <p>{category.categoryName}</p>
+                </a>
+            ))
+        ) : (
+            <div className="no-data-message">
+              <p>Görüntülenecek kategori bulunamadı.</p>
+            </div>
+        )}
+
       </Slider>
     </div>
 
 
       <div className="container-fluid categori-card-fluid">
       <div className="row">
-      {cartData.map((item, index) => {
-            const columnSize = item.viewType;
-            let height;
 
-            switch (columnSize) {
-              case '12': 
-                height = '700px';
-                break;
-              case '4': 
-                height = '900px';
-                break;
-              case '6': 
-                height = '1200px';
-                break;
-              default:
-                height = 'auto'; 
-            }
+        {cartData && cartData.length > 0 ? (
+            cartData.map((item, index) => {
+              const columnSize = item.viewType;
+              let height;
 
-            return (
-              <div key={index} className={`col-lg-${item.viewType}`}>
-                <a href={`/urunler/${item.category}`}>
-                  <div className="categori-card" >
-                    <img
-                      src={`data:image/jpeg;base64,${item.image.bytes}`}
-                      className="w-100 img-fluid"
-                      alt={item.title}
-                      style={{ height , objectFit: 'cover' }}
-                    />
-                    <div className="categori-card-child">
-                      <p className="categori-baslik">{item.cartName}</p>
-                      <button className="categori-hemen-kesfet">Hemen Keşfet</button>
-                    </div>
+              switch (columnSize) {
+                case '12':
+                  height = '700px';
+                  break;
+                case '4':
+                  height = '900px';
+                  break;
+                case '6':
+                  height = '1200px';
+                  break;
+                default:
+                  height = 'auto';
+              }
+
+              return (
+                  <div key={item.id || index} className={`col-lg-${columnSize}`}>
+                    <a href={`/urunler/${item.category}`}>
+                      <div className="categori-card">
+                        <img
+                            src={`data:image/jpeg;base64,${item.image.bytes}`}
+                            className="w-100 img-fluid"
+                            alt={item.title || 'Kategori Resmi'}
+                            style={{ height, objectFit: 'cover' }}
+                        />
+                        <div className="categori-card-child">
+                          <p className="categori-baslik">{item.cartName}</p>
+                          <button className="categori-hemen-kesfet">Hemen Keşfet</button>
+                        </div>
+                      </div>
+                    </a>
                   </div>
-                </a>
-              </div>
-            );
-          })}
+              );
+            })
+        ) : (
+            <div className="no-data-message">
+              <p>Görüntülenecek kategori bulunamadı.</p>
+            </div>
+        )}
+
       </div>
     </div>
 

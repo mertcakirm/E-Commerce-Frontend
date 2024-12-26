@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
 import Sepet_ozeti from './sepet-ozeti';
 
@@ -240,22 +240,22 @@ const Odeme3 = () => {
         <div className="sozlesme-card">
           <div className="sozlesme-checkbox"><input type="checkbox" id='sozlesme-check' /><label htmlFor="sozlesme-check">Ön Bilgilendirme Formu ve Mesafeli Satış Sözleşmesi’ni okudum ve kabul ediyorum.</label></div>
           <hr />
-          <div class="accordion accordion-flush" id="accordionFlushExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+          <div className="accordion accordion-flush" id="accordionFlushExample">
+            <div className="accordion-item">
+              <h2 className="accordion-header">
+                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                   Ön Bilgilendirme Formu
                 </button>
               </h2>
-              <div id="flush-collapseOne" class="accordion-collapse collapse sozlesme-content" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
+              <div id="flush-collapseOne" className="accordion-collapse collapse sozlesme-content" data-bs-parent="#accordionFlushExample">
+                <div className="accordion-body">
                   Ön Bilgilendirme Formu
 
 1. Satıcı Bilgileri
 
 
 ADI	:	Ozyo Pazarlama Maden İnş.İth.İhr.Ltd.Şti
-ADRESİ	:	MTK Sitesi 5747/10 SOKAK NO:3 Çamdibi Bornova / İZMİR​
+ADRESİ	:	MTK Sitesi 5747/10 SOKAK NO:3 Çamdibi Bornova / İZMİR
 TEL	:	0850 441 82 07
 E-POSTA	:	info@aksesuarix.com
 2. Alıcı Bilgileri (Bundan sonra ALICI olarak anılacaktır.)
@@ -329,19 +329,19 @@ a) Fiyatı finansal piyasalardaki dalgalanmalara bağlı olarak değişen ve sat
 Tarih: 27/07/2024</div>
               </div>
             </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+            <div className="accordion-item">
+              <h2 className="accordion-header">
+                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                   Mesafeli Satış Sözleşmesi
                 </button>
               </h2>
-              <div id="flush-collapseTwo" class="accordion-collapse collapse sozlesme-content" data-bs-parent="#accordionFlushExample">
-                <div class="accordion-body">
+              <div id="flush-collapseTwo" className="accordion-collapse collapse sozlesme-content" data-bs-parent="#accordionFlushExample">
+                <div className="accordion-body">
                 Madde 1- Taraflar
 1.1. Satıcı
 
 ADI	:	Ozyo Pazarlama Maden İnş.İth.İhr.Ltd.Şti
-ADRESİ	:	MTK Sitesi 5747/10 SOKAK NO:3 Çamdibi Bornova / İZMİR​
+ADRESİ	:	MTK Sitesi 5747/10 SOKAK NO:3 Çamdibi Bornova / İZMİR
 TEL	:	0850 441 82 07
 E-POSTA	:	info@aksesuarix.com
 

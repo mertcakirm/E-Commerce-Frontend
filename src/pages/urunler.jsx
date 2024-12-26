@@ -23,7 +23,6 @@ const Urunler = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
   const [favoriteProducts, setFavoriteProducts] = useState([]);
-  const [isFavorite, setIsFavorite] = useState([]);
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
