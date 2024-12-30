@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./css/navbar.css";
 import logo from "../../assets/mob_logo.png";
 import Navbarpc from "./navbarcanvas";

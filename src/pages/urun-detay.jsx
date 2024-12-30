@@ -107,12 +107,6 @@ const Urun_detay = () => {
 
   };
 
-
-
-
-
-
-
   return (
     <div>
       <Helmet>
@@ -400,10 +394,7 @@ const Urun_detay = () => {
           )}
           </div>
         </div>
-
           <Dahafazla />
-
-
       </div>
       <div className="container logo-container">
         <div className="row justify-content-center">

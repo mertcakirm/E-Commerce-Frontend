@@ -1,4 +1,3 @@
-import React, { Component, useEffect, useState } from "react";
 import Navbar from "../components/childcomponents/navbar";
 import Footer from "../components/childcomponents/footer";
 import { Helmet } from "react-helmet";

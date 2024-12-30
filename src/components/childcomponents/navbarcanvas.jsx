@@ -12,7 +12,6 @@ const Navbarpc = () => {
   const [totalprice, setTotalprice] = useState(0);
   const [selectedSizes, setSelectedSizes] = useState({});
   const [refleshData, setRefleshData] = useState(true);
-  const BASE_URL = "http://213.142.159.49:8083/api";
   const token = getCookie("token");
 
   const toggleRefreshData = () => {
