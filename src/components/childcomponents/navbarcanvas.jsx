@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import logo from "../../assets/mob_logo.png";
 import { fetchCartData, fetchFavoriteData } from "../http/bridge";
 import { setToggleRefreshData } from "./reflesh";
-import { getCookie, setCookie, deleteCookie } from "../cookie/cookie";
+import { getCookie } from "../cookie/cookie";
 import { adetArttir, adetAzalt, favoriEkle, sepeteEkle, sepettenSil } from "./api/sepetapi";
 
 const Navbarpc = () => {

@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
 
 const Filtercomponent =()=> {
     return (
-                    <div
+        <div
               className="offcanvas offcanvas-end offcanvas-sayfa"
               tabIndex="-1"
               id="offcanvasRight1"

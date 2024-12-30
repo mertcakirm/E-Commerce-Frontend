@@ -56,7 +56,7 @@ const Profilechild = () => {
     
     return (
 
-                <form className="row">
+                <div className="row">
                   <div className="col-12 text-center profil-pills-content-baslik">
                     BİLGİLERİM
                   </div>
@@ -126,7 +126,7 @@ const Profilechild = () => {
                   <div>
                     <NotificationCard ref={notificationRef} message="" />
                   </div>
-                </form>
+                </div>
                 
     )
   }

@@ -1,19 +1,13 @@
-import React, { Component, useEffect, useState,useRef } from "react";
-import { getCookie, setCookie, deleteCookie } from "../cookie/cookie";
-import { AdresEkle,AdresSil,AdresGuncelle,AdresleriGetir,} from "./api/adresapi";
+import { useEffect, useState,useRef } from "react";
+import { getCookie } from "../cookie/cookie";
+import { AdresEkle,AdresSil,AdresleriGetir,} from "./api/adresapi";
 import { NotificationCard, showNotification } from '../childcomponents/notification';
+import ProfilAdreslerimPopupComp from "./Profil-Adreslerim-Popup.jsx";
+import LoadingComponent from "../childcomponents/Loading.jsx";
 
 const Profil_adreslerim = () => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addresses, setAddresses] = useState([]);
-  const [addressTitle, setAddressTitle] = useState("");
-  const [nameSurname, setNameSurname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [city, setCity] = useState("");
-  const [town, setTown] = useState("");
-  const [address, setAddress] = useState("");
-  const [identityNumber, setIdentityNumber] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   
@@ -33,10 +27,12 @@ const Profil_adreslerim = () => {
 
   useEffect(() => {
     AdresleriGetir(setAddresses,setLoading);
+    setLoading(false);
   }, [token]);
 
   useEffect(() => {
     AdresleriGetir(setAddresses,setLoading);
+    setLoading(false);
   }, [addresses]);
 
 
@@ -68,48 +64,6 @@ const Profil_adreslerim = () => {
 
   };
 
-  const handleOpenPopup = (address) => {
-    setSelectedAddress(address);
-    setAddressTitle(address.addressTitle || "");
-    setNameSurname(address.nameSurname || "");
-    setEmail(address.email || "");
-    setPhoneNumber(address.phoneNumber || "");
-    setCity(address.city || "");
-    setTown(address.town || "");
-    setAddress(address.address || "");
-    setIdentityNumber(address.identityNumber || "");
-    setShowPopup(true);
-  };
-
-  const updateAddress = async (event) => {
-    event.preventDefault();
-
-    const addressDTO = {
-      addressTitle,
-      nameSurname,
-      email,
-      phoneNumber,
-      city,
-      town,
-      address,
-      identityNumber,
-    };
-
-    const result = await AdresGuncelle(selectedAddress.id, addressDTO);
-
-    if (result.success) {
-      console.log("Address updated successfully:", result.data);
-      setShowPopup(false);
-      AdresleriGetir(setAddress);
-      showNotification(notificationRef, 'Adres başarıyla güncellendi!');
-
-    } else {
-      console.error("Failed to update address:", result.message);
-      showNotification(notificationRef, 'Adresiniz güncellenemedi!');
-
-    }
-  };
-
   useEffect(() => {
     window.$("#adreslerim-tel").mask("(999) 999-9999");
 
@@ -122,6 +76,11 @@ const Profil_adreslerim = () => {
       }
     });
   }, []);
+
+
+  if (loading) {
+    <LoadingComponent />
+  }
 
   return (
     <div className="row col-12">
@@ -249,7 +208,7 @@ const Profil_adreslerim = () => {
                 <div className="adres-card-flex">
                   <button
                     className="adres-card-flex-btn1"
-                    onClick={() => handleOpenPopup(address)}
+                    onClick={() => setSelectedAddress(address)}
                   >
                     <svg
                       clipRule="evenodd"
@@ -290,92 +249,7 @@ const Profil_adreslerim = () => {
         </div>
       </div>
       {showPopup && selectedAddress && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={() => setShowPopup(false)}>
-              &times;
-            </span>
-            <form onSubmit={updateAddress}>
-              <div className="row yeni-adres-row">
-                <div className="col-12">
-                  <input
-                    className="adres-input"
-                    type="text"
-                    placeholder="Adres Başlığı"
-                    value={addressTitle}
-                    onChange={(e) => setAddressTitle(e.target.value)}
-                  />
-                </div>
-                <div className="col-12">
-                  <input
-                    className="adres-input"
-                    type="text"
-                    placeholder="Ad Soyad"
-                    value={nameSurname}
-                    onChange={(e) => setNameSurname(e.target.value)}
-                  />
-                </div>
-                <div className="col-lg-6">
-                  <input
-                    className="adres-input"
-                    type="text"
-                    placeholder="E-Posta Adresi"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="col-lg-6">
-                  <input
-                    className="adres-input"
-                    type="text"
-                    placeholder="Telefon Numarası"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                  />
-                </div>
-                <div className="col-lg-6">
-                  <input
-                    className="adres-input"
-                    type="text"
-                    placeholder="İl"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                  />
-                </div>
-                <div className="col-lg-6">
-                  <input
-                    className="adres-input"
-                    type="text"
-                    placeholder="İlçe"
-                    value={town}
-                    onChange={(e) => setTown(e.target.value)}
-                  />
-                </div>
-                <div className="col-12">
-                  <textarea
-                    name="adres-uzun"
-                    id="adres-uzun"
-                    placeholder="Adres Tarifi"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                </div>
-                <div className="col-12">
-                  <textarea
-                    name="hediye-card"
-                    id="hediye-card"
-                    placeholder="T.C. Kimlik Numaranız"
-                    value={identityNumber}
-                    onChange={(e) => setIdentityNumber(e.target.value)}
-                  />
-                </div>
-                <button id="popup-adresi-kaydet-btn" type="submit">
-                  Adresi Güncelle
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+          <ProfilAdreslerimPopupComp popupCloser={(b=false)=>setShowPopup(b)} updateAdress={selectedAddress} />
       )}
       <div>
       <NotificationCard ref={notificationRef} message="" />

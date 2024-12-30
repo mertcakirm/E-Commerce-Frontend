@@ -9,6 +9,40 @@ const Navbar = () => {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(null);
 
+  const SidebarLinks = [
+    {
+      id: 1,
+      ParentName: "Giyim",
+      ChildMenu: [
+        { name: "Tişört", href: "#" },
+        { name: "Pantolon", href: "#" },
+      ],
+    },
+    {
+      id: 2,
+      ParentName: "Aksesuar",
+      ChildMenu: [
+        { name: "Saat", href: "#" },
+        { name: "Bileklik", href: "#" },
+      ],
+    },
+    {
+      id: 3,
+      ParentName: "Çanta",
+      ChildMenu: [
+        { name: "Sırt Çantası", href: "#" },
+        { name: "El Çantası", href: "#" },
+      ],
+    },
+    {
+      id: 4,
+      ParentName: "Ayakkabı",
+      ChildMenu: [
+        { name: "Spor Ayakkabı", href: "#" },
+        { name: "Bot", href: "#" },
+      ],
+    },
+  ];
 
   const handleSidebarMouseEnter = () => {
     setSidebarOpen(true);
@@ -81,43 +115,24 @@ const Navbar = () => {
         onMouseLeave={handleSidebarMouseLeave}
       >
         <a href="#">Tüm Ürünler</a>
-        <button onClick={() => handleCategoryClick(0)}>Giyim</button>
-        <button onClick={() => handleCategoryClick(1)}>Aksesuar</button>
-        <button onClick={() => handleCategoryClick(2)}>Çanta</button>
-        <button onClick={() => handleCategoryClick(3)}>Ayakkabı</button>
-
-        {submenuOpen !== null && (
-          <div
-            className={`submenu`}
-            onMouseEnter={() => setSidebarOpen(true)}
-            onMouseLeave={handleSidebarMouseLeave}
-          >
-            {submenuOpen === 0 && (
-              <div>
-                <a href="#">Home Sub 1</a>
-                <a href="#">Home Sub 2</a>
-              </div>
-            )}
-            {submenuOpen === 1 && (
-              <div>
-                <a href="#">Services Sub 1</a>
-                <a href="#">Services Sub 2</a>
-              </div>
-            )}
-            {submenuOpen === 2 && (
-              <div>
-                <a href="#">Clients Sub 1</a>
-                <a href="#">Clients Sub 2</a>
-              </div>
-            )}
-            {submenuOpen === 3 && (
-              <div>
-                <a href="#">Contact Sub 1</a>
-                <a href="#">Contact Sub 2</a>
-              </div>
-            )}
-          </div>
-        )}
+        {SidebarLinks.map((link, index) => (
+            <div key={link.id}>
+              <button className="sidebar-btns" onClick={() => handleCategoryClick(index)}>{link.ParentName}</button>
+              {submenuOpen === index && (
+                  <div
+                      className="submenu"
+                      onMouseEnter={() => setSidebarOpen(true)}
+                      onMouseLeave={handleSidebarMouseLeave}
+                  >
+                    {link.ChildMenu.map((child, childIndex) => (
+                        <a key={childIndex} href={child.href}>
+                          {child.name}
+                        </a>
+                    ))}
+                  </div>
+              )}
+            </div>
+        ))}
       </div>
 
       {/* desktop Navigation */}
@@ -323,63 +338,39 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Mobile Sidebar */}
+          {/* Mobile Sidebar */}
       {mobileSidebarOpen && (
-        <div className="mobile-sidebar">
-          <button className="close-btn" onClick={handleMobileSidebarClose}>
-            X
-          </button>
-          <a href="#">Tüm Ürünler</a>
-          <a href="#" onClick={() => handleMobileCategoryClick(0)}>
-            Giyim
-          </a>
-          <a href="#" onClick={() => handleMobileCategoryClick(1)}>
-            Aksesuar
-          </a>
-          <a href="#" onClick={() => handleMobileCategoryClick(2)}>
-            Çanta
-          </a>
-          <a href="#" onClick={() => handleMobileCategoryClick(3)}>
-            Ayakkabı
-          </a>
-
-          {mobileSubmenuOpen !== null && (
-            <div className="mobile-submenu">
-              <button
-                className="close-btn"
-                onClick={() => setMobileSubmenuOpen(null)}
-              >
-                X
-              </button>
-              {mobileSubmenuOpen === 0 && (
-                <div>
-                  <a href="#">Home Sub 1</a>
-                  <a href="#">Home Sub 2</a>
+          <div className="mobile-sidebar">
+            <button className="close-btn" onClick={handleMobileSidebarClose}>
+              X
+            </button>
+            <a className="mobile-sidebar-btns" href="#">Tüm Ürünler</a>
+            {SidebarLinks.map((link, index) => (
+                <div key={link.id}>
+                  <a href="#" className="mobile-sidebar-btns" onClick={() => handleMobileCategoryClick(index)}>
+                    {link.ParentName}
+                  </a>
+                  {mobileSubmenuOpen === index && (
+                      <div className="mobile-submenu">
+                        <button
+                            className="close-btn"
+                            onClick={() => setMobileSubmenuOpen(null)}
+                        >
+                          X
+                        </button>
+                        {link.ChildMenu.map((child, childIndex) => (
+                            <a className="mobile-sidebar-btns" key={childIndex} href={child.href}>
+                              {child.name}
+                            </a>
+                        ))}
+                      </div>
+                  )}
                 </div>
-              )}
-              {mobileSubmenuOpen === 1 && (
-                <div>
-                  <a href="#">Services Sub 1</a>
-                  <a href="#">Services Sub 2</a>
-                </div>
-              )}
-              {mobileSubmenuOpen === 2 && (
-                <div>
-                  <a href="#">Clients Sub 1</a>
-                  <a href="#">Clients Sub 2</a>
-                </div>
-              )}
-              {mobileSubmenuOpen === 3 && (
-                <div>
-                  <a href="#">Contact Sub 1</a>
-                  <a href="#">Contact Sub 2</a>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+            ))}
+          </div>
       )}
-      <Navbarpc />
+
+      <Navbarpc/>
     </div>
   );
 };
