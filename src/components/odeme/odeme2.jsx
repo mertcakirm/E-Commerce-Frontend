@@ -11,7 +11,6 @@ const Odeme2 = () => {
   const [newAddress, setNewAddress] = useState({
     addressTitle:"",nameSurname:"",email:"",phoneNumber:"",city:"",town:"",address:"",identityNumber:""
   });
-
   const [loading, setLoading] = useState(true);
 
   const handleOpenModal = () => {

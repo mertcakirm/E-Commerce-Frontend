@@ -11,8 +11,6 @@ import { fetchProductsByCategory, handleLikeProduct ,handleAddToBasketApi} from 
 import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
 import {
   getCookie,
-  setCookie,
-  deleteCookie,
 } from "../components/cookie/cookie";
 import { NotificationCard, showNotification } from '../components/childcomponents/notification';
 

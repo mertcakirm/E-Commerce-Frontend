@@ -8,13 +8,12 @@
 
 .giris-bg{
     object-fit: cover;
-    position: absolute;
     height: 100vh;
 }
 
+
+
 .giris-row{
-    opacity: 0.5;
-    position: absolute;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -85,12 +84,6 @@ color: orange;
     row-gap: 10px;
 }
 
-.giris-row:hover{
-    opacity: 1;
-    transition: .4s;
-}
-
-
 .giris-check{
     display: flex;
     flex-direction: row;
@@ -159,16 +152,14 @@ color: orange;
 
 
 @media only screen and (max-width:991px) {
+    .forms-page{
+        height: 100vh;
+    }
     .giris-row{
-        opacity: 0.5;
-        position: absolute;
         display: flex;
         flex-direction: row;
         justify-content: center;
         background: #fff;
-        align-items: center;
-        top: 10%;
-        left: 1.9%;
         width: 100%;
         height: 80%;
         opacity: 1;

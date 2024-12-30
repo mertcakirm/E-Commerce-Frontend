@@ -83,8 +83,6 @@ const Giris = () => {
       confirmPassword: formData.confirmPassword,
       acceptEmails: formData.consent,
     };
-    console.log(registerDTO.phoneNumber);
-
     Register(registerDTO);
   };
 
@@ -94,7 +92,7 @@ const Giris = () => {
       password: loginData.password,
     };
 
-    Login(loginData, navigate, setErrorMessage);
+    Login(loginDTO, navigate, setErrorMessage);
   };
   return (
       <div>
@@ -120,15 +118,17 @@ const Giris = () => {
         </Helmet>
         <Navbar />
         <div className="container-fluid giris-container">
-          <img
-              src="https://images.pexels.com/photos/3778704/pexels-photo-3778704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-              className="img-fluid w-100 giris-bg"
-              alt=""
-          />
-          <div className="row justify-content-center giris-row">
-            <div className="col-lg-8 ">
-              <div className="login-card">
-                <form id="login-form" action="#" style={{ display: "flex" }}>
+          <div className="row justify-content-center p-0 m-0 col-12">
+            <div className="col-lg-7 p-0">
+              <img
+                  src="https://images.pexels.com/photos/3778704/pexels-photo-3778704.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  className="img-fluid w-100 giris-bg"
+                  alt=""
+              />
+            </div>
+            <div className="col-lg-5 col-12 p-0 m-0 justify-content-center forms-page row align-items-center">
+              <div className="row col-lg-10 col-12 justify-content-center">
+                <div id="login-form" style={{display: "flex"}}>
                   <p className="login-form-baslik">Giriş Yap</p>
                   {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                   <div className="form-floating">
@@ -180,8 +180,9 @@ const Giris = () => {
                       Kayıt Ol
                     </button>
                   </div>
-                </form>
-                <form id="register-form" action="#" style={{ display: "none" }}>
+                </div>
+
+                <div id="register-form" style={{ display: "none" }}>
                   <p className="login-form-baslik">Kayıt Ol</p>
                   <div className="form-floating">
                     <input
@@ -265,11 +266,11 @@ const Giris = () => {
                       Giriş Yap
                     </button>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+          </div>
       </div>
   );
 };

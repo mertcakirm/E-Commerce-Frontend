@@ -86,18 +86,19 @@ const Anasayfa = () => {
     const handleClick = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     };
+
+
+    const fetchData = async () => {
+      const sliderData = await fetchSliderData();
+      const categoriesData = await fetchCategories();
+      const cartData = await fetchCartData();
+      setSliderData(sliderData);
+      setCategories(categoriesData);
+      setCartData(cartData);
+      setLoading(false);
+  };
   
     useEffect(() => {
-      const fetchData = async () => {
-        const sliderData = await fetchSliderData();
-        const categoriesData = await fetchCategories();
-        const cartData = await fetchCartData();
-        setSliderData(sliderData);
-        setCategories(categoriesData);
-        setCartData(cartData);
-        setLoading(false);
-      };
-  
       fetchData();
     }, []);
 
@@ -191,7 +192,8 @@ const Anasayfa = () => {
       data-bs-ride="carousel"
     >
       <div className="carousel-indicators">
-        {sliderData.map((_, index) => (
+        {sliderData && sliderData.length > 0 ? (
+        sliderData.map((_, index) => (
           <button
             key={index}
             type="button"
@@ -201,7 +203,12 @@ const Anasayfa = () => {
             aria-current={index === 0 ? "true" : "false"}
             aria-label={`Slide ${index + 1}`}
           ></button>
-        ))}
+        ))
+        ) : (
+            <div className="no-data-message">
+              <p>Görüntülenecek kampyanya bulunamadı.</p>
+            </div>
+        )}
       </div>
       <div className="carousel-inner">
         {sliderData && sliderData.length > 0 ? (
