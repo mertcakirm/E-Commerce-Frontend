@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import {AdresGuncelle} from "./api/adresapi.js";
 import {NotificationCard, showNotification} from "../childcomponents/notification.jsx";
 
-const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress}) => {
+const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress,reflesh}) => {
     const [updatedAddress, setUpdatedAddress] = useState({
         AddressTitle: "",
         NameSurname: "",

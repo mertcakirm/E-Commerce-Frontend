@@ -1,5 +1,4 @@
 import { useEffect, useState,useRef } from "react";
-import { getCookie } from "../cookie/cookie";
 import { AdresEkle,AdresSil,AdresleriGetir,} from "./api/adresapi";
 import { NotificationCard, showNotification } from '../childcomponents/notification';
 import ProfilAdreslerimPopupComp from "./Profil-Adreslerim-Popup.jsx";
@@ -10,8 +9,18 @@ const Profil_adreslerim = () => {
   const [addresses, setAddresses] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
-  
-  const token = getCookie("token");
+  const [newAdress, setNewAdress] = useState([
+    {
+      addressTitle:"",
+      nameSurname:"",
+      email:"",
+      phoneNumber:"",
+      city:"",
+      town:"",
+      addresses:"",
+      identityNumber:"",
+    }
+  ]);
   const notificationRef = useRef(null);
   useEffect(() => {
     if (showPopup) {
@@ -25,27 +34,31 @@ const Profil_adreslerim = () => {
     };
   }, [showPopup]);
 
-  useEffect(() => {
-    AdresleriGetir(setAddresses,setLoading);
-    setLoading(false);
-  }, [token]);
 
   useEffect(() => {
     AdresleriGetir(setAddresses,setLoading);
     setLoading(false);
   }, [addresses]);
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewAdress((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
 
   const newAddress = async () => {
     const addressDTO = {
-      addressTitle: document.getElementById("adreslerim-baslik").value,
-      nameSurname: document.getElementById("adreslerim-isim").value,
-      email: document.getElementById("adreslerim-mail").value,
-      phoneNumber: document.getElementById("adreslerim-tel").value,
-      city: document.getElementById("adreslerim-il").value,
-      town: document.getElementById("adreslerim-ilce").value,
-      address: document.getElementById("adreslerim-adres").value,
-      identityNumber: document.getElementById("adreslerim-tc").value,
+      addressTitle: newAdress.addressTitle,
+      nameSurname:newAdress.nameSurname,
+      email:newAdress.email,
+      phoneNumber: newAdress.phoneNumber,
+      city: newAdress.city,
+      town:newAdress.town,
+      address:newAdress.address,
+      identityNumber: newAdress.identityNumber,
     };
     try {
       await AdresEkle(addressDTO);
@@ -104,6 +117,8 @@ const Profil_adreslerim = () => {
                 id="adreslerim-baslik"
                 className="profilim-inputs"
                 maxLength={11}
+                value={newAdress.addressTitle}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -116,6 +131,8 @@ const Profil_adreslerim = () => {
                 type="text"
                 id="adreslerim-isim"
                 className="profilim-inputs"
+                value={newAdress.nameSurname}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -128,6 +145,8 @@ const Profil_adreslerim = () => {
                 type="text"
                 id="adreslerim-mail"
                 className="profilim-inputs"
+                value={newAdress.email}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -140,6 +159,8 @@ const Profil_adreslerim = () => {
                 type="text"
                 id="adreslerim-tel"
                 className="profilim-inputs"
+                value={newAdress.phoneNumber}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -153,6 +174,8 @@ const Profil_adreslerim = () => {
                 type="text"
                 id="adreslerim-il"
                 className="profilim-inputs"
+                value={newAdress.city}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -165,6 +188,8 @@ const Profil_adreslerim = () => {
                 type="text"
                 id="adreslerim-ilce"
                 className="profilim-inputs"
+                value={newAdress.town}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -175,7 +200,9 @@ const Profil_adreslerim = () => {
             <div className="col-lg-8">
               <textarea
                 name="adreslerim-adres"
+                onChange={handleInputChange}
                 id="adreslerim-adres"
+                value={newAdress.address}
               ></textarea>
             </div>
           </div>
@@ -189,6 +216,8 @@ const Profil_adreslerim = () => {
                 id="adreslerim-tc"
                 maxLength={11}
                 className="profilim-inputs"
+                value={newAdress.identityNumber}
+                onChange={handleInputChange}
               />
             </div>
           </div>
@@ -249,7 +278,7 @@ const Profil_adreslerim = () => {
         </div>
       </div>
       {showPopup && selectedAddress && (
-          <ProfilAdreslerimPopupComp popupCloser={(b=false)=>setShowPopup(b)} updateAdress={selectedAddress} />
+          <ProfilAdreslerimPopupComp popupCloser={(b=false)=>setShowPopup(b)} updateAdress={selectedAddress} reflesh={()=>{}} />
       )}
       <div>
       <NotificationCard ref={notificationRef} message="" />
