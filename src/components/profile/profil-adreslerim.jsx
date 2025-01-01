@@ -22,6 +22,8 @@ const Profil_adreslerim = () => {
     }
   ]);
   const notificationRef = useRef(null);
+  const [refleshData, setRefleshData] = useState(false);
+
   useEffect(() => {
     if (showPopup) {
       document.body.classList.add("no-scroll");
@@ -48,6 +50,12 @@ const Profil_adreslerim = () => {
     }));
   };
 
+  useEffect(() => {
+    AdresleriGetir()
+    setLoading(false);
+  }, [refleshData]);
+
+
 
   const newAddress = async () => {
     const addressDTO = {
@@ -63,7 +71,7 @@ const Profil_adreslerim = () => {
     try {
       await AdresEkle(addressDTO);
       await AdresleriGetir(setAddresses);
-    showNotification(notificationRef, 'Adres başarıyla eklendi!');
+      showNotification(notificationRef, 'Adres başarıyla eklendi!');
     } catch (error) {
     showNotification(notificationRef, 'Adresiniz eklenemedi lütfen bilgilerinizi kontrol edin!');
       console.error("Adres ekleme sırasında hata:", error);
@@ -278,11 +286,10 @@ const Profil_adreslerim = () => {
         </div>
       </div>
       {showPopup && selectedAddress && (
-          <ProfilAdreslerimPopupComp popupCloser={(b=false)=>setShowPopup(b)} updateAdress={selectedAddress} reflesh={()=>{}} />
+          <ProfilAdreslerimPopupComp popupCloser={(b=false)=>setShowPopup(b)} updateAdress={selectedAddress} reflesh={(r=true)=>setRefleshData(r)} />
       )}
       <div>
       <NotificationCard ref={notificationRef} message="" />
-
       </div>
     </div>
     

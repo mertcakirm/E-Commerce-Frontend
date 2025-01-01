@@ -114,7 +114,7 @@ const Navbar = () => {
         onMouseEnter={handleSidebarMouseEnter}
         onMouseLeave={handleSidebarMouseLeave}
       >
-        <a href="#">Tüm Ürünler</a>
+        <a className="sidebar-btns" href="#">Tüm Ürünler</a>
         {SidebarLinks.map((link, index) => (
             <div key={link.id}>
               <button className="sidebar-btns" onClick={() => handleCategoryClick(index)}>{link.ParentName}</button>

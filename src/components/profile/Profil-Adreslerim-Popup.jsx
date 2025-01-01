@@ -1,18 +1,20 @@
-import React, {useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {AdresGuncelle} from "./api/adresapi.js";
 import {NotificationCard, showNotification} from "../childcomponents/notification.jsx";
 
 const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress,reflesh}) => {
+
     const [updatedAddress, setUpdatedAddress] = useState({
-        AddressTitle: "",
-        NameSurname: "",
-        Email: "",
-        Tel: "",
-        City: "",
-        Town: "",
-        Address: "",
-        IdentityNumber: ""
+        AddressTitle: updateAdress.addressTitle,
+        NameSurname: updateAdress.nameSurname,
+        Email: updateAdress.email,
+        Tel: updateAdress.phoneNumber,
+        City: updateAdress.city,
+        Town: updateAdress.town,
+        Address: updateAdress.address,
+        IdentityNumber: updateAdress.identityNumber,
     });
+
     const notificationRef = useRef(null);
     const [selectedAddress, setSelectedAddress] = useState(updateAddress)
 
@@ -24,42 +26,34 @@ const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress,reflesh}) => {
         }));
     };
 
-    const handleOpenPopup = (address) => {
-        setSelectedAddress(address);
-        setAddressTitle(address.addressTitle || "");
-        setNameSurname(address.nameSurname || "");
-        setEmail(address.email || "");
-        setPhoneNumber(address.phoneNumber || "");
-        setCity(address.city || "");
-        setTown(address.town || "");
-        setAddress(address.address || "");
-        setIdentityNumber(address.identityNumber || "");
-        setShowPopup(true);
-    };
+
 
     const updateAddress = async (event) => {
         event.preventDefault();
 
         const addressDTO = {
-            addressTitle:updateAddress.addressTitle,
-            nameSurname:updateAddress.nameSurname,
-            email:updateAddress.email,
-            phoneNumber:updateAddress.phoneNumber,
-            city:updateAddress.city,
-            town:updateAddress.town,
-            address:updateAddress.address,
-            identityNumber:updateAddress.identityNumber,
+            addressTitle:updatedAddress.AddressTitle,
+            nameSurname:updatedAddress.NameSurname,
+            email:updatedAddress.Email,
+            phoneNumber:updatedAddress.Tel,
+            city:updatedAddress.City,
+            town:updatedAddress.Town,
+            address:updatedAddress.Address,
+            identityNumber:updatedAddress.IdentityNumber,
         };
 
         const result = await AdresGuncelle(selectedAddress.id, addressDTO);
 
         if (result.success) {
             console.log("Address updated successfully:", result.data);
+            reflesh(true)
             popupCloser(false)
             showNotification(notificationRef, 'Adres başarıyla güncellendi!');
 
         } else {
             console.error("Failed to update address:", result.message);
+            reflesh(true)
+            popupCloser(false)
             showNotification(notificationRef, 'Adresiniz güncellenemedi!');
 
         }

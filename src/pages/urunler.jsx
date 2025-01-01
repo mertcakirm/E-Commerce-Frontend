@@ -6,13 +6,11 @@ import { useLocation } from "react-router-dom";
 import "./css/urunler.css";
 import logo from "../assets/mob_logo.png";
 import Filtercomponent from "../components/childcomponents/filtercomponent";
-import { fetchFavoriteData, fetchCartData } from "../components/http/bridge";
 import { fetchProductsByCategory, handleLikeProduct ,handleAddToBasketApi} from "./api/urunler-api";
 import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
-import {
-  getCookie,
-} from "../components/cookie/cookie";
+import {getCookie} from "../components/cookie/cookie";
 import { NotificationCard, showNotification } from '../components/childcomponents/notification';
+import LoadingComponent from "../components/childcomponents/Loading.jsx";
 
 
 const Urunler = () => {
@@ -20,16 +18,16 @@ const Urunler = () => {
   const [colClass, setColClass] = useState("col-lg-4");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
-  const [favoriteProducts, setFavoriteProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cartItems, setCartItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const notificationRef = useRef(null);
   const location = useLocation();
   const currentCategory = location.pathname.split("/").pop();
-  const token = getCookie("token");
+  const token = getCookie("SESSIONID");
+  // const [cartItems, setCartItems] = useState([]);
+  // const [totalPrice, setTotalPrice] = useState(0);
+  // const [favoriteProducts, setFavoriteProducts] = useState([]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < totalPages) {
@@ -57,10 +55,10 @@ const Urunler = () => {
     fetchProductsByCategory(currentCategory, currentPage, setFilteredProducts, setTotalPages, setLoading);
   }, [currentCategory, currentPage]);
 
-  useEffect(() => {
-    fetchFavoriteData(setFavoriteProducts);
-    fetchCartData(setCartItems, setTotalPrice, setLoading);
-  }, []);
+  // useEffect(() => {
+  //   fetchFavoriteData(setFavoriteProducts);
+  //   fetchCartData(setCartItems, setTotalPrice, setLoading);
+  // }, []);
 
   const handleLikeClick = async (productCode) => {
     if(await handleLikeProduct(productCode, filteredProducts, setFilteredProducts)){
@@ -104,19 +102,9 @@ const Urunler = () => {
   };
 
   if (loading) {
-    return (
-      <div
-        className="d-flex justify-content-center"
-        style={{ height: "100vh", alignItems: "center" }}
-      >
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
+    <LoadingComponent />
   }
-  console.log("urunler",filteredProducts);
-  
+
   return (
     <div>
       <Helmet>
@@ -153,22 +141,34 @@ const Urunler = () => {
           </div>
           <div className="col-lg-4 row grid-row">
             <button
-              className="grid-btn 3x3-btn"
-              onClick={() => handleGridChange("3x3")}
+                className="grid-btn 3x3-btn"
+                onClick={() => handleGridChange("3x3")}
             >
-              <img
-                src="https://www.svgrepo.com/show/344890/grid-3x3.svg"
-                alt=""
-              />
+              <svg clipRule="evenodd" width={50} height={50} fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2"
+                   viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="m21 4c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-12.5 15.5h-4v-4h4zm1.5-4h4v4h-4zm9.5 0v4h-4v-4zm-15-5.5h4v4h-4zm5.5 0h4v4h-4zm5.5 0h4v4h-4zm-11-5.5h4v4h-4zm5.5 0h4v4h-4zm5.5 0h4v4h-4z"
+                    fillRule="nonzero"/>
+              </svg>
             </button>
             <button
-              className="grid-btn 4x4-btn"
-              onClick={() => handleGridChange("4x4")}
+                className="grid-btn 4x4-btn"
+                onClick={() => handleGridChange("4x4")}
             >
-              <img
-                src="https://media.discordapp.net/attachments/1262163053764415622/1266442758072172574/images.png?ex=66a52a3a&is=66a3d8ba&hm=ed9ab4e06d8d2f8e7da2366e8ab7dbd906e5c618a3d3870539749419fc169a42&=&format=webp&quality=lossless"
-                alt=""
-              />
+              <svg width="40" height="40" viewBox="0 0 53 51" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <line x1="1.5" y1="1" x2="1.5" y2="51" stroke="black" stroke-width="3"/>
+                <line x1="14.5" y1="1" x2="14.5" y2="51" stroke="black" stroke-width="3"/>
+                <line x1="26.5" y1="1" x2="26.5" y2="51" stroke="black" stroke-width="3"/>
+                <line x1="51.5" y1="1" x2="51.5" y2="51" stroke="black" stroke-width="3"/>
+                <line x1="38.5" y1="1" x2="38.5" y2="51" stroke="black" stroke-width="3"/>
+                <line y1="1.5" x2="53" y2="1.5" stroke="black" stroke-width="3"/>
+                <line y1="13.5" x2="51" y2="13.5" stroke="black" stroke-width="3"/>
+                <line y1="25.5" x2="51" y2="25.5" stroke="black" stroke-width="3"/>
+                <line y1="37.5" x2="51" y2="37.5" stroke="black" stroke-width="3"/>
+                <line y1="49.5" x2="51" y2="49.5" stroke="black" stroke-width="3"/>
+              </svg>
+
+
             </button>
 
             {/* Dropdown Sırala */}
@@ -177,24 +177,24 @@ const Urunler = () => {
                 Sırala
               </button>
               {isDropdownOpen && (
-                <div className="dropdown-menu">
-                  <a className="dropdown-item" href="#">
-                    Seçenek 1
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Seçenek 2
-                  </a>
-                  <a className="dropdown-item" href="#">
-                    Seçenek 3
-                  </a>
-                </div>
+                  <div className="dropdown-menu">
+                    <a className="dropdown-item" href="#">
+                      Seçenek 1
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      Seçenek 2
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      Seçenek 3
+                    </a>
+                  </div>
               )}
             </div>
             {/* Filtre */}
             <button
-              className="btn offcanvas-button"
-              type="button"
-              data-bs-toggle="offcanvas"
+                className="btn offcanvas-button"
+                type="button"
+                data-bs-toggle="offcanvas"
               data-bs-target="#offcanvasRight1"
               aria-controls="offcanvasRight1"
             >
@@ -324,6 +324,7 @@ const Urunler = () => {
               <ul className="pagination pag-ul">
                 <li
                   className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
+                  style={{cursor: "pointer"}}
                 >
                   <a
                     className="page-link"
@@ -355,6 +356,7 @@ const Urunler = () => {
                   className={`page-item ${
                     currentPage === totalPages - 1 ? "disabled" : ""
                   }`}
+                  style={{cursor: "pointer"}}
                 >
                   <a
                     className="page-link"
