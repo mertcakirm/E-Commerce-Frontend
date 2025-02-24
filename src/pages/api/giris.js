@@ -1,4 +1,4 @@
-const BASE_URL = "http://213.142.159.49:8000/api";
+const BASE_URL = "https://localhost:8000";
 
 export const Register = (registerDTO) => {
   fetch(`${BASE_URL}/auth/register`, {
