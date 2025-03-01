@@ -3,7 +3,7 @@ import { getCookie } from "../../cookie/cookie";
 const BASE_URL = "http://213.142.159.49:8083/api";
 const token = getCookie("token");
 
-export const sepetiGetir = () => {
+export const fetchBasket = () => {
   return fetch(`${BASE_URL}/basket/get`, {
     headers: {
       Authorization: `Bearer ${token}`,

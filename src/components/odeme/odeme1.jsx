@@ -1,7 +1,7 @@
 import {useEffect, useState, useRef} from 'react';
 import { Helmet } from "react-helmet";
 import "../../pages/css/odeme.css";
-import { adetArttir, adetAzalt, sepetiGetir, sepettenSil } from '../childcomponents/api/sepetapi';
+import {adetArttir, adetAzalt, fetchBasket, sepettenSil} from '../childcomponents/api/sepetapi';
 import Sepet_ozeti from "./sepet-ozeti";
 
 const Odeme1 = () => {
@@ -17,7 +17,7 @@ const Odeme1 = () => {
 
   const fetchSepetData = async () => {
     try {
-      const data = await sepetiGetir();
+      const data = await fetchBasket();
       setCartItems(data.bucketItems);
       setLoading(false);
     } catch (error) {

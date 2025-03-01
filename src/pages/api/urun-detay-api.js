@@ -10,13 +10,14 @@ const apiFetch = async (endpoint, options = {}) => {
     if (!response.ok) {
       console.error(response.statusText)
     }
-    var sonuc=null
+    var result=null
     try{
-    sonuc= await response.json();
+    result= await response.json();
+    return result;
     }catch{
       console.error(response.statusText)
     }
-    return sonuc;
+    return result;
 
   } catch (error) {
     console.error('API error:', error);
