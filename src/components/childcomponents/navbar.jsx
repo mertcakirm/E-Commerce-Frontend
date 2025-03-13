@@ -209,13 +209,13 @@ const Navbar = () => {
                   <line x1="21" y1="21" x2="15.8" y2="15.8" />
                 </svg>
               </button>
-
               <button
                 className="btnsearch"
                 type="button"
                 data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight"
+                style={{position:'relative'}}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -225,6 +225,8 @@ const Navbar = () => {
                 >
                   <path d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z" />
                 </svg>
+                <div className="basket-number" style={{width:'25px',height:'25px',lineHeight:'25px'}}>9+</div>
+
               </button>
 
               <a href="/profilim" style={{ paddingTop: "5px" }}>
@@ -308,22 +310,26 @@ const Navbar = () => {
               />
             </svg>
           </button>
-          <button
-            className="btn mobile-nav-item"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasRight"
-            aria-controls="offcanvasRight"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
+          <div className="mobile-nav-item" style={{position:'relative'}}>
+            <button
+                className="btn "
+                type="button"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasRight"
+                aria-controls="offcanvasRight"
             >
-              <path d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z" />
-            </svg>
-          </button>
+              <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="34"
+                  viewBox="0 0 24 24"
+              >
+                <path d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z" />
+              </svg>
+            </button>
+            <div className="basket-number">9+</div>
+          </div>
+
 
           <a href="/profilim" className="mobile-nav-item">
             <svg

@@ -532,3 +532,16 @@
     width: 20%;
   }
 }
+
+.basket-number{
+  position: absolute;
+  bottom: 50%;
+  left: 60%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  color: #fff;
+  line-height: 30px;
+  border-radius: 50px;
+  background: red;
+}
