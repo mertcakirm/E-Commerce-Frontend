@@ -31,7 +31,7 @@
 
 }
 
-#login-form{
+.login-form{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -76,12 +76,6 @@ font-weight: 700;
 font-size: 16px;
 background: transparent;
 color: orange;
-}
-
-#register-form{
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
 }
 
 .giris-check{

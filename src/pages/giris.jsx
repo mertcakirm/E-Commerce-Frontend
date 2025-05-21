@@ -110,7 +110,7 @@ const Giris = () => {
             <div className="col-lg-5 col-12 p-0 m-0 justify-content-center forms-page row align-items-center">
               <div className="row col-lg-10 col-12 justify-content-center">
                 {isLoginForm ? (
-                    <div id="login-form" >
+                    <div className="login-form" >
                       <p className="login-form-baslik">Giriş Yap</p>
                       <div className="form-floating">
                         <input
@@ -151,7 +151,7 @@ const Giris = () => {
                     </div>
 
                 ) : (
-                    <div id="register-form">
+                    <div className="login-form">
                       <p className="login-form-baslik">Kayıt Ol</p>
                       <div className="form-floating">
                         <input

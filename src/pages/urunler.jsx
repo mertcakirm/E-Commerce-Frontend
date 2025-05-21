@@ -19,27 +19,12 @@ const Urunler = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const notificationRef = useRef(null);
   const location = useLocation();
   const currentCategory = location.pathname.split("/").pop();
   const token = getCookie("SESSIONID");
-
-
-  const handlePageChange = (newPage) => {
-    if (newPage >= 0 && newPage < totalPages) {
-      setCurrentPage(newPage);
-      setLoading(true);
-      fetchProductsByCategory(
-        currentCategory,
-        newPage,
-        setFilteredProducts,
-        setTotalPages,
-        setLoading
-      );
-    }
-  };
 
   const handleSizeClick = (productCode, size) => {
     setSelectedSize((prevSelectedSizes) => ({
@@ -53,10 +38,6 @@ const Urunler = () => {
     fetchProductsByCategory(currentCategory, currentPage, setFilteredProducts, setTotalPages, setLoading);
   }, [currentCategory, currentPage]);
 
-  // useEffect(() => {
-  //   fetchFavoriteData(setFavoriteProducts);
-  //   fetchCartData(setCartItems, setTotalPrice, setLoading);
-  // }, []);
 
   const handleLikeClick = async (productCode) => {
     if(await handleLikeProduct(productCode, filteredProducts, setFilteredProducts)){
@@ -166,7 +147,6 @@ const Urunler = () => {
                 <line y1="49.5" x2="51" y2="49.5" stroke="black" strokeWidth="3"/>
               </svg>
 
-
             </button>
 
             {/* Dropdown Sırala */}
@@ -201,6 +181,7 @@ const Urunler = () => {
             <Filtercomponent />
           </div>
         </div>
+
         {/* urun-card */}
         <div className="row urun-cards-row">
           {filteredProducts.map((product, index) => (
@@ -317,39 +298,36 @@ const Urunler = () => {
               </div>
             </div>
           ))}
+
           <div className="row justify-content-center">
             <nav aria-label="Page navigation example">
               <ul className="pagination pag-ul">
-                <li
-                  className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
-                  style={{cursor: "pointer"}}
-                >
-                  <a
-                    className="page-link"
-                    href="#"
-                    aria-label="Previous"
-                    onClick={() => handlePageChange(currentPage - 1)}
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                {/* Sayfa Numaraları */}
-                {[...Array(totalPages).keys()].map((page) => (
+                {currentPage > 1 &&(
+                    <li
+                        className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
+                        style={{cursor: "pointer"}}
+                    >
+                      <a
+                          className="page-link"
+                          href="#"
+                          aria-label="Previous"
+                          onClick={() => setCurrentPage(currentPage - 1)}
+                      >
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                )}
                   <li
-                    className={`page-item ${
-                      currentPage === page ? "active" : ""
-                    }`}
-                    key={page}
+                    className="page-item"
                   >
                     <a
                       className="page-link"
                       href="#"
-                      onClick={() => handlePageChange(page)}
+                      onClick={() => setCurrentPage(currentPage)}
                     >
-                      {page + 1}
+                      {currentPage}
                     </a>
                   </li>
-                ))}
                 <li
                   className={`page-item ${
                     currentPage === totalPages - 1 ? "disabled" : ""
@@ -360,7 +338,7 @@ const Urunler = () => {
                     className="page-link"
                     href="#"
                     aria-label="Next"
-                    onClick={() => handlePageChange(currentPage + 1)}
+                    onClick={() => setCurrentPage(currentPage + 1)}
                   >
                     <span aria-hidden="true">&raquo;</span>
                   </a>
@@ -368,6 +346,7 @@ const Urunler = () => {
               </ul>
             </nav>
           </div>
+
           <div className="container logo-container">
             <div className="row justify-content-center">
               <a
@@ -379,6 +358,7 @@ const Urunler = () => {
               </a>
             </div>
           </div>
+
         </div>
       </div>
       <Footer />
