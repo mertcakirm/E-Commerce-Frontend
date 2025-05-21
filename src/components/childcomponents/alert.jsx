@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './css/alert.css';
 
 const Alert = ({ title, message }) => {

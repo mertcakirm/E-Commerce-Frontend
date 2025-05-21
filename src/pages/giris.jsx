@@ -252,6 +252,18 @@ const Giris = () => {
                         Kampanyalardan haberdar olmak istiyorum
                       </label>
                     </div>
+                    <div>
+                      <input
+                          style={{ marginRight: "5px" }}
+                          type="checkbox"
+                          id="consent"
+                          checked={formData.consent}
+                          onChange={handleChange}
+                      />
+                      <label htmlFor="consent">
+                        KVKK Şartlarını Kabul Ediyorum
+                      </label>
+                    </div>
                   </div>
                   <button
                       className="giris-yap-btn"

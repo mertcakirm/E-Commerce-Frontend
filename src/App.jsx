@@ -36,15 +36,8 @@ function App() {
   };
 
   useEffect(() => {
-    const sessionid = getCookie('SESSIONID'); // Cookie'den sessionid al
+    const sessionid = getCookie('SESSIONID');
     if (!sessionid) return;
-
-    try {
-      // Eğer sessionid ile ilgili bir kontrol yapmanız gerekiyorsa burada yapabilirsiniz.
-      // Örneğin, sessionid'nin geçerlilik süresini kontrol edebilirsiniz.
-    } catch (e) {
-      console.error('Geçersiz sessionid:', e);
-    }
   }, []);
   return (
     <BrowserRouter>
@@ -63,11 +56,8 @@ function App() {
         <Route path="/parola-yenile" element={<UnprotectedRoute element={<Parola_yenile />} />} />
 
         <Route path="/profilim" element={<Profile />} />
-        <Route path="/siparis/kargo" element={<ProtectedRoute element={<Odeme />} />} />
-        <Route path="/siparis/ozet" element={<ProtectedRoute element={<Odeme />} />} />
+        <Route path="/siparis/:type" element={<ProtectedRoute element={<Odeme />} />} />
         <Route path="/siparis-durumu" element={<ProtectedRoute element={<SiparisDurumu />} />} />
-        <Route path="/siparis/odeme" element={<ProtectedRoute element={<Odeme />} />} />
-        <Route path="/siparis/onay" element={<ProtectedRoute element={<Odeme />} />} />
         <Route path="/sss" element={<ProtectedRoute element={<Sss />} />} />
         <Route path="/bilgilendirmeler" element={<ProtectedRoute element={<Bilgilendirmeler />} />} />
       </Routes>

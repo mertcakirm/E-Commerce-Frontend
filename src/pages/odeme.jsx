@@ -29,6 +29,7 @@ const Odeme = () => {
         setCurrentStep(4);
         break;
       default:
+        window.location.href="/"
         break;
     }
   }, [location.pathname]);

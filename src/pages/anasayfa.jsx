@@ -9,7 +9,7 @@ import { Helmet } from "react-helmet";
 import logo from '../assets/mob_logo.png';
 import { fetchSliderData, fetchCategories, fetchCartData } from "./api/anasayfa-api";
 import Cookie_accept from "../components/cookie/cookie_accept.jsx";
-import LoadingComponent from "../components/childcomponents/Loading.jsx"; // API fonksiyonlarını içe aktardık
+import LoadingComponent from "../components/childcomponents/Loading.jsx";
 
 const NextArrow = (props) => {
   const { className, style, onClick } = props;
@@ -62,7 +62,6 @@ const PrevArrow = (props) => {
 };
 
 const Anasayfa = () => {
-  
     const [showButton, setShowButton] = useState(false);
     const [sliderData, setSliderData] = useState([]);
     const [cartData, setCartData] = useState([]);
@@ -310,7 +309,6 @@ const Anasayfa = () => {
               <p>Görüntülenecek kategori bulunamadı.</p>
             </div>
         )}
-
       </div>
     </div>
 
