@@ -1,4 +1,3 @@
-// useCart.js
 import { useEffect, useState } from 'react';
 import { fetchCartData, fetchFavoriteData } from "../http/bridge";
 

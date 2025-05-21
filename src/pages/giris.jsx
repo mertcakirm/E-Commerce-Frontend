@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/childcomponents/navbar";
-import Footer from "../components/childcomponents/footer";
 import "./css/giris.css";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
@@ -16,18 +15,15 @@ const Giris = () => {
     confirmPassword: "",
     consent: false,
   });
-
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
   });
-
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoginForm, setIsLoginForm] = useState(true);
 
   useEffect(() => {
     window.$("#phone").mask("0 (999) 999-9999");
-
     window.$("#email").on("input", function () {
       const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
       if (!pattern.test(this.value)) {
@@ -54,20 +50,6 @@ const Giris = () => {
     });
   };
 
-  const kayit_gecis = () => {
-    const register = document.getElementById("register-form");
-    register.style.display = "flex";
-    const login = document.getElementById("login-form");
-    login.style.display = "none";
-  };
-
-  const giris_gecis = () => {
-    const register = document.getElementById("register-form");
-    register.style.display = "none";
-    const login = document.getElementById("login-form");
-    login.style.display = "flex";
-  };
-
   const handleRegister = () => {
     if (formData.password !== formData.confirmPassword) {
       alert("Parolalar eşleşmiyor!");
@@ -91,8 +73,7 @@ const Giris = () => {
       email: loginData.email,
       password: loginData.password,
     };
-
-    Login(loginDTO, navigate, setErrorMessage);
+    Login(loginDTO, navigate);
   };
   return (
       <div>
@@ -128,157 +109,146 @@ const Giris = () => {
             </div>
             <div className="col-lg-5 col-12 p-0 m-0 justify-content-center forms-page row align-items-center">
               <div className="row col-lg-10 col-12 justify-content-center">
-                <div id="login-form" style={{display: "flex"}}>
-                  <p className="login-form-baslik">Giriş Yap</p>
-                  {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-                  <div className="form-floating">
-                    <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Leave a comment here"
-                        id="email"
-                        value={loginData.email}
-                        onChange={handleLoginChange}
-                    />
-                    <label htmlFor="email">E-Posta Adresi</label>
-                  </div>
-                  <div className="form-floating">
-                    <input
-                        className="form-control"
-                        type="password"
-                        placeholder="Leave a comment here"
-                        id="password"
-                        value={loginData.password}
-                        onChange={handleLoginChange}
-                    />
-                    <label htmlFor="password">Parola</label>
-                  </div>
-                  <div className="giris-check">
-                    <div>
-                      {/* <input
-                      style={{ marginRight: "5px" }}
-                      type="checkbox"
-                      id="beni-hatirla"
-                      name="beni-hatirla"
-                    />
-                    <label htmlFor="beni-hatirla">Beni Hatırla</label> */}
-                    </div>
-                    <a style={{ color: "#000" }} href="/parola-yenile">
-                      Şifremi Unuttum
-                    </a>
-                  </div>
-                  <button
-                      className="giris-yap-btn"
-                      type="button"
-                      onClick={handleLogin}
-                  >
-                    Giriş Yap
-                  </button>
-                  <div className="kayit-giris-gecis-btn">
-                    Hesabın yok mu? Hemen{" "}
-                    <button type="button" style={{cursor:'pointer'}} onClick={kayit_gecis}>
-                      Kayıt Ol
-                    </button>
-                  </div>
-                </div>
+                {isLoginForm ? (
+                    <div id="login-form" >
+                      <p className="login-form-baslik">Giriş Yap</p>
+                      <div className="form-floating">
+                        <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Leave a comment here"
+                            id="email"
+                            value={loginData.email}
+                            onChange={handleLoginChange}
+                        />
+                        <label htmlFor="email">E-Posta Adresi</label>
+                      </div>
+                      <div className="form-floating">
+                        <input
+                            className="form-control"
+                            type="password"
+                            placeholder="Leave a comment here"
+                            id="password"
+                            value={loginData.password}
+                            onChange={handleLoginChange}
+                        />
+                        <label htmlFor="password">Parola</label>
+                      </div>
 
-                <div id="register-form" style={{ display: "none" }}>
-                  <p className="login-form-baslik">Kayıt Ol</p>
-                  <div className="form-floating">
-                    <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Leave a comment here"
-                        id="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="name">Ad Soyad</label>
-                  </div>
-                  <div className="form-floating">
-                    <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Leave a comment here"
-                        id="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="phone">Telefon</label>
-                  </div>
-                  <div className="form-floating">
-                    <input
-                        className="form-control"
-                        type="text"
-                        placeholder="Leave a comment here"
-                        id="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="email">E-Posta Adresi</label>
-                  </div>
-                  <div className="form-floating">
-                    <input
-                        className="form-control"
-                        type="password"
-                        placeholder="Leave a comment here"
-                        id="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="password">Parola</label>
-                  </div>
-                  <div className="form-floating">
-                    <input
-                        className="form-control"
-                        type="password"
-                        placeholder="Leave a comment here"
-                        id="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                    />
-                    <label htmlFor="confirmPassword">Parola Tekrar</label>
-                  </div>
-                  <div className="giris-check">
-                    <div>
-                      <input
-                          style={{ marginRight: "5px" }}
-                          type="checkbox"
-                          id="consent"
-                          checked={formData.consent}
-                          onChange={handleChange}
-                      />
-                      <label htmlFor="consent">
-                        Kampanyalardan haberdar olmak istiyorum
-                      </label>
+                      <button
+                          className="giris-yap-btn"
+                          type="button"
+                          onClick={handleLogin}
+                      >
+                        Giriş Yap
+                      </button>
+                      <div className="kayit-giris-gecis-btn">
+                        Hesabın yok mu? Hemen{" "}
+                        <button type="button" style={{cursor:'pointer'}} onClick={()=>setIsLoginForm(false)}>
+                          Kayıt Ol
+                        </button>
+                      </div>
                     </div>
-                    <div>
-                      <input
-                          style={{ marginRight: "5px" }}
-                          type="checkbox"
-                          id="consent"
-                          checked={formData.consent}
-                          onChange={handleChange}
-                      />
-                      <label htmlFor="consent">
-                        KVKK Şartlarını Kabul Ediyorum
-                      </label>
+
+                ) : (
+                    <div id="register-form">
+                      <p className="login-form-baslik">Kayıt Ol</p>
+                      <div className="form-floating">
+                        <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Leave a comment here"
+                            id="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                        />
+                        <label htmlFor="name">Ad Soyad</label>
+                      </div>
+                      <div className="form-floating">
+                        <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Leave a comment here"
+                            id="phone"
+                            value={formData.phone}
+                            onChange={handleChange}
+                        />
+                        <label htmlFor="phone">Telefon</label>
+                      </div>
+                      <div className="form-floating">
+                        <input
+                            className="form-control"
+                            type="text"
+                            placeholder="Leave a comment here"
+                            id="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                        <label htmlFor="email">E-Posta Adresi</label>
+                      </div>
+                      <div className="form-floating">
+                        <input
+                            className="form-control"
+                            type="password"
+                            placeholder="Leave a comment here"
+                            id="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                        <label htmlFor="password">Parola</label>
+                      </div>
+                      <div className="form-floating">
+                        <input
+                            className="form-control"
+                            type="password"
+                            placeholder="Leave a comment here"
+                            id="confirmPassword"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                        />
+                        <label htmlFor="confirmPassword">Parola Tekrar</label>
+                      </div>
+                      <div className="giris-check">
+                        <div>
+                          <input
+                              style={{ marginRight: "5px" }}
+                              type="checkbox"
+                              id="consent"
+                              checked={formData.consent}
+                              onChange={handleChange}
+                          />
+                          <label htmlFor="consent">
+                            Kampanyalardan haberdar olmak istiyorum
+                          </label>
+                        </div>
+                        <div>
+                          <input
+                              style={{ marginRight: "5px" }}
+                              type="checkbox"
+                              id="consent"
+                              checked={formData.consent}
+                              onChange={handleChange}
+                          />
+                          <label htmlFor="consent">
+                            KVKK Şartlarını Kabul Ediyorum
+                          </label>
+                        </div>
+                      </div>
+                      <button
+                          className="giris-yap-btn"
+                          type="button"
+                          onClick={handleRegister}
+                      >
+                        Kayıt Ol
+                      </button>
+                      <div className="kayit-giris-gecis-btn">
+                        Zaten bir hesabın var mı?{" "}
+                        <button type="button" style={{cursor:'pointer'}} onClick={()=>setIsLoginForm(true)}>
+                          Giriş Yap
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                  <button
-                      className="giris-yap-btn"
-                      type="button"
-                      onClick={handleRegister}
-                  >
-                    Kayıt Ol
-                  </button>
-                  <div className="kayit-giris-gecis-btn">
-                    Zaten bir hesabın var mı?{" "}
-                    <button type="button" style={{cursor:'pointer'}} onClick={giris_gecis}>
-                      Giriş Yap
-                    </button>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

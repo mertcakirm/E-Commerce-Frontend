@@ -106,9 +106,6 @@ const Odeme3 = () => {
                   </div>
                 </div>
               </div>
-
-
-
             </div>
             <div className="tab-pane fade" id="nav-credit" role="tabpanel" aria-labelledby="nav-credit-tab" tabIndex="0">
               <div className="checkout">

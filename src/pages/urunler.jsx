@@ -25,9 +25,7 @@ const Urunler = () => {
   const location = useLocation();
   const currentCategory = location.pathname.split("/").pop();
   const token = getCookie("SESSIONID");
-  // const [cartItems, setCartItems] = useState([]);
-  // const [totalPrice, setTotalPrice] = useState(0);
-  // const [favoriteProducts, setFavoriteProducts] = useState([]);
+
 
   const handlePageChange = (newPage) => {
     if (newPage >= 0 && newPage < totalPages) {
@@ -156,16 +154,16 @@ const Urunler = () => {
                 onClick={() => handleGridChange("4x4")}
             >
               <svg width="40" height="40" viewBox="0 0 53 51" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <line x1="1.5" y1="1" x2="1.5" y2="51" stroke="black" stroke-width="3"/>
-                <line x1="14.5" y1="1" x2="14.5" y2="51" stroke="black" stroke-width="3"/>
-                <line x1="26.5" y1="1" x2="26.5" y2="51" stroke="black" stroke-width="3"/>
-                <line x1="51.5" y1="1" x2="51.5" y2="51" stroke="black" stroke-width="3"/>
-                <line x1="38.5" y1="1" x2="38.5" y2="51" stroke="black" stroke-width="3"/>
-                <line y1="1.5" x2="53" y2="1.5" stroke="black" stroke-width="3"/>
-                <line y1="13.5" x2="51" y2="13.5" stroke="black" stroke-width="3"/>
-                <line y1="25.5" x2="51" y2="25.5" stroke="black" stroke-width="3"/>
-                <line y1="37.5" x2="51" y2="37.5" stroke="black" stroke-width="3"/>
-                <line y1="49.5" x2="51" y2="49.5" stroke="black" stroke-width="3"/>
+                <line x1="1.5" y1="1" x2="1.5" y2="51" stroke="black" strokeWidth="3"/>
+                <line x1="14.5" y1="1" x2="14.5" y2="51" stroke="black" strokeWidth="3"/>
+                <line x1="26.5" y1="1" x2="26.5" y2="51" stroke="black" strokeWidth="3"/>
+                <line x1="51.5" y1="1" x2="51.5" y2="51" stroke="black" strokeWidth="3"/>
+                <line x1="38.5" y1="1" x2="38.5" y2="51" stroke="black" strokeWidth="3"/>
+                <line y1="1.5" x2="53" y2="1.5" stroke="black" strokeWidth="3"/>
+                <line y1="13.5" x2="51" y2="13.5" stroke="black" strokeWidth="3"/>
+                <line y1="25.5" x2="51" y2="25.5" stroke="black" strokeWidth="3"/>
+                <line y1="37.5" x2="51" y2="37.5" stroke="black" strokeWidth="3"/>
+                <line y1="49.5" x2="51" y2="49.5" stroke="black" strokeWidth="3"/>
               </svg>
 
 

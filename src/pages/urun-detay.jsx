@@ -101,12 +101,8 @@ const Urun_detay = () => {
       await handleAddToBasketApi(productCode, size);
       console.log("Product added to basket");
       showNotification(notificationRef, 'Ürün sepete eklendi!');
-
-
     triggerToggleRefreshData();
-
   };
-
   return (
     <div>
       <Helmet>
@@ -187,7 +183,6 @@ const Urun_detay = () => {
       </div>
           <div className="col-lg-6 urun-detay-col-sag">
           {product && (
-
             <div className="urun-detay-col-sag">
               <p className="urun-baslik">
                 {product.productName}
@@ -199,7 +194,6 @@ const Urun_detay = () => {
               </div>
               <div className="urun-detay-fiyat-flex">
                 <p className="p1-fiyat">{product.priceWithDiscount}₺</p>
-
                 {hasDiscount && (
                   <>
                     <p className="p2-fiyat">{product.priceWithOutDiscount}₺</p>
@@ -213,7 +207,7 @@ const Urun_detay = () => {
                 <div className="beden-cards">
                 {sizes.map((size, index) => (
                   <button
-                    key={index} // Benzersiz anahtar
+                    key={index}
                     className={` ${selectedSize[product.productCode] === size.size ? 'selected-size' : ''}`}
                     onClick={() => handleSizeClick(product.productCode, size.size)}
                   >
@@ -243,7 +237,6 @@ const Urun_detay = () => {
                   </svg>
                 </button>
               </div>
-
               {/* <div className="tahmini-teslimat">
                 <svg
                   width="24"
@@ -282,7 +275,6 @@ const Urun_detay = () => {
                     >
                       <div className="accordion-body">
                       {product.description}
-
                       </div>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Navbar from "../components/childcomponents/navbar";
 import Footer from "../components/childcomponents/footer";
 import "./css/iletisim.css";
@@ -41,7 +41,6 @@ const Iletisim = () => {
         <meta property="og:type" content="website" />
       </Helmet>
       <Navbar />
-
       <div className="container iletisim-container">
         <div className="row iletisim-row-parent">
           <div className="col-12">
@@ -96,7 +95,6 @@ const Iletisim = () => {
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );

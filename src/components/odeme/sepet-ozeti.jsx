@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import {fetchBasket} from "../childcomponents/api/sepetapi.js";
 
-const Sepet_ozeti = ({ updateTrigger }) => {
+const Sepet_ozeti = ({updateTrigger}) => {
     const [totalprice, setTotalprice] = useState(0);
     const [reflesh, setReflesh] = useState(false);
 

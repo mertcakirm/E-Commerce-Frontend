@@ -2,7 +2,7 @@ import {useRef, useState} from 'react';
 import {AdresGuncelle} from "./api/adresapi.js";
 import {NotificationCard, showNotification} from "../childcomponents/notification.jsx";
 
-const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress,reflesh}) => {
+const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
 
     const [updatedAddress, setUpdatedAddress] = useState({
         AddressTitle: updateAdress.addressTitle,
@@ -19,7 +19,7 @@ const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress,reflesh}) => {
     const [selectedAddress, setSelectedAddress] = useState(updateAddress)
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setUpdatedAddress((prevState) => ({
             ...prevState,
             [name]: value
@@ -27,19 +27,18 @@ const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress,reflesh}) => {
     };
 
 
-
     const updateAddress = async (event) => {
         event.preventDefault();
 
         const addressDTO = {
-            addressTitle:updatedAddress.AddressTitle,
-            nameSurname:updatedAddress.NameSurname,
-            email:updatedAddress.Email,
-            phoneNumber:updatedAddress.Tel,
-            city:updatedAddress.City,
-            town:updatedAddress.Town,
-            address:updatedAddress.Address,
-            identityNumber:updatedAddress.IdentityNumber,
+            addressTitle: updatedAddress.AddressTitle,
+            nameSurname: updatedAddress.NameSurname,
+            email: updatedAddress.Email,
+            phoneNumber: updatedAddress.Tel,
+            city: updatedAddress.City,
+            town: updatedAddress.Town,
+            address: updatedAddress.Address,
+            identityNumber: updatedAddress.IdentityNumber,
         };
 
         const result = await AdresGuncelle(selectedAddress.id, addressDTO);
@@ -62,7 +61,7 @@ const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress,reflesh}) => {
     return (
         <div className="modal">
             <div className="modal-content">
-                <span className="close" onClick={()=>popupCloser(false)}>
+                <span className="close" onClick={() => popupCloser(false)}>
                     &times;
                 </span>
                 <div>
@@ -151,7 +150,7 @@ const ProfilAdreslerimPopupComp = ({popupCloser,updateAdress,reflesh}) => {
                     </div>
                 </div>
             </div>
-            <NotificationCard ref={notificationRef} message="" />
+            <NotificationCard ref={notificationRef} message=""/>
         </div>
     );
 };

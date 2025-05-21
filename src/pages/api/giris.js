@@ -10,7 +10,7 @@ export const Register = (registerDTO) => {
   });
 };
 
-export const Login = async (loginData, navigate, setErrorMessage) => {
+export const Login = async (loginData, navigate) => {
   const loginDTO = {
     email: loginData.email,
     password: loginData.password,
@@ -25,16 +25,10 @@ export const Login = async (loginData, navigate, setErrorMessage) => {
       body: JSON.stringify(loginDTO),
       credentials: 'include'
     });
-
-
     if (response.ok) {
-      setErrorMessage(response.data)
       navigate("/");
-    } else {
-      setErrorMessage("Giriş başarısız: Geçersiz kullanıcı adı veya parola.");
     }
   } catch (error) {
     console.error("Error:", error);
-    setErrorMessage("Kullanıcı adı veya parola yanlış!");
   }
 };

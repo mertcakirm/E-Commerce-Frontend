@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import Navbar from "../components/childcomponents/navbar";
 import Footer from "../components/childcomponents/footer";
 import "./css/hakkimizda.css";
@@ -95,7 +94,6 @@ const Hakkimizda = () => {
           </div>
         </div>
       </div>
-
       <Footer />
     </div>
   );
