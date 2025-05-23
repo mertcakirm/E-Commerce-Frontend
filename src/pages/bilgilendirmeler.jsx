@@ -1,5 +1,3 @@
-import Navbar from "../components/childcomponents/navbar";
-import Footer from "../components/childcomponents/footer";
 import { Helmet } from "react-helmet";
 
 const Bilgilendirmeler = () => {
@@ -25,7 +23,6 @@ const Bilgilendirmeler = () => {
         <meta property="og:url" content="URL_of_your_website" />
         <meta property="og:type" content="website" />
       </Helmet>
-      <Navbar />
       <div className="container bilgilendirmeler-container">
         <div className="row">
           <div className="col-12">
@@ -168,7 +165,6 @@ const Bilgilendirmeler = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

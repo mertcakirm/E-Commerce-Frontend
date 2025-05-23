@@ -25,7 +25,6 @@ const Parola_yenile = () => {
         <meta property="og:url" content="URL_of_your_website" />
         <meta property="og:type" content="website" />
       </Helmet>
-      <Navbar />
       <div className="container parola-yenile-container">
         <div className="row">
           <div className="col-12 text-center parola-yenile-flex">
@@ -41,7 +40,6 @@ const Parola_yenile = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

@@ -26,7 +26,6 @@ const Hakkimizda = () => {
         <meta property="og:url" content="URL_of_your_website" />
         <meta property="og:type" content="website" />
       </Helmet>
-      <Navbar />
 
       <div className="container hakkimizda-container">
         <div className="row">
@@ -94,7 +93,6 @@ const Hakkimizda = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

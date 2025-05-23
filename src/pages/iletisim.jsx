@@ -40,7 +40,6 @@ const Iletisim = () => {
         <meta property="og:url" content="URL_of_your_website" />
         <meta property="og:type" content="website" />
       </Helmet>
-      <Navbar />
       <div className="container iletisim-container">
         <div className="row iletisim-row-parent">
           <div className="col-12">
@@ -95,7 +94,6 @@ const Iletisim = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

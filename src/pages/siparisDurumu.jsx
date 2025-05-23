@@ -45,7 +45,6 @@ const SiparisDurumu = () => {
                 <meta property="og:url" content="URL_of_your_website"/>
                 <meta property="og:type" content="website"/>
             </Helmet>
-            <Navbar/>
 
             <div className="container-fluid siparis-durumu-container">
                 <div className="row" style={{margin: "0px"}}>
@@ -257,7 +256,6 @@ const SiparisDurumu = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
         </div>
     );
 };

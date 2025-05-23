@@ -442,7 +442,7 @@ const Sss = () => {
                     src="https://img.freepik.com/premium-photo/there-is-painting-road-that-is-field-generative-ai_974521-7512.jpg"
                     alt=""
                 />
-                <div className="container-fluid sss-container">
+                <div className="container-fluid sss-container py-5">
                     <div className="row sss-row">
                         <div className="col-12">
                             <p className="sss-baslik">Sıkça Sorulan Sorular</p>
@@ -731,13 +731,10 @@ const Sss = () => {
                         </div>
                     </div>
 
-                    <div className="row justify-content-center text-center diger-sorular">
+                    <div className="row justify-content-center text-center mb-5 diger-sorular">
                         <p>Dİğer Sorularınız İçİn</p>
                         <a className="diger-sorular-button" href="#">İletişim</a>
                     </div>
-                </div>
-                <div className="footer-container-sss">
-                    <Footer/>
                 </div>
             </div>
             {showPopup && (

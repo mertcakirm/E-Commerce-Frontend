@@ -58,7 +58,6 @@ const Anasayfa = () => {
                 <meta property="og:url" content="URL_of_your_website"/>
                 <meta property="og:type" content="website"/>
             </Helmet>
-            <Navbar/>
 
             {showButton && (
                 <button className="en-ust-btn" onClick={handleClick}>
@@ -103,9 +102,7 @@ const Anasayfa = () => {
                     </a>
                 </div>
             </div>
-
             <Cookie_accept/>
-            <Footer/>
         </div>
     );
 };

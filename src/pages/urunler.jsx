@@ -105,7 +105,6 @@ const Urunler = () => {
         <meta property="og:url" content="URL_of_your_website" />
         <meta property="og:type" content="website" />
       </Helmet>
-      <Navbar />
       <div className="container-fluid urunler-container">
         <div className="row text-align-center justify-content-center">
           <div className="col-lg-4"></div>
@@ -360,7 +359,6 @@ const Urunler = () => {
 
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

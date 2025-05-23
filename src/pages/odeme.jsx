@@ -85,7 +85,6 @@ const Odeme = () => {
 
     return (
         <div>
-            <Navbar/>
             <div className="container odeme-fluid">
                 <div className="row">
                     <div className="col-12">
@@ -107,7 +106,6 @@ const Odeme = () => {
                 </div>
                 {renderCurrentStepComponent()}
             </div>
-            <Footer/>
         </div>
     );
 };

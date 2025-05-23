@@ -276,6 +276,8 @@
   width: 50px;
   border-radius: 10px;
   transition: .4s;
+  border: 2px solid #000;
+  background: transparent;
 
 }
 

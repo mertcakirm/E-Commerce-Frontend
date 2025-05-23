@@ -139,7 +139,6 @@ const Urun_detay = () => {
                 <meta property="og:url" content="URL_of_your_website"/>
                 <meta property="og:type" content="website"/>
             </Helmet>
-            <Navbar/>
 
             <div className="container-fluid urun-detay-container">
                 <div className="row justify-content-center">
@@ -409,7 +408,6 @@ const Urun_detay = () => {
                     </a>
                 </div>
             </div>
-            <Footer/>
         </div>
     );
 };
