@@ -27,6 +27,7 @@
     "react-helmet": "^6.1.0",
     "react-input-mask": "^2.0.4",
     "react-slick": "^0.30.2",
+    "react-toastify": "^11.0.5",
     "react-transition-group": "^4.4.5",
     "reat": "^0.0.1-security",
     "slick-carousel": "^1.8.1",

@@ -45,7 +45,7 @@ const Iletisim = () => {
         <div className="row iletisim-row-parent">
           <div className="col-12">
             <p className="hakkimizda-baslik">İLETİŞİM</p>
-            <form>
+            <div>
               <div className="row iletisim-row">
                 <div className="col-12">
                   <input
@@ -89,9 +89,9 @@ const Iletisim = () => {
                 </div>
               </div>
               <div className="iletisim-form-submit">
-                <button type="submit">GÖNDER</button>
+                <button>GÖNDER</button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>

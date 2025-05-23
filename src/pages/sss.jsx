@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {Helmet} from "react-helmet";
 import Navbar from "../components/childcomponents/navbar";
 import Footer from "../components/childcomponents/footer";

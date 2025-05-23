@@ -15,6 +15,7 @@ import ErrorPage from './pages/errorPage';
 import {useEffect} from 'react';
 import {getCookie} from './components/cookie/cookie';
 import PropTypes from 'prop-types';
+import {ToastContainer} from "react-toastify";
 
 function App() {
     const ProtectedRoute = ({element}) => {
@@ -41,6 +42,8 @@ function App() {
     }, []);
     return (
         <BrowserRouter>
+            <ToastContainer theme="colored" closeOnClick position="bottom-right" autoClose={3000} />
+
             <Routes>
                 <Route path="/" element={<Anasayfa/>}/>
                 <Route path="/error" element={<ErrorPage/>}/>

@@ -1,9 +1,8 @@
-import {useRef, useState} from 'react';
+import {useState} from 'react';
 import {AdresGuncelle} from "./api/adresapi.js";
-import {NotificationCard, showNotification} from "../childcomponents/notification.jsx";
+import {toast} from "react-toastify";
 
 const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
-
     const [updatedAddress, setUpdatedAddress] = useState({
         AddressTitle: updateAdress.addressTitle,
         NameSurname: updateAdress.nameSurname,
@@ -15,7 +14,6 @@ const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
         IdentityNumber: updateAdress.identityNumber,
     });
 
-    const notificationRef = useRef(null);
     const [selectedAddress, setSelectedAddress] = useState(updateAddress)
 
     const handleInputChange = (e) => {
@@ -25,7 +23,6 @@ const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
             [name]: value
         }));
     };
-
 
     const updateAddress = async (event) => {
         event.preventDefault();
@@ -41,20 +38,24 @@ const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
             identityNumber: updatedAddress.IdentityNumber,
         };
 
-        const result = await AdresGuncelle(selectedAddress.id, addressDTO);
+        try {
+            const result = await AdresGuncelle(selectedAddress.id, addressDTO);
 
-        if (result.success) {
-            console.log("Address updated successfully:", result.data);
-            reflesh(true)
-            popupCloser(false)
-            showNotification(notificationRef, 'Adres başarıyla güncellendi!');
+            if (result.success) {
+                console.log("Address updated successfully:", result.data);
+                reflesh(true)
+                popupCloser(false)
+                toast.success('Adres başarıyla güncellendi!')
 
-        } else {
-            console.error("Failed to update address:", result.message);
-            reflesh(true)
-            popupCloser(false)
-            showNotification(notificationRef, 'Adresiniz güncellenemedi!');
-
+            } else {
+                console.error("Failed to update address:", result.message);
+                reflesh(true)
+                popupCloser(false)
+                toast.error('Adresiniz güncellenemedi!')
+            }
+        }catch (error) {
+            console.log(error);
+            toast.error('Adresiniz güncellenemedi!')
         }
     };
 
@@ -150,7 +151,6 @@ const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
                     </div>
                 </div>
             </div>
-            <NotificationCard ref={notificationRef} message=""/>
         </div>
     );
 };

@@ -1,4 +1,3 @@
-import React, {Component} from 'react'
 import kampanya from "../../assets/kampanya.jpg";
 
 const Profil_siparisler = () => {

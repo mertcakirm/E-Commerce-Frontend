@@ -1,13 +1,11 @@
-import React, {useEffect, useRef} from "react";
+import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
-import {getCookie, setCookie, deleteCookie} from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
+import {getCookie, deleteCookie} from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
 import {profilGuncelle, profilGetir} from "./api/profilbilgilerimapi";
-import {NotificationCard, showNotification} from '../childcomponents/notification';
+import {toast} from "react-toastify";
 
 const Profilechild = () => {
     const token = getCookie("token");
-    const BASE_URL = 'http://213.142.159.49:8083/api';
-    const notificationRef = useRef(null);
 
     const updateProfile = async () => {
         const userDTO1 = {
@@ -26,9 +24,10 @@ const Profilechild = () => {
 
         try {
             profilGuncelle(formData)
-            showNotification(notificationRef, 'Profil bilgilerin başarıyla güncellendi!');
+            toast.success('Profil bilgilerin başarıyla güncellendi!')
         } catch {
-            showNotification(notificationRef, 'Profil bilgilerin güncellenemedi!');
+            toast.error('Profil bilgilerin güncellenemedi!')
+
         }
     };
 
@@ -126,7 +125,6 @@ const Profilechild = () => {
                 </button>
             </div>
             <div>
-                <NotificationCard ref={notificationRef} message=""/>
             </div>
         </div>
 

@@ -1,4 +1,4 @@
-import { useEffect, useState ,useRef} from "react";
+import { useEffect, useState} from "react";
 import Navbar from "../components/childcomponents/navbar";
 import { Helmet } from "react-helmet";
 import Footer from "../components/childcomponents/footer";
@@ -9,8 +9,8 @@ import Filtercomponent from "../components/childcomponents/filtercomponent";
 import { fetchProductsByCategory, handleLikeProduct ,handleAddToBasketApi} from "./api/urunler-api";
 import { triggerToggleRefreshData } from "../components/childcomponents/reflesh";
 import {getCookie} from "../components/cookie/cookie";
-import { NotificationCard, showNotification } from '../components/childcomponents/notification';
 import LoadingComponent from "../components/childcomponents/Loading.jsx";
+import {toast} from "react-toastify";
 
 
 const Urunler = () => {
@@ -21,7 +21,6 @@ const Urunler = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const notificationRef = useRef(null);
   const location = useLocation();
   const currentCategory = location.pathname.split("/").pop();
   const token = getCookie("SESSIONID");
@@ -41,9 +40,9 @@ const Urunler = () => {
 
   const handleLikeClick = async (productCode) => {
     if(await handleLikeProduct(productCode, filteredProducts, setFilteredProducts)){
-    showNotification(notificationRef, 'Ürün favoriye eklendi!');
+    toast.success('Ürün favoriye eklendi!')
     }else{
-    showNotification(notificationRef, 'Ürün favoriye eklenemedi!');
+    toast.error('Ürün favoriye eklenemedi!')
     }
     triggerToggleRefreshData();
   };
@@ -73,9 +72,9 @@ const Urunler = () => {
       return;
     } 
       if(await handleAddToBasketApi(productCode, size)){
-        showNotification(notificationRef, 'Ürün sepete eklendi!');
+        toast.success('Ürün sepete eklendi!')
         }else{
-        showNotification(notificationRef, 'Ürün sepete eklenemedi!');
+        toast.error('Ürün sepete eklenemedi!')
         }
     triggerToggleRefreshData();
   };
@@ -362,7 +361,6 @@ const Urunler = () => {
         </div>
       </div>
       <Footer />
-      <NotificationCard ref={notificationRef} message="" />
     </div>
   );
 };

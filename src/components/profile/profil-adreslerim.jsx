@@ -1,8 +1,8 @@
-import {useEffect, useState, useRef} from "react";
+import {useEffect, useState} from "react";
 import {AdresEkle, AdresSil, AdresleriGetir,} from "./api/adresapi";
-import {NotificationCard, showNotification} from '../childcomponents/notification';
 import ProfilAdreslerimPopupComp from "./Profil-Adreslerim-Popup.jsx";
 import LoadingComponent from "../childcomponents/Loading.jsx";
+import {toast} from "react-toastify";
 
 const Profil_adreslerim = () => {
     const [selectedAddress, setSelectedAddress] = useState(null);
@@ -21,7 +21,6 @@ const Profil_adreslerim = () => {
             identityNumber: "",
         }
     ]);
-    const notificationRef = useRef(null);
     const [refleshData, setRefleshData] = useState(false);
 
     useEffect(() => {
@@ -70,17 +69,23 @@ const Profil_adreslerim = () => {
         try {
             await AdresEkle(addressDTO);
             await AdresleriGetir(setAddresses);
-            showNotification(notificationRef, 'Adres başarıyla eklendi!');
+            toast.success('Adres başarıyla eklendi!')
         } catch (error) {
-            showNotification(notificationRef, 'Adresiniz eklenemedi lütfen bilgilerinizi kontrol edin!');
+            toast.error('Adresiniz eklenemedi lütfen bilgilerinizi kontrol edin!')
             console.error("Adres ekleme sırasında hata:", error);
         }
     };
 
     const deleteAddress = async (id) => {
-        AdresSil(id);
-        setAddresses(addresses.filter((address) => address.id !== id));
-        showNotification(notificationRef, 'Adres başarıyla silindi!');
+        try {
+            AdresSil(id);
+            setAddresses(addresses.filter((address) => address.id !== id));
+            toast.success('Adres başarıyla silindi!')
+        }catch (error) {
+            console.log(error);
+            toast.error('Adres silinemedi!')
+        }
+
 
     };
 
@@ -289,7 +294,6 @@ const Profil_adreslerim = () => {
                                            reflesh={(r = true) => setRefleshData(r)}/>
             )}
             <div>
-                <NotificationCard ref={notificationRef} message=""/>
             </div>
         </div>
 

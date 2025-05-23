@@ -4,6 +4,7 @@ import "./css/giris.css";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import { Register, Login } from "./api/giris";
+import {toast} from "react-toastify";
 
 
 const Giris = () => {
@@ -28,6 +29,7 @@ const Giris = () => {
       const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
       if (!pattern.test(this.value)) {
         this.setCustomValidity("Geçerli bir e-posta adresi girin.");
+        toast.error("Geçerli bir e-posta adresi girin.")
       } else {
         this.setCustomValidity("");
       }
@@ -52,7 +54,7 @@ const Giris = () => {
 
   const handleRegister = () => {
     if (formData.password !== formData.confirmPassword) {
-      alert("Parolalar eşleşmiyor!");
+      toast.error("Parolalar eşleşmiyor!")
       return;
     }
     const cleanString = (str) => str.replace(/\s+/g, "").replace(/[-()]/g, "");
@@ -73,7 +75,15 @@ const Giris = () => {
       email: loginData.email,
       password: loginData.password,
     };
-    Login(loginDTO, navigate);
+    try {
+      await Login(loginDTO, navigate);
+      toast.success("Giriş başarılı!");
+
+    }catch (error) {
+      console.log(error);
+      toast.error("Giriş yapılamadı.Lütfen bilgilerinizi gözden geçirin!")
+    }
+
   };
   return (
       <div>
