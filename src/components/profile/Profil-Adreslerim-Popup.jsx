@@ -1,6 +1,6 @@
 import {useState} from 'react';
-import {AdresGuncelle} from "./api/adresapi.js";
 import {toast} from "react-toastify";
+import {UpdateAddressRequest} from "../../API/AddressApi.js";
 
 const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
     const [updatedAddress, setUpdatedAddress] = useState({
@@ -39,7 +39,7 @@ const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
         };
 
         try {
-            const result = await AdresGuncelle(selectedAddress.id, addressDTO);
+            const result = await UpdateAddressRequest(selectedAddress.id, addressDTO);
 
             if (result.success) {
                 console.log("Address updated successfully:", result.data);

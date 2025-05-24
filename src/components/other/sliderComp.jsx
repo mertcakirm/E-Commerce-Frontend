@@ -2,9 +2,9 @@ import {useEffect, useState} from 'react';
 import Slider from "react-slick";
 import NextArrow from "./NextArrow.jsx";
 import PrevArrow from "./PrevArrow.jsx";
-import {fetchCategories} from "../../pages/api/anasayfa-api.js";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import {FetchCategoriesRequest} from "../../API/HomeApi.js";
 
 const SliderComp = ({loading}) => {
     const [categories, setCategories] = useState([]);
@@ -50,7 +50,7 @@ const SliderComp = ({loading}) => {
         ],
     };
     const fetchData = async () => {
-        const categoriesData = await fetchCategories();
+        const categoriesData = await FetchCategoriesRequest();
         setCategories(categoriesData);
     };
 

@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
-import {fetchSliderData} from "../../pages/api/anasayfa-api.js";
+import {FetchSliderDataRequest} from "../../API/HomeApi.js";
 
 const OfferMainComp = ({loading}) => {
     const [sliderData, setSliderData] = useState([]);
     const fetchData = async () => {
-        const sliderData = await fetchSliderData();
+        const sliderData = await FetchSliderDataRequest();
         setSliderData(sliderData);
         loading(false);
     };

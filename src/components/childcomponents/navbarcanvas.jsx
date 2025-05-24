@@ -1,9 +1,13 @@
 import {useEffect, useState} from "react";
 import logo from "../../assets/mob_logo.png";
-import {fetchCartData, fetchFavoriteData} from "../http/bridge";
 import {setToggleRefreshData} from "./reflesh";
 import {getCookie} from "../cookie/cookie";
-import {adetArttir, adetAzalt, favoriEkle, sepeteEkle, sepettenSil} from "./api/sepetapi";
+import {
+    AddToBasketRequest,
+    DecreaseProductRequest, DeleteToBasketRequest, FetchBasketRequest, FetchLikedProductRequest,
+    IncreaseProductRequest,
+    LikeProductRequest
+} from "../../API/ProductApi.js";
 
 const Navbarpc = () => {
     const [favoriteproduct, setFavoriteproduct] = useState([]);
@@ -31,19 +35,36 @@ const Navbarpc = () => {
     };
 
     const handleAddToBasket = (productCode, size) => {
+        if (!token) {
+            window.location.href = "/girisyap";
+            return;
+        }
+
         try {
-            if (!token) {
-                window.location.href = "/girisyap";
-                return;
-            }
             const requestData = JSON.stringify({productCode, size});
-            sepeteEkle(requestData)
+            AddToBasketRequest(requestData)
             toggleRefreshData();
-            setTimeout(() => setTotalprice, 2000);
+            setRefleshData(!requestData)
         } catch {
             console.log("ürün sepete eklenemedi");
-
         }
+    };
+
+    const incrementProductCount = (productCode) => {
+        IncreaseProductRequest(productCode)
+        toggleRefreshData();
+        setTimeout(() => setTotalprice, 2000);
+    };
+
+    const decrementProductCount = (productCode) => {
+        DecreaseProductRequest(productCode)
+        toggleRefreshData();
+        setTimeout(() => setTotalprice, 2000);
+    };
+
+    const handleLikeClick = async (productCode) => {
+        await LikeProductRequest(productCode)
+        toggleRefreshData();
     };
 
     const deleteItemFromBasket = (productCode) => {
@@ -51,7 +72,7 @@ const Navbarpc = () => {
             console.error("No token found");
             return;
         }
-        sepettenSil(productCode)
+        DeleteToBasketRequest(productCode)
         toggleRefreshData();
         setTimeout(() => setTotalprice, 2000);
     };
@@ -59,34 +80,20 @@ const Navbarpc = () => {
     const fetchFullData = async () => {
         setLoading(true);
         try {
-            await fetchFavoriteData(setFavoriteproduct);
-            await fetchCartData(setCartItems, setTotalprice, setLoading);
+            const likedObj = await FetchLikedProductRequest();
+            setFavoriteproduct(likedObj);
+            const basketObj =await FetchBasketRequest();
+            setCartItems(basketObj);
         } catch (error) {
             console.error("Data fetching error:", error);
         } finally {
             setLoading(false);
         }
     };
+
     useEffect(() => {
         fetchFullData();
     }, [refleshData]);
-
-    const incrementProductCount = (productCode) => {
-        adetArttir(productCode)
-        toggleRefreshData();
-        setTimeout(() => setTotalprice, 2000);
-    };
-
-    const decrementProductCount = (productCode) => {
-        adetAzalt(productCode)
-        toggleRefreshData();
-        setTimeout(() => setTotalprice, 2000);
-    };
-
-    const handleLikeClick = async (productCode) => {
-        await favoriEkle(productCode)
-        toggleRefreshData();
-    };
 
     return (
         <div>

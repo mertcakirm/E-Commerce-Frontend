@@ -1,12 +1,12 @@
 import {useEffect, useState} from 'react';
-import {fetchCartData} from "../../pages/api/anasayfa-api.js";
+import {FetchCartDataRequest} from "../../API/HomeApi.js";
 
 const CardMainComp = ({loading}) => {
     const [cartData, setCartData] = useState([]);
     const [loadingState, setLoadingState] = useState(false);
 
     const fetchData = async () => {
-        const cartData = await fetchCartData();
+        const cartData = await FetchCartDataRequest();
         setCartData(cartData);
         setLoadingState(false);
     };

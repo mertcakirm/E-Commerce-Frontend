@@ -1,8 +1,8 @@
 import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {getCookie, deleteCookie} from "../cookie/cookie"; // Çerez fonksiyonlarını ekliyoruz
-import {profilGuncelle, profilGetir} from "./api/profilbilgilerimapi";
 import {toast} from "react-toastify";
+import {GetUserProfileRequest, UpdateProfileRequest} from "../../API/ProfileApi.js";
 
 const Profilechild = () => {
     const token = getCookie("token");
@@ -23,7 +23,7 @@ const Profilechild = () => {
         formData.append('ChangePasswordDTO', new Blob([JSON.stringify(changePasswordDTO1)], {type: 'application/json'}));
 
         try {
-            profilGuncelle(formData)
+            UpdateProfileRequest(formData)
             toast.success('Profil bilgilerin başarıyla güncellendi!')
         } catch {
             toast.error('Profil bilgilerin güncellenemedi!')
@@ -39,18 +39,23 @@ const Profilechild = () => {
         navigate('/girisyap');
     };
 
-    useEffect(() => {
-        const loadProfile = async () => {
-            const data = await profilGetir();
+    const loadProfile = async () => {
+        try {
+            const data = await GetUserProfileRequest();
             if (data) {
                 document.getElementById('bilgilerim-isim').value = data.nameSurname;
                 document.getElementById('bilgilerim-tel').value = data.phoneNumber;
             }
-        };
-
-        if (token) {
-            loadProfile();
+        }catch (error) {
+            console.log(error);
         }
+    };
+
+    if (token) {
+        loadProfile();
+    }
+
+    useEffect(() => {
     }, [token]);
 
     return (

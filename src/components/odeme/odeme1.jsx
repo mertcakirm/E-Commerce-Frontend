@@ -1,8 +1,13 @@
 import {useEffect, useState, useRef} from 'react';
 import {Helmet} from "react-helmet";
 import "../../pages/css/odeme.css";
-import {adetArttir, adetAzalt, fetchBasket, sepettenSil} from '../childcomponents/api/sepetapi';
 import Sepet_ozeti from "./sepet-ozeti";
+import {
+    DecreaseProductRequest,
+    DeleteToBasketRequest,
+    FetchBasketRequest,
+    IncreaseProductRequest
+} from "../../API/ProductApi.js";
 
 const Odeme1 = () => {
     const [cartItems, setCartItems] = useState([]);
@@ -17,7 +22,7 @@ const Odeme1 = () => {
 
     const fetchSepetData = async () => {
         try {
-            const data = await fetchBasket();
+            const data = await FetchBasketRequest();
             setCartItems(data.bucketItems);
             setLoading(false);
         } catch (error) {
@@ -27,7 +32,7 @@ const Odeme1 = () => {
 
     const deleteItemFromBasket = async (productCode) => {
         try {
-            await sepettenSil(productCode);
+            await DeleteToBasketRequest(productCode);
             const updatedItems = cartItems.filter(item => item.productCode !== productCode);
             setCartItems(updatedItems);
 
@@ -54,7 +59,7 @@ const Odeme1 = () => {
         setCartItems(updatedCartItems);
 
         try {
-            await adetArttir(productCode);
+            await IncreaseProductRequest(productCode);
             fUpdater.current()
         } catch (error) {
             console.error('Ürün adedi arttırılamadı:', error);
@@ -81,7 +86,7 @@ const Odeme1 = () => {
         setCartItems(updatedCartItems);
 
         try {
-            await adetAzalt(productCode);
+            await DecreaseProductRequest(productCode);
             fUpdater.current()
         } catch (error) {
             console.error('Ürün adedi azaltılamadı:', error);

@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 import {Helmet} from "react-helmet";
 import Sepet_ozeti from './sepet-ozeti';
-import {AdresEkle, AdresleriGetir} from '../profile/api/adresapi';
 import LoadingComponent from "../childcomponents/Loading.jsx";
+import {AddAddressRequest, GetAddressRequest} from "../../API/AddressApi.js";
 
 const Odeme2 = () => {
     const [showModal, setShowModal] = useState(false);
@@ -19,6 +19,7 @@ const Odeme2 = () => {
         identityNumber: ""
     });
     const [loading, setLoading] = useState(true);
+    const [refresh, setRefresh] = useState(true);
 
     const handleOpenModal = () => {
         setShowModal(true);
@@ -48,9 +49,22 @@ const Odeme2 = () => {
         };
     }, [showModal]);
 
+    const GetAdresses = async () => {
+        try {
+            const data = await GetAddressRequest();
+            setAddresses(data);
+        }catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
-        AdresleriGetir(setAddresses, setLoading);
+        GetAdresses();
     }, []);
+
+    useEffect(() => {
+        GetAdresses();
+    }, [refresh]);
 
     const HandlenewAddress = async (event) => {
         event.preventDefault();
@@ -65,9 +79,8 @@ const Odeme2 = () => {
             address: newAddress.address,
             identityNumber: newAddress.identityNumber,
         };
-
-        await AdresEkle(addressDTO)
-        setAddresses(AdresleriGetir(setAddresses, setLoading))
+        await AddAddressRequest(addressDTO)
+        setRefresh(!refresh);
     };
 
     const handleSelectAddress = (index) => {

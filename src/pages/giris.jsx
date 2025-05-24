@@ -3,8 +3,8 @@ import Navbar from "../components/childcomponents/navbar";
 import "./css/giris.css";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
-import { Register, Login } from "./api/giris";
 import {toast} from "react-toastify";
+import {LoginRequest, RegisterRequest} from "../API/AuthApi.js";
 
 
 const Giris = () => {
@@ -67,7 +67,7 @@ const Giris = () => {
       confirmPassword: formData.confirmPassword,
       acceptEmails: formData.consent,
     };
-    Register(registerDTO);
+    RegisterRequest(registerDTO);
   };
 
   const handleLogin = async () => {
@@ -76,7 +76,7 @@ const Giris = () => {
       password: loginData.password,
     };
     try {
-      await Login(loginDTO, navigate);
+      await LoginRequest(loginDTO, navigate);
       toast.success("Giriş başarılı!");
 
     }catch (error) {

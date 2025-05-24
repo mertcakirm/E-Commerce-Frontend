@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
-import {AdresEkle, AdresSil, AdresleriGetir,} from "./api/adresapi";
 import ProfilAdreslerimPopupComp from "./Profil-Adreslerim-Popup.jsx";
 import LoadingComponent from "../childcomponents/Loading.jsx";
 import {toast} from "react-toastify";
+import {AddAddressRequest, DeleteAddressRequest, GetAddressRequest} from "../../API/AddressApi.js";
 
 const Profil_adreslerim = () => {
     const [selectedAddress, setSelectedAddress] = useState(null);
@@ -35,11 +35,18 @@ const Profil_adreslerim = () => {
         };
     }, [showPopup]);
 
+    const GetAdresses= async ()=>{
+        try {
+            const data = await GetAddressRequest();
+            setAddresses(data);
+            setLoading(false);
+        }catch(error){
+            console.log(error);
+        }
+    }
 
-    useEffect(() => {
-        AdresleriGetir(setAddresses, setLoading);
-        setLoading(false);
-    }, [addresses]);
+
+
 
     const handleInputChange = (e) => {
         const {name, value} = e.target;
@@ -50,10 +57,14 @@ const Profil_adreslerim = () => {
     };
 
     useEffect(() => {
-        AdresleriGetir()
+        GetAdresses();
+        setLoading(false);
+    }, [addresses]);
+
+    useEffect(() => {
+        GetAdresses();
         setLoading(false);
     }, [refleshData]);
-
 
     const newAddress = async () => {
         const addressDTO = {
@@ -67,8 +78,8 @@ const Profil_adreslerim = () => {
             identityNumber: newAdress.identityNumber,
         };
         try {
-            await AdresEkle(addressDTO);
-            await AdresleriGetir(setAddresses);
+            await AddAddressRequest(addressDTO);
+            await GetAddressRequest(setAddresses);
             toast.success('Adres başarıyla eklendi!')
         } catch (error) {
             toast.error('Adresiniz eklenemedi lütfen bilgilerinizi kontrol edin!')
@@ -78,7 +89,7 @@ const Profil_adreslerim = () => {
 
     const deleteAddress = async (id) => {
         try {
-            AdresSil(id);
+            await DeleteAddressRequest(id);
             setAddresses(addresses.filter((address) => address.id !== id));
             toast.success('Adres başarıyla silindi!')
         }catch (error) {
@@ -101,7 +112,6 @@ const Profil_adreslerim = () => {
             }
         });
     }, []);
-
 
     if (loading) {
         <LoadingComponent/>

@@ -1,23 +1,23 @@
 import {useEffect, useState} from 'react';
-import {fetchBasket} from "../childcomponents/api/sepetapi.js";
+import {FetchBasketRequest} from "../../API/ProductApi.js";
 
 const Sepet_ozeti = ({updateTrigger}) => {
     const [totalprice, setTotalprice] = useState(0);
     const [reflesh, setReflesh] = useState(false);
 
-    const basket = async () => {
-        const data = await fetchBasket();
+    const getBasket = async () => {
+        const data = await FetchBasketRequest();
         if (data) {
             setTotalprice(data.price);
         }
     };
 
     useEffect(() => {
-        basket();
+        getBasket();
     }, []);
 
     useEffect(() => {
-        basket();
+        getBasket();
     }, [reflesh]);
 
     useEffect(() => {

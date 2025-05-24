@@ -1,7 +1,5 @@
 import {useEffect, useState} from "react";
 import "./css/anasayfa.css";
-import Navbar from "../components/childcomponents/navbar";
-import Footer from "../components/childcomponents/footer";
 import {Helmet} from "react-helmet";
 import logo from '../assets/mob_logo.png';
 import Cookie_accept from "../components/cookie/cookie_accept.jsx";

@@ -1,8 +1,27 @@
 import api from "./api.js";
 
-export const FetchProductRequest=async ()=>{
-    const response = await api.get("/product/all?page=${page}&size=12");
-// `${BaseUrl}/category/get/${category}?page=${page}&size=48`;
+export const FetchProductRequest=async (category,page)=>{
+    if(category===null){
+        const response = await api.get(`/product/all?page=${page}&size=12`);
+        return response;
+    }else{
+        const response = await api.get(`/category/get/${category}?page=${page}&size=48`);
+        return response;
+    }
+}
+
+export const FetchLikedProductRequest= async ()=>{
+    const response = await api.get(`/favorite/get`);
+    return response;
+}
+
+export const FetchProductsByIdRequest=async (productId)=>{
+    const response = await api.get(`/product/get/${productId}`);
+    return response;
+}
+
+export const FetchBasketRequest= async ()=>{
+    const response = await api.get(`/basket/get`);
     return response;
 }
 
@@ -15,19 +34,9 @@ export const AddToBasketRequest=async (productCode,size)=>{
     return await api.post("/basket/add",requestData)
 }
 
-export const FetchProductsByIdRequest=async (productId)=>{
-    const response = await api.get(`/product/get/${productId}`);
-    return response;
-}
-
 export const AddCommentRequest=async (productCode,commentData)=>{
     return await api.post(`/comment/add/${productCode}`,commentData)
 
-}
-
-export const FetchBasketRequest= async ()=>{
-    const response = await api.get(`/basket/get`);
-    return response;
 }
 
 export const DeleteToBasketRequest=async (productCode)=>{

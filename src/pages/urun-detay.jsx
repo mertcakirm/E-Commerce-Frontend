@@ -2,16 +2,18 @@ import {useEffect, useState} from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {Helmet} from "react-helmet";
-import Navbar from "../components/childcomponents/navbar";
-import Footer from "../components/childcomponents/footer";
 import "./css/urun-detay.css";
 import logo from '../assets/mob_logo.png';
-import {fetchProduct, addFavorite, addComment} from './api/urun-detay-api';
 import Dahafazla from "../components/childcomponents/dahafazla";
 import {triggerToggleRefreshData} from "../components/childcomponents/reflesh";
 import {getCookie} from "../components/cookie/cookie";
-import {handleAddToBasketApi} from "./api/urunler-api";
 import {toast} from "react-toastify";
+import {
+    AddCommentRequest,
+    AddToBasketRequest,
+    FetchProductsByIdRequest,
+    LikeProductRequest
+} from "../API/ProductApi.js";
 
 const Urun_detay = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -24,11 +26,13 @@ const Urun_detay = () => {
     const urlpop = location.pathname.split('/').pop();
     const token = getCookie('token');
 
-    useEffect(() => {
-        fetchProduct(urlpop)
-            .then(data => setProduct(data))
-            .catch(error => console.error("Error fetching product:", error));
+    const getProduct = async () => {
+        const data = await FetchProductsByIdRequest(urlpop)
+        setProduct(data);
+    }
 
+    useEffect(() => {
+        getProduct();
     }, [urlpop]);
 
     const comments = product?.productComment || [];
@@ -77,7 +81,7 @@ const Urun_detay = () => {
 
     const handleLikeClick = async (productCode) => {
         try {
-            await addFavorite(productCode);
+            await LikeProductRequest(productCode);
             toast.success('Ürün favoriye eklendi!');
             triggerToggleRefreshData();
         } catch (error) {
@@ -90,7 +94,7 @@ const Urun_detay = () => {
     const commentSubmit = async () => {
         try {
             const commentData = {title, comment};
-            await addComment(urlpop, commentData);
+            await AddCommentRequest(urlpop, commentData);
             setTitle('');
             setComment('');
             toast.success('Yorum yapıldı!');
@@ -108,7 +112,7 @@ const Urun_detay = () => {
             return;
         }
         try {
-            await handleAddToBasketApi(productCode, size);
+            await AddToBasketRequest(productCode, size);
             toast.success('Ürün sepete eklendi!')
             triggerToggleRefreshData();
         } catch (error) {
