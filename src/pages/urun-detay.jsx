@@ -5,7 +5,6 @@ import {Helmet} from "react-helmet";
 import "./css/urun-detay.css";
 import logo from '../assets/mob_logo.png';
 import Dahafazla from "../components/childcomponents/dahafazla";
-import {triggerToggleRefreshData} from "../components/childcomponents/reflesh";
 import {getCookie} from "../components/cookie/cookie";
 import {toast} from "react-toastify";
 import {
@@ -83,12 +82,10 @@ const Urun_detay = () => {
         try {
             await LikeProductRequest(productCode);
             toast.success('Ürün favoriye eklendi!');
-            triggerToggleRefreshData();
         } catch (error) {
             console.log(error);
             toast.error('Ürün favoriye eklenemedi!');
         }
-
     };
 
     const commentSubmit = async () => {
@@ -102,8 +99,6 @@ const Urun_detay = () => {
             console.log(error);
             toast.error("Yorum yapılamadı!")
         }
-
-
     };
 
     const handleAddToBasket = async (productCode, size) => {
@@ -114,13 +109,12 @@ const Urun_detay = () => {
         try {
             await AddToBasketRequest(productCode, size);
             toast.success('Ürün sepete eklendi!')
-            triggerToggleRefreshData();
         } catch (error) {
             console.log(error);
             toast.error("Ürün sepete eklenemedi!");
         }
-
     };
+
     return (
         <div>
             <Helmet>

@@ -16,7 +16,7 @@ import {useEffect} from 'react';
 import {getCookie} from './components/cookie/cookie';
 import PropTypes from 'prop-types';
 import {ToastContainer} from "react-toastify";
-import Navbar from "./components/childcomponents/navbar.jsx";
+import Navbar from "./components/childcomponents/navbar/navbar.jsx";
 import Footer from "./components/childcomponents/footer.jsx";
 
 function AppLayout({children}) {

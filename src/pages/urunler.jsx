@@ -4,7 +4,6 @@ import {useLocation} from "react-router-dom";
 import "./css/urunler.css";
 import logo from "../assets/mob_logo.png";
 import Filtercomponent from "../components/childcomponents/filtercomponent";
-import {triggerToggleRefreshData} from "../components/childcomponents/reflesh";
 import {getCookie} from "../components/cookie/cookie";
 import LoadingComponent from "../components/childcomponents/Loading.jsx";
 import {toast} from "react-toastify";
@@ -31,22 +30,42 @@ const Urunler = () => {
     };
 
     const GetProducts = async () => {
-        const data = await FetchProductRequest(currentCategory, currentPage);
-        setFilteredProducts(data);
-        setTotalPages(data.totalPages);
+        if (loading || currentPage > totalPages) return;
+
+        setLoading(true);
+        try {
+            const data = await FetchProductRequest(currentCategory, currentPage);
+            setFilteredProducts(prev => [...prev, ...data]);
+            setTotalPages(data.totalPages);
+            setCurrentPage(prev => prev + 1);
+        } catch (err) {
+            console.error(err);
+        }
         setLoading(false);
-    }
+    };
 
     useEffect(() => {
         GetProducts();
-    }, [currentCategory, currentPage]);
+    }, [currentCategory]);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.innerHeight + document.documentElement.scrollTop;
+            const offsetHeight = document.documentElement.offsetHeight;
+
+            if (scrollTop + 100 >= offsetHeight && !loading) {
+                GetProducts();
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [loading, currentPage, totalPages]);
 
     const handleLikeClick = async (productCode) => {
         try {
             await LikeProductRequest(productCode, filteredProducts, setFilteredProducts)
             toast.success('Ürün favoriye eklendi!')
-            triggerToggleRefreshData();
         } catch (error) {
             console.log(error);
             toast.error('Ürün favoriye eklenemedi!')
@@ -80,15 +99,14 @@ const Urunler = () => {
         try {
             await AddToBasketRequest(productCode, size)
             toast.success('Ürün sepete eklendi!')
-            triggerToggleRefreshData();
         } catch (error) {
             console.log(error);
             toast.error('Ürün sepete eklenemedi!')
         }
     };
 
-    if (loading) {
-        <LoadingComponent/>
+    if (loading && filteredProducts.length === 0) {
+        return <LoadingComponent/>;
     }
 
     return (
@@ -308,53 +326,6 @@ const Urunler = () => {
                         </div>
                     ))}
 
-                    <div className="row justify-content-center">
-                        <nav aria-label="Page navigation example">
-                            <ul className="pagination pag-ul">
-                                {currentPage > 1 && (
-                                    <li
-                                        className={`page-item ${currentPage === 0 ? "disabled" : ""}`}
-                                        style={{cursor: "pointer"}}
-                                    >
-                                        <a
-                                            className="page-link"
-                                            href="#"
-                                            aria-label="Previous"
-                                            onClick={() => setCurrentPage(currentPage - 1)}
-                                        >
-                                            <span aria-hidden="true">&laquo;</span>
-                                        </a>
-                                    </li>
-                                )}
-                                <li
-                                    className="page-item"
-                                >
-                                    <a
-                                        className="page-link"
-                                        href="#"
-                                        onClick={() => setCurrentPage(currentPage)}
-                                    >
-                                        {currentPage}
-                                    </a>
-                                </li>
-                                <li
-                                    className={`page-item ${
-                                        currentPage === totalPages - 1 ? "disabled" : ""
-                                    }`}
-                                    style={{cursor: "pointer"}}
-                                >
-                                    <a
-                                        className="page-link"
-                                        href="#"
-                                        aria-label="Next"
-                                        onClick={() => setCurrentPage(currentPage + 1)}
-                                    >
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
 
                     <div className="container logo-container">
                         <div className="row justify-content-center">

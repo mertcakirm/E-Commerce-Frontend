@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
-import "./css/navbar.css";
-import logo from "../../assets/mob_logo.png";
-import Navbarpc from "./navbarcanvas";
+import "../css/navbar.css";
+import logo from "../../../assets/mob_logo.png";
+import BasketandFavorite from "./BasketandFav.jsx";
 
 const Navbar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -104,7 +104,7 @@ const Navbar = () => {
         <div>
             {/* Desktop Sidebar */}
 
-            <a href="/" id="mobile-navbar-name-scroll" className="mobile-navbar-name">
+            <a href="/public" id="mobile-navbar-name-scroll" className="mobile-navbar-name">
                 <img src={logo} className="logo3 img-fluid" alt=""/>
             </a>
 
@@ -180,7 +180,7 @@ const Navbar = () => {
                             </button>
                         </div>
                         <div className="col-4" id="nav-col-mid">
-                            <a href="/">
+                            <a href="/public">
                                 <img src={logo} className="logo2 img-fluid" alt=""/>
                             </a>
                         </div>
@@ -250,7 +250,7 @@ const Navbar = () => {
                 </div>
             ) : (
                 <div className="mobile-nav">
-                    <a href="/" className="mobile-nav-item">
+                    <a href="/public" className="mobile-nav-item">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="30"
@@ -386,7 +386,7 @@ const Navbar = () => {
                 </div>
             )}
 
-            <Navbarpc/>
+            <BasketandFavorite/>
         </div>
     );
 };

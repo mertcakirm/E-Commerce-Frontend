@@ -1,4 +1,4 @@
-import Navbar from "../components/childcomponents/navbar";
+import Navbar from "../components/childcomponents/navbar/navbar.jsx";
 import Footer from "../components/childcomponents/footer";
 import { Helmet } from "react-helmet";
 import "./css/giris.css";

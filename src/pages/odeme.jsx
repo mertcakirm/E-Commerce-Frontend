@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useLocation, useNavigate} from 'react-router-dom';
-import Navbar from "../components/childcomponents/navbar";
+import Navbar from "../components/childcomponents/navbar/navbar.jsx";
 import Footer from "../components/childcomponents/footer";
 import Odeme1 from "../components/odeme/odeme1";
 import Odeme2 from "../components/odeme/odeme2";

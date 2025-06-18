@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Navbar from "../components/childcomponents/navbar";
+import Navbar from "../components/childcomponents/navbar/navbar.jsx";
 import Footer from "../components/childcomponents/footer";
 import "./css/iletisim.css";
 import { Helmet } from "react-helmet";
