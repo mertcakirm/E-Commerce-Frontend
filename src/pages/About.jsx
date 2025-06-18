@@ -1,4 +1,4 @@
-import "./css/hakkimizda.css";
+import "./css/About.css";
 import { Helmet } from "react-helmet";
 
 const About = () => {

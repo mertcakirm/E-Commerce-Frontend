@@ -1,6 +1,6 @@
 import {useEffect, useState, useRef} from 'react';
 import {Helmet} from "react-helmet";
-import "../../pages/css/odeme.css";
+import "../../pages/css/Payment.css";
 import BasketSummary from "./BasketSummary.jsx";
 import {
     DecreaseProductRequest,

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import "./css/iletisim.css";
+import "./css/Contacts.css";
 import { Helmet } from "react-helmet";
 
 const Contact = () => {

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Helmet} from "react-helmet";
-import "./css/siparisDurumu.css";
+import "./css/OrderSituation.css";
 
 const OrderSituation = () => {
     const [currentStep, setCurrentStep] = useState(1);

@@ -1,5 +1,5 @@
 import {Helmet} from "react-helmet";
-import "./css/profile.css";
+import "./css/Profile.css";
 import ProfileInfo from "../components/profile/ProfileInfo.jsx";
 import ProfileAdresses from "../components/profile/ProfileAddress.jsx";
 import ProfileOrders from "../components/profile/ProfileOrders.jsx";

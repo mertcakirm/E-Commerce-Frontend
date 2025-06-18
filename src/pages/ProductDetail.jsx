@@ -2,9 +2,9 @@ import {useEffect, useState} from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {Helmet} from "react-helmet";
-import "./css/urun-detay.css";
+import "./css/ProductDetail.css";
 import logo from '../assets/mob_logo.png';
-import MoreProduct from "../components/childcomponents/MoreProduct.jsx";
+import MoreProduct from "../components/other/MoreProduct.jsx";
 import {getCookie} from "../components/cookie/cookie";
 import {toast} from "react-toastify";
 import {

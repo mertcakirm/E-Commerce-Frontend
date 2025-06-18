@@ -180,7 +180,7 @@ const Navbar = () => {
                             </button>
                         </div>
                         <div className="col-4" id="nav-col-mid">
-                            <a href="/public">
+                            <a href="/">
                                 <img src={logo} className="logo2 img-fluid" alt=""/>
                             </a>
                         </div>

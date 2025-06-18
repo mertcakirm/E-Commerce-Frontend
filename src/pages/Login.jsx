@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import Navbar from "../components/childcomponents/navbar/navbar.jsx";
-import "./css/giris.css";
+import Navbar from "../components/other/navbar/navbar.jsx";
+import "./css/Login.css";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";

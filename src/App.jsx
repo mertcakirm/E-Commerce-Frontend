@@ -1,27 +1,25 @@
 import {BrowserRouter, Routes, Route, Navigate, useLocation} from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Products from './pages/Products.jsx';
-import Urun_detay from './pages/ProductDetail.jsx';
-import Sss from './pages/sss';
+import FrequentlyAskedQuestions from './pages/FrequentlyAskedQuestions.jsx';
 import Profile from './pages/Profile.jsx';
 import Login from './pages/Login.jsx';
 import Payment from './pages/Payment.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
 import OrderSituation from './pages/OrderSituation.jsx';
-import Parola_yenile from './pages/RefreshPassword.jsx';
 import Informations from './pages/Informations.jsx';
 import ErrorPage from './pages/errorPage';
 import {useEffect} from 'react';
 import {getCookie} from './components/cookie/cookie';
 import PropTypes from 'prop-types';
 import {ToastContainer} from "react-toastify";
-import Navbar from "./components/childcomponents/navbar/navbar.jsx";
-import Footer from "./components/childcomponents/Footer.jsx";
+import Navbar from "./components/other/navbar/navbar.jsx";
+import Footer from "./components/other/Footer.jsx";
 import RefreshPassword from "./pages/RefreshPassword.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
 
-function AppLayout({children}) {
+const AppLayout = ({children}) => {
     const location = useLocation();
     const hideComponentsForPaths = ['/sss', '/girisyap', '/error'];
 
@@ -84,7 +82,7 @@ function App() {
                     <Route path="/profilim" element={<Profile />} />
                     <Route path="/siparis/:type" element={<ProtectedRoute element={<Payment />} />} />
                     <Route path="/siparis-durumu" element={<ProtectedRoute element={<OrderSituation />} />} />
-                    <Route path="/sss" element={<ProtectedRoute element={<Sss />} />} />
+                    <Route path="/sss" element={<ProtectedRoute element={<FrequentlyAskedQuestions />} />} />
                     <Route path="/bilgilendirmeler" element={<ProtectedRoute element={<Informations />} />} />
                 </Routes>
             </AppLayout>

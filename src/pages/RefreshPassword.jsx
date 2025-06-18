@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import "./css/giris.css";
+import "./css/Login.css";
 const Parola_yenile = () => {
   return (
     <div>

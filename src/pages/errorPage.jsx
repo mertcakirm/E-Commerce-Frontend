@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import './css/errorpage.css';
+import './css/ErrorPage.css';
 const ErrorPage = () => {
   const location = useLocation();
   const { state } = location;

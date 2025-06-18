@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {Helmet} from "react-helmet";
 import BasketSummary from './BasketSummary.jsx';
-import LoadingComponent from "../childcomponents/Loading.jsx";
+import LoadingComponent from "../other/Loading.jsx";
 import {AddAddressRequest, GetAddressRequest} from "../../API/AddressApi.js";
 
 const PaymentAddress = () => {

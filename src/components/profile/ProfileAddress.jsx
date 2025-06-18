@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import ProfileAddressesPopup from "./ProfileAddressPopup.jsx";
-import LoadingComponent from "../childcomponents/Loading.jsx";
+import LoadingComponent from "../other/Loading.jsx";
 import {toast} from "react-toastify";
 import {AddAddressRequest, DeleteAddressRequest, GetAddressRequest} from "../../API/AddressApi.js";
 

@@ -1,12 +1,12 @@
 import {useEffect, useState} from "react";
-import "./css/anasayfa.css";
+import "./css/Home.css";
 import {Helmet} from "react-helmet";
 import logo from '../assets/mob_logo.png';
 import Cookie_accept from "../components/cookie/cookie_accept.jsx";
-import LoadingComponent from "../components/childcomponents/Loading.jsx";
-import SliderComp from "../components/other/sliderComp.jsx";
-import OfferMainComp from "../components/other/OfferMainComp.jsx";
-import CardMainComp from "../components/other/cardMainComp.jsx";
+import LoadingComponent from "../components/other/Loading.jsx";
+import SliderComp from "../components/home/sliderComp.jsx";
+import OfferMainComp from "../components/home/OfferMainComp.jsx";
+import CardMainComp from "../components/home/cardMainComp.jsx";
 
 const Home = () => {
     const [showButton, setShowButton] = useState(false);

@@ -4,7 +4,7 @@ import PaymentBasket from "../components/odeme/PaymentBasket.jsx";
 import PaymentAddress from "../components/odeme/PaymentAddress.jsx";
 import PaymentCardInfo from "../components/odeme/PaymentCardInfo.jsx";
 import PaymentSucces from "../components/odeme/PaymentSucces.jsx";
-import "./css/odeme.css";
+import "./css/Payment.css";
 
 const Payment = () => {
     const [currentStep, setCurrentStep] = useState(1);

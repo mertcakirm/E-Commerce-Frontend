@@ -1,9 +1,9 @@
 import {useState} from "react";
 import {Helmet} from "react-helmet";
-import Navbar from "../components/childcomponents/navbar/navbar.jsx";
-import "./css/sss.css";
+import Navbar from "../components/other/navbar/navbar.jsx";
+import "./css/FrequentlyAskedQuestions.css";
 
-const Sss = () => {
+const FrequentlyAskedQuestions = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [popupContent, setPopupContent] = useState(null);
     const [popupbaslik, setPopupBaslik] = useState(null);
@@ -761,4 +761,4 @@ const Sss = () => {
     );
 };
 
-export default Sss;
+export default FrequentlyAskedQuestions;

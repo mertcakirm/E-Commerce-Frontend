@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 import {Helmet} from "react-helmet";
 import {useLocation} from "react-router-dom";
-import "./css/urunler.css";
+import "./css/Products.css";
 import logo from "../assets/mob_logo.png";
-import FilterProduct from "../components/childcomponents/FilterProduct.jsx";
+import FilterProduct from "../components/other/FilterProduct.jsx";
 import {getCookie} from "../components/cookie/cookie";
-import LoadingComponent from "../components/childcomponents/Loading.jsx";
+import LoadingComponent from "../components/other/Loading.jsx";
 import {toast} from "react-toastify";
 import {AddToBasketRequest, FetchProductRequest, LikeProductRequest} from "../API/ProductApi.js";
 
