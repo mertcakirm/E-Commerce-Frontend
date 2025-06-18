@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
 import {Helmet} from "react-helmet";
-import Sepet_ozeti from './sepet-ozeti';
+import BasketSummary from './BasketSummary.jsx';
 import LoadingComponent from "../childcomponents/Loading.jsx";
 import {AddAddressRequest, GetAddressRequest} from "../../API/AddressApi.js";
 
-const Odeme2 = () => {
+const PaymentAddress = () => {
     const [showModal, setShowModal] = useState(false);
     const [addresses, setAddresses] = useState([]);
     const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
@@ -236,7 +236,7 @@ const Odeme2 = () => {
                 )}
             </div>
             <div className="col-lg-5 ozet-sag-col">
-                <Sepet_ozeti/>
+                <BasketSummary/>
                 <button className="button-next-step primary" id="stepper">
                     Ödemeye Geç
                 </button>
@@ -245,4 +245,4 @@ const Odeme2 = () => {
     );
 };
 
-export default Odeme2;
+export default PaymentAddress;

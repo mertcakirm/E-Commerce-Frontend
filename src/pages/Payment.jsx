@@ -1,14 +1,12 @@
 import React, {useState, useEffect} from "react";
 import {useLocation, useNavigate} from 'react-router-dom';
-import Navbar from "../components/childcomponents/navbar/navbar.jsx";
-import Footer from "../components/childcomponents/footer";
-import Odeme1 from "../components/odeme/odeme1";
-import Odeme2 from "../components/odeme/odeme2";
-import Odeme3 from "../components/odeme/odeme3";
-import Odeme4 from "../components/odeme/odeme4";
+import PaymentBasket from "../components/odeme/PaymentBasket.jsx";
+import PaymentAddress from "../components/odeme/PaymentAddress.jsx";
+import PaymentCardInfo from "../components/odeme/PaymentCardInfo.jsx";
+import PaymentSucces from "../components/odeme/PaymentSucces.jsx";
 import "./css/odeme.css";
 
-const Odeme = () => {
+const Payment = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const steps = 4;
     const location = useLocation();
@@ -71,13 +69,13 @@ const Odeme = () => {
     const renderCurrentStepComponent = () => {
         switch (currentStep) {
             case 1:
-                return <Odeme1/>;
+                return <PaymentBasket/>;
             case 2:
-                return <Odeme2/>;
+                return <PaymentAddress/>;
             case 3:
-                return <Odeme3/>;
+                return <PaymentCardInfo/>;
             case 4:
-                return <Odeme4/>;
+                return <PaymentSucces/>;
             default:
                 return null;
         }
@@ -110,4 +108,4 @@ const Odeme = () => {
     );
 };
 
-export default Odeme;
+export default Payment;

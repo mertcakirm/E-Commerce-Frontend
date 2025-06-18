@@ -1,9 +1,7 @@
-import Navbar from "../components/childcomponents/navbar/navbar.jsx";
-import Footer from "../components/childcomponents/footer";
 import "./css/hakkimizda.css";
 import { Helmet } from "react-helmet";
 
-const Hakkimizda = () => {
+const About = () => {
   return (
     <div>
       <Helmet>
@@ -97,4 +95,4 @@ const Hakkimizda = () => {
   );
 };
 
-export default Hakkimizda;
+export default About;

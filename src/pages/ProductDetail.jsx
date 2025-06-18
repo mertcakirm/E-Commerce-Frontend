@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import {Helmet} from "react-helmet";
 import "./css/urun-detay.css";
 import logo from '../assets/mob_logo.png';
-import Dahafazla from "../components/childcomponents/dahafazla";
+import MoreProduct from "../components/childcomponents/MoreProduct.jsx";
 import {getCookie} from "../components/cookie/cookie";
 import {toast} from "react-toastify";
 import {
@@ -14,7 +14,7 @@ import {
     LikeProductRequest
 } from "../API/ProductApi.js";
 
-const Urun_detay = () => {
+const ProductDetail = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [product, setProduct] = useState(null);
@@ -393,7 +393,7 @@ const Urun_detay = () => {
                         )}
                     </div>
                 </div>
-                <Dahafazla/>
+                <MoreProduct/>
             </div>
             <div className="container logo-container">
                 <div className="row justify-content-center">
@@ -410,4 +410,4 @@ const Urun_detay = () => {
     );
 };
 
-export default Urun_detay;
+export default ProductDetail;

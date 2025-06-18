@@ -1,23 +1,25 @@
 import {BrowserRouter, Routes, Route, Navigate, useLocation} from 'react-router-dom';
-import Anasayfa from './pages/anasayfa';
-import Urunler from './pages/urunler';
-import Urun_detay from './pages/urun-detay';
+import Home from './pages/Home.jsx';
+import Products from './pages/Products.jsx';
+import Urun_detay from './pages/ProductDetail.jsx';
 import Sss from './pages/sss';
-import Profile from './pages/profile';
-import Giris from './pages/giris';
-import Odeme from './pages/odeme';
-import Hakkimizda from './pages/hakkimizda';
-import Iletisim from './pages/iletisim';
-import SiparisDurumu from './pages/siparisDurumu';
-import Parola_yenile from './pages/parola-yenile';
-import Bilgilendirmeler from './pages/bilgilendirmeler';
+import Profile from './pages/Profile.jsx';
+import Login from './pages/Login.jsx';
+import Payment from './pages/Payment.jsx';
+import About from './pages/About.jsx';
+import Contact from './pages/Contact.jsx';
+import OrderSituation from './pages/OrderSituation.jsx';
+import Parola_yenile from './pages/RefreshPassword.jsx';
+import Informations from './pages/Informations.jsx';
 import ErrorPage from './pages/errorPage';
 import {useEffect} from 'react';
 import {getCookie} from './components/cookie/cookie';
 import PropTypes from 'prop-types';
 import {ToastContainer} from "react-toastify";
 import Navbar from "./components/childcomponents/navbar/navbar.jsx";
-import Footer from "./components/childcomponents/footer.jsx";
+import Footer from "./components/childcomponents/Footer.jsx";
+import RefreshPassword from "./pages/RefreshPassword.jsx";
+import ProductDetail from "./pages/ProductDetail.jsx";
 
 function AppLayout({children}) {
     const location = useLocation();
@@ -70,20 +72,20 @@ function App() {
                 <ToastContainer theme="colored" closeOnClick position="bottom-right" autoClose={3000} />
 
                 <Routes>
-                    <Route path="/" element={<Anasayfa />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/error" element={<ErrorPage />} />
                     <Route path="*" element={<Navigate to="/error" state={{errorMessage: 'Sayfa bulunamadı'}} />} />
-                    <Route path="/urunler/:category" element={<Urunler />} />
-                    <Route path="/urunler-detay/:id" element={<Urun_detay />} />
-                    <Route path="/hakkimizda" element={<Hakkimizda />} />
-                    <Route path="/iletisim" element={<Iletisim />} />
-                    <Route path="/girisyap" element={<Giris />} />
-                    <Route path="/parola-yenile" element={<UnprotectedRoute element={<Parola_yenile />} />} />
+                    <Route path="/urunler/:category" element={<Products />} />
+                    <Route path="/urunler-detay/:id" element={<ProductDetail />} />
+                    <Route path="/hakkimizda" element={<About />} />
+                    <Route path="/iletisim" element={<Contact />} />
+                    <Route path="/girisyap" element={<Login />} />
+                    <Route path="/parola-yenile" element={<UnprotectedRoute element={<RefreshPassword />} />} />
                     <Route path="/profilim" element={<Profile />} />
-                    <Route path="/siparis/:type" element={<ProtectedRoute element={<Odeme />} />} />
-                    <Route path="/siparis-durumu" element={<ProtectedRoute element={<SiparisDurumu />} />} />
+                    <Route path="/siparis/:type" element={<ProtectedRoute element={<Payment />} />} />
+                    <Route path="/siparis-durumu" element={<ProtectedRoute element={<OrderSituation />} />} />
                     <Route path="/sss" element={<ProtectedRoute element={<Sss />} />} />
-                    <Route path="/bilgilendirmeler" element={<ProtectedRoute element={<Bilgilendirmeler />} />} />
+                    <Route path="/bilgilendirmeler" element={<ProtectedRoute element={<Informations />} />} />
                 </Routes>
             </AppLayout>
         </BrowserRouter>

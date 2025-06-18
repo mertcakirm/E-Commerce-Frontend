@@ -1,10 +1,8 @@
 import { useEffect } from "react";
-import Navbar from "../components/childcomponents/navbar/navbar.jsx";
-import Footer from "../components/childcomponents/footer";
 import "./css/iletisim.css";
 import { Helmet } from "react-helmet";
 
-const Iletisim = () => {
+const Contact = () => {
   useEffect(() => {
     window.$("#telefon").mask("(999) 999-9999"); 
 
@@ -98,4 +96,4 @@ const Iletisim = () => {
   );
 };
 
-export default Iletisim;
+export default Contact;

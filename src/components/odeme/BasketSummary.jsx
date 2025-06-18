@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {FetchBasketRequest} from "../../API/ProductApi.js";
 
-const Sepet_ozeti = ({updateTrigger}) => {
+const BasketSummary = ({updateTrigger}) => {
     const [totalprice, setTotalprice] = useState(0);
     const [reflesh, setReflesh] = useState(false);
 
@@ -39,4 +39,4 @@ const Sepet_ozeti = ({updateTrigger}) => {
     );
 };
 
-export default Sepet_ozeti;
+export default BasketSummary;

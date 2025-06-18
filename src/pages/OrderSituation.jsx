@@ -1,10 +1,8 @@
 import React, {useState} from "react";
-import Navbar from "../components/childcomponents/navbar/navbar.jsx";
 import {Helmet} from "react-helmet";
-import Footer from "../components/childcomponents/footer";
 import "./css/siparisDurumu.css";
 
-const SiparisDurumu = () => {
+const OrderSituation = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const steps = 4;
 
@@ -260,4 +258,4 @@ const SiparisDurumu = () => {
     );
 };
 
-export default SiparisDurumu;
+export default OrderSituation;

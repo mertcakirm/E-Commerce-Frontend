@@ -1,11 +1,9 @@
-import Navbar from "../components/childcomponents/navbar/navbar.jsx";
-import Footer from "../components/childcomponents/footer";
 import {Helmet} from "react-helmet";
 import "./css/profile.css";
-import Profilechild from "../components/profile/profilechild";
-import Profil_adreslerim from "../components/profile/profil-adreslerim";
-import Profil_siparisler from "../components/profile/profil-siparisler";
-import Profil_kampanyalar from "../components/profile/profil-kampanyalar";
+import ProfileInfo from "../components/profile/ProfileInfo.jsx";
+import ProfileAdresses from "../components/profile/ProfileAddress.jsx";
+import ProfileOrders from "../components/profile/ProfileOrders.jsx";
+import ProfileOffer from "../components/profile/ProfileOffer.jsx";
 
 const Profile = () => {
     return (
@@ -93,7 +91,7 @@ const Profile = () => {
                                 aria-labelledby="pills-bilgilerim-tab"
                                 tabIndex="0"
                             >
-                                <Profilechild/>
+                                <ProfileInfo/>
 
                             </div>
                             <div
@@ -103,7 +101,7 @@ const Profile = () => {
                                 aria-labelledby="pills-adreslerim-tab"
                                 tabIndex="0"
                             >
-                                <Profil_adreslerim/>
+                                <ProfileAdresses/>
 
                             </div>
                             <div
@@ -113,7 +111,7 @@ const Profile = () => {
                                 aria-labelledby="pills-kampanyalarim-tab"
                                 tabIndex="0"
                             >
-                                <Profil_kampanyalar/>
+                                <ProfileOffer/>
                             </div>
                             <div
                                 className="tab-pane fade"
@@ -122,7 +120,7 @@ const Profile = () => {
                                 aria-labelledby="pills-siparislerim-tab"
                                 tabIndex="0"
                             >
-                                <Profil_siparisler/>
+                                <ProfileOrders/>
                             </div>
                         </div>
                     </div>

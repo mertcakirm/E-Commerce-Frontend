@@ -4,7 +4,7 @@ import {getCookie, deleteCookie} from "../cookie/cookie"; // Çerez fonksiyonlar
 import {toast} from "react-toastify";
 import {GetUserProfileRequest, UpdateProfileRequest} from "../../API/ProfileApi.js";
 
-const Profilechild = () => {
+const ProfileInfo = () => {
     const token = getCookie("token");
 
     const updateProfile = async () => {
@@ -137,4 +137,4 @@ const Profilechild = () => {
 }
 
 
-export default Profilechild;
+export default ProfileInfo;

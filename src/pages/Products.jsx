@@ -3,14 +3,14 @@ import {Helmet} from "react-helmet";
 import {useLocation} from "react-router-dom";
 import "./css/urunler.css";
 import logo from "../assets/mob_logo.png";
-import Filtercomponent from "../components/childcomponents/filtercomponent";
+import FilterProduct from "../components/childcomponents/FilterProduct.jsx";
 import {getCookie} from "../components/cookie/cookie";
 import LoadingComponent from "../components/childcomponents/Loading.jsx";
 import {toast} from "react-toastify";
 import {AddToBasketRequest, FetchProductRequest, LikeProductRequest} from "../API/ProductApi.js";
 
 
-const Urunler = () => {
+const Products = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [colClass, setColClass] = useState("col-lg-4");
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -204,7 +204,7 @@ const Urunler = () => {
                         >
                             Filtrele
                         </button>
-                        <Filtercomponent/>
+                        <FilterProduct/>
                     </div>
                 </div>
 
@@ -345,4 +345,4 @@ const Urunler = () => {
     );
 };
 
-export default Urunler;
+export default Products;

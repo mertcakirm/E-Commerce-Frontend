@@ -51,7 +51,7 @@ const PrevArrow = (props) => {
     );
 };
 
-const Dahafazla = () => {
+const MoreProduct = () => {
     const settings = {
         dots: false,
         infinite: true,
@@ -165,4 +165,4 @@ const Dahafazla = () => {
 }
 
 
-export default Dahafazla;
+export default MoreProduct;

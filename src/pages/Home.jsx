@@ -8,7 +8,7 @@ import SliderComp from "../components/other/sliderComp.jsx";
 import OfferMainComp from "../components/other/OfferMainComp.jsx";
 import CardMainComp from "../components/other/cardMainComp.jsx";
 
-const Anasayfa = () => {
+const Home = () => {
     const [showButton, setShowButton] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -105,4 +105,4 @@ const Anasayfa = () => {
     );
 };
 
-export default Anasayfa;
+export default Home;

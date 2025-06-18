@@ -1,6 +1,6 @@
 import kampanya from "../../assets/kampanya.jpg";
 
-const Profil_siparisler = () => {
+const ProfileOrders = () => {
     return (
         <div className="row siparislerim-row">
             <div className="col-12">
@@ -139,4 +139,4 @@ const Profil_siparisler = () => {
 }
 
 
-export default Profil_siparisler;
+export default ProfileOrders;

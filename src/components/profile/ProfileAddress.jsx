@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import ProfilAdreslerimPopupComp from "./Profil-Adreslerim-Popup.jsx";
+import ProfileAddressesPopup from "./ProfileAddressPopup.jsx";
 import LoadingComponent from "../childcomponents/Loading.jsx";
 import {toast} from "react-toastify";
 import {AddAddressRequest, DeleteAddressRequest, GetAddressRequest} from "../../API/AddressApi.js";
 
-const Profil_adreslerim = () => {
+const ProfileAdresses = () => {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [addresses, setAddresses] = useState([]);
     const [showPopup, setShowPopup] = useState(false);
@@ -300,7 +300,7 @@ const Profil_adreslerim = () => {
                 </div>
             </div>
             {showPopup && selectedAddress && (
-                <ProfilAdreslerimPopupComp popupCloser={(b = false) => setShowPopup(b)} updateAdress={selectedAddress}
+                <ProfileAddressesPopup popupCloser={(b = false) => setShowPopup(b)} updateAdress={selectedAddress}
                                            reflesh={(r = true) => setRefleshData(r)}/>
             )}
             <div>
@@ -310,4 +310,4 @@ const Profil_adreslerim = () => {
     );
 };
 
-export default Profil_adreslerim;
+export default ProfileAdresses;

@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {toast} from "react-toastify";
 import {UpdateAddressRequest} from "../../API/AddressApi.js";
 
-const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
+const ProfileAddressesPopup = ({popupCloser, updateAdress, reflesh}) => {
     const [updatedAddress, setUpdatedAddress] = useState({
         AddressTitle: updateAdress.addressTitle,
         NameSurname: updateAdress.nameSurname,
@@ -155,4 +155,4 @@ const ProfilAdreslerimPopupComp = ({popupCloser, updateAdress, reflesh}) => {
     );
 };
 
-export default ProfilAdreslerimPopupComp;
+export default ProfileAddressesPopup;

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
-import Sepet_ozeti from './sepet-ozeti';
+import BasketSummary from './BasketSummary.jsx';
 
-const Odeme3 = () => {
+const PaymentCardInfo = () => {
   const [cardNumber, setCardNumber] = useState(["", "", "", ""]);
   const [cardHolder, setCardHolder] = useState("");
   const [expirationMonth, setExpirationMonth] = useState("");
@@ -480,7 +480,7 @@ Siparişin gerçekleşmesi durumunda Alıcı işbu sözleşmenin tüm koşullar�
         </div>
       </div>
       <div className="col-lg-4 ozet-sag-col">
-          <Sepet_ozeti />
+          <BasketSummary />
           <button className="button-next-step primary" id="stepper" >
           Siparişi Onayla
         </button>
@@ -489,4 +489,4 @@ Siparişin gerçekleşmesi durumunda Alıcı işbu sözleşmenin tüm koşullar�
   );
 }
 
-export default Odeme3;
+export default PaymentCardInfo;

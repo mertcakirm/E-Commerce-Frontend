@@ -1,7 +1,7 @@
 import {useEffect, useState, useRef} from 'react';
 import {Helmet} from "react-helmet";
 import "../../pages/css/odeme.css";
-import Sepet_ozeti from "./sepet-ozeti";
+import BasketSummary from "./BasketSummary.jsx";
 import {
     DecreaseProductRequest,
     DeleteToBasketRequest,
@@ -9,7 +9,7 @@ import {
     IncreaseProductRequest
 } from "../../API/ProductApi.js";
 
-const Odeme1 = () => {
+const PaymentBasket = () => {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const fUpdater = useRef(null);
@@ -164,7 +164,7 @@ const Odeme1 = () => {
                 </div>
             </div>
             <div className="col-lg-4 ozet-sag-col">
-                <Sepet_ozeti updateTrigger={(f) => fUpdater.current = f}/>
+                <BasketSummary updateTrigger={(f) => fUpdater.current = f}/>
                 <button className="button-next-step primary" onClick={() => window.location.href = "/siparis/kargo"}
                         id="stepper">
                     Sonraki Adım
@@ -174,4 +174,4 @@ const Odeme1 = () => {
     );
 };
 
-export default Odeme1;
+export default PaymentBasket;

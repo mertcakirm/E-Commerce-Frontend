@@ -1,6 +1,6 @@
 import {Helmet} from "react-helmet";
 
-const Odeme4 = () => {
+const PaymentSucces = () => {
     return (
         <div className='row'>
             <Helmet>
@@ -38,4 +38,4 @@ const Odeme4 = () => {
 }
 
 
-export default Odeme4;
+export default PaymentSucces;

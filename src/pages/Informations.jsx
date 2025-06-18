@@ -1,6 +1,6 @@
 import { Helmet } from "react-helmet";
 
-const Bilgilendirmeler = () => {
+const Informations = () => {
   return (
     <div>
       <Helmet>
@@ -169,4 +169,4 @@ const Bilgilendirmeler = () => {
   );
 };
 
-export default Bilgilendirmeler;
+export default Informations;

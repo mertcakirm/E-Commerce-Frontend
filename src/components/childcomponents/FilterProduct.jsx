@@ -1,4 +1,4 @@
-const Filtercomponent = () => {
+const FilterProduct = () => {
     return (
         <div
             className="offcanvas offcanvas-end offcanvas-sayfa"
@@ -115,4 +115,4 @@ const Filtercomponent = () => {
 }
 
 
-export default Filtercomponent;
+export default FilterProduct;

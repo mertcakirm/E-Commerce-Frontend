@@ -1,6 +1,6 @@
 import kampanya from "../../assets/kampanya.jpg";
 
-const Profil_kampanyalar = () => {
+const ProfileOffer = () => {
     return (
         <div className="row kampanya-row">
             <div className="col-lg-3">
@@ -38,4 +38,4 @@ const Profil_kampanyalar = () => {
 }
 
 
-export default Profil_kampanyalar;
+export default ProfileOffer;

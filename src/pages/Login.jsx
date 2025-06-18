@@ -7,7 +7,7 @@ import {toast} from "react-toastify";
 import {LoginRequest, RegisterRequest} from "../API/AuthApi.js";
 
 
-const Giris = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -267,4 +267,4 @@ const Giris = () => {
   );
 };
 
-export default Giris;
+export default Login;
