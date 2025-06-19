@@ -102,12 +102,9 @@ const Navbar = () => {
 
     return (
         <div>
-            {/* Desktop Sidebar */}
-
             <a href="/public" id="mobile-navbar-name-scroll" className="mobile-navbar-name">
                 <img src={logo} className="logo3 img-fluid" alt=""/>
             </a>
-
             <div
                 className={`sidebar ${sidebarOpen ? "sidebar-open" : ""} ${
                     submenuOpen !== null ? "sidebar-expanded" : ""

@@ -7,6 +7,7 @@ import {
 import {setBasket} from "../../../store/basketSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import {getCookie} from "../../cookie/cookie.js";
+import Loading from "../Loading.jsx";
 
 const Basket = () => {
     const dispatch = useDispatch();
@@ -70,11 +71,7 @@ const Basket = () => {
         >
             <div className="sepet-flex2">
                 {loading ? (
-                    <div className="d-flex justify-content-center">
-                        <div className="spinner-border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
-                    </div>
+                    <Loading />
                 ) : cartItems.length === 0 ? (
                     <div
                         style={{margin: "0"}}

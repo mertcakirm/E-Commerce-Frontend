@@ -32,7 +32,7 @@ const CookieConsent = () => {
     }
 
     return (
-        <div className="cookie-consent-container">
+        <div className="cookie-consent-container" data-aos="fade-up">
             <p>
                 Bu site çerezler kullanmaktadır. Daha fazla bilgi için{' '}
                 <a href="/bilgilendirmeler">gizlilik politikamıza</a> göz atabilirsiniz.

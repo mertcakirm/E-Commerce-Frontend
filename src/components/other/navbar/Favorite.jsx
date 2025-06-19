@@ -4,6 +4,7 @@ import {getCookie} from "../../cookie/cookie.js";
 import {AddToBasketRequest, FetchBasketRequest, LikeProductRequest} from "../../../API/ProductApi.js";
 import {setFavorites} from "../../../store/favoriteSlice.js";
 import {setBasket} from "../../../store/basketSlice.js";
+import Loading from "../Loading.jsx";
 
 const Favorite = () => {
     const dispatch = useDispatch();
@@ -67,11 +68,7 @@ const Favorite = () => {
             <div className="favorilerim-canvas-flex">
                 <div>
                     {loading ? (
-                        <div className="d-flex justify-content-center">
-                            <div className="spinner-border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
+                        <Loading />
                     ) : (
                         favoriteproduct && favoriteproduct.length > 0 ? (
                             favoriteproduct.map((product, index) => (

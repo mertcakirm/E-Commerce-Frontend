@@ -3,20 +3,21 @@ import kampanya from "../../assets/kampanya.jpg";
 const ProfileOrders = () => {
     return (
         <div className="row siparislerim-row">
-            <div className="col-12">
-                <div className="siparis-card row align-items-center">
-                    <a href="#" className="col-lg-2 col-md-6 col-sm-6 col-6">
+
+            <div className="col-lg-3 col-md-6">
+                <div className="siparis-card d-flex flex-column p-0 m-0  align-items-center">
+                    <a href="#" className="col-12">
                         <img
                             src={kampanya}
                             className="img-fluid w-100 siparis-card-resim"
-                            alt=""
+                            alt="order-img"
                         />
                     </a>
-                    <div className="col-lg-10 col-md-6 col-sm-6 col-6 row siparislerim-card-detays">
-                        <div className="siparis-card-isim col-lg-6">
-                            <p>Sipariş Tarihi : 04.03.2024</p>
+                    <div className="col-12 align-items-center d-flex flex-column siparislerim-card-detays p-3">
+                        <div className="siparis-card-isim col-12">
+                            <p className="m-0">Sipariş Tarihi : 04.03.2024</p>
                         </div>
-                        <div className="siparis-card-siparis-durum col-lg-5">
+                        <div className="siparis-card-siparis-durum col-12">
                             <svg
                                 width="34"
                                 height="24"
@@ -32,35 +33,28 @@ const ProfileOrders = () => {
 
                         <a
                             href="/siparis-durumu"
-                            className="col-lg-1 siparis-card-a"
+                            className="col-12 siparis-card-a text-decoration-none text-dark  "
                         >
-                            <svg
-                                width="24"
-                                height="24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                            >
-                                <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z"/>
-                            </svg>
+                            Siparişi Görüntüle
                         </a>
                     </div>
                 </div>
             </div>
-            <div className="col-12">
-                <div className="siparis-card row align-items-center">
-                    <a href="#" className="col-lg-2 col-md-6 col-sm-6 col-6">
+
+            <div className="col-lg-3 col-md-6">
+                <div className="siparis-card d-flex flex-column p-0 m-0  align-items-center">
+                    <a href="#" className="col-12">
                         <img
                             src={kampanya}
                             className="img-fluid w-100 siparis-card-resim"
-                            alt=""
+                            alt="order-img"
                         />
                     </a>
-                    <div className="col-lg-10 col-md-6 col-sm-6 col-6 row  siparislerim-card-detays">
-                        <div className="siparis-card-isim col-lg-6">
-                            <p>Sipariş Tarihi : 04.03.2024</p>
+                    <div className="col-12 align-items-center d-flex flex-column siparislerim-card-detays p-3">
+                        <div className="siparis-card-isim col-12">
+                            <p className="m-0">Sipariş Tarihi : 04.03.2024</p>
                         </div>
-                        <div className="siparis-card-siparis-durum col-lg-5">
+                        <div className="siparis-card-siparis-durum col-12">
                             <svg
                                 width="34"
                                 height="24"
@@ -76,35 +70,29 @@ const ProfileOrders = () => {
 
                         <a
                             href="/siparis-durumu"
-                            className="col-lg-1 siparis-card-a"
+                            className="col-12 siparis-card-a text-decoration-none text-dark  "
                         >
-                            <svg
-                                width="24"
-                                height="24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                            >
-                                <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z"/>
-                            </svg>
+                            Siparişi Görüntüle
                         </a>
                     </div>
                 </div>
             </div>
-            <div className="col-12">
-                <div className="siparis-card row align-items-center">
-                    <a href="#" className="col-lg-2 col-md-6 col-sm-6 col-6">
+
+
+            <div className="col-lg-3 col-md-6">
+                <div className="siparis-card d-flex flex-column p-0 m-0  align-items-center">
+                    <a href="#" className="col-12">
                         <img
                             src={kampanya}
                             className="img-fluid w-100 siparis-card-resim"
-                            alt=""
+                            alt="order-img"
                         />
                     </a>
-                    <div className="col-lg-10 col-md-6 col-sm-6 col-6 row siparislerim-card-detays">
-                        <div className="siparis-card-isim col-lg-6">
-                            <p>Sipariş Tarihi : 04.03.2024</p>
+                    <div className="col-12 align-items-center d-flex flex-column siparislerim-card-detays p-3">
+                        <div className="siparis-card-isim col-12">
+                            <p className="m-0">Sipariş Tarihi : 04.03.2024</p>
                         </div>
-                        <div className="siparis-card-siparis-durum col-lg-5">
+                        <div className="siparis-card-siparis-durum col-12">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="44"
@@ -119,21 +107,14 @@ const ProfileOrders = () => {
 
                         <a
                             href="/siparis-durumu"
-                            className="col-lg-1 siparis-card-a"
+                            className="col-12 siparis-card-a text-decoration-none text-dark  "
                         >
-                            <svg
-                                width="24"
-                                height="24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                            >
-                                <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z"/>
-                            </svg>
+                            Siparişi Görüntüle
                         </a>
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }

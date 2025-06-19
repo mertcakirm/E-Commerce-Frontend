@@ -446,7 +446,7 @@ const FrequentlyAskedQuestions = () => {
                         <div className="col-12">
                             <p className="sss-baslik">Sıkça Sorulan Sorular</p>
                         </div>
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
                             <div className="sss-card">
                                 <div className="sss-card-baslik">
                                     <svg
@@ -493,7 +493,7 @@ const FrequentlyAskedQuestions = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
                             <div className="sss-card">
                                 <div className="sss-card-baslik">
                                     <svg
@@ -540,7 +540,7 @@ const FrequentlyAskedQuestions = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
                             <div className="sss-card">
                                 <div className="sss-card-baslik">
                                     <svg
@@ -587,7 +587,7 @@ const FrequentlyAskedQuestions = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
                             <div className="sss-card">
                                 <div className="sss-card-baslik">
                                     <svg
@@ -634,7 +634,7 @@ const FrequentlyAskedQuestions = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
                             <div className="sss-card">
                                 <div className="sss-card-baslik">
                                     <svg
@@ -681,7 +681,7 @@ const FrequentlyAskedQuestions = () => {
                                 </button>
                             </div>
                         </div>
-                        <div className="col-lg-4 col-md-6">
+                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
                             <div className="sss-card">
                                 <div className="sss-card-baslik">
                                     <svg
@@ -730,7 +730,7 @@ const FrequentlyAskedQuestions = () => {
                         </div>
                     </div>
 
-                    <div className="row justify-content-center text-center mb-5 diger-sorular">
+                    <div className="row justify-content-center text-center mb-5 diger-sorular" data-aos="fade-up">
                         <p>Dİğer Sorularınız İçİn</p>
                         <a className="diger-sorular-button" href="#">İletişim</a>
                     </div>
