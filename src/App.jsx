@@ -18,6 +18,8 @@ import Navbar from "./components/other/navbar/navbar.jsx";
 import Footer from "./components/other/Footer.jsx";
 import RefreshPassword from "./pages/RefreshPassword.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 const AppLayout = ({children}) => {
     const location = useLocation();
@@ -62,6 +64,8 @@ function App() {
     useEffect(() => {
         const sessionid = getCookie('SESSIONID');
         if (!sessionid) return;
+        AOS.init({ duration: 500 });
+
     }, []);
 
     return (

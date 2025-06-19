@@ -737,7 +737,7 @@ const FrequentlyAskedQuestions = () => {
                 </div>
             </div>
             {showPopup && (
-                <div className="popup">
+                <div className="popup" data-aos="fade-in">
                     <div className="popup-content">
                         <div className="popup-close-parent">
                             <button className="popup-close" onClick={handleClosePopup}>

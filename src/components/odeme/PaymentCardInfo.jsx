@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
 import BasketSummary from './BasketSummary.jsx';
+import {toast} from "react-toastify";
 
 const PaymentCardInfo = () => {
   const [cardNumber, setCardNumber] = useState(["", "", "", ""]);
@@ -48,6 +49,7 @@ const PaymentCardInfo = () => {
 
   const copyText = (text) => {
     const textArea = document.createElement("textarea");
+    toast.success("Panoya kopyalandı!")
     textArea.value = text;
     document.body.appendChild(textArea);
     textArea.select();

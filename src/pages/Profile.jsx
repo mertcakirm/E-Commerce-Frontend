@@ -25,64 +25,67 @@ const Profile = () => {
             <div className="container-fluid profile-container">
                 <div className="row">
                     <div className="col-lg-12">
-                        <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
-                            <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link active"
-                                    id="pills-bilgilerim-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-bilgilerim"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-bilgilerim"
-                                    aria-selected="true"
-                                >
-                                    Bilgilerim
-                                </button>
-                            </li>
-                            <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link"
-                                    id="pills-adreslerim-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-adreslerim"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-adreslerim"
-                                    aria-selected="false"
-                                >
-                                    Adreslerim
-                                </button>
-                            </li>
-                            <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link"
-                                    id="pills-kampanyalarim-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-kampanyalarim"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-kampanyalarim"
-                                    aria-selected="false"
-                                >
-                                    Kampanyalarım
-                                </button>
-                            </li>
-                            <li className="nav-item" role="presentation">
-                                <button
-                                    className="nav-link"
-                                    id="pills-siparislerim-tab"
-                                    data-bs-toggle="pill"
-                                    data-bs-target="#pills-siparislerim"
-                                    type="button"
-                                    role="tab"
-                                    aria-controls="pills-siparislerim"
-                                    aria-selected="false"
-                                >
-                                    Siparişlerim
-                                </button>
-                            </li>
-                        </ul>
+                        <div className="d-flex mb-3 justify-content-center">
+                            <ul className="nav nav-pills pills-con mb-3" id="pills-tab" role="tablist">
+                                <li className="nav-item" role="presentation">
+                                    <button
+                                        className="nav-link active"
+                                        id="pills-bilgilerim-tab"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#pills-bilgilerim"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="pills-bilgilerim"
+                                        aria-selected="true"
+                                    >
+                                        Bilgilerim
+                                    </button>
+                                </li>
+                                <li className="nav-item" role="presentation">
+                                    <button
+                                        className="nav-link"
+                                        id="pills-adreslerim-tab"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#pills-adreslerim"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="pills-adreslerim"
+                                        aria-selected="false"
+                                    >
+                                        Adreslerim
+                                    </button>
+                                </li>
+                                <li className="nav-item" role="presentation">
+                                    <button
+                                        className="nav-link"
+                                        id="pills-kampanyalarim-tab"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#pills-kampanyalarim"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="pills-kampanyalarim"
+                                        aria-selected="false"
+                                    >
+                                        Kampanyalarım
+                                    </button>
+                                </li>
+                                <li className="nav-item" role="presentation">
+                                    <button
+                                        className="nav-link"
+                                        id="pills-siparislerim-tab"
+                                        data-bs-toggle="pill"
+                                        data-bs-target="#pills-siparislerim"
+                                        type="button"
+                                        role="tab"
+                                        aria-controls="pills-siparislerim"
+                                        aria-selected="false"
+                                    >
+                                        Siparişlerim
+                                    </button>
+                                </li>
+                            </ul>
+
+                        </div>
                         <div className="tab-content tab-content2" id="pills-tabContent">
                             <div
                                 className="tab-pane fade show active"

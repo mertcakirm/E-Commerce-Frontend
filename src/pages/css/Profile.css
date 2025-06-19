@@ -15,6 +15,13 @@
     font-size: 32px;
 }
 
+.pills-con{
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    border-radius: 10px;
+    overflow:  hidden;
+
+}
+
 .tab-content2{
     padding: 2% 5%;
     border-radius: 20px;
@@ -22,7 +29,7 @@
 
 }
 
-.tab-content2:hover{
+.tab-content2{
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
     transition: .4s;
 }

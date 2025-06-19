@@ -225,6 +225,7 @@ const ProfileAdresses = () => {
                   onChange={handleInputChange}
                   id="adreslerim-adres"
                   value={newAdress.address}
+                  style={{maxHeight:'250px'}}
               ></textarea>
                         </div>
                     </div>
