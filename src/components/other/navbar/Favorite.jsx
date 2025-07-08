@@ -1,7 +1,12 @@
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from "react";
 import {getCookie} from "../../cookie/cookie.js";
-import {AddToBasketRequest, FetchBasketRequest, LikeProductRequest} from "../../../API/ProductApi.js";
+import {
+    AddToBasketRequest,
+    FetchBasketRequest,
+    FetchLikedProductRequest,
+    LikeProductRequest
+} from "../../../API/ProductApi.js";
 import {setFavorites} from "../../../store/favoriteSlice.js";
 import {setBasket} from "../../../store/basketSlice.js";
 import Loading from "../Loading.jsx";
@@ -41,7 +46,7 @@ const Favorite = () => {
     const fetchFavorite = async () => {
         try {
             const [likedObj, basketObj] = await Promise.all([
-                FetchBasketRequest(),
+                FetchLikedProductRequest(),
             ]);
             dispatch(setFavorites(likedObj));
             dispatch(setBasket(basketObj));
