@@ -1,11 +1,12 @@
 import api from "./api.js";
 
 export const FetchProductRequest=async (category,page)=>{
-    if(category===null){
-        const response = await api.get(`/product/all?page=${page}&size=12`);
+    console.log(category)
+    if(category==="tum-urunler"){
+        const response = await api.get(`/Products?pageNumber=${page}&pageSize=12`);
         return response;
     }else{
-        const response = await api.get(`/category/get/${category}?page=${page}&size=48`);
+        const response = await api.get(`/Products/get-by-category/${category}?pageNumber=${page}&pageSize=48`);
         return response;
     }
 }
@@ -21,7 +22,7 @@ export const FetchProductsByIdRequest=async (productId)=>{
 }
 
 export const FetchBasketRequest= async ()=>{
-    const response = await api.get(`/basket/get`);
+    const response = await api.get(`cart`);
     return response;
 }
 
@@ -29,9 +30,8 @@ export const LikeProductRequest=async (productCode)=>{
     return await api.post("/favorite/add",productCode)
 }
 
-export const AddToBasketRequest=async (productCode,size)=>{
-    const requestData = JSON.stringify({productCode, size});
-    return await api.post("/basket/add",requestData)
+export const AddToBasketRequest=async (productCode,variantId)=>{
+    return await api.post(`/Cart/add??productId=${productCode}&productVariantId=${variantId}`)
 }
 
 export const AddCommentRequest=async (productCode,commentData)=>{
@@ -44,9 +44,9 @@ export const DeleteToBasketRequest=async (productCode)=>{
 }
 
 export const IncreaseProductRequest=async (productCode)=>{
-    return await api.get(`/basket/increase/quantity/${productCode}`);
+    return await api.put(`Cart/increase?productId=${productCode}`);
 }
 
 export const DecreaseProductRequest=async (productCode)=>{
-    return await api.get(`/basket/decrease/quantity/${productCode}`);
+    return await api.put(`Cart/decrease?productId=${productCode}`);
 }

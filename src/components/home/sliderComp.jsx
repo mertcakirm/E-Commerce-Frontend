@@ -23,21 +23,21 @@ const SliderComp = ({loading}) => {
                 breakpoint: 1440,
                 settings: {
                     slidesToShow: 5,
-                    slidesToScroll: 1,
+                    slidesToScroll: 5,
                 },
             },
             {
                 breakpoint: 1124,
                 settings: {
                     slidesToShow: 3,
-                    slidesToScroll: 1,
+                    slidesToScroll: 3,
                 },
             },
             {
                 breakpoint: 768,
                 settings: {
                     slidesToShow: 2,
-                    slidesToScroll: 1,
+                    slidesToScroll: 2,
                 },
             },
             {
@@ -51,7 +51,8 @@ const SliderComp = ({loading}) => {
     };
     const fetchData = async () => {
         const categoriesData = await FetchCategoriesRequest();
-        setCategories(categoriesData);
+        console.log(categoriesData);
+        setCategories(categoriesData.data);
     };
 
     useEffect(() => {
@@ -64,15 +65,21 @@ const SliderComp = ({loading}) => {
                     categories.map((category) => (
                         <a
                             key={category.id}
-                            href={`/urunler/${category.categoryName}`}
+                            href={`/urunler/${category.name}`}
                             className="slick-card"
                         >
                             <img
-                                src={`data:image/jpeg;base64,${category.image.bytes}`}
-                                alt={category.categoryName || "Kategori Resmi"}
+                                src={category.imageUrl && category.imageUrl !== "string"
+                                    ? (category.imageUrl.startsWith("http")
+                                            ? category.imageUrl
+                                            : `https://localhost:7050${category.imageUrl.startsWith("/images/categories") ? category.imageUrl : `/images/categories${category.imageUrl}`}`
+                                    )
+                                    : "https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg"
+                                }
+                                alt={category.name || "Kategori Resmi"}
                                 className="category-image"
                             />
-                            <p>{category.categoryName}</p>
+                            <p>{category.name}</p>
                         </a>
                     ))
                 ) : (

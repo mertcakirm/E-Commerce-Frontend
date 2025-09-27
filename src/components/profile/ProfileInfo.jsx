@@ -34,8 +34,7 @@ const ProfileInfo = () => {
     const navigate = useNavigate();
 
     const cikisyap = () => {
-        deleteCookie("SESSIONID");
-        deleteCookie("ID");
+        deleteCookie("token");
         navigate('/girisyap');
     };
 

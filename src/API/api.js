@@ -1,7 +1,7 @@
 import axios from "axios";
 import {getCookie} from "../components/cookie/cookie.js";
 
-export const BaseUrl = "http://213.142.159.49:8083/api";
+export const BaseUrl = "https://localhost:7050/api/";
 
 const api = axios.create({
     baseURL: BaseUrl,
@@ -11,7 +11,7 @@ api.interceptors.request.use((config) => {
     const token = getCookie("token");
 
     if (!config.headers["NoAuth"] && token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
+        config.headers["Authorization"] = `Bearer ${token.token}`;
     }
     delete config.headers["NoAuth"];
     return config;

@@ -5,7 +5,7 @@ const OfferMainComp = ({loading}) => {
     const [sliderData, setSliderData] = useState([]);
     const fetchData = async () => {
         const sliderData = await FetchSliderDataRequest();
-        setSliderData(sliderData);
+        setSliderData(sliderData.data.data);
         loading(false);
     };
 
@@ -42,16 +42,22 @@ const OfferMainComp = ({loading}) => {
                     sliderData.map((slide, index) => (
                         <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
                             <img
-                                src={`data:image/jpeg;base64,${slide.image.bytes}`}
+                                src={slide.imageUrl && slide.imageUrl !== "string"
+                                    ? (slide.imageUrl.startsWith("http")
+                                            ? slide.imageUrl
+                                            : `https://localhost:7050${slide.imageUrl.startsWith("/contents/") ? slide.imageUrl : `/contents/${slide.imageUrl}`}`
+                                    )
+                                    : "https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg"
+                                }
                                 className="d-block w-100 img-fluid"
                                 style={{height: '900px', objectFit: 'cover'}}
                                 alt={`Slide ${index + 1}`}
                             />
                             <div className="carousel-item-child">
-                                <h5>{slide.topTitle}</h5>
-                                <p>{slide.middleTitle}</p>
-                                <h5>{slide.underTitle}</h5>
-                                <a href={`/urunler/${slide.category}`} className="slider-alisverise-basla-btn">
+                                <h5>{slide.parentName}</h5>
+                                <p>{slide.name}</p>
+                                <h5>{slide.subName}</h5>
+                                <a href={`/urunler/${slide.href}`} className="slider-alisverise-basla-btn">
                                     Alışverişe Başla
                                 </a>
                             </div>

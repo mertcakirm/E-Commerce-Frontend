@@ -1,16 +1,14 @@
 import api from "./api.js";
 
 export const FetchSliderDataRequest = async () => {
-    const response = await api.get('/slider/main/get');
-    return response;
+    return  await api.get('SliderCart/sliders');
 }
 
 export const FetchCategoriesRequest = async () => {
-    const response = await api.get('/category/admin/get/all');
-    return response;
+    return await api.get('Category');
 }
 
 export const FetchCartDataRequest = async () => {
-    const response = await api.get('/product/get/cart');
-    return response;
+    return  await api.get('SliderCart/carts');
+
 }

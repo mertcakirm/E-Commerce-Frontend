@@ -1,47 +1,43 @@
-import {useEffect, useState} from "react";
-import {Helmet} from "react-helmet";
-import {useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useLocation } from "react-router-dom";
 import "./css/Products.css";
 import logo from "../assets/mob_logo.png";
 import FilterProduct from "../components/other/FilterProduct.jsx";
-import {getCookie} from "../components/cookie/cookie";
+import { getCookie } from "../components/cookie/cookie";
 import LoadingComponent from "../components/other/Loading.jsx";
-import {toast} from "react-toastify";
-import {AddToBasketRequest, FetchProductRequest, LikeProductRequest} from "../API/ProductApi.js";
-
+import { toast } from "react-toastify";
+import {
+    AddToBasketRequest,
+    FetchProductRequest,
+    LikeProductRequest,
+} from "../API/ProductApi.js";
 
 const Products = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [colClass, setColClass] = useState("col-lg-4");
-    const [filteredProducts, setFilteredProducts] = useState([]);
-    const [selectedSize, setSelectedSize] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [products, setProducts] = useState([]);
+    const [selectedSize, setSelectedSize] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const location = useLocation();
     const currentCategory = location.pathname.split("/").pop();
-    const token = getCookie("SESSIONID");
-
-    const handleSizeClick = (productCode, size) => {
-        setSelectedSize((prevSelectedSizes) => ({
-            ...prevSelectedSizes,
-            [productCode]: prevSelectedSizes[productCode] === size ? null : size,
-        }));
-    };
+    const token = getCookie("token");
 
     const GetProducts = async () => {
-        if (loading || currentPage > totalPages) return;
-
+        if (currentPage > totalPages) return;
         setLoading(true);
         try {
             const data = await FetchProductRequest(currentCategory, currentPage);
-            setFilteredProducts(prev => [...prev, ...data]);
-            setTotalPages(data.totalPages);
+            setProducts(data.data.data.items)
+            setTotalPages(data.totalPages || 1);
             setCurrentPage(prev => prev + 1);
         } catch (err) {
-            console.error(err);
+            console.error("API Hatası:", err);
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     useEffect(() => {
@@ -52,62 +48,45 @@ const Products = () => {
         const handleScroll = () => {
             const scrollTop = window.innerHeight + document.documentElement.scrollTop;
             const offsetHeight = document.documentElement.offsetHeight;
-
             if (scrollTop + 100 >= offsetHeight && !loading) {
                 GetProducts();
             }
         };
-
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, [loading, currentPage, totalPages]);
 
     const handleLikeClick = async (productCode) => {
         try {
-            await LikeProductRequest(productCode, filteredProducts, setFilteredProducts)
-            toast.success('Ürün favoriye eklendi!')
-        } catch (error) {
-            console.log(error);
-            toast.error('Ürün favoriye eklenemedi!')
+            await LikeProductRequest(productCode);
+            toast.success("Ürün favoriye eklendi!");
+        } catch {
+            toast.error("Ürün favoriye eklenemedi!");
         }
     };
 
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-
-    const handleGridChange = (size) => {
-        if (size === "3x3") {
-            setColClass("col-lg-4");
-        } else if (size === "4x4") {
-            setColClass("col-lg-3");
-        }
-    };
-
-    const calculateOriginalPrice = (priceWithDiscount, discountRate) => {
-        if (discountRate > 0) {
-            return (priceWithDiscount / (1 - discountRate / 100)).toFixed(2);
-        }
-        return priceWithDiscount;
-    };
-
-    const handleAddToBasket = async (productCode, size) => {
+    const handleAddToBasket = async (productCode) => {
         if (!token) {
             window.location.href = "/girisyap";
             return;
         }
         try {
-            await AddToBasketRequest(productCode, size)
-            toast.success('Ürün sepete eklendi!')
-        } catch (error) {
-            console.log(error);
-            toast.error('Ürün sepete eklenemedi!')
+            await AddToBasketRequest(productCode, selectedSize);
+            toast.success("Ürün sepete eklendi!");
+        } catch {
+            toast.error("Ürün sepete eklenemedi!");
         }
     };
 
-    if (loading && filteredProducts.length === 0) {
-        return <LoadingComponent/>;
-    }
+    const calculateOriginalPrice = (priceWithDiscount, discountRate) =>
+        discountRate > 0
+            ? (priceWithDiscount / (1 - discountRate / 100)).toFixed(2)
+            : priceWithDiscount;
+
+    const handleGridChange = (size) =>
+        setColClass(size === "4x4" ? "col-lg-3" : "col-lg-4");
+
+    if (loading && products.length === 0) return <LoadingComponent />;
 
     return (
         <div>
@@ -117,228 +96,170 @@ const Products = () => {
                     name="description"
                     content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
                 />
-                <meta
-                    name="keywords"
-                    content="tişört,pantolon,giyim,moda,erkek giyim"
-                />
-                <meta name="author" content="MOB WEAR"/>
-                <meta property="og:title" content="Kaliteli Kıyafetler"/>
+                <meta name="keywords" content="tişört,pantolon,giyim,moda,erkek giyim" />
+                <meta name="author" content="MOB WEAR" />
+                <meta property="og:title" content="Kaliteli Kıyafetler" />
                 <meta
                     property="og:description"
                     content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
                 />
-                <meta property="og:image" content="URL_of_image"/>
-                <meta property="og:url" content="URL_of_your_website"/>
-                <meta property="og:type" content="website"/>
+                <meta property="og:image" content="URL_of_image" />
+                <meta property="og:url" content="URL_of_your_website" />
+                <meta property="og:type" content="website" />
             </Helmet>
+
             <div className="container-fluid urunler-container">
                 <div className="row text-align-center justify-content-center">
                     <div className="col-lg-4"></div>
-                    <div className="col-lg-4  mt-5">
+                    <div className="col-lg-4 mt-5">
                         <p
                             className="text-center urunler-sayfa-baslik"
-                            style={{textTransform: "uppercase"}}
+                            style={{ textTransform: "uppercase" }}
                         >
                             {currentCategory} / 200 Ürün
                         </p>
                     </div>
                     <div className="col-lg-4 row grid-row">
-                        <button
-                            className="grid-btn 3x3-btn"
-                            onClick={() => handleGridChange("3x3")}
-                        >
+                        <button className="grid-btn 3x3-btn" onClick={() => handleGridChange("3x3")}>
                             <svg clipRule="evenodd" width={50} height={50} fillRule="evenodd" strokeLinejoin="round"
-                                 strokeMiterlimit="2"
-                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="m21 4c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-12.5 15.5h-4v-4h4zm1.5-4h4v4h-4zm9.5 0v4h-4v-4zm-15-5.5h4v4h-4zm5.5 0h4v4h-4zm5.5 0h4v4h-4zm-11-5.5h4v4h-4zm5.5 0h4v4h-4zm5.5 0h4v4h-4z"
-                                    fillRule="nonzero"/>
+                                 strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="m21 4c0-.478-.379-1-1-1h-16c-.62 0-1 .519-1 1v16c0 .621.52 1 1 1h16c.478 0 1-.379 1-1zm-12.5 15.5h-4v-4h4zm1.5-4h4v4h-4zm9.5 0v4h-4v-4zm-15-5.5h4v4h-4zm5.5 0h4v4h-4zm5.5 0h4v4h-4zm-11-5.5h4v4h-4zm5.5 0h4v4h-4zm5.5 0h4v4h-4z" fillRule="nonzero"/>
                             </svg>
                         </button>
-                        <button
-                            className="grid-btn 4x4-btn"
-                            onClick={() => handleGridChange("4x4")}
-                        >
+                        <button className="grid-btn 4x4-btn" onClick={() => handleGridChange("4x4")}>
                             <svg width="40" height="40" viewBox="0 0 53 51" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
-                                <line x1="1.5" y1="1" x2="1.5" y2="51" stroke="black" strokeWidth="3"/>
-                                <line x1="14.5" y1="1" x2="14.5" y2="51" stroke="black" strokeWidth="3"/>
-                                <line x1="26.5" y1="1" x2="26.5" y2="51" stroke="black" strokeWidth="3"/>
-                                <line x1="51.5" y1="1" x2="51.5" y2="51" stroke="black" strokeWidth="3"/>
-                                <line x1="38.5" y1="1" x2="38.5" y2="51" stroke="black" strokeWidth="3"/>
-                                <line y1="1.5" x2="53" y2="1.5" stroke="black" strokeWidth="3"/>
-                                <line y1="13.5" x2="51" y2="13.5" stroke="black" strokeWidth="3"/>
-                                <line y1="25.5" x2="51" y2="25.5" stroke="black" strokeWidth="3"/>
-                                <line y1="37.5" x2="51" y2="37.5" stroke="black" strokeWidth="3"/>
-                                <line y1="49.5" x2="51" y2="49.5" stroke="black" strokeWidth="3"/>
+                                <line x1="1.5" y1="1" x2="1.5" y2="51" stroke="black" strokeWidth="3" />
+                                <line x1="14.5" y1="1" x2="14.5" y2="51" stroke="black" strokeWidth="3" />
+                                <line x1="26.5" y1="1" x2="26.5" y2="51" stroke="black" strokeWidth="3" />
+                                <line x1="51.5" y1="1" x2="51.5" y2="51" stroke="black" strokeWidth="3" />
+                                <line x1="38.5" y1="1" x2="38.5" y2="51" stroke="black" strokeWidth="3" />
+                                <line y1="1.5" x2="53" y2="1.5" stroke="black" strokeWidth="3" />
+                                <line y1="13.5" x2="51" y2="13.5" stroke="black" strokeWidth="3" />
+                                <line y1="25.5" x2="51" y2="25.5" stroke="black" strokeWidth="3" />
+                                <line y1="37.5" x2="51" y2="37.5" stroke="black" strokeWidth="3" />
+                                <line y1="49.5" x2="51" y2="49.5" stroke="black" strokeWidth="3" />
                             </svg>
-
                         </button>
 
-                        {/* Dropdown Sırala */}
                         <div className="dropdown">
-                            <button className="dropdown-button" onClick={toggleDropdown}>
+                            <button className="dropdown-button" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                                 Sırala
                             </button>
                             {isDropdownOpen && (
                                 <div className="dropdown-menu">
-                                    <a className="dropdown-item" href="#">
-                                        Seçenek 1
-                                    </a>
-                                    <a className="dropdown-item" href="#">
-                                        Seçenek 2
-                                    </a>
-                                    <a className="dropdown-item" href="#">
-                                        Seçenek 3
-                                    </a>
+                                    <a className="dropdown-item" href="#">Seçenek 1</a>
+                                    <a className="dropdown-item" href="#">Seçenek 2</a>
+                                    <a className="dropdown-item" href="#">Seçenek 3</a>
                                 </div>
                             )}
                         </div>
-                        {/* Filtre */}
-                        <button
-                            className="btn offcanvas-button"
-                            type="button"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#offcanvasRight1"
-                            aria-controls="offcanvasRight1"
-                        >
+
+                        <button className="btn offcanvas-button" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasRight1" aria-controls="offcanvasRight1">
                             Filtrele
                         </button>
-                        <FilterProduct/>
+                        <FilterProduct />
                     </div>
                 </div>
 
-                {/* urun-card */}
                 <div className="row urun-cards-row">
-                    {filteredProducts.map((product, index) => (
+                    {products.map((product, index) => (
                         <div className={colClass} key={`${product.productCode}-${index}`}>
                             <div className="urun-card">
-                                <div>
-                                    <a href={`/urunler-detay/${product.productCode}`}>
-                                        {product.productImage.length > 0 && (
-                                            <img
-                                                className="img-fluid w-100 urun-img2"
-                                                src={`data:image/jpeg;base64,${product.productImage[0].bytes}`}
-                                                alt={product.productName}
-                                            />
-                                        )}
-                                        {product.productImage.length > 1 && (
-                                            <img
-                                                className="img-fluid w-100 urun-img1"
-                                                src={`data:image/jpeg;base64,${product.productImage[1].bytes}`}
-                                                alt={product.productName}
-                                            />
-                                        )}
-                                    </a>
-                                    <div className="urun-card-content-bottom">
-                                        <button
-                                            className="urunler-card-content-bottom-add-btn"
-                                            onClick={() =>
-                                                handleAddToBasket(
-                                                    product.productCode,
-                                                    selectedSize[product.productCode]
-                                                )
+                                <a href={`/urunler-detay/${product.productCode}`}>
+                                    {product.images?.[0] && (
+                                        <img
+                                            className="img-fluid w-100 urun-img2"
+                                            src={
+                                                product.images[0].imageUrl.startsWith("http")
+                                                    ? product.images[0].imageUrl
+                                                    : `https://localhost:7050${product.images[0].imageUrl}`
                                             }
-                                        >
-                                            +
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="50"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="white"
-                                            >
-                                                <path
-                                                    d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z"/>
-                                            </svg>
-                                        </button>
-                                        <button
-                                            id={`like-btn-${product.productCode}`}
-                                            className="urunler-card-content-bottom-like-btn"
-                                            onClick={() => {
-                                                const token = getCookie("token");
-                                                if (token) {
-                                                    handleLikeClick(product.productCode);
-                                                } else {
-                                                    window.location.href = "/girisyap";
-                                                }
-                                            }}
-                                        >
-                                            <svg
-                                                clipRule="evenodd"
-                                                width="50"
-                                                height="24"
-                                                fill={product.favorite ? "red" : "white"}
-                                                fillRule="evenodd"
-                                                strokeLinejoin="round"
-                                                strokeMiterlimit="2"
-                                                viewBox="0 0 24 24"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="m12 5.72c-2.624-4.517-10-3.198-10 2.461 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-5.678-7.396-6.944-10-2.461z"
-                                                    fillRule="nonzero"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div className="urunler-card-content-left">
-                                        {product.sizes.map((sizeObj) => (
-                                            <button
-                                                className={`urunler-card-content-left-size-btn ${
-                                                    selectedSize[product.productCode] === sizeObj.size
-                                                        ? "selected-size"
-                                                        : ""
-                                                }`}
-                                                key={sizeObj.size}
-                                                onClick={() =>
-                                                    handleSizeClick(product.productCode, sizeObj.size)
-                                                }
-                                            >
-                                                {sizeObj.size}
-                                            </button>
-                                        ))}
-                                    </div>
-                                    {product.discountRate > 0 && (
-                                        <div className="urunler-card-content-top">
-                                            <p>{product.discountRate}% İndirim</p>
-                                        </div>
+                                            alt={product.name}
+                                        />
                                     )}
+
+                                    {product.images?.[1] && (
+                                        <img
+                                            className="img-fluid w-100 urun-img1"
+                                            src={
+                                                product.images[1].imageUrl.startsWith("http")
+                                                    ? product.images[1].imageUrl
+                                                    : `https://localhost:7050${product.images[1].imageUrl}`
+                                            }
+                                            alt={product.name}
+                                        />
+                                    )}
+                                </a>
+
+                                <div className="urun-card-content-bottom">
+                                    <button className="urunler-card-content-bottom-add-btn"
+                                            onClick={() =>
+                                                handleAddToBasket(product.id)
+                                            }>
+                                        +
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="24" viewBox="0 0 24 24" fill="white">
+                                            <path d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z" />
+                                        </svg>
+                                    </button>
+                                    <button
+                                        className="urunler-card-content-bottom-like-btn"
+                                        onClick={() => token ? handleLikeClick(product.productCode) : (window.location.href = "/girisyap")}
+                                    >
+                                        <svg clipRule="evenodd" width="50" height="24"
+                                             fill={product.favorite ? "red" : "white"}
+                                             fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2"
+                                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="m12 5.72c-2.624-4.517-10-3.198-10 2.461 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-5.678-7.396-6.944-10-2.461z" />
+                                        </svg>
+                                    </button>
                                 </div>
+
+                                <div className="urunler-card-content-left">
+                                    {product.variants.map(variant => (
+                                        <button
+                                            key={variant.id}
+                                            className={`urunler-card-content-left-size-btn ${
+                                                selectedSize === variant.id ? "selected-size" : ""
+                                            }`}
+                                            onClick={() => setSelectedSize(variant.id)}
+                                        >
+                                            {variant.size}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {product.discountRate > 0 && (
+                                    <div className="urunler-card-content-top">
+                                        <p>{product.discountRate}% İndirim</p>
+                                    </div>
+                                )}
                             </div>
+
                             <div className="urun-adi">
-                                <p>{product.productName}</p>
+                                <p>{product.name}</p>
                             </div>
                             <div className="urun-fiyat">
-                                <p style={{fontSize: "20px"}} className="p1-fiyat">
-                                    {product.priceWithDiscount}₺
+                                <p style={{ fontSize: "20px" }} className="p1-fiyat">
+                                    {product.price}₺
                                 </p>
                                 {product.discountRate > 0 && (
-                                    <p style={{fontSize: "20px"}} className="p2-fiyat">
-                                        {calculateOriginalPrice(
-                                            product.priceWithDiscount,
-                                            product.discountRate
-                                        )}
-                                        ₺
+                                    <p style={{ fontSize: "20px" }} className="p2-fiyat">
+                                        {calculateOriginalPrice(product.price, product.discountRate)}₺
                                     </p>
                                 )}
                             </div>
                         </div>
                     ))}
 
-
                     <div className="container logo-container">
                         <div className="row justify-content-center">
-                            <a
-                                style={{display: "flex", justifyContent: "center"}}
-                                className="logo-a"
-                                href="/"
-                            >
-                                <img src={logo} className="img-fluid" alt=""/>
+                            <a style={{ display: "flex", justifyContent: "center" }} className="logo-a" href="/">
+                                <img src={logo} className="img-fluid" alt="" />
                             </a>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

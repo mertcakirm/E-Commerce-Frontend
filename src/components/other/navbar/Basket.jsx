@@ -1,12 +1,13 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 import {
     DecreaseProductRequest,
-    DeleteToBasketRequest, FetchBasketRequest,
-    IncreaseProductRequest
+    DeleteToBasketRequest,
+    FetchBasketRequest,
+    IncreaseProductRequest,
 } from "../../../API/ProductApi.js";
-import {setBasket} from "../../../store/basketSlice.js";
-import {useDispatch, useSelector} from "react-redux";
-import {getCookie} from "../../cookie/cookie.js";
+import { setBasket } from "../../../store/basketSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { getCookie } from "../../cookie/cookie.js";
 import Loading from "../Loading.jsx";
 
 const Basket = () => {
@@ -17,30 +18,50 @@ const Basket = () => {
     const [refleshData, setRefleshData] = useState(true);
     const token = getCookie("token");
 
-    const toggleRefreshData = () => setRefleshData((prev) => !prev);
 
-    const incrementProductCount = async (productCode) => {
-        await IncreaseProductRequest(productCode);
-        toggleRefreshData();
+    const incrementProductCount = async (productVariantId) => {
+        await IncreaseProductRequest(productVariantId);
+        setRefleshData(!refleshData);
     };
 
-    const decrementProductCount = async (productCode) => {
-        await DecreaseProductRequest(productCode);
-        toggleRefreshData();
+    const decrementProductCount = async (productVariantId) => {
+        await DecreaseProductRequest(productVariantId);
+        setRefleshData(!refleshData);
     };
 
-    const deleteItemFromBasket = async (productCode) => {
+    const deleteItemFromBasket = async (productVariantId) => {
         if (!token) return console.error("No token found");
-        await DeleteToBasketRequest(productCode);
+        await DeleteToBasketRequest(productVariantId);
+        setRefleshData(!refleshData);
     };
 
     const fetchBasket = async () => {
         setLoading(true);
         try {
-            const [basketObj] = await Promise.all([
-                FetchBasketRequest(),
-            ]);
-            dispatch(setBasket(basketObj));
+            const basketObj = await FetchBasketRequest();
+            console.log(basketObj)
+
+            const formattedItems = basketObj.data.data.cartItems.map((item) => {
+                const variant = item.product.variants.find(
+                    (v) => v.id === item.productVariantId
+                );
+                const priceWithDiscount =
+                    item.product.price * (1 - item.product.discountRate / 100);
+                return {
+                    id: item.id,
+                    productId: item.product.id,
+                    name: item.product.name,
+                    productCode: item.product.id,
+                    quantity: item.quantity,
+                    size: variant?.size || "-",
+                    priceWithDiscount: priceWithDiscount.toFixed(2),
+                    priceWithOutDiscount: item.product.price.toFixed(2),
+                    discount: item.product.discountRate,
+                    images: item.product.images,
+                    productVariantId: item.productVariantId,
+                };
+            });
+            dispatch(setBasket(formattedItems));
         } catch (error) {
             console.error("Data fetching error:", error);
         } finally {
@@ -50,7 +71,6 @@ const Basket = () => {
 
     useEffect(() => {
         fetchBasket();
-
     }, [refleshData]);
 
     useEffect(() => {
@@ -74,62 +94,67 @@ const Basket = () => {
                     <Loading />
                 ) : cartItems.length === 0 ? (
                     <div
-                        style={{margin: "0"}}
+                        style={{ margin: "0" }}
                         className="d-flex row text-center justify-content-center mt-5"
                     >
                         <h2 className="mt-5">Sepetiniz Boş</h2>
                         <a
                             className="mt-3"
                             href="../urunler/tum-urunler"
-                            style={{fontSize: "24px", color: "#000"}}
+                            style={{ fontSize: "24px", color: "#000" }}
                         >
                             Alışverişe Devam Et
                         </a>
                     </div>
                 ) : (
                     cartItems.map((item) => (
-                        <div className="sepet-card row" key={item.productCode}>
+                        <div className="sepet-card row" key={item.id}>
                             <a
                                 href={`/urunler-detay/${item.productCode}`}
                                 className="col-4 sepet-card-col-1"
                             >
-                                <img
-                                    src={`data:image/jpeg;base64,${item.image.bytes}`}
-                                    className="img-fluid w-100 sepet-resim"
-                                    alt={item.productName}
-                                />
+                                {item.images[0] ? (
+                                    <img
+                                        src={
+                                            item.images[0].imageUrl.startsWith("http")
+                                                ? item.images[0].imageUrl
+                                                : `https://localhost:7050${item.images[0].imageUrl}`
+                                        }
+                                        className="img-fluid w-100 sepet-resim"
+                                        alt={item.name}
+                                    />
+                                ) : (
+                                    <div
+                                        className="img-fluid w-100 sepet-resim"
+                                        style={{
+                                            background: "#f0f0f0",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            height: "150px",
+                                        }}
+                                    >
+                                        Resim Yok
+                                    </div>
+                                )}
                             </a>
                             <div className="col-6 sepet-card-col-2">
-                                <p className="sepet-card-col-2-p-1">
-                                    {item.productName}
-                                </p>
+                                <p className="sepet-card-col-2-p-1">{item.name}</p>
                                 <p className="sepet-card-col-2-urun-kodu">
-                                    Ürün Kodu : {item.productCode}
+                                    Ürün Kodu : {item.id}
                                 </p>
-                                <p className="sepet-card-col-2-beden">
-                                    BEDEN : {item.size}
-                                </p>
+                                <p className="sepet-card-col-2-beden">BEDEN : {item.size}</p>
                                 <div className="updown">
-                                    <button
-                                        onClick={() =>
-                                            decrementProductCount(item.productCode)
-                                        }
-                                    >
+                                    <button onClick={() => decrementProductCount(item.id)}>
                                         -
                                     </button>
                                     <span>{item.quantity}</span>
-                                    <button
-                                        onClick={() =>
-                                            incrementProductCount(item.productCode)
-                                        }
-                                    >
+                                    <button onClick={() => incrementProductCount(item.id)}>
                                         +
                                     </button>
                                 </div>
                                 <div className="sepet-card-col-2-fiyatlar-flex">
-                                    <p className="sepet-card-col-2-p1-fiyat">
-                                        {item.priceWithDiscount}₺
-                                    </p>
+                                    <p className="sepet-card-col-2-p1-fiyat">{item.priceWithDiscount}₺</p>
                                     {item.discount === 0 && (
                                         <p className="sepet-card-col-2-p2-fiyat">
                                             {item.priceWithOutDiscount}₺
@@ -140,7 +165,7 @@ const Basket = () => {
                             <div className="col-2 sepet-card-col-3">
                                 <button
                                     className="sepet-card-col-3-like-btn"
-                                    onClick={() => deleteItemFromBasket(item.productCode)}
+                                    onClick={() => deleteItemFromBasket(item.productVariantId)}
                                 >
                                     <svg
                                         width="30"
@@ -164,7 +189,7 @@ const Basket = () => {
                 )}
             </div>
 
-            {cartItems.length > 0 && ( // Show total price and button only if cart is not empty
+            {cartItems.length > 0 && (
                 <>
                     <div className="toplam-tutar">
                         <p>TOPLAM</p>
