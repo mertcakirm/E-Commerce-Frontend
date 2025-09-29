@@ -68,17 +68,20 @@ const SliderComp = ({loading}) => {
                             href={`/urunler/${category.name}`}
                             className="slick-card"
                         >
-                            <img
-                                src={category.imageUrl && category.imageUrl !== "string"
-                                    ? (category.imageUrl.startsWith("http")
-                                            ? category.imageUrl
-                                            : `https://localhost:7050${category.imageUrl.startsWith("/images/categories") ? category.imageUrl : `/images/categories${category.imageUrl}`}`
-                                    )
-                                    : "https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg"
-                                }
-                                alt={category.name || "Kategori Resmi"}
-                                className="category-image"
-                            />
+                            <div className="d-flex justify-content-center">
+                                <img
+                                    src={category.imageUrl && category.imageUrl !== "string"
+                                        ? (category.imageUrl.startsWith("http")
+                                                ? category.imageUrl
+                                                : `https://localhost:7050${category.imageUrl.startsWith("/images/categories") ? category.imageUrl : `/images/categories${category.imageUrl}`}`
+                                        )
+                                        : "https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg"
+                                    }
+                                    alt={category.name || "Kategori Resmi"}
+                                    className="category-image"
+                                />
+                            </div>
+
                             <p>{category.name}</p>
                         </a>
                     ))

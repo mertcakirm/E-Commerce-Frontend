@@ -29,13 +29,9 @@
 .tab-content2{
     padding: 2% 5%;
     border-radius: 20px;
-    transition: .4s;
-
-}
-
-.tab-content2{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     transition: .4s;
+
 }
 
 #cikis-btn{

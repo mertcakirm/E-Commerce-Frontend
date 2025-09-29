@@ -15,7 +15,7 @@ const CardMainComp = ({loading}) => {
         fetchData();
     }, []);
     return (
-        <div className="container-fluid categori-card-fluid">
+        <div className="container-fluid px-5">
             <div className="row">
 
                 {cartData && cartData.length > 0 ? (

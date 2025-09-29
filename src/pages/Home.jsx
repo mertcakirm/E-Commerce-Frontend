@@ -82,19 +82,23 @@ const Home = () => {
                         setLoading(b);
                     }
                 }} />
-            <CardMainComp
-                loading={(b) => {
-                    if (b === false) {
-                        setLoading(b);
-                    }
-                }} />
+
+            <div className="dif-bg">
+                <CardMainComp
+                    loading={(b) => {
+                        if (b === false) {
+                            setLoading(b);
+                        }
+                    }} />
+            </div>
+
 
             <div className="container logo-container">
                 <div className="row justify-content-center">
                     <a style={{display: 'flex', justifyContent: 'center'}} className="logo-a" href="/">
                         <img
                             src={logo}
-                            className="img-fluid"
+                            className="img-fluid w-25"
                             alt=""
                         />
                     </a>

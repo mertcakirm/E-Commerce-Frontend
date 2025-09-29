@@ -58,7 +58,7 @@ const ProfileInfo = () => {
             </div>
             <div className="col-lg-6 profilim-column">
                 <div>
-                    <button type="button" onClick={cikisyap} id="cikis-btn">Şifremi Güncelle</button>
+                    <button type="button" onClick={()=>setPopup(true)} id="cikis-btn">Şifremi Güncelle</button>
                 </div>
                 <div>
                     <button onClick={() => window.location.href = "../iletisim"} type="button"
@@ -70,7 +70,7 @@ const ProfileInfo = () => {
             <div>
             </div>
 
-            {isPopup ??
+            {isPopup &&
             <ResetPasswordPopup
                 onClose={() => setPopup(false)}
             />

@@ -1,7 +1,6 @@
 #nav-container {
-  background: transparent;
-  padding-top: 20px;
-  position: absolute;
+  background: #ffffff;
+  padding: 5px 30px;
   z-index: 100;
   position: fixed;
 }
@@ -9,91 +8,27 @@
 #nav-col-mid {
   text-align: center;
   font-size: 32px;
-  font-family: 'Open Sans';
   font-weight: 700;
 }
 
-.sidebar-btn {
-  border: 0;
-  background: transparent;
-  width: max-content;
-}
 
-.sidebar {
-  height: 100%;
-  width: 0;
-  position: fixed;
-  z-index: 300;
-  top: 0;
-  left: 0;
-  opacity: 0.9;
-  background-color: #fff;
-  overflow: hidden;
-  transition: 0.5s;
-  padding-top: 120px;
-  box-shadow: 2px 0 5px rgba(0,0,0,0.5);
-  z-index: 60;
-
-}
-
-.sidebar-btns {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-  background: transparent;
-  border: 0;
-}
-
-.sidebar-btns:hover {
-  color: #1d1d1d;
-  transform: scale(1.2);
-}
-
-.sidebar-open {
-  width: 250px;
-}
-
-.sidebar-expanded {
-  width: 450px;
-}
-
-.submenu {
+.basket-number{
   position: absolute;
-  top: 60px;
-  left: 250px;
-  width: 200px;
-  height: 100%;
-  background-color: #fff;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 90px;
-}
-
-.submenu a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 20px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-  font-family: 'Open Sans';
-
-}
-
-.submenu a:hover {
-  transition: 0.3s;
-  transform: scale(1.2);
-  color: #1d1d1d;
+  bottom: 50%;
+  left: 60%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  color: #fff;
+  line-height: 30px;
+  border-radius: 50px;
+  background: red;
 }
 
 #nav-col-mid>a{
   text-decoration: none;
   text-align: center;
   font-size: 32px;
-  font-family: 'Open Sans';
   font-weight: 700;
   color: #000;
 }
@@ -103,7 +38,7 @@
   bottom: 0;
   width: 100%;
   background-color: #fff;
-  display: flex;
+  display: none;
   justify-content: space-around;
   box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
   padding: 10px 0;
@@ -116,7 +51,6 @@
   color: #000;
   border: 0;
   background-color: #fff;
-  font-family: 'Open Sans';
 
 }
 
@@ -127,7 +61,6 @@
   width: 100%;
   height: 100%;
   background-color: #fff;
-  z-index: 2;
   overflow-y: auto;
   transition: 0.5s;
   padding-top: 60px;
@@ -142,7 +75,6 @@
   font-size: 24px;
   background: none;
   border: none;
-  font-family: 'Open Sans';
 
 }
 
@@ -153,7 +85,6 @@
   color: #818181;
   display: block;
   transition: 0.3s;
-  font-family: 'Open Sans';
 
 }
 
@@ -182,7 +113,6 @@
   top: 20px;
   right: 20px;
   font-size: 24px;
-  font-family: 'Open Sans';
   background: none;
   border: none;
 }
@@ -194,20 +124,6 @@
   height: 40px;
 }
 
-.mobile-navbar-name{
-  font-size: 32px;
-  width: 100%;
-  position: fixed;
-  text-align: center;
-  font-family: 'Open Sans';
-  font-weight: 700;
-  color: #000;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  display: none;
-  z-index: 100;
-  text-decoration: none;
-}
 
 .logo2{
   width: 20%;
@@ -243,9 +159,8 @@
   border-radius: 0;
   width: 700px;
   font-size: 24px;
-  font-family: 'Open Sans';
-
 }
+
 .form-control:focus{
   box-shadow: none;
 }
@@ -272,7 +187,6 @@
   text-align: center;
   font-size: 32px;
   font-weight: 700;
-  font-family: 'Open Sans';
   padding-top: 20px;
 
 }
@@ -298,18 +212,13 @@
 .nav-link {
   color: #000;
   font-size: 20px;
-  font-weight: 700;
-  font-family: 'Open Sans';
+  font-weight: 500;
 }
 
-.nav-link:focus, .nav-link:hover {
-  color: #000;
-}
 
 .tab-pane{
   font-size: 16px;
   font-weight: 700;
-  font-family: 'Open Sans';
 }
 
 
@@ -499,39 +408,24 @@
   border-radius: 10px;
 }
 
-.hidden-site-name{
-  opacity: 0;
-  transition: .4s;
-  cursor: unset;
-}
-
 @media only screen and (max-width:767px) {
-  .mobile-navbar-name{
-    display: block;
-    background-color: #fff;
+
+
+  #nav-container {
+    display: none;
+  }
+  .mobile-nav{
+    display: flex;
   }
 
   .search-container .form-control {
     width: 200px;
   }
 
-  .mobile-navbar-name>img{
-    width: 10%;
-  }
 
-  .top-canvas-logo{
-    width: 30%;
-  }
 }
 
 @media only screen and (max-width:500px) {
-  .offcanvas.offcanvas-end {
-    width: 320px;
-  }
-  .mobile-navbar-name>img{
-    width: 20%;
-  }
-}
 
 .basket-number{
   position: absolute;
@@ -544,4 +438,5 @@
   line-height: 30px;
   border-radius: 50px;
   background: red;
+}
 }

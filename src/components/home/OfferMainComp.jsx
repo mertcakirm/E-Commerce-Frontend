@@ -50,16 +50,14 @@ const OfferMainComp = ({loading}) => {
                                     : "https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg"
                                 }
                                 className="d-block w-100 img-fluid"
-                                style={{height: '900px', objectFit: 'cover'}}
+                                style={{height: '800px', objectFit: 'cover'}}
                                 alt={`Slide ${index + 1}`}
                             />
                             <div className="carousel-item-child">
-                                <h5>{slide.parentName}</h5>
-                                <p>{slide.name}</p>
-                                <h5>{slide.subName}</h5>
-                                <a href={`/urunler/${slide.href}`} className="slider-alisverise-basla-btn">
-                                    Alışverişe Başla
-                                </a>
+                                    <a href={`/urunler/${slide.href}`} className="slider-alisverise-basla-btn">
+                                        Alışverişe Başla
+                                    </a>
+
                             </div>
                         </div>
                     ))

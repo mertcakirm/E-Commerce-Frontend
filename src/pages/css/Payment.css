@@ -896,7 +896,7 @@ Credit Card
 @media only screen and (max-width:430px) {
 	.kayitli-adreslerim-card{
 		flex-direction: column;
-		justify-content: baseline;
+		justify-content: start;
 		row-gap: 20px;
 	}
 	.checkout {

@@ -4,88 +4,10 @@ import logo from "../../../assets/mob_logo.png";
 import BasketandFavorite from "./BasketandFav.jsx";
 
 const Navbar = () => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [submenuOpen, setSubmenuOpen] = useState(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
     const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(null);
 
-    const SidebarLinks = [
-        {
-            id: 1,
-            ParentName: "Giyim",
-            ChildMenu: [
-                {name: "Tişört", href: "#"},
-                {name: "Pantolon", href: "#"},
-            ],
-        },
-        {
-            id: 2,
-            ParentName: "Aksesuar",
-            ChildMenu: [
-                {name: "Saat", href: "#"},
-                {name: "Bileklik", href: "#"},
-            ],
-        },
-        {
-            id: 3,
-            ParentName: "Çanta",
-            ChildMenu: [
-                {name: "Sırt Çantası", href: "#"},
-                {name: "El Çantası", href: "#"},
-            ],
-        },
-        {
-            id: 4,
-            ParentName: "Ayakkabı",
-            ChildMenu: [
-                {name: "Spor Ayakkabı", href: "#"},
-                {name: "Bot", href: "#"},
-            ],
-        },
-    ];
-
-    const handleSidebarMouseEnter = () => {
-        setSidebarOpen(true);
-    };
-
-    const handleSidebarMouseLeave = () => {
-        setSidebarOpen(false);
-        setSubmenuOpen(null);
-    };
-
-    const handleCategoryClick = (index) => {
-        setSubmenuOpen(submenuOpen === index ? null : index);
-    };
-
-    const handleResize = () => {
-        setIsMobile(window.innerWidth < 768);
-    };
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const button = document.getElementById("nav-col-mid");
-            const mobilebutton = document.getElementById("mobile-navbar-name-scroll");
-
-            if (button && mobilebutton) {
-                if (window.scrollY > 300) {
-                    button.classList.add("hidden-site-name");
-                    mobilebutton.classList.add("hidden-site-name");
-                } else {
-                    button.classList.remove("hidden-site-name");
-                    mobilebutton.classList.remove("hidden-site-name");
-                }
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
 
     const handleMobileSidebarOpen = () => {
         setMobileSidebarOpen(true);
@@ -96,96 +18,25 @@ const Navbar = () => {
         setMobileSubmenuOpen(null);
     };
 
-    const handleMobileCategoryClick = (index) => {
-        setMobileSubmenuOpen(mobileSubmenuOpen === index ? null : index);
-    };
 
     return (
         <div>
-            <a href="/public" id="mobile-navbar-name-scroll" className="mobile-navbar-name">
-                <img src={logo} className="logo3 img-fluid" alt=""/>
-            </a>
-            <div
-                className={`sidebar ${sidebarOpen ? "sidebar-open" : ""} ${
-                    submenuOpen !== null ? "sidebar-expanded" : ""
-                }`}
-                onMouseEnter={handleSidebarMouseEnter}
-                onMouseLeave={handleSidebarMouseLeave}
-            >
-                <a className="sidebar-btns" href="#">Tüm Ürünler</a>
-                {SidebarLinks.map((link, index) => (
-                    <div key={link.id}>
-                        <button className="sidebar-btns"
-                                onClick={() => handleCategoryClick(index)}>{link.ParentName}</button>
-                        {submenuOpen === index && (
-                            <div
-                                className="submenu"
-                                onMouseEnter={() => setSidebarOpen(true)}
-                                onMouseLeave={handleSidebarMouseLeave}
-                            >
-                                {link.ChildMenu.map((child, childIndex) => (
-                                    <a key={childIndex} href={child.href}>
-                                        {child.name}
-                                    </a>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
-
-            {/* desktop Navigation */}
-            {!isMobile ? (
                 <div className="container-fluid" id="nav-container">
-                    <div className="row">
-                        <div className="col-4">
-                            <button
-                                className="sidebar-btn"
-                                onMouseEnter={handleSidebarMouseEnter}
-                            >
-                                <svg
-                                    width="100"
-                                    height="70"
-                                    viewBox="0 0 200 200"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <line
-                                        x1="10"
-                                        y1="20"
-                                        x2="70"
-                                        y2="20"
-                                        stroke="black"
-                                        strokeWidth="7"
-                                    />
-                                    <line
-                                        x1="10"
-                                        y1="50"
-                                        x2="70"
-                                        y2="50"
-                                        stroke="black"
-                                        strokeWidth="7"
-                                    />
-                                    <line
-                                        x1="10"
-                                        y1="80"
-                                        x2="70"
-                                        y2="80"
-                                        stroke="black"
-                                        strokeWidth="7"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                        <div className="col-4" id="nav-col-mid">
-                            <a href="/">
-                                <img src={logo} className="logo2 img-fluid" alt=""/>
-                            </a>
+                    <div className="d-flex justify-content-between align-items-center">
+
+                        <a href="/">
+                            <img src={logo} className="img-fluid" style={{width: '100px'}} alt=""/>
+                        </a>
+
+                        <div className="d-flex justify-content-center gap-5 align-items-center">
+                            <a href="/urunler/tum-urunler" className="nav-link">Tüm Ürünler</a>
+                            <a href="/" className="nav-link">Erkek</a>
+                            <a href="/" className="nav-link">Kadın</a>
+                            <a href="/" className="nav-link">Çocuk</a>
+                            <a href="/" className="nav-link">Kategoriler</a>
                         </div>
 
-                        <div
-                            className="col-4 d-flex justify-content-end"
-                            style={{paddingRight: "50px"}}
-                        >
+                        <div className="d-flex justify-content-end  align-items-center">
                             <button
                                 className="btnsearch"
                                 type="button"
@@ -231,7 +82,7 @@ const Navbar = () => {
 
                             </button>
 
-                            <a href="/profilim" style={{paddingTop: "5px"}}>
+                            <a href="/profilim">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="50"
@@ -245,13 +96,15 @@ const Navbar = () => {
                         </div>
                     </div>
                 </div>
-            ) : (
+
+
+
                 <div className="mobile-nav">
-                    <a href="/public" className="mobile-nav-item">
+                    <a href="/" className="mobile-nav-item">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="30"
-                            height="45"
+                            height="30"
                             viewBox="0 0 24 24"
                         >
                             <path
@@ -269,7 +122,7 @@ const Navbar = () => {
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                             width="30"
-                            height="25"
+                            height="30"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="2"
@@ -282,38 +135,9 @@ const Navbar = () => {
                     </button>
 
                     <button className="mobile-nav-item" onClick={handleMobileSidebarOpen}>
-                        <svg
-                            width="45"
-                            height="25"
-                            viewBox="20 0 100 100"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <line
-                                x1="10"
-                                y1="20"
-                                x2="120"
-                                y2="20"
-                                stroke="black"
-                                strokeWidth="7"
-                            />
-                            <line
-                                x1="10"
-                                y1="50"
-                                x2="120"
-                                y2="50"
-                                stroke="black"
-                                strokeWidth="7"
-                            />
-                            <line
-                                x1="10"
-                                y1="80"
-                                x2="120"
-                                y2="80"
-                                stroke="black"
-                                strokeWidth="7"
-                            />
-                        </svg>
+                        <svg width="30" height="30" clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m21 17.75c0-.414-.336-.75-.75-.75h-16.5c-.414 0-.75.336-.75.75s.336.75.75.75h16.5c.414 0 .75-.336.75-.75zm0-4c0-.414-.336-.75-.75-.75h-16.5c-.414 0-.75.336-.75.75s.336.75.75.75h16.5c.414 0 .75-.336.75-.75zm0-4c0-.414-.336-.75-.75-.75h-16.5c-.414 0-.75.336-.75.75s.336.75.75.75h16.5c.414 0 .75-.336.75-.75zm0-4c0-.414-.336-.75-.75-.75h-16.5c-.414 0-.75.336-.75.75s.336.75.75.75h16.5c.414 0 .75-.336.75-.75z" fillRule="nonzero"/></svg>
                     </button>
+
                     <div className="mobile-nav-item" style={{position: 'relative'}}>
                         <button
                             className="btn "
@@ -348,38 +172,13 @@ const Navbar = () => {
                         </svg>
                     </a>
                 </div>
-            )}
 
-            {/* Mobile Sidebar */}
             {mobileSidebarOpen && (
                 <div className="mobile-sidebar">
                     <button className="close-btn" onClick={handleMobileSidebarClose}>
                         X
                     </button>
-                    <a className="mobile-sidebar-btns" href="#">Tüm Ürünler</a>
-                    {SidebarLinks.map((link, index) => (
-                        <div key={link.id}>
-                            <a href="#" className="mobile-sidebar-btns"
-                               onClick={() => handleMobileCategoryClick(index)}>
-                                {link.ParentName}
-                            </a>
-                            {mobileSubmenuOpen === index && (
-                                <div className="mobile-submenu">
-                                    <button
-                                        className="close-btn"
-                                        onClick={() => setMobileSubmenuOpen(null)}
-                                    >
-                                        X
-                                    </button>
-                                    {link.ChildMenu.map((child, childIndex) => (
-                                        <a className="mobile-sidebar-btns" key={childIndex} href={child.href}>
-                                            {child.name}
-                                        </a>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    ))}
+
                 </div>
             )}
 
