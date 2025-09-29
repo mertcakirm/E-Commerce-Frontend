@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import {
     DecreaseProductRequest,
-    DeleteToBasketRequest,
     FetchBasketRequest,
-    IncreaseProductRequest,
+    IncreaseProductRequest, ResetToBasketRequest,
 } from "../../../API/ProductApi.js";
 import { setBasket } from "../../../store/basketSlice.js";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,9 +28,9 @@ const Basket = () => {
         setRefleshData(!refleshData);
     };
 
-    const deleteItemFromBasket = async (productVariantId) => {
+    const ResetBasket = async () => {
         if (!token) return console.error("No token found");
-        await DeleteToBasketRequest(productVariantId);
+        await ResetToBasketRequest();
         setRefleshData(!refleshData);
     };
 
@@ -165,7 +164,7 @@ const Basket = () => {
                             <div className="col-2 sepet-card-col-3">
                                 <button
                                     className="sepet-card-col-3-like-btn"
-                                    onClick={() => deleteItemFromBasket(item.productVariantId)}
+                                    onClick={() => ResetBasket()}
                                 >
                                     <svg
                                         width="30"

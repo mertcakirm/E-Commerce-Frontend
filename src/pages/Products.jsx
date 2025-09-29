@@ -141,20 +141,6 @@ const Products = () => {
                                 <line y1="49.5" x2="51" y2="49.5" stroke="black" strokeWidth="3" />
                             </svg>
                         </button>
-
-                        <div className="dropdown">
-                            <button className="dropdown-button" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                                Sırala
-                            </button>
-                            {isDropdownOpen && (
-                                <div className="dropdown-menu">
-                                    <a className="dropdown-item" href="#">Seçenek 1</a>
-                                    <a className="dropdown-item" href="#">Seçenek 2</a>
-                                    <a className="dropdown-item" href="#">Seçenek 3</a>
-                                </div>
-                            )}
-                        </div>
-
                         <button className="btn offcanvas-button" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasRight1" aria-controls="offcanvasRight1">
                             Filtrele
@@ -165,7 +151,7 @@ const Products = () => {
 
                 <div className="row urun-cards-row">
                     {products.map((product, index) => (
-                        <div className={colClass} key={`${product.productCode}-${index}`}>
+                        <div style={{transition:'.4s'}} className={colClass} key={`${product.productCode}-${index}`}>
                             <div className="urun-card">
                                 <a href={`/urunler-detay/${product.productCode}`}>
                                     {product.images?.[0] && (

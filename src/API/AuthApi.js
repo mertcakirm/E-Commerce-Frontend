@@ -1,9 +1,12 @@
 import api from "./api.js";
+import {setCookie} from "../components/cookie/cookie.js";
 
 export const RegisterRequest =async (registerDTO)=>{
-    await api.post("/auth/register",registerDTO)
+    await api.post("Auth/register",registerDTO)
 }
 
 export const LoginRequest =async (loginDTO)=>{
-    await api.post(`/auth/login`,loginDTO)
+    const logindata = await api.post(`Auth/login`,loginDTO)
+    setCookie("token",logindata.data,7);
+    return logindata;
 }

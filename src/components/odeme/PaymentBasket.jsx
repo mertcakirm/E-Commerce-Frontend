@@ -4,9 +4,8 @@ import "../../pages/css/Payment.css";
 import BasketSummary from "./BasketSummary.jsx";
 import {
     DecreaseProductRequest,
-    DeleteToBasketRequest,
     FetchBasketRequest,
-    IncreaseProductRequest
+    IncreaseProductRequest, ResetToBasketRequest
 } from "../../API/ProductApi.js";
 
 const PaymentBasket = () => {
@@ -32,7 +31,7 @@ const PaymentBasket = () => {
 
     const deleteItemFromBasket = async (productCode) => {
         try {
-            await DeleteToBasketRequest(productCode);
+            await ResetToBasketRequest(productCode);
             const updatedItems = cartItems.filter(item => item.productCode !== productCode);
             setCartItems(updatedItems);
 

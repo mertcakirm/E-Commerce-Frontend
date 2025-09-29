@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/other/navbar/navbar.jsx";
 import "./css/Login.css";
 import { Helmet } from "react-helmet";
-import { useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";
 import {LoginRequest, RegisterRequest} from "../API/AuthApi.js";
 
@@ -15,24 +14,21 @@ const Login = () => {
     password: "",
     confirmPassword: "",
     consent: false,
+    kvkk: false,
   });
   const [loginData, setLoginData] = useState({
     email: "",
-    password: "",
+    passwordLogin: "",
   });
-  const navigate = useNavigate();
   const [isLoginForm, setIsLoginForm] = useState(true);
 
   useEffect(() => {
     window.$("#phone").mask("0 (999) 999-9999");
-    window.$("#email").on("input", function () {
+    window.$("#registerEmail").on("input", function () {
       const pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-      if (!pattern.test(this.value)) {
-        this.setCustomValidity("Geçerli bir e-posta adresi girin.");
-        toast.error("Geçerli bir e-posta adresi girin.")
-      } else {
-        this.setCustomValidity("");
-      }
+      this.setCustomValidity(
+          !pattern.test(this.value) ? "Geçerli bir e-posta adresi girin." : ""
+      );
     });
   }, []);
 
@@ -52,7 +48,12 @@ const Login = () => {
     });
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
+    if (!formData.kvkk) {
+      toast.error("KVKK şartlarını kabul etmelisiniz!");
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       toast.error("Parolalar eşleşmiyor!")
       return;
@@ -60,25 +61,25 @@ const Login = () => {
     const cleanString = (str) => str.replace(/\s+/g, "").replace(/[-()]/g, "");
 
     const registerDTO = {
-      nameSurname: formData.name,
-      phoneNumber: cleanString(formData.phone),
-      email: formData.email,
-      password: formData.password,
-      confirmPassword: formData.confirmPassword,
-      acceptEmails: formData.consent,
+      Username: formData.name,
+      PhoneNumber: cleanString(formData.phone),
+      Email: formData.email,
+      Password: formData.password,
+      ConfirmPassword: formData.confirmPassword,
+      AcceptEmails: formData.consent,
     };
-    RegisterRequest(registerDTO);
+    await RegisterRequest(registerDTO);
   };
 
   const handleLogin = async () => {
     const loginDTO = {
       email: loginData.email,
-      password: loginData.password,
+      password: loginData.passwordLogin,
     };
     try {
-      await LoginRequest(loginDTO, navigate);
+      await LoginRequest(loginDTO);
       toast.success("Giriş başarılı!");
-
+      window.location.href = "/";
     }catch (error) {
       console.log(error);
       toast.error("Giriş yapılamadı.Lütfen bilgilerinizi gözden geçirin!")
@@ -137,12 +138,12 @@ const Login = () => {
                         <input
                             className="form-control"
                             type="password"
-                            placeholder="Leave a comment here"
-                            id="password"
-                            value={loginData.password}
+                            placeholder="Parola"
+                            id="passwordLogin"
+                            value={loginData.passwordLogin}
                             onChange={handleLoginChange}
                         />
-                        <label htmlFor="password">Parola</label>
+                        <label htmlFor="passwordLogin">Parola</label>
                       </div>
 
                       <button
@@ -235,11 +236,11 @@ const Login = () => {
                           <input
                               style={{ marginRight: "5px" }}
                               type="checkbox"
-                              id="consent"
-                              checked={formData.consent}
+                              id="kvkk"
+                              checked={formData.kvkk}
                               onChange={handleChange}
                           />
-                          <label htmlFor="consent">
+                          <label htmlFor="kvkk">
                             KVKK Şartlarını Kabul Ediyorum
                           </label>
                         </div>

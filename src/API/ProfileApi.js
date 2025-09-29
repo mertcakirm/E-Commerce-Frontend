@@ -1,10 +1,9 @@
 import api from "./api.js";
 
-export const UpdateProfileRequest = async (formData)=> {
-    return await api.put(`/user/update`, formData)
+export const ResetPasswordRequest = async (formData)=> {
+    return await api.post(`User/change-password`, formData)
 }
 
 export const GetUserProfileRequest = async () => {
-    const response = await api.get(`/user/profile`)
-    return response;
+    return  await api.get(`User/me`)
 }

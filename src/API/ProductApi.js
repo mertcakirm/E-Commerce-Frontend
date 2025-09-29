@@ -12,18 +12,15 @@ export const FetchProductRequest=async (category,page)=>{
 }
 
 export const FetchLikedProductRequest= async ()=>{
-    const response = await api.get(`/favorite/get`);
-    return response;
+    return  await api.get(`/favorite/get`);
 }
 
 export const FetchProductsByIdRequest=async (productId)=>{
-    const response = await api.get(`/product/get/${productId}`);
-    return response;
+    return  await api.get(`/product/get/${productId}`);
 }
 
 export const FetchBasketRequest= async ()=>{
-    const response = await api.get(`cart`);
-    return response;
+    return  await api.get(`cart`);
 }
 
 export const LikeProductRequest=async (productCode)=>{
@@ -39,8 +36,8 @@ export const AddCommentRequest=async (productCode,commentData)=>{
 
 }
 
-export const DeleteToBasketRequest=async (productCode)=>{
-    return await api.delete(`/basket/delete/${productCode}`);
+export const ResetToBasketRequest=async ()=>{
+    return await api.delete(`Cart`);
 }
 
 export const IncreaseProductRequest=async (productCode)=>{

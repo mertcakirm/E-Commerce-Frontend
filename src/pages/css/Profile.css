@@ -131,7 +131,7 @@ textarea:focus-visible{
     column-gap: 10px;
 }
 .adreslerim-row{
-    justify-content: space-around;    
+    justify-content: space-around;
     row-gap: 20px;
 }
 
