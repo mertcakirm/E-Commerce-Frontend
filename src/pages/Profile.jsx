@@ -86,45 +86,49 @@ const Profile = () => {
                             </ul>
 
                         </div>
-                        <div className="tab-content tab-content2" id="pills-tabContent">
-                            <div
-                                className="tab-pane fade show active"
-                                id="pills-bilgilerim"
-                                role="tabpanel"
-                                aria-labelledby="pills-bilgilerim-tab"
-                                tabIndex="0"
-                            >
-                                <ProfileInfo/>
 
-                            </div>
-                            <div
-                                className="tab-pane fade row"
-                                id="pills-adreslerim"
-                                role="tabpanel"
-                                aria-labelledby="pills-adreslerim-tab"
-                                tabIndex="0"
-                            >
-                                <ProfileAdresses/>
+                        <div className="d-flex justify-content-center">
+                            <div className="tab-content p-2 tab-content2" id="pills-tabContent">
+                                <div
+                                    className="tab-pane fade show active"
+                                    id="pills-bilgilerim"
+                                    role="tabpanel"
+                                    aria-labelledby="pills-bilgilerim-tab"
+                                    tabIndex="0"
+                                >
+                                    <ProfileInfo/>
 
+                                </div>
+                                <div
+                                    className="tab-pane fade row"
+                                    id="pills-adreslerim"
+                                    role="tabpanel"
+                                    aria-labelledby="pills-adreslerim-tab"
+                                    tabIndex="0"
+                                >
+                                    <ProfileAdresses/>
+
+                                </div>
+                                <div
+                                    className="tab-pane fade"
+                                    id="pills-kampanyalarim"
+                                    role="tabpanel"
+                                    aria-labelledby="pills-kampanyalarim-tab"
+                                    tabIndex="0"
+                                >
+                                    <ProfileOffer/>
+                                </div>
+                                <div
+                                    className="tab-pane fade"
+                                    id="pills-siparislerim"
+                                    role="tabpanel"
+                                    aria-labelledby="pills-siparislerim-tab"
+                                    tabIndex="0"
+                                >
+                                    <ProfileOrders/>
+                                </div>
                             </div>
-                            <div
-                                className="tab-pane fade"
-                                id="pills-kampanyalarim"
-                                role="tabpanel"
-                                aria-labelledby="pills-kampanyalarim-tab"
-                                tabIndex="0"
-                            >
-                                <ProfileOffer/>
-                            </div>
-                            <div
-                                className="tab-pane fade"
-                                id="pills-siparislerim"
-                                role="tabpanel"
-                                aria-labelledby="pills-siparislerim-tab"
-                                tabIndex="0"
-                            >
-                                <ProfileOrders/>
-                            </div>
+
                         </div>
                     </div>
                 </div>

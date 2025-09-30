@@ -82,7 +82,7 @@ const SliderComp = ({loading}) => {
                                 />
                             </div>
 
-                            <p>{category.name}</p>
+                            <p className="fs-5">{category.name}</p>
                         </a>
                     ))
                 ) : (

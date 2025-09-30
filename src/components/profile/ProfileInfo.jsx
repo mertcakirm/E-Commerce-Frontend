@@ -10,7 +10,7 @@ const ProfileInfo = () => {
 
     const cikisyap = () => {
         deleteCookie("token");
-        window.location.href=('/girisyap');
+        window.location.href = ('/girisyap');
     };
 
     const getProfile = async () => {
@@ -18,7 +18,7 @@ const ProfileInfo = () => {
             const response = await GetUserProfileRequest();
             console.log(response.data)
             setUserData(response.data)
-        }catch (error) {
+        } catch (error) {
             console.log(error);
         }
     };
@@ -30,50 +30,45 @@ const ProfileInfo = () => {
     return (
 
         <div className="row">
-            <div className="col-12 text-center profil-pills-content-baslik">
-                BİLGİLERİM
-            </div>
-            <div className="col-lg-6 profilim-column">
-                <div className="row">
-                    <div className="col-lg-4">
-                        <label htmlFor="bilgilerim-isim">Ad Soyad</label>
+
+            <div className="col-12 d-flex flex-column gap-4">
+                <div className="col-12 text-center fs-3">
+                    BİLGİLERİM
+                </div>
+                <div className="d-flex gap-3 w-100 justify-content-center">
+                    <label htmlFor="bilgilerim-isim">Ad Soyad</label>
+                    <div>{userData.name}</div>
+                </div>
+                <div className="d-flex gap-3 w-100 justify-content-center">
+
+                    <label htmlFor="bilgilerim-tel">Telefon Numaranız</label>
+                    <div>{userData.name}</div>
+                </div>
+                <div className="d-flex gap-3 w-100 justify-content-center">
+
+                    <label htmlFor="bilgilerim-tel">Mail Adresiniz</label>
+                    <div>{userData.email}</div>
+                </div>
+
+                <div className="d-flex flex-column gap-1">
+                    <div className="d-flex justify-content-center gap-2">
+                        <button className="py-2 w-100" type="button" onClick={() => setPopup(true)} id="cikis-btn">Şifremi Güncelle</button>
+                        <button className="py-2 w-100" onClick={() => window.location.href = "../iletisim"} type="button" id="uyeligi-sil-btn">Üyeliğimi Sil</button>
                     </div>
-                    <div className="col-lg-8">{userData.name}</div>
+
+                    <button className="py-3 mt-1 w-100 text-black fw-bold" type="button" style={{background:'#f5f5f5'}} onClick={cikisyap} id="cikis-btn">Çıkış Yap</button>
+
                 </div>
-                <div className="row">
-                    <div className="col-lg-4">
-                        <label htmlFor="bilgilerim-tel">Telefon Numaranız</label>
-                    </div>
-                    <div className="col-lg-8">{userData.name}</div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-4">
-                        <label htmlFor="bilgilerim-tel">Mail Adresiniz</label>
-                    </div>
-                    <div className="col-lg-8">{userData.email}</div>
-                </div>
-                <div>
-                    <button type="button" onClick={cikisyap} id="cikis-btn">Çıkış Yap</button>
-                </div>
-            </div>
-            <div className="col-lg-6 profilim-column">
-                <div>
-                    <button type="button" onClick={()=>setPopup(true)} id="cikis-btn">Şifremi Güncelle</button>
-                </div>
-                <div>
-                    <button onClick={() => window.location.href = "../iletisim"} type="button"
-                            id="uyeligi-sil-btn">Üyeliğimi Sil
-                    </button>
-                </div>
+
             </div>
 
             <div>
             </div>
 
             {isPopup &&
-            <ResetPasswordPopup
-                onClose={() => setPopup(false)}
-            />
+                <ResetPasswordPopup
+                    onClose={() => setPopup(false)}
+                />
             }
 
         </div>

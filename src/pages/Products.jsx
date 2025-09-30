@@ -14,7 +14,7 @@ import {
 } from "../API/ProductApi.js";
 
 const Products = () => {
-    const [colClass, setColClass] = useState("col-lg-4");
+    const [colClass, setColClass] = useState("col-lg-3");
     const [products, setProducts] = useState([]);
     const [selectedSize, setSelectedSize] = useState(null);
     const [loading, setLoading] = useState(false);
