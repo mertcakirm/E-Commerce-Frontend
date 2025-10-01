@@ -45,6 +45,15 @@
   z-index: 110;
 }
 
+.mobile-logo{
+  position: fixed;
+  top: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 110;
+}
+
 .mobile-nav-item {
   text-decoration: none;
   font-size: 20px;
@@ -415,6 +424,10 @@
     display: none;
   }
   .mobile-nav{
+    display: flex;
+  }
+
+  .mobile-logo{
     display: flex;
   }
 

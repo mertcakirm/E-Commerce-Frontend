@@ -1,13 +1,12 @@
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 import "../css/navbar.css";
 import logo from "../../../assets/mob_logo.png";
 import BasketandFavorite from "./BasketandFav.jsx";
 
 const Navbar = () => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
-    const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(null);
-
+    const [lastScrollY, setLastScrollY] = useState(0);
+    const [showNavbar, setShowNavbar] = useState(true);
 
     const handleMobileSidebarOpen = () => {
         setMobileSidebarOpen(true);
@@ -15,13 +14,34 @@ const Navbar = () => {
 
     const handleMobileSidebarClose = () => {
         setMobileSidebarOpen(false);
-        setMobileSubmenuOpen(null);
     };
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY;
+
+            if (currentScrollY > lastScrollY && currentScrollY > 50) {
+                setShowNavbar(false);
+            } else {
+                setShowNavbar(true);
+            }
+
+            setLastScrollY(currentScrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [lastScrollY]);
 
 
     return (
         <div>
-                <div className="container-fluid" id="nav-container">
+
+                <div className="container-fluid" id="nav-container" style={{
+                    transform: showNavbar ? "translateY(0)" : "translateY(-100%)",
+                    transition: "transform 0.6s ease-in-out",
+                }}>
                     <div className="d-flex justify-content-between align-items-center">
 
                         <a href="/">
@@ -99,7 +119,21 @@ const Navbar = () => {
 
 
 
-                <div className="mobile-nav">
+                    <div className="w-100 bg-transparent mobile-logo" style={{
+                        transform: showNavbar ? "translateY(0)" : "translateY(-100%)",
+                        transition: "transform 0.6s ease-in-out",
+                    }}>
+                        <a href="/">
+                            <img src={logo} className="img-fluid" style={{width: '100px'}} alt=""/>
+                        </a>
+                    </div>
+
+
+
+                <div className="mobile-nav" style={{
+                    transform: showNavbar ? "translateY(0)" : "translateY(100%)",
+                    transition: "transform 0.6s ease-in-out",
+                }}>
                     <a href="/" className="mobile-nav-item">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
