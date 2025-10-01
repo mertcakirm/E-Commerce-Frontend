@@ -51,7 +51,6 @@ const SliderComp = ({loading}) => {
     };
     const fetchData = async () => {
         const categoriesData = await FetchCategoriesRequest();
-        console.log(categoriesData);
         setCategories(categoriesData.data);
     };
 

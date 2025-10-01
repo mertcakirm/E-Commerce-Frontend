@@ -64,12 +64,24 @@ const Favorite = () => {
 
     return (
         <div
-            className="tab-pane fade"
-            id="pills-profile"
-            role="tabpanel"
-            aria-labelledby="pills-profile-tab"
-            tabIndex="0"
+            className="offcanvas offcanvas-end"
+            tabIndex="-1"
+            id="offcanvasRightFav"
+            aria-labelledby="offcanvasRightLabel"
         >
+            <div className="offcanvas-header">
+                <p className="fs-3 m-0 ">
+                    Favorileriniz
+                </p>
+                <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div className="offcanvas-body ofcanvas-body-sepet">
+
             <div className="favorilerim-canvas-flex">
                 <div>
                     {loading ? (
@@ -182,6 +194,7 @@ const Favorite = () => {
                         )
                     )}
                 </div>
+            </div>
             </div>
         </div>
     );

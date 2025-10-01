@@ -71,25 +71,26 @@ const Home = () => {
                 </button>
             )}
 
-            <OfferMainComp loading={(b) => {
-                if (b === false) {
-                    setLoading(b);
-                }
-            }} />
-            <SliderComp
-                loading={(b) => {
+                <OfferMainComp loading={(b) => {
                     if (b === false) {
                         setLoading(b);
                     }
                 }} />
-
-            <div className="dif-bg">
-                <CardMainComp
+                <SliderComp
                     loading={(b) => {
                         if (b === false) {
                             setLoading(b);
                         }
                     }} />
+
+                <div className="dif-bg">
+                    <CardMainComp
+                        loading={(b) => {
+                            if (b === false) {
+                                setLoading(b);
+                            }
+                        }} />
+
             </div>
 
 
