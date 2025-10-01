@@ -3,8 +3,17 @@
     margin-bottom: 100px;
 }
 
+.pag-btn{
+  border: 1px solid #000000;
+  border-radius: 5px;
+  background: #888888;
+  font-weight: bold;
+}
 
-
+.pag-btn:hover{
+  background: transparent;
+  border: 1px solid #000000;
+}
 
 .urun-detay-col-sol{
     padding:0% 2%;
@@ -26,6 +35,7 @@
 
 .selected-size{
   background-color: rgb(97, 97, 97)!important;
+  color: #fff!important;
 }
 
 .carousel-container {

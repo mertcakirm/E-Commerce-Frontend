@@ -15,8 +15,12 @@ export const FetchLikedProductRequest= async ()=>{
     return  await api.get(`/favorite/get`);
 }
 
+export const GetProductCommentsRequest=async (id,pageNum)=>{
+    return await  api.get(`Comment/product/${id}?pageNumber=${pageNum}&pageSize=5`);
+}
+
 export const FetchProductsByIdRequest=async (productId)=>{
-    return  await api.get(`/product/get/${productId}`);
+    return  await api.get(`Products/${productId}`);
 }
 
 export const FetchBasketRequest= async ()=>{
@@ -27,12 +31,18 @@ export const LikeProductRequest=async (productCode)=>{
     return await api.post("/favorite/add",productCode)
 }
 
-export const AddToBasketRequest=async (productCode,variantId)=>{
-    return await api.post(`/Cart/add??productId=${productCode}&productVariantId=${variantId}`)
+export const AddToBasketRequest=async (variantId)=>{
+    return await api.post(`/Cart/add?productVariantId=${variantId}`)
 }
 
-export const AddCommentRequest=async (productCode,commentData)=>{
-    return await api.post(`/comment/add/${productCode}`,commentData)
+export const AddCommentRequest=async (productCode,newComment)=>{
+    const commentDto = {
+        productId: productCode,
+        commentText: newComment.comment,
+        rating: newComment.rating
+
+    }
+    return await api.post(`Comment`,commentDto)
 
 }
 

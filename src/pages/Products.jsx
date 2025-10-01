@@ -7,11 +7,7 @@ import FilterProduct from "../components/other/FilterProduct.jsx";
 import { getCookie } from "../components/cookie/cookie";
 import LoadingComponent from "../components/other/Loading.jsx";
 import { toast } from "react-toastify";
-import {
-    AddToBasketRequest,
-    FetchProductRequest,
-    LikeProductRequest,
-} from "../API/ProductApi.js";
+import { AddToBasketRequest, FetchProductRequest, LikeProductRequest} from "../API/ProductApi.js";
 
 const Products = () => {
     const [colClass, setColClass] = useState("col-lg-3");
@@ -20,7 +16,6 @@ const Products = () => {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const location = useLocation();
     const currentCategory = location.pathname.split("/").pop();
     const token = getCookie("token");
@@ -65,13 +60,13 @@ const Products = () => {
         }
     };
 
-    const handleAddToBasket = async (productCode) => {
+    const handleAddToBasket = async () => {
         if (!token) {
             window.location.href = "/girisyap";
             return;
         }
         try {
-            await AddToBasketRequest(productCode, selectedSize);
+            await AddToBasketRequest(selectedSize);
             toast.success("Ürün sepete eklendi!");
         } catch {
             toast.error("Ürün sepete eklenemedi!");
@@ -151,9 +146,9 @@ const Products = () => {
 
                 <div className="row urun-cards-row">
                     {products.map((product, index) => (
-                        <div style={{transition:'.4s'}} className={colClass} key={`${product.productCode}-${index}`}>
+                        <div style={{transition:'.4s'}} className={colClass} key={`${product.id}-${index}`}>
                             <div className="urun-card">
-                                <a href={`/urunler-detay/${product.productCode}`}>
+                                <a href={`/urunler-detay/${product.id}`}>
                                     {product.images?.[0] && (
                                         <img
                                             className="img-fluid w-100 urun-img2"
@@ -181,9 +176,7 @@ const Products = () => {
 
                                 <div className="urun-card-content-bottom">
                                     <button className="urunler-card-content-bottom-add-btn"
-                                            onClick={() =>
-                                                handleAddToBasket(product.id)
-                                            }>
+                                            onClick={handleAddToBasket}>
                                         +
                                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="24" viewBox="0 0 24 24" fill="white">
                                             <path d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z" />
