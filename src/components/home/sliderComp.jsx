@@ -60,6 +60,7 @@ const SliderComp = ({loading}) => {
     }, []);
     return (
         <div className="container-fluid" id="urunler-fluid">
+            <p className="text-center fs-1 fw-bold mt-4">Popüler Kategoriler</p>
             <Slider {...settings}>
                 {categories && categories.length > 0 ? (
                     categories.map((category) => (

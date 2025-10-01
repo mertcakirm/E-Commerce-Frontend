@@ -50,7 +50,6 @@
 }
 
 .slider-alisverise-basla-btn{
-    padding: 10px 30px;
     border: 2px solid #ffffff;
     text-align: center;
     color: #ffffff;
@@ -58,6 +57,8 @@
     border-radius: 15px;
     transition: .4s;
     font-size: 24px;
+    width: fit-content;
+
 }
 
 .slider-alisverise-basla-btn:hover{
@@ -232,13 +233,6 @@
     }
 
     .slider-alisverise-basla-btn{
-        width: 35%;
-        height: 50px;
-        line-height: 50px;
-        color: #000;
-        text-decoration: none;
-        border-radius: 15px;
-        transition: .4s;
         font-size: 16px;
     }
     .carousel-item>img{
@@ -251,7 +245,6 @@
 }
 
 
-
 @media only screen and (max-width:767px) {
 
     .carousel-item-child>p{
@@ -259,16 +252,6 @@
         font-weight: 600;
     }
 
-    .slider-alisverise-basla-btn{
-        width: 35%;
-        height: 50px;
-        line-height: 50px;
-        color: #000;
-        text-decoration: none;
-        border-radius: 15px;
-        transition: .4s;
-        font-size: 16px;
-    }
     .carousel-item>img{
         height: 700px;
         object-fit: cover;
@@ -308,10 +291,6 @@
 
 
 @media only screen and (max-width:460px) {
-
-    .slider-alisverise-basla-btn{
-        width: 60%;
-    }
 
     .categori-baslik{
         font-size: 32px;

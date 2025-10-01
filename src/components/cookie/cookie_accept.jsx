@@ -1,33 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './CookieConsent.css';
 import { setCookie, getCookie } from './cookie.js';
 
 const CookieConsent = () => {
-    const [isAccepted, setIsAccepted] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
 
     useEffect(() => {
         const cookieConsent = getCookie('cookieConsent');
         const cookieDecline = getCookie('cookieDecline');
 
-        if (cookieConsent) {
-            setIsAccepted(true);
-        }
-        if (cookieDecline) {
-            setIsAccepted(false);
+        if (cookieConsent || cookieDecline) {
+            setIsVisible(false);
         }
     }, []);
 
     const handleAccept = () => {
         setCookie('cookieConsent', 'true', 365);
-        setIsAccepted(true);
+        setIsVisible(false);
     };
 
     const handleDecline = () => {
         setCookie('cookieDecline', 'true', 365);
-        setIsAccepted(false)
+        setIsVisible(false);
     };
 
-    if (isAccepted) {
+    if (!isVisible) {
         return null;
     }
 

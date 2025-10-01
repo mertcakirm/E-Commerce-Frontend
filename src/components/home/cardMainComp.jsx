@@ -3,17 +3,16 @@ import {FetchCartDataRequest} from "../../API/HomeApi.js";
 
 const CardMainComp = ({loading}) => {
     const [cartData, setCartData] = useState([]);
-    const [loadingState, setLoadingState] = useState(false);
 
     const fetchData = async () => {
         const cartData = await FetchCartDataRequest();
         setCartData(cartData.data.data);
-        setLoadingState(false);
     };
 
     useEffect(() => {
         fetchData();
     }, []);
+
     return (
         <div className="container-fluid px-5">
             <div className="row">
@@ -43,7 +42,7 @@ const CardMainComp = ({loading}) => {
 
                         return (
                             <div key={item.id || index} className={`col-lg-${width}`}>
-                                <a href={`/urunler/${item.category}`}>
+                                <a href={`/urunler/${item.href}`}>
                                     <div className="categori-card">
                                         <img
                                             src={item.imageUrl && item.imageUrl !== "string"
