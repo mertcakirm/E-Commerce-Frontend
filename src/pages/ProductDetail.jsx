@@ -193,9 +193,14 @@ const ProductDetail = () => {
                                     </svg>
                                 </div>
                                 <div className="urun-detay-fiyat-flex">
-                                    <p className="p1-fiyat">{product.price}₺</p>
-                                    {product.discountRate && (
-                                        <div className="urun-indirim">{product.discountRate}% İNDİRİM</div>
+                                    <p className="p1-fiyat">{product.priceWithDiscount}₺</p>
+                                    {product.discountRate > 0 && (
+                                        <div className="d-flex align-items-center gap-3">
+                                            <p className="p2-fiyat">{product.price}₺</p>
+
+                                            <div className="urun-indirim">{product.discountRate}% İNDİRİM</div>
+                                        </div>
+
                                     )}
                                 </div>
 
@@ -205,7 +210,9 @@ const ProductDetail = () => {
                                         {sizes.map((variant) => (
                                             <button
                                                 key={variant.id}
-                                                onClick={() => setSelectedSize(variant.id)}
+                                                onClick={() =>
+                                                    setSelectedSize((prev) => (prev === variant.id ? null : variant.id))
+                                                }
                                                 className={selectedSize === variant.id ? "selected-size" : ""}
                                             >
                                                 {variant.size}
@@ -228,8 +235,8 @@ const ProductDetail = () => {
                                         <svg
                                             clipRule="evenodd"
                                             width="50"
-                                            height="24"
-                                            fill={product.favorite ? "red" : "black"}
+                                            height="30"
+                                            fill="white"
                                             fillRule="evenodd"
                                             strokeLinejoin="round"
                                             strokeMiterlimit="2"

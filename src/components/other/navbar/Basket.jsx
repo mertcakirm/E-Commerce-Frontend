@@ -163,11 +163,11 @@ const Basket = () => {
                                         </button>
                                     </div>
                                     <div className="sepet-card-col-2-fiyatlar-flex">
-                                        <p className="sepet-card-col-2-p1-fiyat">
+                                        <p className="sepet-card-col-2-p1-fiyat fw-bold">
                                             {item.priceWithDiscount}₺
                                         </p>
                                         {item.discount > 0 && (
-                                            <p className="sepet-card-col-2-p2-fiyat">
+                                            <p className="sepet-card-col-2-p2-fiyat fw-bold">
                                                 {item.priceWithOutDiscount}₺
                                             </p>
                                         )}
