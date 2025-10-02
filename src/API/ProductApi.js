@@ -1,4 +1,6 @@
 import api from "./api.js";
+import {getCookie} from "../components/cookie/cookie.js";
+const token = getCookie("token");
 
 export const FetchProductRequest=async (category,page)=>{
     console.log(category)
@@ -12,7 +14,11 @@ export const FetchProductRequest=async (category,page)=>{
 }
 
 export const FetchLikedProductRequest= async ()=>{
-    return  await api.get(`/favorite/get`);
+    return  await api.get(`Wishlist`, {
+        headers: {
+            Authorization: `Bearer ${token.token}`,
+        },
+    });
 }
 
 export const GetProductCommentsRequest=async (id,pageNum)=>{
@@ -28,7 +34,7 @@ export const FetchBasketRequest= async ()=>{
 }
 
 export const LikeProductRequest=async (productCode)=>{
-    return await api.post("/favorite/add",productCode)
+    return await api.post(`Wishlist/${productCode}`)
 }
 
 export const AddToBasketRequest=async (variantId)=>{
@@ -40,7 +46,6 @@ export const AddCommentRequest=async (productCode,newComment)=>{
         productId: productCode,
         commentText: newComment.comment,
         rating: newComment.rating
-
     }
     return await api.post(`Comment`,commentDto)
 
@@ -51,9 +56,9 @@ export const ResetToBasketRequest=async ()=>{
 }
 
 export const IncreaseProductRequest=async (productCode)=>{
-    return await api.put(`Cart/increase?productId=${productCode}`);
+    return await api.put(`Cart/increase?variantId=${productCode}`);
 }
 
 export const DecreaseProductRequest=async (productCode)=>{
-    return await api.put(`Cart/decrease?productId=${productCode}`);
+    return await api.put(`Cart/decrease?variantId=${productCode}`);
 }

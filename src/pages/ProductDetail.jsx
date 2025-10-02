@@ -14,9 +14,13 @@ import {
 } from "../API/ProductApi.js";
 import LoadingComponent from "../components/other/Loading.jsx";
 import ProductComments from "../components/other/ProductComments.jsx";
+import {toggleRefresh} from "../store/basketSlice.js";
+import {useDispatch} from "react-redux";
+import {toggleRefreshFav} from "../store/favoriteSlice.js";
 
 const ProductDetail = () => {
     const [activeIndex, setActiveIndex] = useState(0);
+    const dispatch = useDispatch();
     const [product, setProduct] = useState(null);
     const [selectedSize, setSelectedSize] = useState(null);
 
@@ -54,6 +58,7 @@ const ProductDetail = () => {
         try {
             await LikeProductRequest(productId);
             toast.success('Ürün favoriye eklendi!');
+            dispatch(toggleRefreshFav());
         } catch (error) {
             console.log(error);
             toast.error('Ürün favoriye eklenemedi!');
@@ -76,6 +81,7 @@ const ProductDetail = () => {
         try {
             await AddToBasketRequest(selectedSize);
             toast.success("Ürün sepete eklendi!");
+            dispatch(toggleRefresh());
         } catch (error) {
             toast.error("Ürün sepete eklenemedi!");
         }
@@ -174,7 +180,18 @@ const ProductDetail = () => {
                             <div className="urun-detay-col-sag">
                                 <p className="urun-baslik">{product.name}</p>
                                 <p className="urun-code">Ürün Kodu: {product.id}</p>
+                                <div className="d-flex align-items-center">
+                                    <p className="urun-code fs-4 fw-bold">{Number(product.averageRating).toFixed(0)}/10 </p>
 
+                                    <svg width="24" height="24" fill="orange"
+                                         clipRule="evenodd" fillRule="evenodd"
+                                         strokeLinejoin="round" strokeMiterlimit="2"
+                                         viewBox="0 0 24 24"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="m11.322 2.923c.126-.259.39-.423.678-.423.289 0 .552.164.678.423.974 1.998 2.65 5.44 2.65 5.44s3.811.524 6.022.829c.403.055.65.396.65.747 0 .19-.072.383-.231.536-1.61 1.538-4.382 4.191-4.382 4.191s.677 3.767 1.069 5.952c.083.462-.275.882-.742.882-.122 0-.244-.029-.355-.089-1.968-1.048-5.359-2.851-5.359-2.851s-3.391 1.803-5.359 2.851c-.111.06-.234.089-.356.089-.465 0-.825-.421-.741-.882.393-2.185 1.07-5.952 1.07-5.952s-2.773-2.653-4.382-4.191c-.16-.153-.232-.346-.232-.535 0-.352.249-.694.651-.748 2.211-.305 6.021-.829 6.021-.829s1.677-3.442 2.65-5.44z"
+                                              fillRule="nonzero" />
+                                    </svg>
+                                </div>
                                 <div className="urun-detay-fiyat-flex">
                                     <p className="p1-fiyat">{product.price}₺</p>
                                     {product.discountRate && (

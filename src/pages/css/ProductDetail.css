@@ -1,5 +1,5 @@
 .urun-detay-container{
-    padding-top: 100px;
+    padding-top: 200px;
     margin-bottom: 100px;
 }
 
@@ -305,6 +305,12 @@
 }
 
 @media only screen and (max-width:991px) {
+
+  .urun-detay-container{
+    padding-top: 100px;
+    margin-bottom: 100px;
+  }
+
   .urun-detay-col-sag{
     padding: 3% 2%;
     row-gap:30px;

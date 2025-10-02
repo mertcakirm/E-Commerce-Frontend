@@ -384,17 +384,22 @@
 }
 
 .sepeti-tamamla-btn{
-  width: 100%;
   text-align: center;
-  position: absolute;
-  bottom: 0;
-  height: 70px;
   background-color: #000;
-  left: 0;
   text-decoration: none;
   color: #fff;
-  line-height: 70px;
-  font-size: 24px;
+  font-size: 20px;
+  padding:  16px 0;
+}
+
+.reset-basket-btn{
+  text-align: center;
+  background-color: #c20000;
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+  border: none;
+
 }
 
 .ofcanvas-body-sepet{

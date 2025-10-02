@@ -54,6 +54,7 @@ const OfferMainComp = ({loading}) => {
                                 alt={`Slide ${index + 1}`}
                             />
                             <div className="carousel-item-child">
+                                    <p className="fs-2 fw-bold text-light text-uppercase">{slide.name}</p>
                                     <a href={`/urunler/${slide.href}`} className="slider-alisverise-basla-btn px-5 py-2">
                                         Alışverişe Başla
                                     </a>

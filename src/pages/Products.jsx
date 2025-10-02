@@ -8,8 +8,12 @@ import { getCookie } from "../components/cookie/cookie";
 import LoadingComponent from "../components/other/Loading.jsx";
 import { toast } from "react-toastify";
 import { AddToBasketRequest, FetchProductRequest, LikeProductRequest} from "../API/ProductApi.js";
+import {toggleRefresh} from "../store/basketSlice.js";
+import {useDispatch} from "react-redux";
+import {toggleRefreshFav} from "../store/favoriteSlice.js";
 
 const Products = () => {
+    const dispatch = useDispatch();
     const [colClass, setColClass] = useState("col-lg-3");
     const [products, setProducts] = useState([]);
     const [selectedSize, setSelectedSize] = useState(null);
@@ -55,6 +59,7 @@ const Products = () => {
         try {
             await LikeProductRequest(productCode);
             toast.success("Ürün favoriye eklendi!");
+            dispatch(toggleRefreshFav());
         } catch {
             toast.error("Ürün favoriye eklenemedi!");
         }
@@ -68,6 +73,8 @@ const Products = () => {
         try {
             await AddToBasketRequest(selectedSize);
             toast.success("Ürün sepete eklendi!");
+            dispatch(toggleRefresh());
+
         } catch {
             toast.error("Ürün sepete eklenemedi!");
         }
@@ -184,7 +191,7 @@ const Products = () => {
                                     </button>
                                     <button
                                         className="urunler-card-content-bottom-like-btn"
-                                        onClick={() => token ? handleLikeClick(product.productCode) : (window.location.href = "/girisyap")}
+                                        onClick={() => token ? handleLikeClick(product.id) : (window.location.href = "/girisyap")}
                                     >
                                         <svg clipRule="evenodd" width="50" height="24"
                                              fill={product.favorite ? "red" : "white"}
@@ -218,6 +225,18 @@ const Products = () => {
 
                             <div className="urun-adi">
                                 <p>{product.name}</p>
+                            </div>
+                            <div className="d-flex mt-1 w-100 justify-content-center align-items-center">
+                                <p className="urun-code fs-6 fw-bold">{Number(product.averageRating).toFixed(0)}/10 </p>
+
+                                <svg width="24" height="24" fill="orange"
+                                     clipRule="evenodd" fillRule="evenodd"
+                                     strokeLinejoin="round" strokeMiterlimit="2"
+                                     viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="m11.322 2.923c.126-.259.39-.423.678-.423.289 0 .552.164.678.423.974 1.998 2.65 5.44 2.65 5.44s3.811.524 6.022.829c.403.055.65.396.65.747 0 .19-.072.383-.231.536-1.61 1.538-4.382 4.191-4.382 4.191s.677 3.767 1.069 5.952c.083.462-.275.882-.742.882-.122 0-.244-.029-.355-.089-1.968-1.048-5.359-2.851-5.359-2.851s-3.391 1.803-5.359 2.851c-.111.06-.234.089-.356.089-.465 0-.825-.421-.741-.882.393-2.185 1.07-5.952 1.07-5.952s-2.773-2.653-4.382-4.191c-.16-.153-.232-.346-.232-.535 0-.352.249-.694.651-.748 2.211-.305 6.021-.829 6.021-.829s1.677-3.442 2.65-5.44z"
+                                          fillRule="nonzero" />
+                                </svg>
                             </div>
                             <div className="urun-fiyat">
                                 <p style={{ fontSize: "20px" }} className="p1-fiyat">

@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    items: []  // Sepetteki ürünler
+    items: [],
+    refresh: false
 };
 
 const basketSlice = createSlice({
@@ -19,9 +20,12 @@ const basketSlice = createSlice({
         },
         setBasket: (state, action) => {
             state.items = action.payload;
-        }
+        },
+        toggleRefresh: (state) => {
+            state.refresh = !state.refresh;
+        },
     }
 });
 
-export const { addToBasket, removeFromBasket, clearBasket, setBasket } = basketSlice.actions;
+export const { addToBasket, removeFromBasket, clearBasket, setBasket,toggleRefresh } = basketSlice.actions;
 export default basketSlice.reducer;

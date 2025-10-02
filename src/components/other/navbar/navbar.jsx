@@ -24,7 +24,6 @@ const Navbar = () => {
     };
 
     useEffect(() => {
-        console.log(token)
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
             if (currentScrollY > lastScrollY && currentScrollY > 50) {
@@ -81,6 +80,7 @@ const Navbar = () => {
                                     data-bs-target="#offcanvasRightBasket"
                                     aria-controls="offcanvasRightBasket"
                                     style={{position: 'relative'}}
+
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
