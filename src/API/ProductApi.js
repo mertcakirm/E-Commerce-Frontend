@@ -55,6 +55,10 @@ export const ResetToBasketRequest=async ()=>{
     return await api.delete(`Cart`);
 }
 
+export const DeleteProductFromBasketRequest = async (basketId)=>{
+    return await api.delete(`Cart/${basketId}`);
+}
+
 export const IncreaseProductRequest=async (productCode)=>{
     return await api.put(`Cart/increase?variantId=${productCode}`);
 }

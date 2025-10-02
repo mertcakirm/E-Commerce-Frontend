@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import {
-    DecreaseProductRequest,
+    DecreaseProductRequest, DeleteProductFromBasketRequest,
     FetchBasketRequest,
     IncreaseProductRequest,
     ResetToBasketRequest,
@@ -67,6 +67,16 @@ const Basket = () => {
             dispatch(toggleRefresh());
         } catch (error) {
             console.error("Decrease product error:", error);
+        }
+    };
+
+    const DeleteProductFromBasket = async (basketId) => {
+        if (!token) return console.error("No token found");
+        try {
+            await DeleteProductFromBasketRequest(basketId);
+            dispatch(toggleRefresh());
+        } catch (error) {
+            console.error("Reset basket error:", error);
         }
     };
 
@@ -176,7 +186,7 @@ const Basket = () => {
                                 <div className="col-2 sepet-card-col-3">
                                     <button
                                         className="sepet-card-col-3-like-btn"
-                                        onClick={resetBasket}
+                                        onClick={()=>DeleteProductFromBasket(item.id)}
                                     >
                                         <svg
                                             width="30"
