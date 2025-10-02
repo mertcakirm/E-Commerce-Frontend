@@ -205,8 +205,15 @@ const Favorite = () => {
                         </div>
                     ))
                 ) : (
-                    <div style={{ padding: "2%" }}>
-                        <h4>Favori listeniz boş</h4>
+                    <div className="d-flex row text-center justify-content-center mt-5">
+                        <h2 className="mt-5">Favori Listeniz Boş</h2>
+                        <a
+                            className="mt-3"
+                            href="../urunler/tum-urunler"
+                            style={{ fontSize: "24px", color: "#000" }}
+                        >
+                            Alışverişe Devam Et
+                        </a>
                     </div>
                 )}
             </div>

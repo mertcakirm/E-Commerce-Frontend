@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from "react-toastify";
 import { AddCommentRequest, GetProductCommentsRequest } from "../../API/ProductApi.js";
+import {getCookie} from "../cookie/cookie.js";
 
 const ProductComments = ({ productId }) => {
     const [newComment, setNewComment] = useState({ rating: 0, comment: "" });
     const [comments, setComments] = useState([]);
     const [lastPage, setLastPage] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
+
 
     const getComments = async () => {
         try {
@@ -20,10 +22,14 @@ const ProductComments = ({ productId }) => {
     };
 
     const commentSubmit = async () => {
+        const token = getCookie("token");
+
         if (!newComment.rating || !newComment.comment) {
             toast.error("Lütfen yorum puanı ve içeriğini doldurun!");
             return;
         }
+
+        if (!token.token) window.location.href = "/girisyap";
 
         try {
             await AddCommentRequest(productId, newComment);
