@@ -33,7 +33,7 @@ const CardMainComp = ({loading}) => {
                                 width = '6';
                                 break;
                             case '1/3':
-                                height = '1200px';
+                                height = '700px';
                                 width = '4';
                                 break;
                             default:
@@ -41,7 +41,7 @@ const CardMainComp = ({loading}) => {
                         }
 
                         return (
-                            <div key={item.id || index} className={`col-lg-${width}`}>
+                            <div key={item.id || index} className={`col-lg-${width}`} data-aos="fade-up">
                                 <a href={`/urunler/${item.href}`}>
                                     <div className="categori-card">
                                         <img

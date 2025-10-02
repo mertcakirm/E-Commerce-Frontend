@@ -22,7 +22,7 @@ const Profile = () => {
                 <meta property="og:type" content="website"/>
             </Helmet>
 
-            <div className="container-fluid profile-container">
+            <div className="container-fluid profile-container" data-aos="fade-up">
                 <div className="row">
                     <div className="col-lg-12">
                         <div className="d-flex mb-3 justify-content-center">

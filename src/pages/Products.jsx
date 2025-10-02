@@ -11,6 +11,7 @@ import {AddToBasketRequest, FetchProductRequest, LikeProductRequest} from "../AP
 import {toggleRefresh} from "../store/basketSlice.js";
 import {useDispatch} from "react-redux";
 import {toggleRefreshFav} from "../store/favoriteSlice.js";
+import PageLogo from "../components/other/PageLogo.jsx";
 
 const Products = () => {
     const dispatch = useDispatch();
@@ -108,7 +109,7 @@ const Products = () => {
             <div className="container-fluid urunler-container">
                 <div className="row text-align-center justify-content-center">
                     <div className="col-lg-4"></div>
-                    <div className="col-lg-4 mt-5">
+                    <div className="col-lg-4 mt-5" data-aos="fade-in">
                         <p
                             className="text-center urunler-sayfa-baslik"
                             style={{textTransform: "uppercase"}}
@@ -150,7 +151,7 @@ const Products = () => {
 
                 <div className="row urun-cards-row">
                     {products.map((product, index) => (
-                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`}>
+                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`} data-aos="fade-up">
                             <div className="urun-card">
                                 <a href={`/urunler-detay/${product.id}`}>
                                     {product.images?.[0] && (
@@ -252,13 +253,8 @@ const Products = () => {
                         </div>
                     ))}
 
-                    <div className="container logo-container">
-                        <div className="row justify-content-center">
-                            <a style={{display: "flex", justifyContent: "center"}} className="logo-a" href="/">
-                                <img src={logo} className="img-fluid w-25" alt=""/>
-                            </a>
-                        </div>
-                    </div>
+                    <PageLogo />
+
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 import "./css/About.css";
 import { Helmet } from "react-helmet";
+import PageLogo from "../components/other/PageLogo.jsx";
 
 const About = () => {
   return (
@@ -91,6 +92,7 @@ const About = () => {
           </div>
         </div>
       </div>
+      <PageLogo />
     </div>
   );
 };

@@ -93,7 +93,7 @@ const MoreProduct = () => {
         ],
     };
     return (
-        <div className="row diger-row justify-content-center">
+        <div className="row diger-row justify-content-center" data-aos="fade-up">
             <div className="col-11">
                 <p className="bunlari-da-begen">BUNLARI DA BEĞENEBİLİRSİNİZ</p>
 

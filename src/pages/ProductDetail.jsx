@@ -17,6 +17,7 @@ import ProductComments from "../components/other/ProductComments.jsx";
 import {toggleRefresh} from "../store/basketSlice.js";
 import {useDispatch} from "react-redux";
 import {toggleRefreshFav} from "../store/favoriteSlice.js";
+import PageLogo from "../components/other/PageLogo.jsx";
 
 const ProductDetail = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -113,14 +114,14 @@ const ProductDetail = () => {
             <div className="container-fluid urun-detay-container">
                 <div className="row justify-content-center">
                     {product && (
-                        <div className="col-11">
+                        <div className="col-11" data-aos="fade-in">
                             <p>Anasayfa - Ürünler - {product.name}</p>
                         </div>
                     )}
                 </div>
 
                 <div className="row">
-                    <div className="col-lg-6 urun-detay-col-sol">
+                    <div className="col-lg-6 urun-detay-col-sol" data-aos="fade-up">
                         <div className="carousel-container">
                             <div className="active-image">
                                 {/* Ana resim */}
@@ -139,6 +140,7 @@ const ProductDetail = () => {
                                         }
                                         alt={`Slide ${activeIndex}`}
                                         className="img-fluid w-100 active-img-detay"
+                                        data-aos="fade-in"
                                     />
                                 )}
                             </div>
@@ -178,9 +180,9 @@ const ProductDetail = () => {
                     <div className="col-lg-6 urun-detay-col-sag">
                         {product && (
                             <div className="urun-detay-col-sag">
-                                <p className="urun-baslik">{product.name}</p>
-                                <p className="urun-code">Ürün Kodu: {product.id}</p>
-                                <div className="d-flex align-items-center">
+                                <p className="urun-baslik" data-aos="fade-up">{product.name}</p>
+                                <p className="urun-code" data-aos="fade-up">Ürün Kodu: {product.id}</p>
+                                <div className="d-flex align-items-center" data-aos="fade-up">
                                     <p className="urun-code fs-4 fw-bold">{Number(product.averageRating).toFixed(0)}/10 </p>
 
                                     <svg width="24" height="24" fill="orange"
@@ -192,7 +194,7 @@ const ProductDetail = () => {
                                               fillRule="nonzero" />
                                     </svg>
                                 </div>
-                                <div className="urun-detay-fiyat-flex">
+                                <div className="urun-detay-fiyat-flex" data-aos="fade-up">
                                     <p className="p1-fiyat">{product.priceWithDiscount}₺</p>
                                     {product.discountRate > 0 && (
                                         <div className="d-flex align-items-center gap-3">
@@ -204,7 +206,7 @@ const ProductDetail = () => {
                                     )}
                                 </div>
 
-                                <div className="beden">
+                                <div className="beden" data-aos="fade-up">
                                     <p>BEDEN:</p>
                                     <div className="beden-cards">
                                         {sizes.map((variant) => (
@@ -221,7 +223,7 @@ const ProductDetail = () => {
                                     </div>
                                 </div>
 
-                                <div className="sepet-flex">
+                                <div className="sepet-flex"  data-aos="fade-up">
                                     <button
                                         className="sepete-ekle-detay-btn"
                                         onClick={handleAddToBasket}
@@ -253,7 +255,7 @@ const ProductDetail = () => {
 
                                 <div className="urun-detay-accordion">
                                     <div className="accordion accordion-flush" id="accordionFlushExample">
-                                        <div className="accordion-item">
+                                        <div className="accordion-item" data-aos="fade-up">
                                             <h2 className="accordion-header">
                                                 <button
                                                     className="accordion-button collapsed"
@@ -277,7 +279,7 @@ const ProductDetail = () => {
                                             </div>
                                         </div>
 
-                                        <div className="accordion-item">
+                                        <div className="accordion-item" data-aos="fade-up">
                                             <h2 className="accordion-header">
                                                 <button
                                                     className="accordion-button collapsed"
@@ -301,7 +303,7 @@ const ProductDetail = () => {
                                             </div>
                                             </div>
 
-                                        <div className="accordion-item">
+                                        <div className="accordion-item" data-aos="fade-up">
                                             <h2 className="accordion-header">
                                                 <button
                                                     className="accordion-button collapsed"
@@ -331,13 +333,7 @@ const ProductDetail = () => {
                 <MoreProduct/>
             </div>
 
-            <div className="container logo-container">
-                <div className="row justify-content-center">
-                    <a style={{display: 'flex', justifyContent: 'center'}} className="logo-a" href="/">
-                        <img src={logo} className="img-fluid" alt=""/>
-                    </a>
-                </div>
-            </div>
+            <PageLogo />
         </div>
     );
 };

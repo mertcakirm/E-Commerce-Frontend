@@ -4,16 +4,34 @@
 
 .carousel-item-child{
     width: 100%;
-    height: 100%;
     position: absolute;
     z-index: 20;
-    top: 0;
+    bottom: 50px;
     left: 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     row-gap: 20px;
     align-items: center;
     justify-content: center;
+}
+
+
+.carousel-card{
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.43);
+    padding: 20px 30px;
+    display:  flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:  center;
+    border: 1px solid #ffffff;
+    opacity: 0;
+    transition: .4s;
+}
+
+.carousel-item:hover .carousel-card{
+    opacity: 1;
+    transition: .4s;
 }
 
 .category-image{
@@ -58,17 +76,15 @@
     transition: .4s;
     font-size: 24px;
     width: fit-content;
-
 }
+
+
 
 .slider-alisverise-basla-btn:hover{
     color: #fff;
     background: #000;
     transition: .4s;
-}
-
-.dif-bg{
-    background: #eeeeee;
+    margin-bottom: 5px;
 }
 
 /* ürünler */
@@ -165,11 +181,11 @@
     border: 1px solid #fff;
     border-radius: 10px;
     background: transparent;
-    width: 40%;
+    width: fit-content;
+    padding: 10px 40px;
     color: #fff;
     font-weight: 700;
     font-size: 24px;
-    height: 50px;
     text-decoration: none;
     transition: .4s;
     line-height: 50px;
@@ -208,10 +224,6 @@
     transition: .4s;
 }
 
-.logo-container{
-    margin-top: 150px;
-    margin-bottom: 150px;
-}
 
 .logo-a{
     display: flex;

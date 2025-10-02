@@ -58,7 +58,7 @@ const SliderComp = ({loading}) => {
         fetchData();
     }, []);
     return (
-        <div className="container-fluid" id="urunler-fluid">
+        <div className="container-fluid" id="urunler-fluid" data-aos="fade-up">
             <p className="text-center fs-1 fw-bold mt-4">Popüler Kategoriler</p>
             <Slider {...settings}>
                 {categories && categories.length > 0 ? (

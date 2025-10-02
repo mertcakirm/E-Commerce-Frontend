@@ -7,6 +7,7 @@ import LoadingComponent from "../components/other/Loading.jsx";
 import SliderComp from "../components/home/sliderComp.jsx";
 import OfferMainComp from "../components/home/OfferMainComp.jsx";
 import CardMainComp from "../components/home/cardMainComp.jsx";
+import PageLogo from "../components/other/PageLogo.jsx";
 
 const Home = () => {
     const [showButton, setShowButton] = useState(false);
@@ -83,7 +84,6 @@ const Home = () => {
                         }
                     }} />
 
-                <div className="dif-bg">
                     <CardMainComp
                         loading={(b) => {
                             if (b === false) {
@@ -91,20 +91,10 @@ const Home = () => {
                             }
                         }} />
 
-            </div>
 
 
-            <div className="container logo-container">
-                <div className="row justify-content-center">
-                    <a style={{display: 'flex', justifyContent: 'center'}} className="logo-a" href="/">
-                        <img
-                            src={logo}
-                            className="img-fluid w-25"
-                            alt=""
-                        />
-                    </a>
-                </div>
-            </div>
+            <PageLogo />
+
             <Cookie_accept/>
         </div>
     );

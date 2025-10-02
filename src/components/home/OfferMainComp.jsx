@@ -17,6 +17,7 @@ const OfferMainComp = ({loading}) => {
             id="carouselExampleAutoplaying"
             className="carousel slide"
             data-bs-ride="carousel"
+            data-aos="fade-in"
         >
             <div className="carousel-indicators">
                 {sliderData && sliderData.length > 0 ? (
@@ -54,10 +55,12 @@ const OfferMainComp = ({loading}) => {
                                 alt={`Slide ${index + 1}`}
                             />
                             <div className="carousel-item-child">
+                                <div className="carousel-card">
                                     <p className="fs-2 fw-bold text-light text-uppercase">{slide.name}</p>
                                     <a href={`/urunler/${slide.href}`} className="slider-alisverise-basla-btn px-5 py-2">
                                         Alışverişe Başla
                                     </a>
+                                </div>
 
                             </div>
                         </div>
