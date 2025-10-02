@@ -11,7 +11,9 @@
     height: 100vh;
 }
 
-
+.forms-page{
+    height: 100vh;
+}
 
 .giris-row{
     display: flex;
@@ -43,7 +45,6 @@
 .login-form-baslik{
     font-size: 32px;
     font-weight: 700;
-    font-family: Jockey One;
     text-align: center;
 }
 
@@ -146,9 +147,7 @@ color: orange;
 
 
 @media only screen and (max-width:991px) {
-    .forms-page{
-        height: 100vh;
-    }
+
     .giris-row{
         display: flex;
         flex-direction: row;
@@ -173,7 +172,6 @@ color: orange;
 
 @media only screen and (max-width:430px) {
     .giris-row{
-        opacity: 0.5;
         position: absolute;
         display: flex;
         flex-direction: row;

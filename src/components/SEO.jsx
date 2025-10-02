@@ -1,0 +1,34 @@
+import { Helmet } from "react-helmet";
+import image from "../assets/mob_logo.png"
+
+const SEO = ({
+                 title = "Click & Collect",
+                 description = "Click & Collect e-ticaret sitesi ile hızlı ve güvenli alışveriş deneyimi.",
+                 keywords = "Click & Collect, e-ticaret, alışveriş, online mağaza",
+                 author = "Click & Collect",
+                 url = window.location.href,
+             }) => {
+    return (
+        <Helmet>
+            <title>{title}</title>
+            <meta name="description" content={description} />
+            <meta name="keywords" content={keywords} />
+            <meta name="author" content={author} />
+
+            {/* Open Graph */}
+            <meta property="og:title" content={title} />
+            <meta property="og:description" content={description} />
+            <meta property="og:image" content={image} />
+            <meta property="og:url" content={url} />
+            <meta property="og:type" content="website" />
+
+            {/* Twitter Card */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={title} />
+            <meta name="twitter:description" content={description} />
+            <meta name="twitter:image" content={image} />
+        </Helmet>
+    );
+};
+
+export default SEO;

@@ -1,7 +1,5 @@
 import { useState, useEffect } from "react";
-import Navbar from "../components/other/navbar/navbar.jsx";
 import "./css/Login.css";
-import { Helmet } from "react-helmet";
 import {toast} from "react-toastify";
 import {LoginRequest, RegisterRequest} from "../API/AuthApi.js";
 
@@ -88,27 +86,6 @@ const Login = () => {
   };
   return (
       <div>
-        <Helmet>
-          <title>Giriş Yap</title>
-          <meta
-              name="description"
-              content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-          />
-          <meta
-              name="keywords"
-              content="tişört,pantolon,giyim,moda,erkek giyim"
-          />
-          <meta name="author" content="MOB WEAR" />
-          <meta property="og:title" content="Kaliteli Kıyafetler" />
-          <meta
-              property="og:description"
-              content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-          />
-          <meta property="og:image" content="URL_of_image" />
-          <meta property="og:url" content="URL_of_your_website" />
-          <meta property="og:type" content="website" />
-        </Helmet>
-        <Navbar />
         <div className="container-fluid giris-container">
           <div className="row justify-content-center p-0 m-0 col-12">
             <div className="col-lg-7 p-0">
@@ -118,7 +95,8 @@ const Login = () => {
                   alt=""
               />
             </div>
-            <div className="col-lg-5 col-12 p-0 m-0 justify-content-center forms-page row align-items-center">
+            <div className="col-lg-5 col-12 py-5 m-0 justify-content-between forms-page d-flex flex-column align-items-center ">
+              <div></div>
               <div className="row col-lg-10 col-12 justify-content-center">
                 {isLoginForm ? (
                     <div className="login-form" >
@@ -261,6 +239,13 @@ const Login = () => {
                     </div>
                 )}
               </div>
+
+              <div className="d-flex justify-content-center">
+                <a href="/">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 6.453l9 8.375v9.172h-6v-6h-6v6h-6v-9.172l9-8.375zm12 5.695l-12-11.148-12 11.133 1.361 1.465 10.639-9.868 10.639 9.883 1.361-1.465z"/></svg>
+                </a>
+              </div>
+
             </div>
           </div>
           </div>

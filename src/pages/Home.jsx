@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react";
 import "./css/Home.css";
 import {Helmet} from "react-helmet";
-import logo from '../assets/mob_logo.png';
 import Cookie_accept from "../components/cookie/cookie_accept.jsx";
 import LoadingComponent from "../components/other/Loading.jsx";
 import SliderComp from "../components/home/sliderComp.jsx";
 import OfferMainComp from "../components/home/OfferMainComp.jsx";
 import CardMainComp from "../components/home/cardMainComp.jsx";
 import PageLogo from "../components/other/PageLogo.jsx";
+import SEO from "../components/SEO.jsx";
 
 const Home = () => {
     const [showButton, setShowButton] = useState(false);
@@ -37,26 +37,7 @@ const Home = () => {
 
     return (
         <div>
-            <Helmet>
-                <title>Mob Wear</title>
-                <meta
-                    name="description"
-                    content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-                />
-                <meta
-                    name="keywords"
-                    content="tişört,pantolon,giyim,moda,erkek giyim"
-                />
-                <meta name="author" content="MOB WEAR"/>
-                <meta property="og:title" content="Kaliteli Kıyafetler"/>
-                <meta
-                    property="og:description"
-                    content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-                />
-                <meta property="og:image" content="URL_of_image"/>
-                <meta property="og:url" content="URL_of_your_website"/>
-                <meta property="og:type" content="website"/>
-            </Helmet>
+            <SEO />
 
             {showButton && (
                 <button className="en-ust-btn" onClick={handleClick}>

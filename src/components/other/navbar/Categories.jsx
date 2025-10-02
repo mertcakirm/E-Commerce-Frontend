@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import "../css/Categories.css";
 import PageLogo from "../PageLogo.jsx";
 
@@ -7,17 +6,42 @@ const Categories = () => {
         {
             id: 1,
             name: "Erkek Giyim",
-            sub: ["Tişört", "Pantolon", "Ceket"],
+            sub: ["Tişört", "Pantolon", "Ceket", "Gömlek", "Sweatshirt", "Hırka"],
         },
         {
             id: 2,
             name: "Kadın Giyim",
-            sub: ["Elbise", "Bluz", "Etek"],
+            sub: ["Elbise", "Bluz", "Etek", "Tunik", "Pantolon", "Ceket"],
         },
         {
             id: 3,
             name: "Aksesuar",
-            sub: ["Çanta", "Saat", "Kemer"],
+            sub: ["Çanta", "Saat", "Kemer", "Şapka", "Gözlük", "Takı"],
+        },
+        {
+            id: 4,
+            name: "Ayakkabı",
+            sub: ["Spor Ayakkabı", "Bot", "Sneaker", "Sandalet", "Topuklu"],
+        },
+        {
+            id: 5,
+            name: "Çocuk Giyim",
+            sub: ["Tişört", "Pantolon", "Elbise", "Mont", "Ayakkabı"],
+        },
+        {
+            id: 6,
+            name: "Ev & Yaşam",
+            sub: ["Ev Tekstili", "Mutfak Gereçleri", "Dekorasyon", "Aydınlatma"],
+        },
+        {
+            id: 7,
+            name: "Elektronik",
+            sub: ["Telefon", "Bilgisayar", "Kulaklık", "Tablet", "Aksesuar"],
+        },
+        {
+            id: 8,
+            name: "Spor & Outdoor",
+            sub: ["Spor Giyim", "Spor Ayakkabı", "Çanta", "Ekipmanlar"],
         },
     ];
 
@@ -68,7 +92,10 @@ const Categories = () => {
                                             <ul className="subcategory-list">
                                                 {cat.sub.map((subItem, i) => (
                                                     <li key={i} className="subcategory-item">
-                                                        {subItem}
+                                                        <a className="text-decoration-none text-black" href={`/urunler/${subItem}`} >
+                                                            {subItem}
+
+                                                        </a>
                                                     </li>
                                                 ))}
                                             </ul>

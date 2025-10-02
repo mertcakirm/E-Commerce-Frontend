@@ -1,38 +1,15 @@
 import "./css/About.css";
-import { Helmet } from "react-helmet";
 import PageLogo from "../components/other/PageLogo.jsx";
 
 const About = () => {
   return (
-    <div>
-      <Helmet>
-        <title>Hakkımızda</title>
-        <meta
-          name="description"
-          content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-        />
-        <meta
-          name="keywords"
-          content="tişört,pantolon,giyim,moda,erkek giyim"
-        />
-        <meta name="author" content="MOB WEAR" />
-        <meta property="og:title" content="Kaliteli Kıyafetler" />
-        <meta
-          property="og:description"
-          content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-        />
-        <meta property="og:image" content="URL_of_image" />
-        <meta property="og:url" content="URL_of_your_website" />
-        <meta property="og:type" content="website" />
-      </Helmet>
-
       <div className="container hakkimizda-container">
         <div className="row">
           <div className="col-12">
             <div className="hakkimizda-baslik">hakkımızda</div>
             <div className="hakkimizda-icerik">
               <p className="hakkimizda-icerik-p1">
-                Mob-Wear olarak, en son moda trendlerini ve kaliteli ürünleri
+                Click & Collect olarak, en son moda trendlerini ve kaliteli ürünleri
                 müşterilerimize sunmayı hedefleyen yenilikçi bir e-ticaret
                 platformuyuz. Kullanıcı dostu arayüzümüz ve güvenilir alışveriş
                 deneyimimizle, moda tutkunlarının ihtiyaçlarını karşılamak için
@@ -42,7 +19,7 @@ const About = () => {
                 <span>|</span>Misyonumuz
               </div>
               <p className="hakkimizda-icerik-p1">
-                Mob-Wear'ın misyonu, müşterilerimize kaliteli, uygun fiyatlı ve
+                Click & Collect mağazasının misyonu, müşterilerimize kaliteli, uygun fiyatlı ve
                 trend ürünleri sunarak, onların tarzlarını özgürce ifade
                 edebilmelerini sağlamaktır. Bu misyon doğrultusunda:
               </p>
@@ -64,7 +41,7 @@ const About = () => {
                 <span>|</span>Vizyonumuz
               </div>
               <p className="hakkimizda-icerik-p1">
-                Mob-Wear olarak vizyonumuz, e-ticaret sektöründe öncü ve
+                Click & Collect olarak vizyonumuz, e-ticaret sektöründe öncü ve
                 güvenilir bir marka olmaktır. Bu vizyonu gerçekleştirmek için:
               </p>
               <li className="hakkimizda-icerik-p1">
@@ -84,16 +61,15 @@ const About = () => {
                 platform olmayı amaçlıyoruz.
               </li>
               <p className="hakkimizda-icerik-p1">
-                Mob-Wear olarak, siz değerli müşterilerimizle birlikte daha
+                Click & Collect olarak, siz değerli müşterilerimizle birlikte daha
                 güzel yarınlara adım atmak için çalışıyoruz. Bizimle alışveriş
                 yaparak, modaya yön verin ve kendi tarzınızı yaratın!
               </p>
             </div>
           </div>
         </div>
+        <PageLogo size="25" />
       </div>
-      <PageLogo />
-    </div>
   );
 };
 

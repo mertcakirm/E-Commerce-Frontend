@@ -1,28 +1,6 @@
-import { Helmet } from "react-helmet";
-
 const Informations = () => {
   return (
     <div>
-      <Helmet>
-        <title>Bilgilendirmeler</title>
-        <meta
-          name="description"
-          content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-        />
-        <meta
-          name="keywords"
-          content="tişört,pantolon,giyim,moda,erkek giyim"
-        />
-        <meta name="author" content="MOB WEAR" />
-        <meta property="og:title" content="Kaliteli Kıyafetler" />
-        <meta
-          property="og:description"
-          content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-        />
-        <meta property="og:image" content="URL_of_image" />
-        <meta property="og:url" content="URL_of_your_website" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       <div className="container bilgilendirmeler-container">
         <div className="row">
           <div className="col-12">
@@ -51,7 +29,7 @@ const Informations = () => {
                   <div className="accordion-body accordion-body-height">
                     Placeholder content for this accordion, which is intended to
                     demonstrate the <code>.accordion-flush</code> class. This is
-                    the first item's accordion body.
+                    the first items accordion body.
                   </div>
                 </div>
               </div>
@@ -76,7 +54,7 @@ const Informations = () => {
                   <div className="accordion-body accordion-body-height">
                     Placeholder content for this accordion, which is intended to
                     demonstrate the <code>.accordion-flush</code> class. This is
-                    the second item's accordion body. Let's imagine this being
+                    the second items accordion body. Lets imagine this being
                     filled with some actual content.
                   </div>
                 </div>
@@ -102,7 +80,7 @@ const Informations = () => {
                   <div className="accordion-body accordion-body-height">
                     Placeholder content for this accordion, which is intended to
                     demonstrate the <code>.accordion-flush</code> class. This is
-                    the third item's accordion body. Nothing more exciting
+                    the third items accordion body. Nothing more exciting
                     happening here in terms of content, but just filling up the
                     space to make it look, at least at first glance, a bit more
                     representative of how this would look in a real-world
@@ -132,7 +110,7 @@ const Informations = () => {
                   <div className="accordion-body accordion-body-height">
                     Placeholder content for this accordion, which is intended to
                     demonstrate the <code>.accordion-flush</code> class. This is
-                    the first item's accordion body.
+                    the first items accordion body.
                   </div>
                 </div>
               </div>
@@ -157,7 +135,7 @@ const Informations = () => {
                   <div className="accordion-body accordion-body-height">
                     Placeholder content for this accordion, which is intended to
                     demonstrate the <code>.accordion-flush</code> class. This is
-                    the first item's accordion body.
+                    the first items accordion body.
                   </div>
                 </div>
               </div>

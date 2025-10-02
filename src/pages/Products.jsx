@@ -1,8 +1,6 @@
 import {useEffect, useState} from "react";
-import {Helmet} from "react-helmet";
 import {useLocation} from "react-router-dom";
 import "./css/Products.css";
-import logo from "../assets/mob_logo.png";
 import FilterProduct from "../components/other/FilterProduct.jsx";
 import {getCookie} from "../components/cookie/cookie";
 import LoadingComponent from "../components/other/Loading.jsx";
@@ -22,7 +20,7 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const location = useLocation();
-    const currentCategory = location.pathname.split("/").pop();
+    const currentCategory = decodeURIComponent(location.pathname.split("/").pop());
     const token = getCookie("token");
 
     const GetProducts = async () => {
@@ -88,24 +86,6 @@ const Products = () => {
 
     return (
         <div>
-            <Helmet>
-                <title>Ürünlerimiz</title>
-                <meta
-                    name="description"
-                    content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-                />
-                <meta name="keywords" content="tişört,pantolon,giyim,moda,erkek giyim"/>
-                <meta name="author" content="MOB WEAR"/>
-                <meta property="og:title" content="Kaliteli Kıyafetler"/>
-                <meta
-                    property="og:description"
-                    content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-                />
-                <meta property="og:image" content="URL_of_image"/>
-                <meta property="og:url" content="URL_of_your_website"/>
-                <meta property="og:type" content="website"/>
-            </Helmet>
-
             <div className="container-fluid urunler-container">
                 <div className="row text-align-center justify-content-center">
                     <div className="col-lg-4"></div>
@@ -141,7 +121,7 @@ const Products = () => {
                                 <line y1="49.5" x2="51" y2="49.5" stroke="black" strokeWidth="3"/>
                             </svg>
                         </button>
-                        <button className="btn offcanvas-button" type="button" data-bs-toggle="offcanvas"
+                        <button className="btn mx-3 filter-btn offcanvas-button" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasRight1" aria-controls="offcanvasRight1">
                             Filtrele
                         </button>
@@ -151,8 +131,8 @@ const Products = () => {
 
                 <div className="row urun-cards-row">
                     {products.map((product, index) => (
-                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`} data-aos="fade-up">
-                            <div className="urun-card">
+                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`}>
+                            <div className="urun-card" data-aos="fade-up">
                                 <a href={`/urunler-detay/${product.id}`}>
                                     {product.images?.[0] && (
                                         <img

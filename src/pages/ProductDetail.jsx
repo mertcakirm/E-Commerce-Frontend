@@ -1,9 +1,7 @@
 import {useEffect, useState} from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {Helmet} from "react-helmet";
 import "./css/ProductDetail.css";
-import logo from '../assets/mob_logo.png';
 import MoreProduct from "../components/other/MoreProduct.jsx";
 import {getCookie} from "../components/cookie/cookie";
 import {toast} from "react-toastify";
@@ -32,7 +30,6 @@ const ProductDetail = () => {
         const data = await FetchProductsByIdRequest(urlpop);
         setProduct(data.data.data);
     };
-
 
     useEffect(() => {
         getProducts();
@@ -66,8 +63,6 @@ const ProductDetail = () => {
         }
     };
 
-
-
     const handleAddToBasket = async () => {
         if (!token) {
             window.location.href = "/girisyap";
@@ -90,26 +85,6 @@ const ProductDetail = () => {
 
     return (
         <div>
-            <Helmet>
-                <title>Ürün Detayı-{urlpop}</title>
-                <meta
-                    name="description"
-                    content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-                />
-                <meta
-                    name="keywords"
-                    content="tişört,pantolon,giyim,moda,erkek giyim"
-                />
-                <meta name="author" content="MOB WEAR"/>
-                <meta property="og:title" content="Kaliteli Kıyafetler"/>
-                <meta
-                    property="og:description"
-                    content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-                />
-                <meta property="og:image" content="URL_of_image"/>
-                <meta property="og:url" content="URL_of_your_website"/>
-                <meta property="og:type" content="website"/>
-            </Helmet>
 
             <div className="container-fluid urun-detay-container">
                 <div className="row justify-content-center">
