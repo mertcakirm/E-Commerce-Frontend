@@ -1,13 +1,12 @@
-import React, {Component} from 'react'
 import './css/footer.css';
 
 const Footer = () => {
     return (
         <div>
-            <div className="container-fluid footer-container">
-                <div className="row">
+            <div className="container-fluid footer-container" data-aos="fade-up">
+                <div className="row pb-5">
                     <div className="col-lg-4">
-                        <div className="footer-col">
+                        <div className="footer-col py-3">
                             <p className='footer-baslik'>YARDIM DESTEK</p>
                             <a href='/sss' className='footer-icerik'>Üyelik</a>
                             <a href='/sss' className='footer-icerik'>Sipariş</a>
@@ -19,7 +18,7 @@ const Footer = () => {
                         </div>
                     </div>
                     <div className="col-lg-4">
-                        <div className="footer-col">
+                        <div className="footer-col py-3">
                             <p className='footer-baslik'>KURUMSAL</p>
                             <a href='/' className='footer-icerik'>Anasayfa</a>
                             <a href='../hakkimizda' className='footer-icerik'>Hakkımızda</a>
@@ -27,8 +26,8 @@ const Footer = () => {
                             <a href='../iletisim' className='footer-icerik'>İletişim</a>
                         </div>
                     </div>
-                    <div className="col-lg-4">
-                        <div className="footer-col">
+                    <div className="col-lg-4 " >
+                        <div className="footer-col py-3">
                             <p className='footer-baslik'>BİZİ TAKİP EDİN</p>
                             <div className='bizi-takip-edin-footer-flex'>
                                 <a href='#' className='bizi-takip-edin-item'>
@@ -41,14 +40,6 @@ const Footer = () => {
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                         <path
                                             d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
-                                    </svg>
-                                </a>
-                                <a href='#' className='bizi-takip-edin-item'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" shapeRendering="geometricPrecision"
-                                         textRendering="geometricPrecision" imageRendering="optimizeQuality"
-                                         fillRule="evenodd" clipRule="evenodd" viewBox="-200 -200 900 900">
-                                        <path fillRule="nonzero"
-                                              d="M403.229 0h78.506L310.219 196.04 512 462.799H354.002L230.261 301.007 88.669 462.799h-78.56l183.455-209.683L0 0h161.999l111.856 147.88L403.229 0zm-27.556 415.805h43.505L138.363 44.527h-46.68l283.99 371.278z"/>
                                     </svg>
                                 </a>
                                 <a href='#' className='bizi-takip-edin-item'>
@@ -72,7 +63,7 @@ const Footer = () => {
                 </div>
 
 
-                <div className="kvkk-flex">
+                <div className="kvkk-flex py-3">
                     <a className='kvkk-item' href="/bilgilendirmeler">Kullanım Koşulları</a>
                     <a className='kvkk-item' href="/bilgilendirmeler">Gizlilik ve Güvenlik</a>
                     <a className='kvkk-item' href="/bilgilendirmeler">Tüketici Haklarının Korunması Kanunu</a>

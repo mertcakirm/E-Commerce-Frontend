@@ -93,8 +93,7 @@ const Home = () => {
 
 
 
-            <PageLogo />
-
+            <PageLogo size="25" />
             <Cookie_accept/>
         </div>
     );

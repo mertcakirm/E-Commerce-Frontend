@@ -333,7 +333,7 @@ const ProductDetail = () => {
                 <MoreProduct/>
             </div>
 
-            <PageLogo />
+            <PageLogo size="25" />
         </div>
     );
 };

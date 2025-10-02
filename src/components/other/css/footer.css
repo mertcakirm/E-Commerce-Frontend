@@ -12,15 +12,13 @@
 }
 
 .footer-baslik{
-    font-size: 32px;
-    font-family: Jockey One;
+    font-size: 24px;
     font-weight: 700;
     text-transform: uppercase;
 }
 
 .footer-icerik{
-    font-size: 20px;
-    font-family: Jockey One;
+    font-size: 16px;
     font-weight: 700;
     color: gray;
     text-decoration: none;
@@ -31,6 +29,7 @@
 
 .footer-icerik:hover{
     color: #000;
+    text-decoration: underline;
     transition: .6s;
 }
 
@@ -61,7 +60,6 @@
 .footer-baslik-odeme{
     margin-top: 30px;
     font-size: 24px;
-    font-family: Jockey One;
     font-weight: 700;
     text-transform: uppercase;
 }
@@ -83,14 +81,11 @@
     align-items: center;
     column-gap: 10px;
     border-top: 1px solid #000;
-    height: 40px;
-    margin-top: 50px;
 }
 
 .kvkk-item{
     color: #000;
     text-decoration: none;
-    font-family: Jockey One;
     font-size: 16px;
 
 }
@@ -107,28 +102,16 @@
 }
 
 @media only screen and (max-width:991px) {
-    .footer-container{
-        height: 1100px;
-
-    }
-
-    .footer-col{
-        margin-top: 30px;
-    }
 
     .kvkk-flex{
         flex-wrap: wrap;
     }
     .footer-container{
-        background-color: #ededed;
-        padding: 5% 15% 1% 15%;
+        height: fit-content;
     }
 }
 
 @media only screen and (max-width:767px) {
-    .footer-container{
-        margin-bottom: 65px;
-    }
 
     .kvkk-flex{
         text-align: center;
@@ -136,12 +119,3 @@
     }
 }
 
-@media only screen and (max-width:374px) {
-    .footer-container{
-        height: 1300px;
-        margin-bottom: 65px;
-    }
-
-
-
-}
