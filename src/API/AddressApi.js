@@ -3,7 +3,7 @@ import {getCookie} from "../components/cookie/cookie.js";
 const token = getCookie("token");
 
 export const AddAddressRequest=async (addressDTO)=>{
-    return await api.post("address/add",addressDTO)
+    return await api.post("UserAddress",addressDTO)
 }
 
 export const DeleteAddressRequest=async (id)=>{
@@ -11,7 +11,7 @@ export const DeleteAddressRequest=async (id)=>{
 }
 
 export const UpdateAddressRequest=async (addressId,addressDTO)=>{
-    return await api.put(`address/update${addressId}`,addressDTO)
+    return await api.put(`UserAddress/${addressId}`, addressDTO)
 }
 
 export const GetAddressRequest = async () => {

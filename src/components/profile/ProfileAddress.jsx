@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
-import ProfileAddressesPopup from "./ProfileAddressPopup.jsx";
 import LoadingComponent from "../other/Loading.jsx";
 import {toast} from "react-toastify";
 import {
     DeleteAddressRequest,
     GetAddressRequest,
 } from "../../API/AddressApi.js";
+import AddAddressPopup from "../Popups/AddAddressPopup.jsx";
 
 const ProfileAdresses = () => {
     const [selectedAddress, setSelectedAddress] = useState(null);
@@ -73,14 +73,14 @@ const ProfileAdresses = () => {
                     addresses.map((address) => (
                         <div
                             key={address.id}
-                            className="col-12 border p-3 mb-2 d-flex justify-content-between align-items-center"
+                            className="address-card col-12 border mb-2 "
                         >
-                            <div>
-                                <div className="fw-bold">{address.title}</div>
+                            <div className="d-flex  flex-column flex-lg-row align-items-center gap-5 w-75">
+                                <div className="fw-bold address-card-title" >{address.addressTitle}</div>
                                 <div>{address.addressLine}</div>
                                 <div>{address.phoneNumber}</div>
                             </div>
-                            <div>
+                            <div className="d-flex align-items-center">
                                 <button
                                     className="btn btn-sm btn-warning me-2"
                                     onClick={() => {
@@ -103,10 +103,11 @@ const ProfileAdresses = () => {
             </div>
 
             {showPopup && (
-                <ProfileAddressesPopup
-                    popupCloser={() => setShowPopup(false)}
-                    updateAdress={selectedAddress}
-                    reflesh={() => setRefleshData((prev) => !prev)}
+                <AddAddressPopup
+                    onClose={() => {
+                        setShowPopup(false);
+                        setRefleshData(!refleshData);
+                    }}
                 />
             )}
         </div>

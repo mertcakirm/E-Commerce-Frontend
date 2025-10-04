@@ -1,15 +1,18 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {AddAddressRequest} from "../../API/AddressApi.js";
+import {toast} from "react-toastify";
 
 const AddAddressPopup = ({onClose}) => {
     const [newAddress, setNewAddress] = useState({
         addressTitle: "",
-        'city/town': "",
-        address: "",
+        city: "",
+        addressLine: "",
+        postalCode: "",
+
     });
 
     const handleInputChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setNewAddress((prevState) => ({
             ...prevState,
             [name]: value,
@@ -20,9 +23,11 @@ const AddAddressPopup = ({onClose}) => {
         event.preventDefault();
         try {
             await AddAddressRequest(newAddress);
+            toast.success("Adres başarıyla eklendi!")
             onClose(false);
         } catch (error) {
             console.error("Adres eklenirken hata:", error);
+            toast.error("Adres eklenirken bir hata oluştu!")
         }
     };
 
@@ -36,8 +41,9 @@ const AddAddressPopup = ({onClose}) => {
 
                 <div className="row yeni-adres-row">
                     {[
-                        { name: "addressTitle", placeholder: "Adres Başlığı" },
-                        { name: "city/town", placeholder: "İl / İlçe" },
+                        {name: "addressTitle", placeholder: "Adres Başlığı"},
+                        {name: "city", placeholder: "İl / İlçe"},
+                        {name: "postalCode", placeholder: "Posta Kodu"},
                     ].map((input, i) => (
                         <div className="col-12" key={i}>
                             <input
@@ -52,13 +58,13 @@ const AddAddressPopup = ({onClose}) => {
                     ))}
 
                     <div className="col-12">
-                                    <textarea
-                                        name="address"
-                                        id="adres-uzun"
-                                        placeholder="Adres Tarifi"
-                                        value={newAddress.address}
-                                        onChange={handleInputChange}
-                                    />
+                        <textarea
+                            name="addressLine"
+                            id="adres-uzun"
+                            placeholder="Adres Tarifi"
+                            value={newAddress.addressLine}
+                            onChange={handleInputChange}
+                        />
                     </div>
 
 

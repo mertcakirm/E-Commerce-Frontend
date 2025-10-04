@@ -6,13 +6,10 @@ import AddAddressPopup from "../Popups/AddAddressPopup.jsx";
 
 const PaymentAddress = () => {
     const [showModal, setShowModal] = useState(false);
-    const [addresses, setAddresses] = useState([]); // ✅ başlangıç değeri dizi
-    const [selectedAddressIndex, setSelectedAddressIndex] = useState(null);
-
+    const [addresses, setAddresses] = useState([]);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
     const [loading, setLoading] = useState(true);
     const [refresh, setRefresh] = useState(true);
-
-
 
     useEffect(() => {
         document.body.style.overflow = showModal ? 'hidden' : 'auto';
@@ -35,13 +32,6 @@ const PaymentAddress = () => {
         GetAdresses();
     }, [refresh]);
 
-
-
-    const handleSelectAddress = (index) => {
-        setSelectedAddressIndex((prev) => (prev === index ? null : index));
-        console.log("Seçilen adres:", addresses[index]);
-    };
-
     if (loading) return <LoadingComponent />;
 
     return (
@@ -50,17 +40,22 @@ const PaymentAddress = () => {
                 <p className="ozet-baslik">Teslimat Bilgilerim</p>
                 <div className="teslimat-bilgileri-panel-parent">
                     <div className="kayitli-adreslerim-parent">
-                        <p className="kayitli-adresleri-genel-baslik">Kayıtlı Adreslerim</p>
+                        <div className="d-flex justify-content-between">
+                            <p className="kayitli-adresleri-genel-baslik">Kayıtlı Adreslerim</p>
+                            <button id="yeni-adres-ekle-btn" onClick={()=>setShowModal(true)}>
+                                Yeni Adres Ekle
+                            </button>
+                        </div>
 
                         {addresses.length > 0 ? (
-                            addresses.map((address, index) => (
-                                <div key={index} className="kayitli-adreslerim-card sepet-ozet-card">
+                            addresses.map((address) => (
+                                <div key={address.id} className="kayitli-adreslerim-card sepet-ozet-card">
                                     <p className="kayitli-adreslerim-card-p1">
-                                        {address.addressLine || "Adres Başlığı Yok"}
+                                        {address.addressTitle || "Adres Başlığı Yok"}
                                     </p>
-                                    <p className="cut-text">{address.address}</p>
-                                    <button onClick={() => handleSelectAddress(index)}>
-                                        {selectedAddressIndex === index ? "Vazgeç" : "Kullan"}
+                                    <p className="cut-text">{address.addressLine}</p>
+                                    <button onClick={() => setSelectedAddressId(address.id)}>
+                                        {selectedAddressId === address.id ? "Vazgeç" : "Kullan"}
                                     </button>
                                 </div>
                             ))
@@ -69,9 +64,7 @@ const PaymentAddress = () => {
                         )}
                     </div>
 
-                    <button id="yeni-adres-ekle-btn" onClick={()=>setShowModal(true)}>
-                        Yeni Adres Ekle
-                    </button>
+
                 </div>
 
             </div>

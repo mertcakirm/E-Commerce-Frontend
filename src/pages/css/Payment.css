@@ -309,7 +309,6 @@
     flex-direction: column;
     padding: 2%;
     border: 1px solid gainsboro;
-
 }
 
 .kayitli-adreslerim-parent {
@@ -317,7 +316,6 @@
     flex-direction: column;
     row-gap: 20px;
     padding: 2%;
-    border-bottom: 1px solid gainsboro;
 }
 
 .kayitli-adresleri-genel-baslik {
@@ -332,25 +330,23 @@
     align-items: center;
     border: 1px solid gainsboro;
     padding: 2%;
-
 }
 
 .kayitli-adreslerim-card-p1 {
     font-weight: 700;
-    width: 200px;
+    width: 150px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
 
 .kayitli-adreslerim-card > p {
     margin: 0;
 }
 
 .kayitli-adreslerim-card > button {
-    border: 1px solid #000;
-    background: gray;
+    border: 0;
+    background: rgba(0, 108, 15, 0.63);
     color: #fff;
     padding: 5px 30px;
 }
@@ -453,9 +449,9 @@
     background: transparent;
     width: 30%;
     color: #000;
-    margin: 2%;
     padding: 10px 30px;
     border-radius: 10px;
+    border: 1px solid #000000;
 }
 
 #popup-adresi-kaydet-btn {
@@ -1052,8 +1048,8 @@ Credit Card
 
 
 .cut-text {
-    width: 250px; /* Genişliği ayarlayın */
-    white-space: nowrap; /* Tek satır yapar */
-    overflow: hidden; /* Taşan kısmı gizler */
-    text-overflow: ellipsis; /* Kesilmiş metnin sonuna "..." ekler */
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
