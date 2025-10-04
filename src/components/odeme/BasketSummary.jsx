@@ -1,30 +1,23 @@
-import {useEffect, useState} from 'react';
-import {FetchBasketRequest} from "../../API/ProductApi.js";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const BasketSummary = ({updateTrigger}) => {
-    const [totalprice, setTotalprice] = useState(0);
-    const [reflesh, setReflesh] = useState(false);
+const BasketSummary = () => {
+    const [totalPrice, setTotalPrice] = useState(0);
+    const cartItems = useSelector((state) => state.basket.items || []);
 
-    const getBasket = async () => {
-        const data = await FetchBasketRequest();
-        if (data) {
-            setTotalprice(data.price);
+    useEffect(() => {
+        if (cartItems.length > 0) {
+            const price = cartItems.reduce(
+                (total, item) =>
+                    total +
+                    (item.priceWithDiscount || item.price || 0) * (item.quantity || 1),
+                0
+            );
+            setTotalPrice(price.toFixed(2));
+        } else {
+            setTotalPrice(0);
         }
-    };
-
-    useEffect(() => {
-        getBasket();
-    }, []);
-
-    useEffect(() => {
-        getBasket();
-    }, [reflesh]);
-
-    useEffect(() => {
-        if (typeof updateTrigger === "function") {
-            updateTrigger(() => setReflesh(prev => !prev));
-        }
-    }, [updateTrigger]);
+    }, [cartItems]);
 
     return (
         <>
@@ -32,7 +25,7 @@ const BasketSummary = ({updateTrigger}) => {
             <div className="ozet-panel">
                 <div className="ozet-panel-item">
                     <p className="ozet-panel-item-p1">Ara Toplam</p>
-                    <p className="ozet-panel-item-p2">{totalprice}₺</p>
+                    <p className="ozet-panel-item-p2">{totalPrice}₺</p>
                 </div>
             </div>
         </>

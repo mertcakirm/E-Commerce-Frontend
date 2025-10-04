@@ -1,201 +1,222 @@
-.odeme-fluid{
-    padding-top: 100px;
+.odeme-fluid {
+    padding-top: 200px;
     padding-bottom: 100px;
 }
 
 
-
 .progress {
-	display: flex;
-	flex-flow: row nowrap;
+    display: flex;
+    flex-flow: row nowrap;
     justify-content: space-between;
-	padding: 0 40px;
-	margin-bottom: 60px;
+    padding: 0 40px;
+    margin-bottom: 60px;
     height: 100px;
     background: transparent;
 }
+
 .progress h3 {
-	flex-basis: 100%;
+    flex-basis: 100%;
 }
+
 .progress div.step {
-	position: relative;
-	max-width: 63px;
+    position: relative;
+    max-width: 63px;
 }
+
 .progress div.step span {
-	display: block;
-	text-align: center;
+    display: block;
+    text-align: center;
 }
+
 .progress div.step span:nth-of-type(1) {
-	position: relative;
-	height: 55px;
-	width: 55px;
-	list-style-type: none;
-	border-radius: 50%;
-	border: 4px solid #9498a3;
-	background: white;
-	text-align: center;
-	color: #9498a3;
-	line-height: 50px;
-	transition: background-color 150ms ease;
+    position: relative;
+    height: 55px;
+    width: 55px;
+    list-style-type: none;
+    border-radius: 50%;
+    border: 4px solid #9498a3;
+    background: white;
+    text-align: center;
+    color: #9498a3;
+    line-height: 50px;
+    transition: background-color 150ms ease;
 }
+
 .progress div.step span:nth-of-type(2) {
-	color: #9498a3;
-	position: absolute;
-	left: 50%;
-	transform: translateX(-50%);
-	margin-top: 10px;
-	white-space: nowrap;
-	text-align: center;
+    color: #9498a3;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    white-space: nowrap;
+    text-align: center;
 }
+
 .progress div:not(.step) {
-	margin-top: 27px;
-	height: 4px;
-	width: calc((100% - 10rem) / 3);
-	background: #9498a3;
-	border: none;
-	transition: background-color 150ms ease;
+    margin-top: 27px;
+    height: 4px;
+    width: calc((100% - 10rem) / 3);
+    background: #9498a3;
+    border: none;
+    transition: background-color 150ms ease;
 }
+
 .progress div:first-of-type:before {
-	content: none;
+    content: none;
 }
+
 .progress div.current {
-	color: #fff;
+    color: #fff;
 }
+
 .progress div:not(.step).current {
-	background: orange;
+    background: orange;
 }
+
 .progress div.step.current span:nth-of-type(2) {
-	color: orange;
+    color: orange;
 }
+
 .progress div.step.current span:first-child {
-	background: orange;
-	border-color: orange;
-	color: #fff;
+    background: orange;
+    border-color: orange;
+    color: #fff;
 }
-.checkout-progress-indicator .button { margin: 0 auto; display: block; }
+
+.checkout-progress-indicator .button {
+    margin: 0 auto;
+    display: block;
+}
 
 /* buttons */
 .button-next-step {
-	display: block;
-	font-size: 1.375em;
-	font-weight: 700;
-	letter-spacing: -0.025em;
-	line-height: 50px;
-	height: 50px;
-	width: 100%;
-	text-align: center;
-	margin-bottom: 10px;
-	cursor: pointer;
+    display: block;
+    font-size: 1.375em;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 50px;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+    cursor: pointer;
 }
+
 .button-next-step {
-	background: orange;
+    background: orange;
     border: 0;
-	color: #fff;
+    color: #fff;
 }
 
 /* inputs */
 
 .inputLabel {
-	position: relative;
-	display: block;
-	box-sizing: border-box;
-	width: 100%;
-	max-width: 400px;
-	padding: 4px 10px 8px 15px;
-	margin-bottom: 15px;
-	border: 1px solid #e7e7e7;
-	border-radius: 2px;
-	font-size: 20px;
-	color: #787878;
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px;
+    padding: 4px 10px 8px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #e7e7e7;
+    border-radius: 2px;
+    font-size: 20px;
+    color: #787878;
 }
 
 .inputLabel span {
-	position: absolute;
-	top: 50%;
-	left: 15px;
-	transform: translateY(-50%);
-	z-index: 5;
-	transition: top 150ms ease,
-				font-size 150ms ease,
-				color 150ms ease;
-}	
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    z-index: 5;
+    transition: top 150ms ease,
+    font-size 150ms ease,
+    color 150ms ease;
+}
 
 .inputLabel .message {
-	position: absolute;
-	top: calc(100% + 1px);
-	border-radius: 2px;
-	padding: 0 10px;
-	left: 0;
-	width: 100%;
-	background: #d0021b;
-	color: #fff;
-	font-size: 13px;
-	line-height: 3em;
+    position: absolute;
+    top: calc(100% + 1px);
+    border-radius: 2px;
+    padding: 0 10px;
+    left: 0;
+    width: 100%;
+    background: #d0021b;
+    color: #fff;
+    font-size: 13px;
+    line-height: 3em;
 }
 
 .inputLabel input {
-	margin-top: 30px;
-	background: transparent;
+    margin-top: 30px;
+    background: transparent;
 }
 
 .inputLabel.invalid span {
-	color: #d0021b;
+    color: #d0021b;
 }
 
 .inputLabel.invalid {
-	margin-bottom: 55px;
+    margin-bottom: 55px;
 }
+
 .inputLabel.invalid {
     background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2QwMDIxYjt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPkFydGJvYXJkIDE8L3RpdGxlPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTI1NiwwQTI1NiwyNTYsMCwxLDAsNTEyLDI1NiwyNTUuNjQsMjU1LjY0LDAsMCwwLDI1NiwwWm0wLDQ4My4xOEEyMjcuMTgsMjI3LjE4LDAsMSwxLDQ4My4xOCwyNTYsMjI2LjY4LDIyNi42OCwwLDAsMSwyNTYsNDgzLjE4WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTIzMy4wNiwzNDQuOTRjMC0xMi41NCwxMC4yMy0yMy4xLDIyLjc3LTIzLjFhMjMuMzksMjMuMzksMCwwLDEsMjMuMSwyMy4xYzAsMTIuMjEtMTAuNTYsMjIuNzctMjMuMSwyMi43N0EyMywyMywwLDAsMSwyMzMuMDYsMzQ0Ljk0Wk0yNDEsMjk3LjA5bC02LjI3LTE1Mi43OUgyNzdMMjcxLDI5Ny4wOVoiLz48L3N2Zz4=) no-repeat;
-	background-position: calc(100% - 20px) 50%;
-	background-size: 30px 30px;
+    background-position: calc(100% - 20px) 50%;
+    background-size: 30px 30px;
 }
 
 /* odeme 1 */
 
-.ozet-baslik{
+.ozet-baslik {
     font-size: 24px;
     font-weight: 600;
-	margin-top: 10px
+    margin-top: 10px
 }
 
-.sepet-ozet-flex{
+.sepet-ozet-flex {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
 }
 
-.sepet-ozet-card{
+.sepet-ozet-card {
     width: 100%;
-    border: 1px solid #000;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     padding: 2%;
     border-radius: 10px;
-	margin: 0;
+    margin: 0;
+    transition: .2s;
+}
+
+.sepet-ozet-card:hover {
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    transition: .2s;
 }
 
 
-
-.ozet-card-col-2{
+.ozet-card-col-2 {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
     padding: 2% 0%;
 }
 
-.ozet-card-col-2-p1{
+.ozet-card-col-2-p1 {
     font-size: 20px;
     font-weight: 600;
     margin: 0;
 }
 
-.ozet-card-col-2-p2{
+.ozet-card-col-2-p2 {
     font-size: 16px;
     font-weight: 500;
     margin: 0;
     color: gray;
 }
 
-.ozet-card-col-3{
+.ozet-card-col-3 {
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -203,7 +224,7 @@
     row-gap: 30px;
 }
 
-.ozet-card-col-3-sil-btn{
+.ozet-card-col-3-sil-btn {
     background: transparent;
     border: 0;
     width: 200px;
@@ -216,35 +237,35 @@
     justify-content: end;
 }
 
-.ozet-card-col-3-sil-btn>svg{
+.ozet-card-col-3-sil-btn > svg {
     width: 20px;
 }
 
-.ozet-card-fiyat-flex{
+.ozet-card-fiyat-flex {
     display: flex;
     flex-direction: row;
     column-gap: 20px;
 }
 
-.ozet-card-fiyat-indirim{
+.ozet-card-fiyat-indirim {
     padding: 5px 20px;
     color: #fff;
     background-color: orange;
 }
 
-.ozet-card-fiyat-1{
+.ozet-card-fiyat-1 {
     font-size: 20px;
     font-weight: 600;
 }
 
-.ozet-card-fiyat-2{
+.ozet-card-fiyat-2 {
     font-size: 20px;
     font-weight: 600;
     color: gray;
     text-decoration: line-through;
 }
 
-.ozet-panel{
+.ozet-panel {
     background-color: rgb(243, 242, 242);
     display: flex;
     flex-direction: column;
@@ -254,551 +275,582 @@
     min-height: 300px;
 }
 
-.ozet-sag-col{
+.ozet-sag-col {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
 }
 
-.ozet-panel-item{
+.ozet-panel-item {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
-.ozet-panel-item-p1{
+.ozet-panel-item-p1 {
     font-size: 16px;
     font-weight: 600;
 }
 
-.ozet-panel-item-p2{
+.ozet-panel-item-p2 {
     font-size: 20px;
     font-weight: 700;
 }
 
-.sepeti-bosalt-flex{
-	justify-content: end;
-	padding-right: 20px;
+.sepeti-bosalt-flex {
+    justify-content: end;
+    padding-right: 20px;
 }
 
 /* odeme 2 */
 
-.teslimat-bilgileri-panel-parent{
-	display: flex;
-	flex-direction: column;
-	padding: 2%;
-	border: 1px solid gainsboro;
+.teslimat-bilgileri-panel-parent {
+    display: flex;
+    flex-direction: column;
+    padding: 2%;
+    border: 1px solid gainsboro;
 
 }
 
-.kayitli-adreslerim-parent{
-	display: flex;
-	flex-direction: column;
-	row-gap: 20px;
-	padding: 2%;
-	border-bottom: 1px solid gainsboro;
+.kayitli-adreslerim-parent {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 2%;
+    border-bottom: 1px solid gainsboro;
 }
 
-.kayitli-adresleri-genel-baslik{
-	font-size: 20px;
-	font-weight: 600;
+.kayitli-adresleri-genel-baslik {
+    font-size: 20px;
+    font-weight: 600;
 }
 
-.kayitli-adreslerim-card{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	border: 1px solid gainsboro;
-	padding: 2%;
+.kayitli-adreslerim-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid gainsboro;
+    padding: 2%;
 
 }
 
-.kayitli-adreslerim-card-p1{
-font-weight: 700;
-  width: 100px; 
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.kayitli-adreslerim-card-p1 {
+    font-weight: 700;
+    width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
-.kayitli-adreslerim-card>p{
-	margin: 0;
+.kayitli-adreslerim-card > p {
+    margin: 0;
 }
 
-.kayitli-adreslerim-card>button{
-	border: 1px solid #000;
-	background: gray;
-	color: #fff;
-	padding: 5px 30px;
+.kayitli-adreslerim-card > button {
+    border: 1px solid #000;
+    background: gray;
+    color: #fff;
+    padding: 5px 30px;
 }
 
-.adres-input{
-	width: 100%!important;
-	height: 40px;
-	padding-left: 1%;
-	border: 0;
-	border-bottom: 1px solid #000;
+.adres-input {
+    width: 100% !important;
+    height: 40px;
+    border: 0;
+    border-bottom: 1px solid #000;
 }
-.adres-input:focus-visible{
-	outline: none;
+
+.adres-input:focus-visible {
+    outline: none;
 }
 
 .yeni-adres-row {
-	row-gap: 20px;
-	padding: 2%;
+    row-gap: 20px;
+    padding: 2%;
 }
 
-.yeni-adres-olarak-kaydet-chc{
-	background: gainsboro;
-	padding: 5px 30px;
+.yeni-adres-olarak-kaydet-chc {
+    background: gainsboro;
+    padding: 5px 30px;
 }
 
-.kargo-row{
-	padding: 5%;
+.kargo-row {
+    padding: 5%;
 }
 
 
-.kargo-card{
-	height: 100px;
-	box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+.kargo-card {
+    height: 100px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
-.kargo-card-row{
-	height: 100%;
+.kargo-card-row {
+    height: 100%;
 }
 
-.kargo-resim-flex{
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
+.kargo-resim-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.kargo-fiyat-flex{
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	font-size: 20px;
-	background: rgb(179, 178, 178);
-	color: #fff;
-	font-weight: 700;
+.kargo-fiyat-flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: rgb(179, 178, 178);
+    color: #fff;
+    font-weight: 700;
 }
-.kargo-fiyat-flex>p{
-	margin: 0;
+
+.kargo-fiyat-flex > p {
+    margin: 0;
 }
+
 .modal {
-  display: block; 
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
-  background-color: #fefefe;
-  margin: 10% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: fit-content;
 }
 
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 
-#yeni-adres-ekle-btn{
-  background: transparent;
-  width: 30%;
-  color: #000;
-  margin: 2%;
-  padding: 10px 30px;
-  border-radius: 10px;
+#yeni-adres-ekle-btn {
+    background: transparent;
+    width: 30%;
+    color: #000;
+    margin: 2%;
+    padding: 10px 30px;
+    border-radius: 10px;
 }
 
-#popup-adresi-kaydet-btn{
-  background: #000;
-  color: #fff;
-  padding: 10px 30px;
-  width: 50%;
-  border-radius: 10px;
-  margin: auto;
+#popup-adresi-kaydet-btn {
+    background: #000;
+    color: #fff;
+    padding: 10px 30px;
+    width: 50%;
+    border-radius: 10px;
+    margin: auto;
 }
 
 
 /* odeme3 */
 
-.odeme-nav-tab{
-	justify-content: center;
+.odeme-nav-tab {
+    justify-content: center;
 }
-
-
-
 
 
 /*--------------------
 Form
 --------------------*/
-.credit-form{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.credit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .credit-form fieldset {
-  border: none;
-  padding: 10px 0;
-  position: relative;
-  clear: both;
-}
-.credit-form fieldset.fieldset-expiration {
-  width: 46%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-.credit-form fieldset.fieldset-expiration .select {
-  width: 84px;
-  margin-right: 12px;
-  float: left;
-}
-.credit-form fieldset.fieldset-ccv {
-  clear: none;
-  width: 15%;
-}
-.credit-form fieldset label {
-  display: block;
-  text-transform: uppercase;
-  font-size: 11px;
-  color: rgba(0, 0, 0, 0.6);
-  margin-bottom: 5px;
-  font-weight: bold;
-  font-family: Inconsolata;
-}
-.credit-form fieldset input,
-.credit-form fieldset .select {
-  width: 100%;
-  height: 38px;
-  color: #333333;
-  padding: 10px;
-  border-radius: 5px;
-  font-size: 15px;
-  outline: none !important;
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+    border: none;
+    padding: 10px 0;
+    position: relative;
+    clear: both;
 }
 
-.sahip-fieldset{
-	display: flex;
-	flex-direction: column!important;
-	width: 46%;
+.credit-form fieldset.fieldset-expiration {
+    width: 46%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
+
+.credit-form fieldset.fieldset-expiration .select {
+    width: 84px;
+    margin-right: 12px;
+    float: left;
+}
+
+.credit-form fieldset.fieldset-ccv {
+    clear: none;
+    width: 15%;
+}
+
+.credit-form fieldset label {
+    display: block;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-family: Inconsolata;
+}
+
+.credit-form fieldset input,
+.credit-form fieldset .select {
+    width: 100%;
+    height: 38px;
+    color: #333333;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    outline: none !important;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.sahip-fieldset {
+    display: flex;
+    flex-direction: column !important;
+    width: 46%;
+}
+
 .credit-form fieldset input.input-cart-number,
 .credit-form fieldset .select.input-cart-number {
-  width: 82px;
-  display: inline-block;
-  margin-right: 8px;
+    width: 82px;
+    display: inline-block;
+    margin-right: 8px;
 }
+
 .credit-form fieldset input.input-cart-number:last-child,
 .credit-form fieldset .select.input-cart-number:last-child {
-  margin-right: 0;
+    margin-right: 0;
 }
+
 .credit-form fieldset .select {
-  position: relative;
+    position: relative;
 }
+
 .credit-form fieldset .select::after {
-  content: "";
-  border-top: 8px solid #222;
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  position: absolute;
-  z-index: 2;
-  top: 14px;
-  right: 10px;
-  pointer-events: none;
+    content: "";
+    border-top: 8px solid #222;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    position: absolute;
+    z-index: 2;
+    top: 14px;
+    right: 10px;
+    pointer-events: none;
 }
+
 .credit-form fieldset .select select {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
-  position: absolute;
-  padding: 0;
-  border: none;
-  width: 100%;
-  outline: none !important;
-  top: 6px;
-  left: 6px;
-  background: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: absolute;
+    padding: 0;
+    border: none;
+    width: 100%;
+    outline: none !important;
+    top: 6px;
+    left: 6px;
+    background: none;
 }
+
 .credit-form fieldset .select select :-moz-focusring {
-  color: transparent;
-  text-shadow: 0 0 0 #000;
+    color: transparent;
+    text-shadow: 0 0 0 #000;
 }
+
 .credit-form button {
-  width: 100%;
-  outline: none !important;
-  background: linear-gradient(180deg, #49a09b, #3d8291);
-  text-transform: uppercase;
-  font-weight: bold;
-  border: none;
-  box-shadow: none;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  margin-top: 90px;
+    width: 100%;
+    outline: none !important;
+    background: linear-gradient(180deg, #49a09b, #3d8291);
+    text-transform: uppercase;
+    font-weight: bold;
+    border: none;
+    box-shadow: none;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    margin-top: 90px;
 }
+
 .credit-form button .fa {
-  margin-right: 6px;
+    margin-right: 6px;
 }
 
 /*--------------------
 Checkout
 --------------------*/
 .checkout {
-  margin: 150px auto 30px;
-  position: relative;
-  width: 100%;
-  background: white;
-  border-radius: 15px;
-  padding: 160px 45px 30px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-  min-height: 500px;
+    margin: 150px auto 30px;
+    position: relative;
+    width: 100%;
+    background: white;
+    border-radius: 15px;
+    padding: 160px 45px 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    min-height: 500px;
 }
 
 /*--------------------
 Credit Card
 --------------------*/
 .credit-card-box {
-  perspective: 1000;
-  width: 400px;
-  height: 280px;
-  position: absolute;
-  top: -112px;
-  left: 50%;
-  transform: translateX(-50%);
+    perspective: 1000;
+    width: 400px;
+    height: 280px;
+    position: absolute;
+    top: -112px;
+    left: 50%;
+    transform: translateX(-50%);
 }
+
 .credit-card-box:hover .flip, .credit-card-box.hover .flip {
-  transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
+
 .credit-card-box .front,
 .credit-card-box .back {
-  width: 400px;
-  height: 250px;
-  border-radius: 15px;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-  background: linear-gradient(135deg, #bd6772, #53223f);
-  position: absolute;
-  color: #fff;
-  font-family: Inconsolata;
-  top: 0;
-  left: 0;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    height: 250px;
+    border-radius: 15px;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    background: linear-gradient(135deg, #bd6772, #53223f);
+    position: absolute;
+    color: #fff;
+    font-family: Inconsolata;
+    top: 0;
+    left: 0;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
 }
+
 .credit-card-box .front::before,
 .credit-card-box .back::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: url("http://cdn.flaticon.com/svg/44/44386.svg") no-repeat center;
-  background-size: cover;
-  opacity: 0.05;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: url("http://cdn.flaticon.com/svg/44/44386.svg") no-repeat center;
+    background-size: cover;
+    opacity: 0.05;
 }
+
 .credit-card-box .flip {
-  transition: 0.6s;
-  transform-style: preserve-3d;
-  position: relative;
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
 }
+
 .credit-card-box .logo {
-  position: absolute;
-  top: 9px;
-  right: 20px;
-  width: 60px;
+    position: absolute;
+    top: 9px;
+    right: 20px;
+    width: 60px;
 }
+
 .credit-card-box .logo svg {
-  width: 100%;
-  height: auto;
-  fill: #fff;
+    width: 100%;
+    height: auto;
+    fill: #fff;
 }
+
 .credit-card-box .front {
-  z-index: 2;
-  transform: rotateY(0deg);
+    z-index: 2;
+    transform: rotateY(0deg);
 }
+
 .credit-card-box .back {
-  transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
+
 .credit-card-box .back .logo {
-  top: 185px;
+    top: 185px;
 }
+
 .credit-card-box .chip {
-  position: absolute;
-  width: 60px;
-  height: 45px;
-  top: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #ddccf0 0%, #d1e9f5 44%, #f8ece7 100%);
-  border-radius: 8px;
+    position: absolute;
+    width: 60px;
+    height: 45px;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, #ddccf0 0%, #d1e9f5 44%, #f8ece7 100%);
+    border-radius: 8px;
 }
+
 .credit-card-box .chip::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  border: 4px solid rgba(128, 128, 128, 0.1);
-  width: 80%;
-  height: 70%;
-  border-radius: 5px;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    border: 4px solid rgba(128, 128, 128, 0.1);
+    width: 80%;
+    height: 70%;
+    border-radius: 5px;
 }
+
 .credit-card-box .strip {
-  background: linear-gradient(135deg, #404040, #1a1a1a);
-  position: absolute;
-  width: 100%;
-  height: 50px;
-  top: 30px;
-  left: 0;
+    background: linear-gradient(135deg, #404040, #1a1a1a);
+    position: absolute;
+    width: 100%;
+    height: 50px;
+    top: 30px;
+    left: 0;
 }
+
 .credit-card-box .number {
-  position: absolute;
-  margin: 0 auto;
-  top: 103px;
-  left: 19px;
-  font-size: 38px;
+    position: absolute;
+    margin: 0 auto;
+    top: 103px;
+    left: 19px;
+    font-size: 38px;
 }
+
 .credit-card-box label {
-  font-size: 10px;
-  letter-spacing: 1px;
-  text-shadow: none;
-  text-transform: uppercase;
-  font-weight: normal;
-  opacity: 0.5;
-  display: block;
-  margin-bottom: 3px;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-shadow: none;
+    text-transform: uppercase;
+    font-weight: normal;
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 3px;
 }
+
 .credit-card-box .card-holder,
 .credit-card-box .card-expiration-date {
-  position: absolute;
-  margin: 0 auto;
-  top: 180px;
-  left: 19px;
-  font-size: 22px;
-  text-transform: capitalize;
+    position: absolute;
+    margin: 0 auto;
+    top: 180px;
+    left: 19px;
+    font-size: 22px;
+    text-transform: capitalize;
 }
+
 .credit-card-box .card-expiration-date {
-  text-align: right;
-  left: auto;
-  right: 20px;
+    text-align: right;
+    left: auto;
+    right: 20px;
 }
+
 .credit-card-box .ccv {
-  height: 36px;
-  background: #fff;
-  width: 91%;
-  border-radius: 5px;
-  top: 110px;
-  left: 0;
-  right: 0;
-  position: absolute;
-  margin: 0 auto;
-  color: #000;
-  text-align: right;
-  padding: 10px;
+    height: 36px;
+    background: #fff;
+    width: 91%;
+    border-radius: 5px;
+    top: 110px;
+    left: 0;
+    right: 0;
+    position: absolute;
+    margin: 0 auto;
+    color: #000;
+    text-align: right;
+    padding: 10px;
 }
+
 .credit-card-box .ccv label {
-  margin: -25px 0 14px;
-  color: #fff;
+    margin: -25px 0 14px;
+    color: #fff;
 }
 
 .the-most {
-  position: fixed;
-  z-index: 1;
-  bottom: 0;
-  left: 0;
-  width: 50vw;
-  max-width: 200px;
-  padding: 10px;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    width: 50vw;
+    max-width: 200px;
+    padding: 10px;
 }
+
 .the-most img {
-  max-width: 100%;
+    max-width: 100%;
 }
 
-.selects{
-	width: 100px;
+.selects {
+    width: 100px;
 }
-
-
 
 
 .the-most {
-  position: fixed;
-  z-index: 1;
-  bottom: 0;
-  left: 0;
-  width: 50vw;
-  max-width: 200px;
-  padding: 10px;
-  
-  img {
-    max-width: 100%;
-  }
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    width: 50vw;
+    max-width: 200px;
+    padding: 10px;
+
+    img {
+        max-width: 100%;
+    }
 }
 
-.sozlesme-card{
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  padding: 5%;
-  border-radius: 20px;
-}
-
-
-.sozlesme-checkbox{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  column-gap: 5px;
-  padding-left: 20px;
-}
-
-.sozlesme-content{
-  max-height: 500px;
-  overflow: hidden;
-  overflow-y: scroll;
-}
-
-.havale-card{
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  padding: 5%;
-  border-radius: 20px;
-  margin-bottom: 50px;
-  margin-top: 50px;
+.sozlesme-card {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 5%;
+    border-radius: 20px;
 }
 
 
-.kopyala-btn-havale{
-  border: 0;
-  background: transparent;
+.sozlesme-checkbox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 5px;
+    padding-left: 20px;
 }
 
-.havale-card-metin{
+.sozlesme-content {
+    max-height: 500px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.havale-card {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 5%;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+
+.kopyala-btn-havale {
+    border: 0;
+    background: transparent;
+}
+
+.havale-card-metin {
     font-size: 20px;
     margin-bottom: 10px;
     transition: .4s;
@@ -807,175 +859,201 @@ Credit Card
 
 /* ödeme 4 */
 
-.onay-svg-parent{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: 50px;
-  text-align: center;
-}
-
-.onay-svg-parent>a{
-  background: #000;
-  padding: 10px 30px;
-  color: #fff;
-  text-decoration: none;
-  font-size: 20px;
-  border-radius: 20px;
-}
-
-.onay-metin{
-  color: green;
-}
-
-.onay-svg{
-  margin-left: auto;
-  margin-right: auto;
-}
-
-
-
-@media only screen and (max-width:991px) {
-	.kargo-resim-flex>img{
-		width: 52%!important;
-		transition: .4s;
-	}
-
-}
-
-
-@media only screen and (max-width:767px) {
-	
-.ozet-card-col-3{
-    align-items: baseline;
-}
-
-.ozet-card-col-3-sil-btn{
-    justify-content: start;
-}
-
-
-.sepeti-bosalt-flex{
-	justify-content: start;
-	margin: 30px 0px;
-}
-.credit-form{
-	align-items: baseline;
-}
-.credit-form fieldset.fieldset-expiration {
-    width: 100%;
+.onay-svg-parent {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
-}
-
-.credit-form fieldset.fieldset-expiration {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-.credit-form fieldset input.input-cart-number, .credit-form fieldset .select.input-cart-number {
-    width: 50px;
-    display: inline-block;
-    margin-right: 8px;
-}
-
-.modal-content {
-  margin: 20% auto;
-  width: 100%;
-}
-
-#yeni-adres-ekle-btn{
-  width: 50%;
-}
-
-}
-
-@media only screen and (max-width:430px) {
-	.kayitli-adreslerim-card{
-		flex-direction: column;
-		justify-content: start;
-		row-gap: 20px;
-	}
-	.checkout {
-		padding: 160px 25px 30px;
-	}
-
-	.kargo-resim-flex>img{
-		width: 100%!important;
-	}
-
-  .kayitli-adreslerim-card>p{
-    margin: 0;
+    row-gap: 50px;
     text-align: center;
-  }
-
-	.credit-card-box {
-		perspective: 1000;
-		width: 300px;
-		height: 280px;
-		position: absolute;
-		top: -112px;
-		left: 0%;
-		transform: translateX(-50%);
-		margin-left: 150px;
-	}
-
-
-	.credit-card-box .back {
-		width: 300px;
-		left: 0px;
-	  }
-	  .credit-card-box .front{
-		  width: 300px;
-		  left: 0;
-		
-	  }
-	  
-	  .credit-card-box .front::before{
-		width: 100%;
-		left: 0;
-	  }
-	  .credit-card-box .back::before {
-		width: 100%;
-		left: 0;
-	  }
-
-	  .credit-card-box .number {
-		font-size: 25px;
-	}
-	.credit-card-box .card-holder, .credit-card-box .card-expiration-date {
-		font-size: 15px;
-	}
-	.sahip-fieldset{
-		width: 90%;
-	}
-
-  .havale-card-metin{
-    font-size: 14px;
-    transition: .4s;
-
-}
-#yeni-adres-ekle-btn{
-  width: 70%;
-  margin: 2% auto;
 }
 
-.modal-content {
-  margin: 35% auto;
-  width: 100%;
+.onay-svg-parent > a {
+    background: #000;
+    padding: 10px 30px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 20px;
 }
 
-#popup-adresi-kaydet-btn{
-  width: 80%;
+.onay-metin {
+    color: green;
 }
+
+.onay-svg {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+@media only screen and (max-width: 991px) {
+    .kargo-resim-flex > img {
+        width: 52% !important;
+        transition: .4s;
+    }
+
+}
+
+
+@media only screen and (max-width: 767px) {
+
+    .ozet-card-col-3 {
+        align-items: baseline;
+    }
+
+    .ozet-card-col-3-sil-btn {
+        justify-content: start;
+    }
+
+
+    .sepeti-bosalt-flex {
+        justify-content: start;
+        margin: 30px 0px;
+    }
+
+    .credit-form {
+        align-items: baseline;
+    }
+
+    .credit-form fieldset.fieldset-expiration {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .credit-form fieldset.fieldset-expiration {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .credit-form fieldset input.input-cart-number, .credit-form fieldset .select.input-cart-number {
+        width: 50px;
+        display: inline-block;
+        margin-right: 8px;
+    }
+
+    .modal-content {
+        margin: 20% auto;
+        width: 100%;
+    }
+
+    #yeni-adres-ekle-btn {
+        width: 50%;
+    }
+
+}
+
+.reset-basket-btn2 {
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #e10000;
+    color: #fff;
+    border: 0;
+    padding: 10px 30px;
+}
+
+@media only screen and (max-width: 900px) {
+    .ozet-baslik {
+        margin-top: 80px !important;
+    }
+}
+
+
+@media only screen and (max-width: 430px) {
+    .kayitli-adreslerim-card {
+        flex-direction: column;
+        justify-content: start;
+        row-gap: 20px;
+    }
+
+    .checkout {
+        padding: 160px 25px 30px;
+    }
+
+    .kargo-resim-flex > img {
+        width: 100% !important;
+    }
+
+    .kayitli-adreslerim-card > p {
+        margin: 0;
+        text-align: center;
+    }
+
+
+    .credit-card-box {
+        perspective: 1000px;
+        width: 300px;
+        height: 280px;
+        position: absolute;
+        top: -112px;
+        left: 0%;
+        transform: translateX(-50%);
+        margin-left: 150px;
+    }
+
+
+    .credit-card-box .back {
+        width: 300px;
+        left: 0px;
+    }
+
+    .credit-card-box .front {
+        width: 300px;
+        left: 0;
+
+    }
+
+    .credit-card-box .front::before {
+        width: 100%;
+        left: 0;
+    }
+
+    .credit-card-box .back::before {
+        width: 100%;
+        left: 0;
+    }
+
+    .credit-card-box .number {
+        font-size: 25px;
+    }
+
+    .credit-card-box .card-holder, .credit-card-box .card-expiration-date {
+        font-size: 15px;
+    }
+
+    .sahip-fieldset {
+        width: 90%;
+    }
+
+    .havale-card-metin {
+        font-size: 14px;
+        transition: .4s;
+
+    }
+
+    #yeni-adres-ekle-btn {
+        width: 70%;
+        margin: 2% auto;
+    }
+
+    .modal-content {
+        margin: 35% auto;
+        width: 100%;
+    }
+
+    #popup-adresi-kaydet-btn {
+        width: 80%;
+    }
 }
 
 
 .cut-text {
-  width: 250px; /* Genişliği ayarlayın */
-  white-space: nowrap; /* Tek satır yapar */
-  overflow: hidden; /* Taşan kısmı gizler */
-  text-overflow: ellipsis; /* Kesilmiş metnin sonuna "..." ekler */
+    width: 250px; /* Genişliği ayarlayın */
+    white-space: nowrap; /* Tek satır yapar */
+    overflow: hidden; /* Taşan kısmı gizler */
+    text-overflow: ellipsis; /* Kesilmiş metnin sonuna "..." ekler */
 }

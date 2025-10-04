@@ -1,143 +1,156 @@
 import {useEffect, useState, useRef} from 'react';
-import {Helmet} from "react-helmet";
 import "../../pages/css/Payment.css";
 import BasketSummary from "./BasketSummary.jsx";
 import {
-    DecreaseProductRequest,
+    DecreaseProductRequest, DeleteProductFromBasketRequest,
     FetchBasketRequest,
     IncreaseProductRequest, ResetToBasketRequest
 } from "../../API/ProductApi.js";
+import {setBasket, toggleRefresh} from "../../store/basketSlice.js";
+import {useDispatch, useSelector} from "react-redux";
+import {getCookie} from "../cookie/cookie.js";
+import {toast} from "react-toastify";
+import Loading from "../other/Loading.jsx";
 
 const PaymentBasket = () => {
-    const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const fUpdater = useRef(null);
+    const dispatch = useDispatch();
+    const cartItems = useSelector((state) => state.basket.items);
+    const refreshData = useSelector((state) => state.basket.refresh);
+    const token = getCookie("token");
 
+
+    const fetchBasket = async () => {
+        setLoading(true);
+        try {
+            const basketObj = await FetchBasketRequest();
+            const formattedItems = basketObj?.data?.data?.cartItems?.map((item) => {
+                const priceWithDiscount = item.product.price * (1 - (item.product.discountRate || 0) / 100);
+                return {
+                    id: item.id,
+                    productId: item.product?.id,
+                    name: item.product?.name || "Ürün ismi yok",
+                    productCode: item.product?.id,
+                    quantity: item.quantity,
+                    productVariantId: item.productVariantId,
+                    size: item.productVariantName || "-",
+                    priceWithDiscount: priceWithDiscount.toFixed(2),
+                    priceWithOutDiscount: (item.product?.price || 0).toFixed(2),
+                    discount: item.product?.discountRate || 0,
+                    images: item.product?.images?.map((img) => ({
+                        imageUrl: `https://localhost:7050${img.imageUrl}`,
+                    })) || [],
+                };
+            }) || [];
+            dispatch(setBasket(formattedItems));
+        } catch (error) {
+            console.error("Basket fetch error:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+
+    const incrementProductCount = async (productVariantId) => {
+        try {
+            await IncreaseProductRequest(productVariantId);
+            dispatch(toggleRefresh());
+        } catch (error) {
+            console.error("Increase product error:", error);
+        }
+    };
+
+    const decrementProductCount = async (productVariantId) => {
+        try {
+            await DecreaseProductRequest(productVariantId);
+            dispatch(toggleRefresh());
+        } catch (error) {
+            console.error("Decrease product error:", error);
+        }
+    };
+
+    const DeleteProductFromBasket = async (basketId) => {
+        if (!token) return console.error("No token found");
+        try {
+            await DeleteProductFromBasketRequest(basketId);
+            toast.success("Ürün sepetten başarıyla silindi!")
+            dispatch(toggleRefresh());
+        } catch (error) {
+            console.error("Reset basket error:", error);
+            toast.success("Ürün sepetten silinirken bir hata oluştu!")
+        }
+    };
+
+    const resetBasket = async () => {
+        if (!token) return console.error("No token found");
+        try {
+            await ResetToBasketRequest();
+            dispatch(toggleRefresh());
+            toast.success("Sepet başarıyla sıfırlandı!")
+        } catch (error) {
+            console.error("Reset basket error:", error);
+            toast("Sepet sıfırlanırken bir hata oluştu!")
+        }
+    };
 
     useEffect(() => {
-        fetchSepetData();
+        fetchBasket();
     }, []);
 
-
-    const fetchSepetData = async () => {
-        try {
-            const data = await FetchBasketRequest();
-            setCartItems(data.bucketItems);
-            setLoading(false);
-        } catch (error) {
-            console.error('Sepet verileri alınamadı:', error);
-        }
-    };
-
-    const deleteItemFromBasket = async (productCode) => {
-        try {
-            await ResetToBasketRequest(productCode);
-            const updatedItems = cartItems.filter(item => item.productCode !== productCode);
-            setCartItems(updatedItems);
-
-        } catch (error) {
-            console.error('Ürün silinemedi:', error);
-        }
-    };
-
-    const incrementProductCount = async (productCode) => {
-        const updatedCartItems = cartItems.map(item => {
-            if (item.productCode === productCode) {
-                const newQuantity = item.quantity + 1;
-                const newPriceWithDiscount = (item.priceWithDiscount / item.quantity) * newQuantity;
-                const newPriceWithOutDiscount = (item.priceWithOutDiscount / item.quantity) * newQuantity;
-                return {
-                    ...item,
-                    quantity: newQuantity,
-                    priceWithDiscount: newPriceWithDiscount,
-                    priceWithOutDiscount: newPriceWithOutDiscount
-                };
-            }
-            return item;
-        });
-        setCartItems(updatedCartItems);
-
-        try {
-            await IncreaseProductRequest(productCode);
-            fUpdater.current()
-        } catch (error) {
-            console.error('Ürün adedi arttırılamadı:', error);
-        }
-
-    };
+    useEffect(() => {
+        fetchBasket();
+    }, [refreshData]);
 
 
-    const decrementProductCount = async (productCode) => {
-        const updatedCartItems = cartItems.map(item => {
-            if (item.productCode === productCode && item.quantity > 1) {
-                const newQuantity = item.quantity - 1;
-                const newPriceWithDiscount = (item.priceWithDiscount / item.quantity) * newQuantity;
-                const newPriceWithOutDiscount = (item.priceWithOutDiscount / item.quantity) * newQuantity;
-                return {
-                    ...item,
-                    quantity: newQuantity,
-                    priceWithDiscount: newPriceWithDiscount,
-                    priceWithOutDiscount: newPriceWithOutDiscount
-                };
-            }
-            return item;
-        });
-        setCartItems(updatedCartItems);
-
-        try {
-            await DecreaseProductRequest(productCode);
-            fUpdater.current()
-        } catch (error) {
-            console.error('Ürün adedi azaltılamadı:', error);
-        }
-
-    };
+    if (loading) return <Loading />;
 
 
-    if (loading) {
-        return (
-            <div className="d-flex justify-content-center" style={{height: '50vh', alignItems: 'center'}}>
-                <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="row">
-            <Helmet>
-                <title>Sepet Özetim</title>
-                <meta name="description"
-                      content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."/>
-                <meta name="keywords" content="tişört,pantolon,giyim,moda,erkek giyim"/>
-                <meta name="author" content="MOB WEAR"/>
-                <meta property="og:title" content="Kaliteli Kıyafetler"/>
-                <meta property="og:description"
-                      content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."/>
-                <meta property="og:image" content="URL_of_image"/>
-                <meta property="og:url" content="URL_of_your_website"/>
-                <meta property="og:type" content="website"/>
-            </Helmet>
             <div className="col-lg-8">
-                <p className="ozet-baslik">Ürünlerim</p>
+                <div className="d-flex justify-content-between mb-3">
+                    <p className="ozet-baslik">Ürünlerim</p>
+
+                    <button className="reset-basket-btn2" onClick={resetBasket}>Sepeti Sıfırla</button>
+                </div>
                 <div className="sepet-ozet-flex">
                     {cartItems.map((item, index) => (
                         <div key={index} className="sepet-ozet-card row">
                             <div className="col-lg-3 col-md-3">
                                 <a href="#">
-                                    <img src={`data:image/jpeg;base64,${item.image.bytes}`}
-                                         className="img-fluid w-100 sepet-resim" alt=""/>
+                                    {item.images[0]?.imageUrl ? (
+                                        <img
+                                            src={item.images[0].imageUrl}
+                                            className="img-fluid w-100 sepet-resim"
+                                            alt={item.name}
+                                        />
+                                    ) : (
+                                        <div
+                                            className="img-fluid w-100 sepet-resim"
+                                            style={{
+                                                background: "#f0f0f0",
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                height: "150px",
+                                            }}
+                                        >
+                                            Resim Yok
+                                        </div>
+                                    )}
                                 </a>
                             </div>
                             <div className="col-lg-5 col-md-5 ozet-card-col-2">
-                                <p className="ozet-card-col-2-p1">{item.productName}</p>
-                                <p className="ozet-card-col-2-p2">Ürün Kodu: {item.productCode}</p>
+                                <p className="ozet-card-col-2-p1">{item.name}</p>
+                                <p className="ozet-card-col-2-p2">Ürün Kodu: {item.id}</p>
                                 <p className="ozet-card-col-2-p2">Beden: {item.size}</p>
                             </div>
                             <div className="col-lg-4 col-md-4 ozet-card-col-3">
                                 <button className="ozet-card-col-3-sil-btn"
-                                        onClick={() => deleteItemFromBasket(item.productCode)}>
+                                        onClick={() => DeleteProductFromBasket(item.id)}>
                                     <svg clipRule="evenodd" fillRule="evenodd" strokeLinejoin="round"
                                          strokeMiterlimit="2" fill="gray" viewBox="0 0 24 24"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -148,9 +161,9 @@ const PaymentBasket = () => {
                                     <span>Sil</span>
                                 </button>
                                 <div className="updown">
-                                    <button onClick={() => decrementProductCount(item.productCode)}>-</button>
+                                    <button onClick={() => decrementProductCount(item.productVariantId)}>-</button>
                                     <span>{item.quantity}</span>
-                                    <button onClick={() => incrementProductCount(item.productCode)}>+</button>
+                                    <button onClick={() => incrementProductCount(item.productVariantId)}>+</button>
                                 </div>
                                 <div className="ozet-card-fiyat-flex">
                                     <div className="ozet-card-fiyat-indirim">%{item.quantity}</div>
@@ -163,7 +176,7 @@ const PaymentBasket = () => {
                 </div>
             </div>
             <div className="col-lg-4 ozet-sag-col">
-                <BasketSummary updateTrigger={(f) => fUpdater.current = f}/>
+                <BasketSummary />
                 <button className="button-next-step primary" onClick={() => window.location.href = "/siparis/kargo"}
                         id="stepper">
                     Sonraki Adım
