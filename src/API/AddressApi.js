@@ -21,3 +21,11 @@ export const GetAddressRequest = async () => {
             },
         });
 };
+
+export const GetAddressSingleRequest = async (id)=>{
+    return  await api.get(`UserAddress/${id}`, {
+        headers: {
+            Authorization: `Bearer ${token.token}`,
+        },
+    });
+}
