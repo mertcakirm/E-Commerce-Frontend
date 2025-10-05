@@ -5,11 +5,9 @@ const token = getCookie("token");
 export const FetchProductRequest=async (category,page)=>{
     console.log(category)
     if(category==="tum-urunler"){
-        const response = await api.get(`/Products?pageNumber=${page}&pageSize=12`);
-        return response;
+        return  await api.get(`/Products?pageNumber=${page}&pageSize=12`);
     }else{
-        const response = await api.get(`/Products/get-by-category/${category}?pageNumber=${page}&pageSize=48`);
-        return response;
+        return  await api.get(`/Products/get-by-category/${category}?pageNumber=${page}&pageSize=48`);
     }
 }
 

@@ -19,6 +19,7 @@ const Products = () => {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
+    const [totalCount, setTotalCount] = useState(0);
     const location = useLocation();
     const currentCategory = decodeURIComponent(location.pathname.split("/").pop());
     const token = getCookie("token");
@@ -27,10 +28,11 @@ const Products = () => {
         if (currentPage > totalPages) return;
         setLoading(true);
         try {
-            const data = await FetchProductRequest(currentCategory, currentPage);
-            setProducts(data.data.data.items)
-            setTotalPages(data.totalPages || 1);
-            setCurrentPage(prev => prev + 1);
+            const response = await FetchProductRequest(currentCategory, currentPage);
+            setCurrentPage(response.data?.data?.pageNumber || 1);
+            setTotalCount(response.data?.data?.totalCount || 0);
+            setTotalPages(response.data?.data?.totalPages || 1);
+            setProducts(response.data.data.items);
         } catch (err) {
             console.error("API Hatası:", err);
         } finally {
@@ -94,7 +96,7 @@ const Products = () => {
                             className="text-center urunler-sayfa-baslik"
                             style={{textTransform: "uppercase"}}
                         >
-                            {currentCategory} / 200 Ürün
+                            {currentCategory} / {totalCount} Ürün
                         </p>
                     </div>
                     <div className="col-lg-4 row grid-row">
@@ -131,8 +133,8 @@ const Products = () => {
 
                 <div className="row urun-cards-row">
                     {products.map((product, index) => (
-                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`}>
-                            <div className="urun-card" data-aos="fade-up">
+                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`} data-aos="fade-up">
+                            <div className="urun-card">
                                 <a href={`/urunler-detay/${product.id}`}>
                                     {product.images?.[0] && (
                                         <img

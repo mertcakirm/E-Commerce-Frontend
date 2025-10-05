@@ -119,7 +119,7 @@ const PaymentBasket = () => {
                 {cartItems.length === 0 ? (
                     <div className="d-flex flex-column gap-3">
                         <div className="text-center py-5 fs-5 fw-semibold text-secondary">
-                            Sepetiniz boş.
+                            Sepetiniz boş. Anasayfaya yönlendiriliyorsunuz...
                         </div>
                         <a
                             className="mt-3 text-center"

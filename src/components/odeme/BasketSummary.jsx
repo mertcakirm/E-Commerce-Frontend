@@ -16,6 +16,10 @@ const BasketSummary = () => {
             setTotalPrice(price.toFixed(2));
         } else {
             setTotalPrice(0);
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 10000);
+
         }
     }, [cartItems]);
 

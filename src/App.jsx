@@ -43,7 +43,7 @@ AppLayout.propTypes = {
 };
 
 const ProtectedRoute = ({element}) => {
-    const sessionid = getCookie('SESSIONID');
+    const sessionid = getCookie('token');
     return sessionid ? element : <Navigate to="/girisyap" replace />;
 };
 
@@ -52,7 +52,7 @@ ProtectedRoute.propTypes = {
 };
 
 const UnprotectedRoute = ({element}) => {
-    const sessionid = getCookie('SESSIONID');
+    const sessionid = getCookie('token');
     return sessionid ? <Navigate to="/profilim" replace /> : element;
 };
 
@@ -62,7 +62,7 @@ UnprotectedRoute.propTypes = {
 
 function App() {
     useEffect(() => {
-        const sessionid = getCookie('SESSIONID');
+        const sessionid = getCookie('token');
         if (!sessionid) return;
         AOS.init({ duration: 500 });
 
