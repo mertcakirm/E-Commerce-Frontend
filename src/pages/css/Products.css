@@ -150,7 +150,7 @@
 
 .urun-card {
     position: relative;
-    height: 500px;
+    height: 600px;
     transition: .4s;
     overflow: hidden;
     z-index: 50;
