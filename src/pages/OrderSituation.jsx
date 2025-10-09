@@ -24,7 +24,7 @@ const OrderSituation = () => {
         <div>
 
             <div className="container-fluid siparis-durumu-container">
-                <div className="row" style={{margin: "0px"}}>
+                <div className="row" style={{margin: "0px",marginTop: "120px"}}>
                     <div className="col-12">
                         <section className="checkout-progress-indicator">
                             <div className="progress">
