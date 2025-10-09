@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import {
-    DecreaseProductRequest, DeleteProductFromBasketRequest,
+    DecreaseProductRequest,
+    DeleteProductFromBasketRequest,
     FetchBasketRequest,
     IncreaseProductRequest,
     ResetToBasketRequest,
 } from "../../../API/ProductApi.js";
-import { setBasket, toggleRefresh } from "../../../store/basketSlice.js";
+import { setBasket } from "../../../store/basketSlice.js";
 import { useDispatch, useSelector } from "react-redux";
 import { getCookie } from "../../cookie/cookie.js";
 import Loading from "../Loading.jsx";
@@ -18,28 +19,33 @@ const Basket = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const token = getCookie("token");
 
+    // 🟢 Sepeti API'den çek
     const fetchBasket = async () => {
         setLoading(true);
         try {
             const basketObj = await FetchBasketRequest();
-            const formattedItems = basketObj?.data?.data?.cartItems?.map((item) => {
-                const priceWithDiscount = item.product.price * (1 - (item.product.discountRate || 0) / 100);
-                return {
-                    id: item.id,
-                    productId: item.product?.id,
-                    name: item.product?.name || "Ürün ismi yok",
-                    productCode: item.product?.id,
-                    quantity: item.quantity,
-                    productVariantId: item.productVariantId,
-                    size: item.productVariantName || "-",
-                    priceWithDiscount: priceWithDiscount.toFixed(2),
-                    priceWithOutDiscount: (item.product?.price || 0).toFixed(2),
-                    discount: item.product?.discountRate || 0,
-                    images: item.product?.images?.map((img) => ({
-                        imageUrl: `https://localhost:7050${img.imageUrl}`,
-                    })) || [],
-                };
-            }) || [];
+            const formattedItems =
+                basketObj?.data?.data?.cartItems?.map((item) => {
+                    const priceWithDiscount =
+                        item.product.price *
+                        (1 - (item.product.discountRate || 0) / 100);
+                    return {
+                        id: item.id,
+                        productId: item.product?.id,
+                        name: item.product?.name || "Ürün ismi yok",
+                        productCode: item.product?.id,
+                        quantity: item.quantity,
+                        productVariantId: item.productVariantId,
+                        size: item.productVariantName || "-",
+                        priceWithDiscount: priceWithDiscount.toFixed(2),
+                        priceWithOutDiscount: (item.product?.price || 0).toFixed(2),
+                        discount: item.product?.discountRate || 0,
+                        images:
+                            item.product?.images?.map((img) => ({
+                                imageUrl: `https://localhost:7050${img.imageUrl}`,
+                            })) || [],
+                    };
+                }) || [];
             dispatch(setBasket(formattedItems));
         } catch (error) {
             console.error("Basket fetch error:", error);
@@ -52,44 +58,72 @@ const Basket = () => {
         fetchBasket();
     }, [refreshData]);
 
+    // 🟠 Local miktar güncelleme fonksiyonu (min 1 - max 10)
+    const updateQuantityLocally = (productVariantId, delta) => {
+        dispatch(
+            setBasket(
+                cartItems.map((item) => {
+                    if (item.productVariantId !== productVariantId) return item;
+                    const newQuantity = item.quantity + delta;
+                    if (newQuantity < 1) return { ...item, quantity: 1 };
+                    if (newQuantity > 10) return { ...item, quantity: 10 };
+                    return { ...item, quantity: newQuantity };
+                })
+            )
+        );
+    };
+
+    // 🟢 Ürün artırma (max 10)
     const incrementProductCount = async (productVariantId) => {
+        const item = cartItems.find((x) => x.productVariantId === productVariantId);
+        if (!item || item.quantity >= 10) return; // 10’dan fazla olmasın
+
+        updateQuantityLocally(productVariantId, 1); // local UI güncelle
         try {
-            await IncreaseProductRequest(productVariantId);
-            dispatch(toggleRefresh());
+            await IncreaseProductRequest(productVariantId); // backend isteği gönder
         } catch (error) {
             console.error("Increase product error:", error);
+            updateQuantityLocally(productVariantId, -1); // hata olursa geri al
         }
     };
 
+    // 🟢 Ürün azaltma (min 1)
     const decrementProductCount = async (productVariantId) => {
+        const item = cartItems.find((x) => x.productVariantId === productVariantId);
+        if (!item || item.quantity <= 1) return;
+
+        updateQuantityLocally(productVariantId, -1); // local UI güncelle
         try {
-            await DecreaseProductRequest(productVariantId);
-            dispatch(toggleRefresh());
+            await DecreaseProductRequest(productVariantId); // backend isteği gönder
         } catch (error) {
             console.error("Decrease product error:", error);
+            updateQuantityLocally(productVariantId, 1); // hata olursa geri al
         }
     };
 
+    // 🟢 Ürünü sil
     const DeleteProductFromBasket = async (basketId) => {
         if (!token) return console.error("No token found");
         try {
             await DeleteProductFromBasketRequest(basketId);
-            dispatch(toggleRefresh());
+            dispatch(setBasket(cartItems.filter((x) => x.id !== basketId))); // localden kaldır
         } catch (error) {
-            console.error("Reset basket error:", error);
+            console.error("Delete basket item error:", error);
         }
     };
 
+    // 🟢 Sepeti sıfırla
     const resetBasket = async () => {
         if (!token) return console.error("No token found");
         try {
             await ResetToBasketRequest();
-            dispatch(toggleRefresh());
+            dispatch(setBasket([])); // local sepeti temizle
         } catch (error) {
             console.error("Reset basket error:", error);
         }
     };
 
+    // 🟢 Toplam fiyat hesapla
     useEffect(() => {
         const price = cartItems.reduce(
             (total, item) => total + item.priceWithDiscount * item.quantity,
@@ -98,6 +132,7 @@ const Basket = () => {
         setTotalPrice(price.toFixed(2));
     }, [cartItems]);
 
+    // 🧱 Render
     return (
         <div
             className="offcanvas offcanvas-end"
@@ -162,13 +197,24 @@ const Basket = () => {
                                     <p className="sepet-card-col-2-urun-kodu">
                                         Ürün Kodu : {item.productCode}
                                     </p>
-                                    <p className="sepet-card-col-2-beden">BEDEN : {item.size}</p>
+                                    <p className="sepet-card-col-2-beden">
+                                        BEDEN : {item.size}
+                                    </p>
                                     <div className="updown">
-                                        <button onClick={() => decrementProductCount(item.productVariantId)}>
+                                        <button
+                                            onClick={() =>
+                                                decrementProductCount(item.productVariantId)
+                                            }
+                                        >
                                             -
                                         </button>
                                         <span>{item.quantity}</span>
-                                        <button onClick={() => incrementProductCount(item.productVariantId)}>
+                                        <button
+                                            onClick={() =>
+                                                incrementProductCount(item.productVariantId)
+                                            }
+                                            disabled={item.quantity >= 10}
+                                        >
                                             +
                                         </button>
                                     </div>
@@ -186,7 +232,7 @@ const Basket = () => {
                                 <div className="col-2 sepet-card-col-3">
                                     <button
                                         className="sepet-card-col-3-like-btn"
-                                        onClick={()=>DeleteProductFromBasket(item.id)}
+                                        onClick={() => DeleteProductFromBasket(item.id)}
                                     >
                                         <svg
                                             width="30"
@@ -218,7 +264,10 @@ const Basket = () => {
                         </div>
 
                         <div className="d-flex justify-content-between w-100">
-                            <button className="reset-basket-btn w-50" onClick={resetBasket}>
+                            <button
+                                className="reset-basket-btn w-50"
+                                onClick={resetBasket}
+                            >
                                 Sepeti Sıfırla
                             </button>
 
@@ -228,7 +277,8 @@ const Basket = () => {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     if (totalPrice === 0) {
-                                        window.location.href = "/urunler/tum-urunler";
+                                        window.location.href =
+                                            "/urunler/tum-urunler";
                                     } else {
                                         window.location.href = "/siparis/ozet";
                                     }

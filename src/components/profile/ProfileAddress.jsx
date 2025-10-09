@@ -63,7 +63,7 @@ const ProfileAdresses = () => {
                 </button>
             </div>
 
-            <div className="col-12 row justify-content-center adreslerim-row-parent" >
+            <div className="col-12 mt-3 row justify-content-center adreslerim-row-parent" >
                 {addresses.length === 0 ? (
                     <div className="text-center">Henüz adres eklenmemiş.</div>
                 ) : (

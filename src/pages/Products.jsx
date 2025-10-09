@@ -133,8 +133,8 @@ const Products = () => {
 
                 <div className="row urun-cards-row">
                     {products.map((product, index) => (
-                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`} data-aos="fade-up">
-                            <div className="urun-card">
+                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`}>
+                            <div className="urun-card"  data-aos="fade-up">
                                 <a href={`/urunler-detay/${product.id}`}>
                                     {product.images?.[0] && (
                                         <img

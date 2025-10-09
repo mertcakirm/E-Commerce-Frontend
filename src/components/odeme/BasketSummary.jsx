@@ -6,20 +6,24 @@ const BasketSummary = () => {
     const cartItems = useSelector((state) => state.basket.items || []);
 
     useEffect(() => {
-        if (cartItems.length > 0) {
+        if (cartItems && cartItems.length > 0) {
             const price = cartItems.reduce(
                 (total, item) =>
                     total +
                     (item.priceWithDiscount || item.price || 0) * (item.quantity || 1),
                 0
             );
-            setTotalPrice(price.toFixed(2));
+            setTotalPrice(Number(price.toFixed(2)));
         } else {
             setTotalPrice(0);
-            setTimeout(() => {
-                window.location.href = "/";
+
+            const timer = setTimeout(() => {
+                if (cartItems.length === 0) {
+                    window.location.href = "/";
+                }
             }, 10000);
 
+            return () => clearTimeout(timer);
         }
     }, [cartItems]);
 

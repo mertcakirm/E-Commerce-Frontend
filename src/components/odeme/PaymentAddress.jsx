@@ -3,6 +3,7 @@ import BasketSummary from './BasketSummary.jsx';
 import LoadingComponent from "../other/Loading.jsx";
 import { GetAddressRequest } from "../../API/AddressApi.js";
 import AddAddressPopup from "../Popups/AddAddressPopup.jsx";
+import {toast} from "react-toastify";
 
 const PaymentAddress = () => {
     const [showModal, setShowModal] = useState(false);
@@ -31,6 +32,21 @@ const PaymentAddress = () => {
     useEffect(() => {
         GetAdresses();
     }, [refresh]);
+
+    useEffect(() => {
+        localStorage.setItem("address", JSON.stringify(selectedAddressId));
+    },[selectedAddressId])
+
+    const nextStep = async () => {
+        const addressCheck = localStorage.getItem("address");
+
+        if (!addressCheck || addressCheck === "null" || addressCheck === "undefined") {
+            toast.warning("Adres seçiniz!")
+            return;
+        }
+
+        window.location.href = "/siparis/odeme";
+    };
 
     if (loading) return <LoadingComponent />;
 
@@ -71,7 +87,7 @@ const PaymentAddress = () => {
 
             <div className="col-lg-5 ozet-sag-col">
                 <BasketSummary />
-                <button className="button-next-step primary" id="stepper">
+                <button onClick={nextStep} className="button-next-step primary" id="stepper">
                     Ödemeye Geç
                 </button>
             </div>

@@ -8,7 +8,7 @@ import {
     IncreaseProductRequest,
     ResetToBasketRequest
 } from "../../API/ProductApi.js";
-import {setBasket, toggleRefresh} from "../../store/basketSlice.js";
+import {setBasket} from "../../store/basketSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 import {getCookie} from "../cookie/cookie.js";
 import {toast} from "react-toastify";
@@ -52,20 +52,44 @@ const PaymentBasket = () => {
     };
 
     const incrementProductCount = async (productVariantId) => {
+        const updatedItems = cartItems.map((item) => {
+            if (item.productVariantId === productVariantId) {
+                if (item.quantity >= 10) {
+                    toast.warning("Bir üründen en fazla 10 adet ekleyebilirsiniz.");
+                    return item;
+                }
+                return {...item, quantity: item.quantity + 1};
+            }
+            return item;
+        });
+        dispatch(setBasket(updatedItems));
+
         try {
             await IncreaseProductRequest(productVariantId);
-            dispatch(toggleRefresh());
         } catch (error) {
             console.error("Increase product error:", error);
+            toast.error("Ürün artırılırken bir hata oluştu!");
         }
     };
 
     const decrementProductCount = async (productVariantId) => {
+        const updatedItems = cartItems.map((item) => {
+            if (item.productVariantId === productVariantId) {
+                if (item.quantity <= 1) {
+                    toast.warning("Ürün adedi 1'in altına inemez.");
+                    return item;
+                }
+                return {...item, quantity: item.quantity - 1};
+            }
+            return item;
+        });
+        dispatch(setBasket(updatedItems));
+
         try {
             await DecreaseProductRequest(productVariantId);
-            dispatch(toggleRefresh());
         } catch (error) {
             console.error("Decrease product error:", error);
+            toast.error("Ürün azaltılırken bir hata oluştu!");
         }
     };
 
@@ -74,7 +98,8 @@ const PaymentBasket = () => {
         try {
             await DeleteProductFromBasketRequest(basketId);
             toast.success("Ürün sepetten başarıyla silindi!");
-            dispatch(toggleRefresh());
+            const updatedItems = cartItems.filter((item) => item.id !== basketId);
+            dispatch(setBasket(updatedItems));
         } catch (error) {
             console.error("Delete product error:", error);
             toast.error("Ürün sepetten silinirken bir hata oluştu!");
@@ -85,7 +110,7 @@ const PaymentBasket = () => {
         if (!token) return console.error("No token found");
         try {
             await ResetToBasketRequest();
-            dispatch(toggleRefresh());
+            dispatch(setBasket([]));
             toast.success("Sepet başarıyla sıfırlandı!");
         } catch (error) {
             console.error("Reset basket error:", error);
@@ -113,7 +138,6 @@ const PaymentBasket = () => {
                             Sepeti Sıfırla
                         </button>
                     }
-
                 </div>
 
                 {cartItems.length === 0 ? (
@@ -185,11 +209,19 @@ const PaymentBasket = () => {
                                     </div>
 
                                     <div className="ozet-card-fiyat-flex">
-                                        <div className="ozet-card-fiyat-indirim">
-                                            %{item.discount}
-                                        </div>
+
+
                                         <div className="ozet-card-fiyat-1">{item.priceWithDiscount}₺</div>
-                                        <div className="ozet-card-fiyat-2">{item.priceWithOutDiscount}₺</div>
+                                        {item.discount !== 0 && (
+                                            <div className="ozet-card-fiyat-flex">
+                                                <div className="ozet-card-fiyat-2">{item.priceWithOutDiscount}₺</div>
+                                                <div className="ozet-card-fiyat-indirim">
+                                                    {item.discount}%
+                                                </div>
+                                            </div>
+
+                                        )
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +229,6 @@ const PaymentBasket = () => {
                     </div>
                 )}
             </div>
-
 
             <div className="col-lg-4 ozet-sag-col">
                 <BasketSummary />
@@ -210,7 +241,6 @@ const PaymentBasket = () => {
                         Sonraki Adım
                     </button>
                 }
-
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Helmet } from "react-helmet";
 import BasketSummary from './BasketSummary.jsx';
 import {toast} from "react-toastify";
+import {CreateOrderRequest} from "../../API/OrderApi.js";
 
 const PaymentCardInfo = () => {
   const [cardNumber, setCardNumber] = useState(["", "", "", ""]);
@@ -45,71 +45,33 @@ const PaymentCardInfo = () => {
   };
 
 
+  const HandleSubmit = async ()=>{
 
+    const address = await localStorage.getItem("address")
 
-  const copyText = (text) => {
-    const textArea = document.createElement("textarea");
-    toast.success("Panoya kopyalandı!")
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-  };
+    if (!address || address === "null" || address === "undefined") {
+      toast.warning("Adres seçilmedi!")
+      return;
+    }
 
+    const dto = {
+        "paymentMethod": "Credit_Card",
+        "addressId": parseInt(address)
+    }
+
+    try {
+      await CreateOrderRequest(dto);
+      window.location.href="/siparis/onay"
+    } catch (err) {
+      toast.error("Sipariş oluşturulurken bir hata oluştu!");
+      console.log(err);
+    }
+  }
 
   return (
     <div className='row'>
-            <Helmet>
-            <title>Ödeme Yap</title>
-            <meta
-              name="description"
-              content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-            />
-            <meta
-              name="keywords"
-              content="tişört,pantolon,giyim,moda,erkek giyim"
-            />
-            <meta name="author" content="MOB WEAR" />
-            <meta property="og:title" content="Kaliteli Kıyafetler" />
-            <meta
-              property="og:description"
-              content="Mob Wear olarak yeni modaya hitap ediyor ve buna göre ürünleri sizler için üretiyoruz."
-            />
-            <meta property="og:image" content="URL_of_image" />
-            <meta property="og:url" content="URL_of_your_website" />
-            <meta property="og:type" content="website" />
-          </Helmet>
       <div className="col-lg-8">
         <div className="odeme-secenekleri-parent">
-          <nav>
-            <div className="nav nav-tabs odeme-nav-tab" id="nav-tab" role="tablist">
-              <button className="nav-link active" id="nav-havale-tab" data-bs-toggle="tab" data-bs-target="#nav-havale" type="button" role="tab" aria-controls="nav-havale" aria-selected="true">Havale</button>
-              <button className="nav-link" id="nav-credit-tab" data-bs-toggle="tab" data-bs-target="#nav-credit" type="button" role="tab" aria-controls="nav-credit" aria-selected="false">Kredi Kartı</button>
-            </div>
-          </nav>
-          <div className="tab-content" id="nav-tabContent">
-            <div className="tab-pane fade show active" id="nav-havale" role="tabpanel" aria-labelledby="nav-havale-tab" tabIndex="0">
-              <div className="row">
-                <div className="col-12">
-                  <div className="havale-card">
-                    <div className='havale-card-metin'>
-                      İBAN: <span>TR340004600786888000080896</span> 
-                      <button className='kopyala-btn-havale' onClick={() => copyText("TR340004600786888000080896")}><svg clipRule="evenodd" fill='blue' width="20" height="20" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 18h-3c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v3h3c.621 0 1 .522 1 1v14c0 .621-.522 1-1 1h-14c-.48 0-1-.379-1-1zm1.5-10.5v13h13v-13zm9-1.5v-2.5h-13v13h2.5v-9.5c0-.481.38-1 1-1z" fillRule="nonzero"/></svg></button>
-                    </div>
-                    <div className='havale-card-metin'>
-                      Referans Numarası (Açıklama): <span>97762</span> 
-                      <button className='kopyala-btn-havale' onClick={() => copyText("97762")}><svg clipRule="evenodd" fill='blue' width="20" height="20" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 18h-3c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v3h3c.621 0 1 .522 1 1v14c0 .621-.522 1-1 1h-14c-.48 0-1-.379-1-1zm1.5-10.5v13h13v-13zm9-1.5v-2.5h-13v13h2.5v-9.5c0-.481.38-1 1-1z" fillRule="nonzero"/></svg></button>
-                    </div>
-                    <div className='havale-card-metin'>
-                      Alıcı Adı: <span>Mahir</span> 
-                      <button className='kopyala-btn-havale' onClick={() => copyText("Mahir")}><svg clipRule="evenodd" fill='blue' width="20" height="20" fillRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m6 18h-3c-.48 0-1-.379-1-1v-14c0-.481.38-1 1-1h14c.621 0 1 .522 1 1v3h3c.621 0 1 .522 1 1v14c0 .621-.522 1-1 1h-14c-.48 0-1-.379-1-1zm1.5-10.5v13h13v-13zm9-1.5v-2.5h-13v13h2.5v-9.5c0-.481.38-1 1-1z" fillRule="nonzero"/></svg></button>
-                    </div>           
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="tab-pane fade" id="nav-credit" role="tabpanel" aria-labelledby="nav-credit-tab" tabIndex="0">
               <div className="checkout">
                 <div className="credit-card-box">
                   <div className="flip">
@@ -217,7 +179,6 @@ const PaymentCardInfo = () => {
                         <option value="2028">2028</option>
                         <option value="2029">2029</option>
                         <option value="2030">2030</option>
-                        {/* Add more years as needed */}
                       </select>
                     </div>
                     <div>
@@ -232,8 +193,6 @@ const PaymentCardInfo = () => {
                   </fieldset>
                 </form>
               </div>
-            </div>
-          </div>
         </div>
 
         <div className="sozlesme-card">
@@ -483,7 +442,7 @@ Siparişin gerçekleşmesi durumunda Alıcı işbu sözleşmenin tüm koşullar�
       </div>
       <div className="col-lg-4 ozet-sag-col">
           <BasketSummary />
-          <button className="button-next-step primary" id="stepper" >
+          <button onClick={HandleSubmit} className="button-next-step primary" id="stepper" >
           Siparişi Onayla
         </button>
             </div>
