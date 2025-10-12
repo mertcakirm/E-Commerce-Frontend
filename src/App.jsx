@@ -43,8 +43,8 @@ AppLayout.propTypes = {
 };
 
 const ProtectedRoute = ({element}) => {
-    const sessionid = getCookie('token');
-    return sessionid ? element : <Navigate to="/girisyap" replace />;
+    const token = getCookie('token');
+    return token ? element : <Navigate to="/girisyap" replace />;
 };
 
 ProtectedRoute.propTypes = {
@@ -52,8 +52,8 @@ ProtectedRoute.propTypes = {
 };
 
 const UnprotectedRoute = ({element}) => {
-    const sessionid = getCookie('token');
-    return sessionid ? <Navigate to="/profilim" replace /> : element;
+    const token = getCookie('token');
+    return sessitokenonid ? <Navigate to="/profilim" replace /> : element;
 };
 
 UnprotectedRoute.propTypes = {
@@ -62,8 +62,8 @@ UnprotectedRoute.propTypes = {
 
 function App() {
     useEffect(() => {
-        const sessionid = getCookie('token');
-        if (!sessionid) return;
+        const token = getCookie('token');
+        if (!token) return;
         AOS.init({ duration: 500 });
 
     }, []);
@@ -78,6 +78,7 @@ function App() {
                     <Route path="/error" element={<ErrorPage />} />
                     <Route path="*" element={<Navigate to="/error" state={{errorMessage: 'Sayfa bulunamadı'}} />} />
                     <Route path="/urunler/:category" element={<Products />} />
+                    <Route path="/urunler/kampanya/:id" element={<Products />} />
                     <Route path="/urunler-detay/:id" element={<ProductDetail />} />
                     <Route path="/hakkimizda" element={<About />} />
                     <Route path="/iletisim" element={<Contact />} />

@@ -30,7 +30,7 @@ const ProfileInfo = () => {
 
         <div className="row justify-content-center">
 
-            <div className="col-12 border rounded-3 shadow-sm p-3 d-flex flex-column gap-4" style={{width:'fit-content'}}>
+            <div className="col-12 border rounded-3 shadow-sm p-3 d-flex flex-column gap-4" data-aos="fade-up" style={{width:'fit-content'}}>
                 <div className="col-12 text-center fs-3">
                     BİLGİLERİM
                 </div>

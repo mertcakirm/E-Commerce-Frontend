@@ -55,7 +55,7 @@ const ProfileAdresses = () => {
                 <button
                     className="btn giris-yap-btn fs-6 w-auto"
                     onClick={() => {
-                        setSelectedAddressId(null); // ✅ yeni adres ekleme modu
+                        setSelectedAddressId(null);
                         setShowPopup(true);
                     }}
                 >
