@@ -6,116 +6,116 @@ import ProfileOffer from "../components/profile/ProfileOffer.jsx";
 
 const Profile = () => {
     return (
-            <div className="container-fluid profile-container" data-aos="fade-up">
-                <div className="row">
-                    <div className="col-lg-12">
-                        <div className="d-flex mb-3 justify-content-center">
-                            <ul className="nav nav-pills pills-con mb-3" id="pills-tab" role="tablist">
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link active"
-                                        id="pills-bilgilerim-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-bilgilerim"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-bilgilerim"
-                                        aria-selected="true"
-                                    >
-                                        Bilgilerim
-                                    </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link"
-                                        id="pills-adreslerim-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-adreslerim"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-adreslerim"
-                                        aria-selected="false"
-                                    >
-                                        Adreslerim
-                                    </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link"
-                                        id="pills-kampanyalarim-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-kampanyalarim"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-kampanyalarim"
-                                        aria-selected="false"
-                                    >
-                                        Kampanyalarım
-                                    </button>
-                                </li>
-                                <li className="nav-item" role="presentation">
-                                    <button
-                                        className="nav-link"
-                                        id="pills-siparislerim-tab"
-                                        data-bs-toggle="pill"
-                                        data-bs-target="#pills-siparislerim"
-                                        type="button"
-                                        role="tab"
-                                        aria-controls="pills-siparislerim"
-                                        aria-selected="false"
-                                    >
-                                        Siparişlerim
-                                    </button>
-                                </li>
-                            </ul>
-
-                        </div>
-
-                        <div className="d-flex justify-content-center">
-                            <div className="tab-content p-2 tab-content2" id="pills-tabContent">
-                                <div
-                                    className="tab-pane fade show active"
-                                    id="pills-bilgilerim"
-                                    role="tabpanel"
-                                    aria-labelledby="pills-bilgilerim-tab"
-                                    tabIndex="0"
+        <div className="container-fluid profile-container" data-aos="fade-up">
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="d-flex mb-3 justify-content-center">
+                        <ul className="nav nav-pills border rounded-5 shadow mb-3" id="pills-tab" role="tablist">
+                            <li className="nav-item" role="presentation">
+                                <button
+                                    className="nav-link active"
+                                    id="pills-bilgilerim-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-bilgilerim"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="pills-bilgilerim"
+                                    aria-selected="true"
                                 >
-                                    <ProfileInfo/>
+                                    Bilgilerim
+                                </button>
+                            </li>
+                            <li className="nav-item" role="presentation">
+                                <button
+                                    className="nav-link"
+                                    id="pills-adreslerim-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-adreslerim"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="pills-adreslerim"
+                                    aria-selected="false"
+                                >
+                                    Adreslerim
+                                </button>
+                            </li>
+                            <li className="nav-item" role="presentation">
+                                <button
+                                    className="nav-link"
+                                    id="pills-kampanyalarim-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-kampanyalarim"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="pills-kampanyalarim"
+                                    aria-selected="false"
+                                >
+                                    Kampanyalarım
+                                </button>
+                            </li>
+                            <li className="nav-item" role="presentation">
+                                <button
+                                    className="nav-link"
+                                    id="pills-siparislerim-tab"
+                                    data-bs-toggle="pill"
+                                    data-bs-target="#pills-siparislerim"
+                                    type="button"
+                                    role="tab"
+                                    aria-controls="pills-siparislerim"
+                                    aria-selected="false"
+                                >
+                                    Siparişlerim
+                                </button>
+                            </li>
+                        </ul>
 
-                                </div>
-                                <div
-                                    className="tab-pane fade row"
-                                    id="pills-adreslerim"
-                                    role="tabpanel"
-                                    aria-labelledby="pills-adreslerim-tab"
-                                    tabIndex="0"
-                                >
-                                    <ProfileAdresses/>
+                    </div>
 
-                                </div>
-                                <div
-                                    className="tab-pane fade"
-                                    id="pills-kampanyalarim"
-                                    role="tabpanel"
-                                    aria-labelledby="pills-kampanyalarim-tab"
-                                    tabIndex="0"
-                                >
-                                    <ProfileOffer/>
-                                </div>
-                                <div
-                                    className="tab-pane fade"
-                                    id="pills-siparislerim"
-                                    role="tabpanel"
-                                    aria-labelledby="pills-siparislerim-tab"
-                                    tabIndex="0"
-                                >
-                                    <ProfileOrders/>
-                                </div>
+                    <div className="d-flex justify-content-center">
+                        <div className="tab-content w-100" id="pills-tabContent">
+                            <div
+                                className="tab-pane fade show active  p-4"
+                                id="pills-bilgilerim"
+                                role="tabpanel"
+                                aria-labelledby="pills-bilgilerim-tab"
+                                tabIndex="0"
+                            >
+                                <ProfileInfo/>
+
+                            </div>
+                            <div
+                                className="tab-pane fade row border rounded-3 shadow"
+                                id="pills-adreslerim"
+                                role="tabpanel"
+                                aria-labelledby="pills-adreslerim-tab"
+                                tabIndex="0"
+                            >
+                                <ProfileAdresses/>
+
+                            </div>
+                            <div
+                                className="tab-pane fade border shadow p-2 rounded-3"
+                                id="pills-kampanyalarim"
+                                role="tabpanel"
+                                aria-labelledby="pills-kampanyalarim-tab"
+                                tabIndex="0"
+                            >
+                                <ProfileOffer/>
+                            </div>
+                            <div
+                                className="tab-pane fade shadow border shadow rounded-3 p-3"
+                                id="pills-siparislerim"
+                                role="tabpanel"
+                                aria-labelledby="pills-siparislerim-tab"
+                                tabIndex="0"
+                            >
+                                <ProfileOrders/>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     );
 };
 

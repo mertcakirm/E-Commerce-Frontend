@@ -1,41 +1,62 @@
-import kampanya from "../../assets/kampanya.jpg";
+import {useEffect, useState} from "react";
+import {GetOffersRequest} from "../../API/ProfileApi.js";
 
 const ProfileOffer = () => {
+    const [offers, setOffers] = useState([]);
+
+    const GetOffers = async () => {
+        try {
+            const response = await GetOffersRequest();
+            if (response?.data?.data) {
+                setOffers(response.data.data);
+            } else {
+                setOffers([]);
+            }
+        } catch (error) {
+            console.error("Kampanyalar alınamadı:", error);
+        }
+    };
+
+    useEffect(() => {
+        GetOffers();
+    }, []);
+
+    const getImageUrl = (url) => {
+        if (url && url !== "string") {
+            if (url.startsWith("http")) {
+                return url;
+            }
+            return `https://localhost:7050${url.startsWith("/offers/") ? url : `/offers/${url}`}`;
+        }
+        return "https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg";
+    };
+
     return (
         <div className="row kampanya-row">
-            <div className="col-lg-3">
-                <a href="#" className="kampanya-card">
-                    <img src={kampanya} className="img-fluid w-100" alt=""/>
-                    <div>Bu hafta tişörtlerde %20 indirim</div>
-                </a>
-            </div>
-            <div className="col-lg-3">
-                <a href="#" className="kampanya-card">
-                    <img src={kampanya} className="img-fluid w-100" alt=""/>
-                    <div>Bu hafta tişörtlerde %20 indirim</div>
-                </a>
-            </div>
-            <div className="col-lg-3">
-                <a href="#" className="kampanya-card">
-                    <img src={kampanya} className="img-fluid w-100" alt=""/>
-                    <div>Bu hafta tişörtlerde %20 indirim</div>
-                </a>
-            </div>
-            <div className="col-lg-3">
-                <a href="#" className="kampanya-card">
-                    <img src={kampanya} className="img-fluid w-100" alt=""/>
-                    <div>Bu hafta tişörtlerde %20 indirim</div>
-                </a>
-            </div>
-            <div className="col-lg-3">
-                <a href="#" className="kampanya-card">
-                    <img src={kampanya} className="img-fluid w-100" alt=""/>
-                    <div>Bu hafta tişörtlerde %20 indirim</div>
-                </a>
-            </div>
+            {offers.length > 0 ? (
+                offers.map((offer, index) => (
+                    <div key={index} className="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <a href="#" className="kampanya-card shadow-sm rounded-2 border">
+                            <img
+                                src={getImageUrl(offer.imageUrl)}
+                                className="img-fluid w-100  ratio-1x1 object-fit-cover"
+                                style={{height:'300px'}}
+                                alt={offer.name}
+                            />
+                            <div className="text-center">
+                                {offer.description || "Kampanya Detayı Yok"} <br/>
+                                <strong>%{offer.discountRate} indirim</strong>
+                            </div>
+                        </a>
+                    </div>
+                ))
+            ) : (
+                <div className="text-center">
+                    Kampanya yok
+                </div>
+            )}
         </div>
-    )
-}
-
+    );
+};
 
 export default ProfileOffer;

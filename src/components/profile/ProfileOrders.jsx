@@ -5,7 +5,7 @@ const ProfileOrders = () => {
         <div className="row siparislerim-row">
 
             <div className="col-lg-3 col-md-6">
-                <div className="siparis-card d-flex flex-column p-0 m-0  align-items-center">
+                <div className=" border shadow-sm rounded-3 d-flex flex-column p-0 m-0  align-items-center">
                     <a href="#" className="col-12">
                         <img
                             src={kampanya}
@@ -42,7 +42,7 @@ const ProfileOrders = () => {
             </div>
 
             <div className="col-lg-3 col-md-6">
-                <div className="siparis-card d-flex flex-column p-0 m-0  align-items-center">
+                <div className=" border shadow-sm rounded-3 d-flex flex-column p-0 m-0  align-items-center">
                     <a href="#" className="col-12">
                         <img
                             src={kampanya}
@@ -80,7 +80,7 @@ const ProfileOrders = () => {
 
 
             <div className="col-lg-3 col-md-6">
-                <div className="siparis-card d-flex flex-column p-0 m-0  align-items-center">
+                <div className=" border shadow-sm rounded-3 d-flex flex-column p-0 m-0  align-items-center">
                     <a href="#" className="col-12">
                         <img
                             src={kampanya}

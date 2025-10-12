@@ -43,23 +43,7 @@
     border-radius: 20px!important;
 }
 
-.pills-con{
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    border-radius: 20px;
-    overflow:  hidden;
 
-}
-
-.tab-content2{
-    padding: 2% 5%;
-    border-radius: 20px;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    transition: .4s;
-    max-width: 100%;
-    min-width: 700px;
-    width: fit-content;
-
-}
 
 #cikis-btn{
     border: 0;
@@ -202,9 +186,9 @@ textarea:focus-visible{
     align-items: center;
     row-gap: 10px;
     font-size: 20px;
-    padding: 5%;
     text-decoration: none;
     color: #000;
+    overflow: hidden;
 }
 
 
@@ -213,15 +197,6 @@ textarea:focus-visible{
 }
 
 
-.siparis-card{
-    border: 1px solid #000;
-    padding: 1%;
-    height: fit-content;
-    border-radius: 14px;
-    align-items: center;
-    text-align: center ;
-    overflow: hidden;
-}
 
 
 .siparis-card-isim
@@ -300,10 +275,6 @@ textarea:focus-visible{
         justify-content: center;
     }
 
-    .tab-content2:hover{
-        box-shadow: none;
-    }
-
     .adres-duzenle-rows{
         row-gap: 10px;
         justify-content: center;
@@ -332,12 +303,6 @@ textarea:focus-visible{
         margin-right: auto!important;
     }
 
-
-    .tab-content2{
-        max-width: 100%;
-        min-width: 300px;
-
-    }
 
 }
 

@@ -16,7 +16,6 @@ const ProfileInfo = () => {
     const getProfile = async () => {
         try {
             const response = await GetUserProfileRequest();
-            console.log(response.data)
             setUserData(response.data)
         } catch (error) {
             console.log(error);
@@ -29,24 +28,24 @@ const ProfileInfo = () => {
 
     return (
 
-        <div className="row">
+        <div className="row justify-content-center">
 
-            <div className="col-12 d-flex flex-column gap-4">
+            <div className="col-12 border rounded-3 shadow-sm p-3 d-flex flex-column gap-4" style={{width:'fit-content'}}>
                 <div className="col-12 text-center fs-3">
                     BİLGİLERİM
                 </div>
                 <div className="d-flex gap-3 w-100 justify-content-center">
-                    <label htmlFor="bilgilerim-isim">Ad Soyad</label>
+                    <label htmlFor="bilgilerim-isim">Ad Soyad : </label>
                     <div>{userData.name}</div>
                 </div>
                 <div className="d-flex gap-3 w-100 justify-content-center">
 
-                    <label htmlFor="bilgilerim-tel">Telefon Numaranız</label>
+                    <label htmlFor="bilgilerim-tel">Telefon Numaranız : </label>
                     <div>{userData.name}</div>
                 </div>
                 <div className="d-flex gap-3 w-100 justify-content-center">
 
-                    <label htmlFor="bilgilerim-tel">Mail Adresiniz</label>
+                    <label htmlFor="bilgilerim-tel">Mail Adresiniz : </label>
                     <div>{userData.email}</div>
                 </div>
 
