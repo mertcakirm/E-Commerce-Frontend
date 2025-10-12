@@ -2,14 +2,21 @@ import api from "./api.js";
 import {getCookie} from "../components/cookie/cookie.js";
 const token = getCookie("token");
 
-export const FetchProductRequest=async (category,page)=>{
-    console.log(category)
-    if(category==="tum-urunler"){
-        return  await api.get(`/Products?pageNumber=${page}&pageSize=12`);
-    }else{
-        return  await api.get(`/Products/get-by-category/${category}?pageNumber=${page}&pageSize=48`);
+export const FetchProductRequest = async (category, page) => {
+    console.log("Kategori:", category);
+
+    const categoryNumber = Number(category);
+
+    if (category === "tum-urunler") {
+        return await api.get(`/Products?pageNumber=${page}&pageSize=12`);
     }
-}
+    else if (!isNaN(categoryNumber)) {
+        return await api.get(`/Offers/${categoryNumber}/products/discountmatch?pageNumber=${page}&pageSize=48`);
+    }
+    else {
+        return await api.get(`/Products/get-by-category/${category}?pageNumber=${page}&pageSize=48`);
+    }
+};
 
 export const FetchLikedProductRequest= async ()=>{
     return  await api.get(`Wishlist`, {
