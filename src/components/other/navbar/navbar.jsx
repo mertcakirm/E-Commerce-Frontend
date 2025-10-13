@@ -120,9 +120,9 @@ const Navbar = () => {
                                 </div>
                             </button>
                             <a href="/urunler/tum-urunler" className="nav-link">Tüm Ürünler</a>
-                            <a href="/urunler/erkek" className="nav-link">Erkek</a>
-                            <a href="/urunler/kadin" className="nav-link">Kadın</a>
-                            <a href="/urunler/cocuk" className="nav-link">Çocuk</a>
+                            <a href="/urunler/ERKEK" className="nav-link">Erkek</a>
+                            <a href="/urunler/KADIN" className="nav-link">Kadın</a>
+                            <a href="/urunler/COCUK" className="nav-link">Çocuk</a>
                             <a href="/urunler/t-shirt" className="nav-link">T-Shirt</a>
                             <a href="/urunler/pantolon" className="nav-link">Pantolon</a>
                         </div>
