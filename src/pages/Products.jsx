@@ -20,19 +20,29 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
+    const [offerName, setOfferName] = useState("");
     const location = useLocation();
     const currentCategory = decodeURIComponent(location.pathname.split("/").pop());
     const token = getCookie("token");
 
     const GetProducts = async () => {
+        if (loading) return; // aynı anda iki çağrı olmasın
         if (currentPage > totalPages) return;
+
         setLoading(true);
         try {
             const response = await FetchProductRequest(currentCategory, currentPage);
-            setCurrentPage(response.data?.data?.pageNumber || 1);
-            setTotalCount(response.data?.data?.totalCount || 0);
-            setTotalPages(response.data?.data?.totalPages || 1);
-            setProducts(response.data.data.items);
+
+            const newItems = response.data?.data?.items || [];
+            const newPage = response.data?.data?.pageNumber || currentPage;
+            const newTotalPages = response.data?.data?.totalPages || totalPages;
+            const newTotalCount = response.data?.data?.totalCount || totalCount;
+
+            setProducts(prevProducts => [...prevProducts, ...newItems]);
+            setCurrentPage(newPage + 1);
+            setTotalPages(newTotalPages);
+            setTotalCount(newTotalCount);
+            setOfferName(response.data?.data?.offerName || "");
         } catch (err) {
             console.error("API Hatası:", err);
         } finally {
@@ -41,6 +51,10 @@ const Products = () => {
     };
 
     useEffect(() => {
+        setProducts([]);
+        setCurrentPage(1);
+        setTotalPages(1);
+        setOfferName("");
         GetProducts();
     }, [currentCategory]);
 
@@ -48,13 +62,15 @@ const Products = () => {
         const handleScroll = () => {
             const scrollTop = window.innerHeight + document.documentElement.scrollTop;
             const offsetHeight = document.documentElement.offsetHeight;
-            if (scrollTop + 100 >= offsetHeight && !loading) {
+
+            if (scrollTop + 500 >= offsetHeight && !loading) {
                 GetProducts();
             }
         };
+
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
-    }, [loading, currentPage, totalPages]);
+    }, [loading, totalPages, currentCategory]);
 
     const handleLikeClick = async (productCode) => {
         try {
@@ -94,9 +110,9 @@ const Products = () => {
                     <div className="col-lg-4 mt-5" data-aos="fade-in">
                         <p
                             className="text-center urunler-sayfa-baslik"
-                            style={{textTransform: "uppercase"}}
+                            style={{ textTransform: "uppercase" }}
                         >
-                            {currentCategory} / {totalCount} Ürün
+                            {offerName || currentCategory} / {totalCount} Ürün
                         </p>
                     </div>
                     <div className="col-lg-4 row grid-row">

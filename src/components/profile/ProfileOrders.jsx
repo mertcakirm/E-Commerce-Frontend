@@ -1,7 +1,7 @@
 import kampanya from "../../assets/kampanya.jpg";
 import { useEffect, useState } from "react";
 import { GetMyOrdersRequest } from "../../API/OrderApi.js";
-import {FaBoxOpen, FaCheckCircle, FaClock, FaTimesCircle, FaTruck} from "react-icons/fa";
+import { FaBoxOpen, FaCheckCircle, FaClock, FaTimesCircle, FaTruck } from "react-icons/fa";
 
 const ProfileOrders = () => {
     const [orders, setOrders] = useState([]);
@@ -38,12 +38,17 @@ const ProfileOrders = () => {
                                     <div>
                                         {new Date(order.orderDate).toLocaleDateString("tr-TR")}
                                     </div>
-                                    <div>Toplam: <span style={{color:'orange'}}>{order.totalAmount.toFixed(2)} ₺</span></div>
+                                    <div>
+                                        Toplam:{" "}
+                                        <span style={{ color: "orange" }}>
+                                            {order.totalAmount.toFixed(2)} ₺
+                                        </span>
+                                    </div>
                                 </div>
                                 <a
-                                    className=" text-decoration-none"
+                                    className="text-decoration-none"
                                     href={`/siparis-durumu/${order.id}`}
-                                    style={{color:'orange'}}
+                                    style={{ color: "orange" }}
                                 >
                                     Detaylar
                                 </a>
@@ -61,7 +66,7 @@ const ProfileOrders = () => {
                                             if (status === "hazırlanıyor")
                                                 return <FaClock style={{ color: "orange" }} />;
                                             if (status === "yolda")
-                                                return <FaTruck style={{ color: "#007bff" }} />;
+                                                return <FaTruck style={{ color: "green" }} />;
                                             if (status === "teslim edildi")
                                                 return <FaBoxOpen style={{ color: "#28a745" }} />;
                                             if (status === "iptal edildi")
@@ -72,9 +77,10 @@ const ProfileOrders = () => {
                                         <span>{order.status}</span>
                                     </div>
 
+                                    {/* Ürün Görselleri */}
                                     <div className="d-flex align-items-center gap-1 flex-wrap">
-                                        {order.orderItem.flatMap((item) =>
-                                            item.orderItemProduct.map((product) => (
+                                        {order.orderItem?.flatMap((item) =>
+                                            item.orderItemProduct?.map((product) => (
                                                 <img
                                                     key={product.id}
                                                     src={
@@ -84,14 +90,21 @@ const ProfileOrders = () => {
                                                     }
                                                     className="siparis-card-resim"
                                                     alt={product.name}
+                                                    style={{
+                                                        width: "50px",
+                                                        height: "50px",
+                                                        borderRadius: "8px",
+                                                        objectFit: "cover",
+                                                        border: "1px solid #ddd",
+                                                    }}
                                                 />
                                             ))
                                         )}
                                     </div>
 
-                                    <div>
-                                        {order.orderItem.reduce(
-                                            (sum, item) => sum + item.quantity,
+                                    <div className="text-muted" style={{ fontSize: "12px" }}>
+                                        {order.orderItem?.reduce(
+                                            (sum, item) => sum + (item.quantity || 0),
                                             0
                                         )}{" "}
                                         ürün {order.status.toLowerCase()}
