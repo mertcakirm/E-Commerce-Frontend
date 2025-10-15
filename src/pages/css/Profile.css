@@ -192,9 +192,6 @@ textarea:focus-visible{
 }
 
 
-.siparislerim-row{
-    row-gap: 30px;
-}
 
 
 
@@ -221,8 +218,8 @@ textarea:focus-visible{
 
 .siparis-card-resim{
     object-fit:  cover;
-    width: 100%;
-    aspect-ratio: 3/2;
+    width: 60px;
+    aspect-ratio: 2/3;
 }
 
 .siparis-card-a{
