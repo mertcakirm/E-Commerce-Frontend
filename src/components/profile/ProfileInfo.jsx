@@ -51,11 +51,11 @@ const ProfileInfo = () => {
 
                 <div className="d-flex flex-column gap-1">
                     <div className="d-flex justify-content-center gap-2">
-                        <button className="py-2 w-100" type="button" onClick={() => setPopup(true)} id="cikis-btn">Şifremi Güncelle</button>
-                        <button className="py-2 w-100" onClick={() => window.location.href = "../iletisim"} type="button" id="uyeligi-sil-btn">Üyeliğimi Sil</button>
+                        <button className="py-2 w-100 text-nowrap" type="button" onClick={() => setPopup(true)} id="cikis-btn">Şifremi Güncelle</button>
+                        <button className="py-2 w-100 text-nowrap" onClick={() => window.location.href = "../iletisim"} type="button" id="uyeligi-sil-btn">Üyeliğimi Sil</button>
                     </div>
 
-                    <button className="py-3 mt-1 w-100 text-black fw-bold" type="button" style={{background:'#f5f5f5'}} onClick={cikisyap} id="cikis-btn">Çıkış Yap</button>
+                    <button className="py-3 mt-1 w-100 text-black fw-bold text-nowrap" type="button" style={{background:'#f5f5f5'}} onClick={cikisyap} id="cikis-btn">Çıkış Yap</button>
 
                 </div>
 

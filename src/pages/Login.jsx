@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import "./css/Login.css";
 import {toast} from "react-toastify";
 import {LoginRequest, RegisterRequest} from "../API/AuthApi.js";
+import {IoMdHome} from "react-icons/io";
 
 
 const Login = () => {
@@ -242,7 +243,7 @@ const Login = () => {
 
               <div className="d-flex justify-content-center">
                 <a href="/">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 6.453l9 8.375v9.172h-6v-6h-6v6h-6v-9.172l9-8.375zm12 5.695l-12-11.148-12 11.133 1.361 1.465 10.639-9.868 10.639 9.883 1.361-1.465z"/></svg>
+                  <IoMdHome size={40} color="black"  />
                 </a>
               </div>
 

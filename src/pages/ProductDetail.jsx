@@ -16,6 +16,9 @@ import {toggleRefresh} from "../store/basketSlice.js";
 import {useDispatch} from "react-redux";
 import {toggleRefreshFav} from "../store/favoriteSlice.js";
 import PageLogo from "../components/other/PageLogo.jsx";
+import {FaStar} from "react-icons/fa";
+import {FcLike} from "react-icons/fc";
+import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
 
 const ProductDetail = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -120,18 +123,10 @@ const ProductDetail = () => {
                                 )}
                             </div>
                             <button className="prev-button" onClick={handlePrevClick}>
-                                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd"
-                                     clipRule="evenodd">
-                                    <path
-                                        d="M20 .755l-14.374 11.245 14.374 11.219-.619.781-15.381-12 15.391-12 .609.755z"/>
-                                </svg>
+                                <IoIosArrowBack size={35} color="black" />
                             </button>
                             <button className="next-button" onClick={handleNextClick}>
-                                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd"
-                                     clipRule="evenodd">
-                                    <path
-                                        d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z"/>
-                                </svg>
+                                <IoIosArrowForward size={35} color="black" />
                             </button>
                             <div className="thumbnails">
                                 {images.map((image, index) => (
@@ -157,17 +152,9 @@ const ProductDetail = () => {
                             <div className="urun-detay-col-sag">
                                 <p className="urun-baslik" data-aos="fade-up">{product.name}</p>
                                 <p className="urun-code" data-aos="fade-up">Ürün Kodu: {product.id}</p>
-                                <div className="d-flex align-items-center" data-aos="fade-up">
+                                <div className="d-flex gap-2 align-items-center" data-aos="fade-up">
                                     <p className="urun-code fs-4 fw-bold">{Number(product.averageRating).toFixed(0)}/10 </p>
-
-                                    <svg width="24" height="24" fill="orange"
-                                         clipRule="evenodd" fillRule="evenodd"
-                                         strokeLinejoin="round" strokeMiterlimit="2"
-                                         viewBox="0 0 24 24"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="m11.322 2.923c.126-.259.39-.423.678-.423.289 0 .552.164.678.423.974 1.998 2.65 5.44 2.65 5.44s3.811.524 6.022.829c.403.055.65.396.65.747 0 .19-.072.383-.231.536-1.61 1.538-4.382 4.191-4.382 4.191s.677 3.767 1.069 5.952c.083.462-.275.882-.742.882-.122 0-.244-.029-.355-.089-1.968-1.048-5.359-2.851-5.359-2.851s-3.391 1.803-5.359 2.851c-.111.06-.234.089-.356.089-.465 0-.825-.421-.741-.882.393-2.185 1.07-5.952 1.07-5.952s-2.773-2.653-4.382-4.191c-.16-.153-.232-.346-.232-.535 0-.352.249-.694.651-.748 2.211-.305 6.021-.829 6.021-.829s1.677-3.442 2.65-5.44z"
-                                              fillRule="nonzero" />
-                                    </svg>
+                                    <FaStar size={24} color="orange" />
                                 </div>
                                 <div className="urun-detay-fiyat-flex" data-aos="fade-up">
                                     <p className="p1-fiyat">{product.priceWithDiscount}₺</p>
@@ -209,22 +196,7 @@ const ProductDetail = () => {
                                         className="like-detay-btn"
                                         onClick={() => handleLikeClick(product.id)}
                                     >
-                                        <svg
-                                            clipRule="evenodd"
-                                            width="50"
-                                            height="30"
-                                            fill="white"
-                                            fillRule="evenodd"
-                                            strokeLinejoin="round"
-                                            strokeMiterlimit="2"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                d="m12 5.72c-2.624-4.517-10-3.198-10 2.461 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-5.678-7.396-6.944-10-2.461z"
-                                                fillRule="nonzero"
-                                            />
-                                        </svg>
+                                        <FcLike size={30} />
                                     </button>
                                 </div>
 

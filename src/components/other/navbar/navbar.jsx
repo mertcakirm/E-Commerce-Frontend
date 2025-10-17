@@ -7,6 +7,10 @@ import Basket from "./Basket.jsx";
 import Favorite from "./Favorite.jsx";
 import {getCookie} from "../../cookie/cookie.js";
 import {useSelector} from "react-redux";
+import {IoPersonSharp} from "react-icons/io5";
+import {BsBasket3Fill} from "react-icons/bs";
+import {FcLike} from "react-icons/fc";
+import {FaSearch} from "react-icons/fa";
 
 const Navbar = () => {
     const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
@@ -57,7 +61,7 @@ const Navbar = () => {
                             </a>
                             <div className="d-flex overflow-hidden w-50 rounded-2" style={{background:'#ffffff'}}>
                                 <button className="border-0 bg-transparent ratio-1x1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M23.809 21.646l-6.205-6.205c1.167-1.605 1.857-3.579 1.857-5.711 0-5.365-4.365-9.73-9.731-9.73-5.365 0-9.73 4.365-9.73 9.73 0 5.366 4.365 9.73 9.73 9.73 2.034 0 3.923-.627 5.487-1.698l6.238 6.238 2.354-2.354zm-20.955-11.916c0-3.792 3.085-6.877 6.877-6.877s6.877 3.085 6.877 6.877-3.085 6.877-6.877 6.877c-3.793 0-6.877-3.085-6.877-6.877z"/></svg>
+                                    <FaSearch size={30} />
                                 </button>
                                 <input placeholder="Ne Arıyorsunuz?" type="text" className="nav-search w-100 border-0" />
                             </div>
@@ -71,7 +75,7 @@ const Navbar = () => {
                                     aria-controls="offcanvasRightFav"
                                     style={{position: 'relative'}}
                                 >
-                                    <svg clipRule="evenodd" fillRule="evenodd" width="30" height="30" strokeLinejoin="round" strokeMiterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m7.234 3.004c-2.652 0-5.234 1.829-5.234 5.177 0 3.725 4.345 7.727 9.303 12.54.194.189.446.283.697.283s.503-.094.697-.283c4.977-4.831 9.303-8.814 9.303-12.54 0-3.353-2.58-5.168-5.229-5.168-1.836 0-3.646.866-4.771 2.554-1.13-1.696-2.935-2.563-4.766-2.563zm0 1.5c1.99.001 3.202 1.353 4.155 2.7.14.198.368.316.611.317.243 0 .471-.117.612-.314.955-1.339 2.19-2.694 4.159-2.694 1.796 0 3.729 1.148 3.729 3.668 0 2.671-2.881 5.673-8.5 11.127-5.454-5.285-8.5-8.389-8.5-11.127 0-1.125.389-2.069 1.124-2.727.673-.604 1.625-.95 2.61-.95z" fillRule="nonzero"/></svg>
+                                    <FcLike size={25} />
                                 </button>
 
                                 <button
@@ -83,30 +87,14 @@ const Navbar = () => {
                                     style={{position: 'relative'}}
 
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M4.558 7l4.701-4.702c.199-.198.46-.298.721-.298.613 0 1.02.505 1.02 1.029 0 .25-.092.504-.299.711l-3.26 3.26h-2.883zm12.001 0h2.883l-4.701-4.702c-.199-.198-.46-.298-.721-.298-.613 0-1.02.505-1.02 1.029 0 .25.092.504.299.711l3.26 3.26zm-16.559 2v2h.643c.534 0 1.021.304 1.256.784l4.101 10.216h12l4.102-10.214c.233-.481.722-.786 1.256-.786h.642v-2h-24z"/>
-                                    </svg>
+                                    <BsBasket3Fill size={20} color="black" />
                                     {cartItems.length > 0 &&
                                         <div className="basket-number">{cartItems?.length > 9 ? "9+" : cartItems?.length || 0}</div>
                                     }
                                 </button>
 
                                 <a href={hasToken && hasToken !== "" ? "/profilim" : "/girisyap"} className="btnsearch">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path
-                                            d="M12 2c2.757 0 5 2.243 5 5.001 0 2.756-2.243 5-5 5s-5-2.244-5-5c0-2.758 2.243-5.001 5-5.001zm0-2c-3.866 0-7 3.134-7 7.001 0 3.865 3.134 7 7 7s7-3.135 7-7c0-3.867-3.134-7.001-7-7.001zm6.369 13.353c-.497.498-1.057.931-1.658 1.302 2.872 1.874 4.378 5.083 4.972 7.346h-19.387c.572-2.29 2.058-5.503 4.973-7.358-.603-.374-1.162-.811-1.658-1.312-4.258 3.072-5.611 8.506-5.611 10.669h24c0-2.142-1.44-7.557-5.631-10.647z"/>
-                                    </svg>
+                                    <IoPersonSharp size={20} color="black" />
                                 </a>
                             </div>
                         </div>
