@@ -876,11 +876,6 @@ Credit Card
     color: green;
 }
 
-.onay-svg {
-    margin-left: auto;
-    margin-right: auto;
-}
-
 
 @media only screen and (max-width: 991px) {
     .kargo-resim-flex > img {

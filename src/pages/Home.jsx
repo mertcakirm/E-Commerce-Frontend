@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import "./css/Home.css";
-import {Helmet} from "react-helmet";
 import Cookie_accept from "../components/cookie/cookie_accept.jsx";
 import LoadingComponent from "../components/other/Loading.jsx";
 import SliderComp from "../components/home/sliderComp.jsx";

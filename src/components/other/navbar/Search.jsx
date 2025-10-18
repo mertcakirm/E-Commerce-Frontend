@@ -1,4 +1,5 @@
 import logo from "../../../assets/mob_logo.png";
+import {FaSearch} from "react-icons/fa";
 
 const Search = () => {
     return (
@@ -20,20 +21,7 @@ const Search = () => {
                             aria-label="Search"
                         />
                         <button type="button" className="search-button">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                width="30"
-                                height="25"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <circle cx="10.5" cy="10.5" r="7.5"/>
-                                <line x1="21" y1="21" x2="15.8" y2="15.8"/>
-                            </svg>
+                            <FaSearch size={25} />
                         </button>
                     </div>
                     <button

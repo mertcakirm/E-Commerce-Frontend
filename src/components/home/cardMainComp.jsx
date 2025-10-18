@@ -14,9 +14,8 @@ const CardMainComp = ({loading}) => {
     }, []);
 
     return (
-        <div className="container-fluid px-5">
+        <div className="container-fluid">
             <div className="row">
-
                 {cartData && cartData.length > 0 ? (
                     cartData.map((item, index) => {
                         const columnSize = item.cartSize;

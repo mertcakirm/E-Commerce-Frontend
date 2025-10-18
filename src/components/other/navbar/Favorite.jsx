@@ -11,6 +11,7 @@ import Loading from "../Loading.jsx";
 import { toast } from "react-toastify";
 import {toggleRefresh} from "../../../store/basketSlice.js";
 import {FcLike} from "react-icons/fc";
+import {IoIosArrowForward} from "react-icons/io";
 
 const Favorite = () => {
     const dispatch = useDispatch();
@@ -174,15 +175,7 @@ const Favorite = () => {
 
                             <div className="col-1 favorilerim-canvas-col-3">
                                 <a href={`/urunler-detay/${product.productCode}`}>
-                                    <svg
-                                        width="24"
-                                        height="24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                    >
-                                        <path d="M4 .755l14.374 11.245-14.374 11.219.619.781 15.381-12-15.391-12-.609.755z" />
-                                    </svg>
+                                    <IoIosArrowForward size={40} color="black" />
                                 </a>
                             </div>
                         </div>
