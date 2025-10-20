@@ -116,7 +116,7 @@ const Products = () => {
                             className="text-center urunler-sayfa-baslik"
                             style={{ textTransform: "uppercase" }}
                         >
-                            {offerName || currentCategory} / {totalCount} Ürün
+                            {currentCategory === "tum-urunler" ? "Tüm Ürünler" : offerName || currentCategory} / {totalCount} Ürün
                         </p>
                     </div>
                     <div className="col-lg-4 row grid-row">
