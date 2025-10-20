@@ -109,7 +109,7 @@ function App() {
                             <Payment />
                         </ProtectedRoute>
                     } />
-                    <Route path="/siparis-durumu" element={
+                    <Route path="/siparis-durumu/:id" element={
                         <ProtectedRoute>
                             <OrderSituation />
                         </ProtectedRoute>

@@ -47,17 +47,7 @@
     color: green;
 }
 
-.siparis-durumu-urunler-card{
-    padding: 2%;
-    border: 1px solid rgb(206, 206, 206);
-}
 
-.siparis-durumu-urunler-card-content{
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 2% 0%;
-}
 
 .siparis-durumu-urunler-card-content>p{
     margin: 0;
@@ -69,21 +59,10 @@
     font-weight: 600;
 }
 
-.siparis-durumu-contents-parent2{
-    padding: 0% 2%;
-}
-
-.siparis-durumu-contents-parent2-col{
-    padding: 2%;
-}
 
 @media only screen and (max-width:991px) {
     .siparis-durumu-container{
         padding:100px 0px;
     
-    }
-
-    .siparis-durumu-urunler-card-content{
-        padding: 2% 2%;
     }
 }
