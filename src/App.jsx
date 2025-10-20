@@ -1,4 +1,4 @@
-import {BrowserRouter, Routes, Route, Navigate, useLocation} from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Products from './pages/Products.jsx';
 import FrequentlyAskedQuestions from './pages/FrequentlyAskedQuestions.jsx';
@@ -9,19 +9,21 @@ import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
 import OrderSituation from './pages/OrderSituation.jsx';
 import Informations from './pages/Informations.jsx';
-import ErrorPage from './pages/errorPage';
-import {useEffect} from 'react';
-import {getCookie} from './components/cookie/cookie';
+import ErrorPage from './pages/errorPage.jsx';
+import RefreshPassword from './pages/RefreshPassword.jsx';
+import ProductDetail from './pages/ProductDetail.jsx';
+
+import { useEffect } from 'react';
+import { getCookie } from './components/cookie/cookie';
 import PropTypes from 'prop-types';
-import {ToastContainer} from "react-toastify";
+import { ToastContainer } from 'react-toastify';
 import Navbar from "./components/other/navbar/navbar.jsx";
 import Footer from "./components/other/Footer.jsx";
-import RefreshPassword from "./pages/RefreshPassword.jsx";
-import ProductDetail from "./pages/ProductDetail.jsx";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const AppLayout = ({children}) => {
+// Layout
+const AppLayout = ({ children }) => {
     const location = useLocation();
     const hideComponentsForPaths = ['/sss', '/girisyap', '/error'];
 
@@ -42,30 +44,34 @@ AppLayout.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-const ProtectedRoute = ({element}) => {
+const ProtectedRoute = ({ children }) => {
     const token = getCookie('token');
-    return token ? element : <Navigate to="/girisyap" replace />;
+    if (!token) {
+        return <Navigate to="/girisyap" replace />;
+    }
+    return children;
 };
 
 ProtectedRoute.propTypes = {
-    element: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
 
-const UnprotectedRoute = ({element}) => {
+const UnprotectedRoute = ({ children }) => {
     const token = getCookie('token');
-    return sessitokenonid ? <Navigate to="/profilim" replace /> : element;
+    if (token) {
+        return <Navigate to="/profilim" replace />;
+    }
+    return children;
 };
 
 UnprotectedRoute.propTypes = {
-    element: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
 };
+
 
 function App() {
     useEffect(() => {
-        const token = getCookie('token');
-        if (!token) return;
         AOS.init({ duration: 500 });
-
     }, []);
 
     return (
@@ -76,19 +82,50 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/error" element={<ErrorPage />} />
-                    <Route path="*" element={<Navigate to="/error" state={{errorMessage: 'Sayfa bulunamadı'}} />} />
                     <Route path="/urunler/:category" element={<Products />} />
                     <Route path="/urunler/kampanya/:id" element={<Products />} />
                     <Route path="/urunler-detay/:id" element={<ProductDetail />} />
                     <Route path="/hakkimizda" element={<About />} />
                     <Route path="/iletisim" element={<Contact />} />
-                    <Route path="/girisyap" element={<Login />} />
-                    <Route path="/parola-yenile" element={<UnprotectedRoute element={<RefreshPassword />} />} />
-                    <Route path="/profilim" element={<Profile />} />
-                    <Route path="/siparis/:type" element={<ProtectedRoute element={<Payment />} />} />
-                    <Route path="/siparis-durumu" element={<ProtectedRoute element={<OrderSituation />} />} />
-                    <Route path="/sss" element={<ProtectedRoute element={<FrequentlyAskedQuestions />} />} />
-                    <Route path="/bilgilendirmeler" element={<ProtectedRoute element={<Informations />} />} />
+
+                    <Route path="/girisyap" element={
+                        <UnprotectedRoute>
+                            <Login />
+                        </UnprotectedRoute>
+                    } />
+                    <Route path="/parola-yenile" element={
+                        <UnprotectedRoute>
+                            <RefreshPassword />
+                        </UnprotectedRoute>
+                    } />
+
+                    <Route path="/profilim" element={
+                        <ProtectedRoute>
+                            <Profile />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/siparis/:type" element={
+                        <ProtectedRoute>
+                            <Payment />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/siparis-durumu" element={
+                        <ProtectedRoute>
+                            <OrderSituation />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/sss" element={
+                        <ProtectedRoute>
+                            <FrequentlyAskedQuestions />
+                        </ProtectedRoute>
+                    } />
+                    <Route path="/bilgilendirmeler" element={
+                        <ProtectedRoute>
+                            <Informations />
+                        </ProtectedRoute>
+                    } />
+
+                    <Route path="*" element={<Navigate to="/error" state={{ errorMessage: 'Sayfa bulunamadı' }} />} />
                 </Routes>
             </AppLayout>
         </BrowserRouter>

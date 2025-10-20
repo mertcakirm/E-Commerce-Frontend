@@ -167,7 +167,7 @@ const Basket = () => {
                         </div>
                     ) : (
                         cartItems.map((item) => (
-                            <div className="sepet-card row" key={item.id}>
+                            <div className="sepet-card row" data-aos="fade-down" key={item.id}>
                                 <a
                                     href={`/urunler-detay/${item.productCode}`}
                                     className="col-4 sepet-card-col-1"

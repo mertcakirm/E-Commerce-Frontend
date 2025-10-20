@@ -16,17 +16,14 @@ const AddAddressPopup = ({onClose, id}) => {
 
     const [loading, setLoading] = useState(false);
 
-    // 🔹 Tekil adres bilgilerini getir
     const fetchAddress = async () => {
         try {
             setLoading(true);
             const response = await GetAddressSingleRequest(id);
 
-            // 👇 API'nin nasıl döndüğüne göre ayarlama
             // Eğer { success: true, data: {...} } şeklinde dönüyorsa:
             const data = response.data || response;
 
-            // 👇 Gelen verileri state'e yerleştir
             setNewAddress({
                 addressTitle: data.addressTitle || "",
                 city: data.city || "",
@@ -46,7 +43,6 @@ const AddAddressPopup = ({onClose, id}) => {
         if (id) {
             fetchAddress();
         } else {
-            // Yeni adres ekleme modunda inputlar boş kalsın
             setNewAddress({
                 addressTitle: "",
                 city: "",

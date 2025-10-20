@@ -11,7 +11,7 @@ api.interceptors.request.use((config) => {
     const token = getCookie("token");
 
     if (!config.headers["NoAuth"] && token) {
-        config.headers["Authorization"] = `Bearer ${token.token}`;
+        config.headers["Authorization"] = `Bearer ${token}`;
     }
     delete config.headers["NoAuth"];
     return config;

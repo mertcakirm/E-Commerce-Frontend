@@ -35,7 +35,7 @@ export const FetchProductRequest = async (category, page) => {
 export const FetchLikedProductRequest = async () => {
     return await api.get(`Wishlist`, {
         headers: {
-            Authorization: `Bearer ${token.token}`,
+            Authorization: `Bearer ${token}`,
         },
     });
 }
@@ -84,4 +84,12 @@ export const IncreaseProductRequest = async (productCode) => {
 
 export const DecreaseProductRequest = async (productCode) => {
     return await api.put(`Cart/decrease?variantId=${productCode}`);
+}
+
+export const GetProductQuestionsRequest = async (productId,page) => {
+    return await api.get(`QuestionAndAnswer/get-productId/${productId}?pageNumber=${page}&pageSize=10`);
+}
+
+export const PostProductQuestionRequest  = async (formData) => {
+    return await api.post(`QuestionAndAnswer/add-question`,formData);
 }

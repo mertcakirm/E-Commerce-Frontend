@@ -19,6 +19,7 @@ import PageLogo from "../components/other/PageLogo.jsx";
 import {FaStar} from "react-icons/fa";
 import {FcLike} from "react-icons/fc";
 import {IoIosArrowBack, IoIosArrowForward} from "react-icons/io";
+import ProductQuestions from "../components/other/ProductQuestions.jsx";
 
 const ProductDetail = () => {
     const [activeIndex, setActiveIndex] = useState(0);
@@ -41,7 +42,7 @@ const ProductDetail = () => {
     const sizes = product?.variants || [];
     const images = product?.images || [];
 
-    if (!images || images.length === 0) return <LoadingComponent />
+    if (!images || images.length === 0) return <LoadingComponent/>
 
     const handleThumbnailClick = (index) => {
         setActiveIndex(index);
@@ -123,10 +124,10 @@ const ProductDetail = () => {
                                 )}
                             </div>
                             <button className="prev-button" onClick={handlePrevClick}>
-                                <IoIosArrowBack size={35} color="black" />
+                                <IoIosArrowBack size={35} color="black"/>
                             </button>
                             <button className="next-button" onClick={handleNextClick}>
-                                <IoIosArrowForward size={35} color="black" />
+                                <IoIosArrowForward size={35} color="black"/>
                             </button>
                             <div className="thumbnails">
                                 {images.map((image, index) => (
@@ -154,7 +155,7 @@ const ProductDetail = () => {
                                 <p className="urun-code" data-aos="fade-up">Ürün Kodu: {product.id}</p>
                                 <div className="d-flex gap-2 align-items-center" data-aos="fade-up">
                                     <p className="urun-code fs-4 fw-bold">{Number(product.averageRating).toFixed(0)}/10 </p>
-                                    <FaStar size={24} color="orange" />
+                                    <FaStar size={24} color="orange"/>
                                 </div>
                                 <div className="urun-detay-fiyat-flex" data-aos="fade-up">
                                     <p className="p1-fiyat">{product.priceWithDiscount}₺</p>
@@ -185,7 +186,7 @@ const ProductDetail = () => {
                                     </div>
                                 </div>
 
-                                <div className="sepet-flex"  data-aos="fade-up">
+                                <div className="sepet-flex" data-aos="fade-up">
                                     <button
                                         className="sepete-ekle-detay-btn"
                                         onClick={handleAddToBasket}
@@ -196,7 +197,7 @@ const ProductDetail = () => {
                                         className="like-detay-btn"
                                         onClick={() => handleLikeClick(product.id)}
                                     >
-                                        <FcLike size={30} />
+                                        <FcLike size={30}/>
                                     </button>
                                 </div>
 
@@ -245,10 +246,32 @@ const ProductDetail = () => {
                                                 data-bs-parent="#accordionFlushExample"
                                             >
                                                 <div className="accordion-body">
-                                                    <ProductComments productId={urlpop} />
+                                                    <ProductComments productId={urlpop}/>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div className="accordion-item" data-aos="fade-up">
+                                            <h2 className="accordion-header">
+                                                <button
+                                                    className="accordion-button collapsed"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#flush-collapseFour"
+                                                    aria-expanded="false"
+                                                    aria-controls="flush-collapseFour"
+                                                >
+                                                    Soru - Cevap
+                                                </button>
+                                            </h2>
+                                            <div
+                                                id="flush-collapseFour"
+                                                className="accordion-collapse collapse"
+                                                data-bs-parent="#accordionFlushExample"
+                                            >
+                                                <div className="accordion-body"><ProductQuestions productId={urlpop} /></div>
                                             </div>
+                                        </div>
 
                                         <div className="accordion-item" data-aos="fade-up">
                                             <h2 className="accordion-header">
@@ -271,6 +294,7 @@ const ProductDetail = () => {
                                                 <div className="accordion-body">...</div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +304,7 @@ const ProductDetail = () => {
                 <MoreProduct/>
             </div>
 
-            <PageLogo size="25" />
+            <PageLogo size="25"/>
         </div>
     );
 };

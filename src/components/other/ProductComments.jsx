@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from "react-toastify";
 import { AddCommentRequest, GetProductCommentsRequest } from "../../API/ProductApi.js";
 import {getCookie} from "../cookie/cookie.js";
@@ -31,13 +31,13 @@ const ProductComments = ({ productId }) => {
             return;
         }
 
-        if (!token.token) window.location.href = "/girisyap";
+        if (!token) window.location.href = "/girisyap";
 
         try {
             await AddCommentRequest(productId, newComment);
             setNewComment({ rating: 0, comment: "" });
             toast.success('Yorum yapıldı!');
-            setCurrentPage(1); // yeni yorum geldiğinde ilk sayfaya dön
+            setCurrentPage(1);
             getComments();
         } catch (error) {
             console.error(error);

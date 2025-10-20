@@ -108,7 +108,7 @@ const Favorite = () => {
                     <Loading />
                 ) : favoriteproduct.length > 0 ? (
                     favoriteproduct.map((product, index) => (
-                        <div className="favorilerim-canvas-card row" key={index}>
+                        <div className="favorilerim-canvas-card row" data-aos="fade-down" key={index}>
                             <div className="col-3 favorilerim-canvas-col-1">
                                 <a href={`/urunler-detay/${product.productCode}`}>
                                     {product.images[0] ? (

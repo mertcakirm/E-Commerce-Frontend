@@ -4,21 +4,18 @@ export function setCookie(name, value, days) {
     const expires = "expires=" + date.toUTCString();
     document.cookie = `${name}=${value}; ${expires}; path=/`;
   }
-  
-export function getCookie(...names) {
-    const result = {};
-    const cookies = document.cookie.split(';');
 
-    names.forEach(name => {
-        const nameEQ = name + "=";
-        for (let i = 0; i < cookies.length; i++) {
-            let c = cookies[i].trim();
-            if (c.indexOf(nameEQ) === 0) {
-                result[name] = c.substring(nameEQ.length, c.length);
-            }
+export function getCookie(name) {
+    const cookies = document.cookie.split(';');
+    const nameEQ = name + "=";
+
+    for (let i = 0; i < cookies.length; i++) {
+        let c = cookies[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+            return c.substring(nameEQ.length, c.length);
         }
-    });
-    return result;
+    }
+    return null;
 }
   
   export function deleteCookie(name) {

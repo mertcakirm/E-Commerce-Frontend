@@ -7,11 +7,6 @@
     row-gap: 30px;
 }
 
-.iletisim-row-parent{
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .iletisim-form-submit{
     margin-top: 30px;
     display: flex;

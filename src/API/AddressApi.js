@@ -17,7 +17,7 @@ export const UpdateAddressRequest=async (addressId,addressDTO)=>{
 export const GetAddressRequest = async () => {
         return  await api.get("UserAddress", {
             headers: {
-                Authorization: `Bearer ${token.token}`,
+                Authorization: `Bearer ${token}`,
             },
         });
 };
@@ -25,7 +25,7 @@ export const GetAddressRequest = async () => {
 export const GetAddressSingleRequest = async (id)=>{
     return  await api.get(`UserAddress/${id}`, {
         headers: {
-            Authorization: `Bearer ${token.token}`,
+            Authorization: `Bearer ${token}`,
         },
     });
 }
