@@ -4,7 +4,7 @@ import {FaFacebookF, FaInstagram, FaYoutube} from "react-icons/fa";
 const Footer = () => {
     return (
         <div>
-            <div className="container-fluid footer-container" data-aos="fade-up">
+            <div className="container-fluid footer-container">
                 <div className="row pb-5">
                     <div className="col-lg-4">
                         <div className="footer-col py-3">
