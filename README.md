@@ -3,12 +3,13 @@
 <img width="1920" height="1025" alt="Screenshot 2026-09-25 at 9 59 33 PM" src="https://github.com/user-attachments/assets/0e31dd94-8402-4b6e-8f95-0884fb36ff27" />
 <img width="1920" height="1026" alt="Screenshot 2026-09-25 at 9 59 09 PM" src="https://github.com/user-attachments/assets/eec6210a-2cce-4459-b3e3-42e72d5d8301" />
 <img width="444" height="1030" alt="Screenshot 2026-09-25 at 10 00 23 PM" src="https://github.com/user-attachments/assets/a7c6f29b-8ff5-4826-8745-ca29a1b6a07c" />
+
+---
 # 🛍️ eCommerce Website
 
 A **fully responsive eCommerce web application** built with **React**, designed to connect seamlessly with a backend API.  
 It provides users with an intuitive shopping experience and includes many essential features found in modern online stores.
 
----
 
 ## 🚀 Features
 
