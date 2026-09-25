@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import "../../pages/css/Payment.css";
 import BasketSummary from "./BasketSummary.jsx";
 import {
@@ -8,12 +8,12 @@ import {
     IncreaseProductRequest,
     ResetToBasketRequest
 } from "../../API/ProductApi.js";
-import {setBasket} from "../../store/basketSlice.js";
-import {useDispatch, useSelector} from "react-redux";
-import {getCookie} from "../cookie/cookie.js";
-import {toast} from "react-toastify";
+import { setBasket } from "../../store/basketSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import { getCookie } from "../cookie/cookie.js";
+import { toast } from "react-toastify";
 import Loading from "../other/Loading.jsx";
-import {RiDeleteBin7Fill} from "react-icons/ri";
+import { HiOutlineTrash } from "react-icons/hi2";
 
 const PaymentBasket = () => {
     const [loading, setLoading] = useState(true);
@@ -59,7 +59,7 @@ const PaymentBasket = () => {
                     toast.warning("Bir üründen en fazla 10 adet ekleyebilirsiniz.");
                     return item;
                 }
-                return {...item, quantity: item.quantity + 1};
+                return { ...item, quantity: item.quantity + 1 };
             }
             return item;
         });
@@ -80,7 +80,7 @@ const PaymentBasket = () => {
                     toast.warning("Ürün adedi 1'in altına inemez.");
                     return item;
                 }
-                return {...item, quantity: item.quantity - 1};
+                return { ...item, quantity: item.quantity - 1 };
             }
             return item;
         });
@@ -95,128 +95,87 @@ const PaymentBasket = () => {
     };
 
     const DeleteProductFromBasket = async (basketId) => {
-        if (!token) return console.error("No token found");
+        if (!token) return;
         try {
             await DeleteProductFromBasketRequest(basketId);
-            toast.success("Ürün sepetten başarıyla silindi!");
+            toast.success("Ürün sepetten silindi.");
             const updatedItems = cartItems.filter((item) => item.id !== basketId);
             dispatch(setBasket(updatedItems));
         } catch (error) {
             console.error("Delete product error:", error);
-            toast.error("Ürün sepetten silinirken bir hata oluştu!");
+            toast.error("Ürün silinirken hata oluştu.");
         }
     };
 
     const resetBasket = async () => {
-        if (!token) return console.error("No token found");
+        if (!token) return;
         try {
             await ResetToBasketRequest();
             dispatch(setBasket([]));
-            toast.success("Sepet başarıyla sıfırlandı!");
+            toast.success("Sepet temizlendi.");
         } catch (error) {
             console.error("Reset basket error:", error);
-            toast.error("Sepet sıfırlanırken bir hata oluştu!");
+            toast.error("Sepet temizlenirken hata oluştu.");
         }
     };
 
-    useEffect(() => {
-        fetchBasket();
-    }, []);
+    useEffect(() => { fetchBasket(); }, []);
+    useEffect(() => { fetchBasket(); }, [refreshData]);
 
-    useEffect(() => {
-        fetchBasket();
-    }, [refreshData]);
-
-    if (loading) return <Loading/>;
+    if (loading) return <Loading />;
 
     return (
-        <div className="row">
+        <div className="row g-4 g-xl-5">
             <div className="col-lg-8">
-                <div className="d-flex justify-content-between mb-3">
-                    <p className="ozet-baslik">Ürünlerim</p>
-                    {cartItems.length > 0 &&
-                        <button className="reset-basket-btn2" onClick={resetBasket}>
-                            Sepeti Sıfırla
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h2 className="checkout-section-title">Sepetiniz ({cartItems.length} Ürün)</h2>
+                    {cartItems.length > 0 && (
+                        <button className="checkout-btn-text text-danger" onClick={resetBasket}>
+                            Sepeti Temizle
                         </button>
-                    }
+                    )}
                 </div>
 
                 {cartItems.length === 0 ? (
-                    <div className="d-flex flex-column gap-3">
-                        <div className="text-center py-5 fs-5 fw-semibold text-secondary">
-                            Sepetiniz boş. Anasayfaya yönlendiriliyorsunuz...
-                        </div>
-                        <a
-                            className="mt-3 text-center"
-                            href="../urunler/tum-urunler"
-                            style={{fontSize: "20px", color: "#000"}}
-                        >
-                            Alışverişe Devam Et
-                        </a>
+                    <div className="checkout-empty-state">
+                        <p>Sepetinizde ürün bulunmamaktadır.</p>
+                        <a href="/urunler/tum-urunler" className="checkout-btn-outline">Alışverişe Başla</a>
                     </div>
                 ) : (
-                    <div className="sepet-ozet-flex">
+                    <div className="checkout-cart-list">
                         {cartItems.map((item, index) => (
-                            <div key={index} className="sepet-ozet-card row">
-                                <div className="col-lg-3 col-md-3">
+                            <div key={index} className="checkout-cart-item">
+                                <div className="cart-item-img-box">
                                     {item.images[0]?.imageUrl ? (
-                                        <img
-                                            src={item.images[0].imageUrl}
-                                            className="img-fluid w-100 sepet-resim"
-                                            alt={item.name}
-                                        />
+                                        <img src={item.images[0].imageUrl} alt={item.name} />
                                     ) : (
-                                        <div
-                                            className="img-fluid w-100 sepet-resim"
-                                            style={{
-                                                background: "#f0f0f0",
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                height: "150px",
-                                            }}
-                                        >
-                                            Resim Yok
-                                        </div>
+                                        <div className="cart-img-placeholder">Resim Yok</div>
                                     )}
                                 </div>
 
-                                <div className="col-lg-5 col-md-5 ozet-card-col-2">
-                                    <p className="ozet-card-col-2-p1">{item.name}</p>
-                                    <p className="ozet-card-col-2-p2">Ürün Kodu: {item.id}</p>
-                                    <p className="ozet-card-col-2-p2">Beden: {item.size}</p>
+                                <div className="cart-item-details">
+                                    <h3 className="cart-item-title">{item.name}</h3>
+                                    <span className="cart-item-prop">Beden: {item.size}</span>
+                                    <span className="cart-item-prop">Kod: #{item.id}</span>
                                 </div>
 
-                                <div className="col-lg-4 col-md-4 ozet-card-col-3">
-                                    <button
-                                        className="ozet-card-col-3-sil-btn"
-                                        onClick={() => DeleteProductFromBasket(item.id)}
-                                    >
-                                        <RiDeleteBin7Fill size={30}/>
-                                        <span>Sil</span>
-                                    </button>
-
-                                    <div className="updown">
+                                <div className="cart-item-actions">
+                                    <div className="cart-qty-ctrl">
                                         <button onClick={() => decrementProductCount(item.productVariantId)}>-</button>
                                         <span>{item.quantity}</span>
                                         <button onClick={() => incrementProductCount(item.productVariantId)}>+</button>
                                     </div>
-
-                                    <div className="ozet-card-fiyat-flex">
-
-
-                                        <div className="ozet-card-fiyat-1">{item.priceWithDiscount}₺</div>
-                                        {item.discount !== 0 && (
-                                            <div className="ozet-card-fiyat-flex">
-                                                <div className="ozet-card-fiyat-2">{item.priceWithOutDiscount}₺</div>
-                                                <div className="ozet-card-fiyat-indirim">
-                                                    {item.discount}%
-                                                </div>
-                                            </div>
-
-                                        )
-                                        }
+                                    
+                                    <div className="cart-price-block">
+                                        <span className="cart-price-active">{item.priceWithDiscount} ₺</span>
+                                        {item.discount > 0 && (
+                                            <span className="cart-price-slashed">{item.priceWithOutDiscount} ₺</span>
+                                        )}
                                     </div>
+
+                                    <button className="cart-delete-btn" onClick={() => DeleteProductFromBasket(item.id)} title="Sil">
+                                        <HiOutlineTrash size={20} />
+                                    </button>
                                 </div>
                             </div>
                         ))}
@@ -224,17 +183,15 @@ const PaymentBasket = () => {
                 )}
             </div>
 
-            <div className="col-lg-4 ozet-sag-col">
-                <BasketSummary/>
-                {cartItems.length > 0 &&
-                    <button
-                        className="button-next-step primary"
-                        onClick={() => window.location.href = "/siparis/kargo"}
-                        id="stepper"
-                    >
-                        Sonraki Adım
-                    </button>
-                }
+            <div className="col-lg-4">
+                <div className="checkout-sidebar-sticky">
+                    <BasketSummary />
+                    {cartItems.length > 0 && (
+                        <button className="checkout-btn-primary w-100 mt-3" onClick={() => window.location.href = "/siparis/kargo"}>
+                            Sonraki Adım: Teslimat
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );

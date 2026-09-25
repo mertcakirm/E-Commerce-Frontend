@@ -1,18 +1,22 @@
-import {MdOutlineDone} from "react-icons/md";
+import { HiOutlineCheckCircle } from "react-icons/hi2";
 
 const PaymentSucces = () => {
     return (
-        <div className='row'>
-            <div className="col-12 onay-svg-parent">
-                <div className="d-flex justify-content-center align-items-center p-3" style={{background:'green',borderRadius:'200px'}}>
-                    <MdOutlineDone size={50} color="white" />
+        <div className='row justify-content-center text-center'>
+            <div className="col-12 col-md-8 col-lg-6 py-5">
+                <div className="mb-4">
+                    <HiOutlineCheckCircle size={80} color="#16a34a" />
                 </div>
-                <h2 className='onay-metin'>Siparişiniz Onaylandı</h2>
-                <a href="/">Anasayfaya Gitmek İçin Tıklayınız</a>
+                <h1 className="fw-bold text-dark mb-3">Siparişiniz Başarıyla Alındı!</h1>
+                <p className="text-secondary mb-5" style={{fontSize: "16px"}}>
+                    Siparişiniz güvenle onaylanmıştır. Sipariş durumunuzu ve kargo sürecinizi "Siparişlerim" bölümünden takip edebilirsiniz.
+                </p>
+                <a href="/urunler/tum-urunler" className="checkout-btn-primary px-5 py-3">
+                    Alışverişe Devam Et
+                </a>
             </div>
         </div>
-    )
-}
-
+    );
+};
 
 export default PaymentSucces;

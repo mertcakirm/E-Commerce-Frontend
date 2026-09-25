@@ -1,16 +1,16 @@
-import {HiOutlineChevronRight} from "react-icons/hi";
+import { HiArrowRight } from "react-icons/hi2";
 
-const NextArrow = (props) => {
-    const {className, style, onClick} = props;
+const NextArrow = ({ className, style, onClick }) => {
     return (
-        <div
-            className={className}
-            style={{...style, display: "block"}}
+        <button
+            type="button"
+            className={`modern-carousel-arrow modern-arrow-next ${className || ""}`}
+            style={{ ...style }}
             onClick={onClick}
+            aria-label="Sonraki Kategori"
         >
-            <HiOutlineChevronRight size={40} />
-
-        </div>
+            <HiArrowRight size={18} />
+        </button>
     );
 };
 

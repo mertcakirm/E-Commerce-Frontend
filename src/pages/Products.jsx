@@ -1,25 +1,25 @@
-import {useEffect, useState} from "react";
-import {useLocation} from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./css/Products.css";
 import FilterProduct from "../components/other/FilterProduct.jsx";
-import {getCookie} from "../components/cookie/cookie";
+import { getCookie } from "../components/cookie/cookie";
 import LoadingComponent from "../components/other/Loading.jsx";
-import {toast} from "react-toastify";
-import {AddToBasketRequest, FetchProductRequest, LikeProductRequest} from "../API/ProductApi.js";
-import {toggleRefresh} from "../store/basketSlice.js";
-import {useDispatch} from "react-redux";
-import {toggleRefreshFav} from "../store/favoriteSlice.js";
+import { toast } from "react-toastify";
+import { AddToBasketRequest, FetchProductRequest, LikeProductRequest } from "../API/ProductApi.js";
+import { toggleRefresh } from "../store/basketSlice.js";
+import { useDispatch } from "react-redux";
+import { toggleRefreshFav } from "../store/favoriteSlice.js";
 import PageLogo from "../components/other/PageLogo.jsx";
-import {TfiLayoutGrid3Alt, TfiLayoutGrid4Alt} from "react-icons/tfi";
-import {FaStar} from "react-icons/fa";
-import {FcLike} from "react-icons/fc";
-import {BsBasket3Fill} from "react-icons/bs";
+import { TfiLayoutGrid3Alt, TfiLayoutGrid4Alt } from "react-icons/tfi";
+import { FaStar } from "react-icons/fa";
+import { IoHeartOutline, IoBagAddOutline } from "react-icons/io5";
+import { HiOutlineAdjustmentsHorizontal } from "react-icons/hi2";
 
 const Products = () => {
     const dispatch = useDispatch();
-    const [colClass, setColClass] = useState("col-lg-3");
+    const [colClass, setColClass] = useState("col-lg-3 col-md-6 col-6");
     const [products, setProducts] = useState([]);
-    const [selectedSize, setSelectedSize] = useState(null);
+    const [selectedSizes, setSelectedSizes] = useState({});
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
@@ -30,7 +30,7 @@ const Products = () => {
     const token = getCookie("token");
 
     const GetProducts = async () => {
-        if (loading) return; // aynı anda iki çağrı olmasın
+        if (loading) return;
         if (currentPage > totalPages) return;
 
         setLoading(true);
@@ -77,152 +77,223 @@ const Products = () => {
     }, [loading, totalPages, currentCategory]);
 
     const handleLikeClick = async (productCode) => {
-        try {
-            await LikeProductRequest(productCode);
-            toast.success("Ürün favoriye eklendi!");
-            dispatch(toggleRefreshFav());
-        } catch {
-            toast.error("Ürün favoriye eklenemedi!");
-        }
-    };
-
-    const handleAddToBasket = async () => {
         if (!token) {
             window.location.href = "/girisyap";
             return;
         }
         try {
-            await AddToBasketRequest(selectedSize);
+            await LikeProductRequest(productCode);
+            toast.success("Favori durumu güncellendi!");
+            dispatch(toggleRefreshFav());
+        } catch {
+            toast.error("Favori güncellenemedi!");
+        }
+    };
+
+    const handleSelectSize = (productId, variantId, e) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        setSelectedSizes(prev => ({
+            ...prev,
+            [productId]: variantId
+        }));
+    };
+
+    const handleAddToBasket = async (productId, hasVariants) => {
+        if (!token) {
+            window.location.href = "/girisyap";
+            return;
+        }
+
+        const chosenSize = selectedSizes[productId];
+        if (hasVariants && !chosenSize) {
+            toast.warn("Lütfen önce bir beden seçin!");
+            return;
+        }
+
+        try {
+            await AddToBasketRequest(chosenSize || null);
             toast.success("Ürün sepete eklendi!");
             dispatch(toggleRefresh());
-
         } catch {
             toast.error("Ürün sepete eklenemedi!");
         }
     };
 
     const handleGridChange = (size) =>
-        setColClass(size === "4x4" ? "col-lg-3" : "col-lg-4");
+        setColClass(size === "4x4" ? "col-lg-3 col-md-6 col-6" : "col-lg-4 col-md-6 col-6");
 
-    if (loading && products.length === 0) return <LoadingComponent/>;
+    if (loading && products.length === 0) return <LoadingComponent />;
 
     return (
         <div>
             <div className="container-fluid urunler-container">
-                <div className="row text-align-center justify-content-center">
-                    <div className="col-lg-4"></div>
-                    <div className="col-lg-4 mt-5" data-aos="fade-in">
-                        <p
-                            className="text-center urunler-sayfa-baslik"
-                            style={{ textTransform: "uppercase" }}
-                        >
-                            {currentCategory === "tum-urunler" ? "Tüm Ürünler" : offerName || currentCategory} / {totalCount} Ürün
-                        </p>
+                {/* Header & Controls Toolbar */}
+                <div className="products-toolbar-wrapper">
+                    <div className="products-title-box" data-aos="fade-in">
+                        <span className="products-category-kicker">Koleksiyon</span>
+                        <h1 className="urunler-sayfa-baslik">
+                            {currentCategory === "tum-urunler" ? "Tüm Ürünler" : offerName || currentCategory}
+                        </h1>
+                        <span className="products-count-badge">{totalCount} Ürün</span>
                     </div>
-                    <div className="col-lg-4 row grid-row">
-                        <button className="grid-btn 3x3-btn" onClick={() => handleGridChange("3x3")}>
-                            <TfiLayoutGrid3Alt size={35} />
+
+                    <div className="grid-row products-controls-box">
+                        <div className="grid-view-buttons">
+                            <button
+                                className={`grid-btn 3x3-btn ${colClass.includes("col-lg-4") ? "active-grid" : ""}`}
+                                onClick={() => handleGridChange("3x3")}
+                                aria-label="3 Sütunlu Görünüm"
+                            >
+                                <TfiLayoutGrid3Alt size={19} />
+                            </button>
+                            <button
+                                className={`grid-btn 4x4-btn ${colClass.includes("col-lg-3") ? "active-grid" : ""}`}
+                                onClick={() => handleGridChange("4x4")}
+                                aria-label="4 Sütunlu Görünüm"
+                            >
+                                <TfiLayoutGrid4Alt size={20} />
+                            </button>
+                        </div>
+
+                        <button
+                            className="btn filter-btn offcanvas-button"
+                            type="button"
+                            data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight1"
+                            aria-controls="offcanvasRight1"
+                        >
+                            <HiOutlineAdjustmentsHorizontal size={18} />
+                            <span>Filtrele</span>
                         </button>
-                        <button className="grid-btn 4x4-btn" onClick={() => handleGridChange("4x4")}>
-                            <TfiLayoutGrid4Alt size={40} />
-                        </button>
-                        <button className="btn mx-3 filter-btn offcanvas-button" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasRight1" aria-controls="offcanvasRight1">
-                            Filtrele
-                        </button>
-                        <FilterProduct/>
+
+                        <FilterProduct />
                     </div>
                 </div>
 
-                <div className="row urun-cards-row">
-                    {products.map((product, index) => (
-                        <div style={{transition: '.4s'}} className={colClass} key={`${product.id}-${index}`}>
-                            <div className="urun-card"  data-aos="fade-up">
-                                <a href={`/urunler-detay/${product.id}`}>
-                                    {product.images?.[0] && (
-                                        <img
-                                            className="img-fluid w-100 urun-img2"
-                                            src={
-                                                product.images[0].imageUrl.startsWith("http")
-                                                    ? product.images[0].imageUrl
-                                                    : `https://localhost:7050${product.images[0].imageUrl}`
-                                            }
-                                            alt={product.name}
-                                        />
-                                    )}
+                {/* Ürünler Grid Listesi */}
+                <div className="row urun-cards-row g-3 g-md-4">
+                    {products.map((product, index) => {
+                        const hasDiscount = Number(product.discountRate) > 0;
+                        const hasVariants = product.variants && product.variants.length > 0;
+                        const currentSelectedSize = selectedSizes[product.id];
 
-                                    {product.images?.[1] && (
-                                        <img
-                                            className="img-fluid w-100 urun-img1"
-                                            src={
-                                                product.images[1].imageUrl.startsWith("http")
-                                                    ? product.images[1].imageUrl
-                                                    : `https://localhost:7050${product.images[1].imageUrl}`
-                                            }
-                                            alt={product.name}
-                                        />
-                                    )}
-                                </a>
+                        return (
+                            <div className={colClass} key={`${product.id}-${index}`}>
+                                <div className="product-item-wrapper">
+                                    <div className="urun-card" data-aos="fade-up">
+                                        {/* İndirim Rozeti */}
+                                        {hasDiscount && (
+                                            <div className="urunler-card-content-top">
+                                                <span>%{product.discountRate}</span>
+                                            </div>
+                                        )}
 
-                                <div className="urun-card-content-bottom">
-                                    <button className="d-flex align-items-center gap-2 urunler-card-content-bottom-add-btn"
-                                            onClick={handleAddToBasket}>
-                                        +
-                                        <BsBasket3Fill size={25} color="white" />
+                                        {/* Ürün Fotoğrafları Linki */}
+                                        <a href={`/urunler-detay/${product.id}`} className="product-card-link">
+                                            {product.images?.[0] && (
+                                                <img
+                                                    className="img-fluid urun-img2"
+                                                    src={
+                                                        product.images[0].imageUrl.startsWith("http")
+                                                            ? product.images[0].imageUrl
+                                                            : `https://localhost:7050${product.images[0].imageUrl}`
+                                                    }
+                                                    alt={product.name}
+                                                    loading="lazy"
+                                                />
+                                            )}
 
-                                    </button>
-                                    <button
-                                        className="urunler-card-content-bottom-like-btn"
-                                        onClick={() => token ? handleLikeClick(product.id) : (window.location.href = "/girisyap")}
-                                    >
-                                        <FcLike size={25} />
-                                    </button>
-                                </div>
+                                            {product.images?.[1] && (
+                                                <img
+                                                    className="img-fluid urun-img1"
+                                                    src={
+                                                        product.images[1].imageUrl.startsWith("http")
+                                                            ? product.images[1].imageUrl
+                                                            : `https://localhost:7050${product.images[1].imageUrl}`
+                                                    }
+                                                    alt={product.name}
+                                                    loading="lazy"
+                                                />
+                                            )}
+                                        </a>
 
-                                <div className="urunler-card-content-left">
-                                    {product.variants.map(variant => (
-                                        <button
-                                            key={variant.id}
-                                            className={`urunler-card-content-left-size-btn ${
-                                                selectedSize === variant.id ? "selected-size" : ""
-                                            }`}
-                                            onClick={() => setSelectedSize(variant.id)}
-                                        >
-                                            {variant.size}
-                                        </button>
-                                    ))}
-                                </div>
+                                        {/* Masaüstü ve Mobilde Beden Seçici */}
+                                        {hasVariants && (
+                                            <div className="urunler-card-content-left">
+                                                {product.variants.map((variant) => (
+                                                    <button
+                                                        key={variant.id}
+                                                        type="button"
+                                                        className={`urunler-card-content-left-size-btn ${
+                                                            currentSelectedSize === variant.id ? "selected-size" : ""
+                                                        }`}
+                                                        onClick={(e) => handleSelectSize(product.id, variant.id, e)}
+                                                    >
+                                                        {variant.size}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
 
-                                {product.discountRate > 0 && (
-                                    <div className="urunler-card-content-top">
-                                        <p>{product.discountRate}% İndirim</p>
+                                        {/* FLOATING DYNAMIC ISLAND (Sepete Ekle & Favori) */}
+                                        <div className="product-island-container">
+                                            <div className="product-action-island">
+                                                <button
+                                                    type="button"
+                                                    className="island-basket-btn"
+                                                    onClick={() => handleAddToBasket(product.id, hasVariants)}
+                                                >
+                                                    <IoBagAddOutline size={18} />
+                                                    <span>Sepete Ekle</span>
+                                                </button>
+
+                                                <span className="island-divider" />
+
+                                                <button
+                                                    type="button"
+                                                    className="island-fav-btn"
+                                                    onClick={() => handleLikeClick(product.id)}
+                                                    aria-label="Favori"
+                                                >
+                                                    <IoHeartOutline size={20} />
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-                                )}
-                            </div>
 
-                            <div className="urun-adi">
-                                <p>{product.name}</p>
-                            </div>
-                            <div className="d-flex mt-1 w-100 gap-2 justify-content-center align-items-center">
-                                <p className="urun-code fs-6 fw-bold">{Number(product.averageRating).toFixed(0)}/10 </p>
+                                    {/* Ürün Detayları */}
+                                    <div className="product-meta-wrap">
+                                        <a href={`/urunler-detay/${product.id}`} className="urun-adi">
+                                            <p>{product.name}</p>
+                                        </a>
 
-                                <FaStar size={24} color="orange" />
-                            </div>
-                            <div className="urun-fiyat">
-                                <p style={{fontSize: "20px"}} className="p1-fiyat">
-                                    {product.priceWithDiscount}₺
-                                </p>
-                                {product.discountRate > 0 && (
-                                    <p style={{fontSize: "20px"}} className="p2-fiyat">
-                                        {product.price}₺
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                                        <div className="d-flex align-items-center justify-content-between mt-1">
+                                            <div className="urun-fiyat">
+                                                <span className="p1-fiyat">{product.priceWithDiscount} ₺</span>
+                                                {hasDiscount && (
+                                                    <span className="p2-fiyat">{product.price} ₺</span>
+                                                )}
+                                            </div>
 
-                    <PageLogo size="25" />
+                                            {product.averageRating > 0 && (
+                                                <div className="rating-pill">
+                                                    <FaStar size={11} color="#f59e0b" />
+                                                    <span>{Number(product.averageRating).toFixed(1)}</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
 
+                    <div className="col-12 d-flex justify-content-center py-5">
+                        <PageLogo size="25" />
+                    </div>
                 </div>
             </div>
         </div>

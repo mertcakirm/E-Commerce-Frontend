@@ -2,6 +2,7 @@ import kampanya from "../../assets/kampanya.jpg";
 import { useEffect, useState } from "react";
 import { GetMyOrdersRequest } from "../../API/OrderApi.js";
 import { FaBoxOpen, FaCheckCircle, FaClock, FaTimesCircle, FaTruck } from "react-icons/fa";
+import { IoChevronForward } from "react-icons/io5";
 
 const ProfileOrders = () => {
     const [orders, setOrders] = useState([]);
@@ -14,7 +15,7 @@ const ProfileOrders = () => {
         setLoading(true);
         try {
             const response = await GetMyOrdersRequest(pageNum);
-            const newItems = response.data.data.data.items || [];
+            const newItems = response.data?.data?.data?.items || [];
 
             if (newItems.length === 0) {
                 setHasMore(false);
@@ -39,86 +40,122 @@ const ProfileOrders = () => {
         GetOrders(nextPage);
     };
 
+    const getStatusBadge = (statusStr) => {
+        const s = statusStr?.toLowerCase().trim();
+        let badgeClass = "badge-status-neutral";
+        let icon = null;
+
+        if (s === "onaylandı") {
+            badgeClass = "badge-status-success";
+            icon = <FaCheckCircle size={13} />;
+        } else if (s === "hazırlanıyor") {
+            badgeClass = "badge-status-warning";
+            icon = <FaClock size={13} />;
+        } else if (s === "yolda") {
+            badgeClass = "badge-status-info";
+            icon = <FaTruck size={13} />;
+        } else if (s === "teslim edildi") {
+            badgeClass = "badge-status-done";
+            icon = <FaBoxOpen size={13} />;
+        } else if (s === "iptal edildi") {
+            badgeClass = "badge-status-danger";
+            icon = <FaTimesCircle size={13} />;
+        }
+
+        return (
+            <span className={`order-status-badge ${badgeClass}`}>
+                {icon}
+                <span>{statusStr}</span>
+            </span>
+        );
+    };
+
     return (
-        <div className="row siparislerim-row">
-
+        <div className="orders-wrapper">
             {orders.length === 0 && !hasMore ? (
-                <div className="text-center fw-medium mt-4">Sipariş bulunamadı.</div>
+                <div className="profile-empty-state">
+                    <FaBoxOpen size={48} className="empty-icon text-muted mb-2" />
+                    <h4>Kayıtlı Sipariş Yok</h4>
+                    <p>Henüz verilmiş bir siparişiniz bulunmamaktadır.</p>
+                </div>
             ) : (
-                orders.map((order) => (
-                    <div className="col-lg-3 col-md-6 mb-3" key={order.id}>
-                        <div className="d-flex flex-column justify-content-between border fw-medium shadow-sm rounded-3">
-                            <div className="d-flex justify-content-between align-items-center p-2" style={{ borderBottom: "1px solid #ccc" }}>
-                                <div className="d-flex flex-column">
-                                    <div>{new Date(order.orderDate).toLocaleDateString("tr-TR")}</div>
-                                    <div>Toplam: <span style={{ color: "orange" }}>{order.totalAmount.toFixed(2)} ₺</span></div>
+                <div className="row g-3">
+                    {orders.map((order) => {
+                        const totalItemCount = order.orderItem?.reduce(
+                            (sum, item) => sum + (item.quantity || 0),
+                            0
+                        ) || 0;
+
+                        return (
+                            <div className="col-lg-4 col-md-6" key={order.id}>
+                                <div className="modern-order-card">
+                                    <div className="order-card-header">
+                                        <div className="order-date-wrap">
+                                            <span className="order-date-label">Tarih</span>
+                                            <span className="order-date-value">
+                                                {new Date(order.orderDate).toLocaleDateString("tr-TR")}
+                                            </span>
+                                        </div>
+                                        <div className="order-amount-wrap">
+                                            <span className="order-amount-label">Toplam</span>
+                                            <span className="order-amount-value">
+                                                {order.totalAmount.toFixed(2)} ₺
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="order-card-body">
+                                        <div className="d-flex align-items-center justify-content-between mb-3">
+                                            {getStatusBadge(order.status)}
+                                            <span className="order-item-count-text">
+                                                {totalItemCount} ürün
+                                            </span>
+                                        </div>
+
+                                        <div className="order-thumbnails-row">
+                                            {order.orderItem?.flatMap((item) =>
+                                                item.orderItemProduct?.map((product) => (
+                                                    <img
+                                                        key={product.id}
+                                                        src={
+                                                            product.imageUrl
+                                                                ? `https://localhost:7050${product.imageUrl}`
+                                                                : kampanya
+                                                        }
+                                                        className="order-product-thumb"
+                                                        alt={product.name || "Ürün"}
+                                                        title={product.name}
+                                                    />
+                                                ))
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="order-card-footer">
+                                        <a
+                                            className="order-detail-link"
+                                            href={`/siparis-durumu/${order.id}`}
+                                        >
+                                            <span>Sipariş Detayı</span>
+                                            <IoChevronForward size={14} />
+                                        </a>
+                                    </div>
                                 </div>
-                                <a className="text-decoration-none" href={`/siparis-durumu/${order.id}`} style={{ color: "orange" }}>
-                                    Detaylar
-                                </a>
                             </div>
-
-                            <div className="d-flex justify-content-between align-items-center p-2">
-                                <div className="d-flex flex-column gap-2">
-                                    <div className="d-flex align-items-center gap-2">
-                                        {(() => {
-                                            const status = order.status?.toLowerCase().trim();
-                                            if (status === "onaylandı") return <FaCheckCircle style={{ color: "green" }} />;
-                                            if (status === "hazırlanıyor") return <FaClock style={{ color: "orange" }} />;
-                                            if (status === "yolda") return <FaTruck style={{ color: "green" }} />;
-                                            if (status === "teslim edildi") return <FaBoxOpen style={{ color: "#28a745" }} />;
-                                            if (status === "iptal edildi") return <FaTimesCircle style={{ color: "red" }} />;
-                                            return null;
-                                        })()}
-                                        <span>{order.status}</span>
-                                    </div>
-
-                                    <div className="d-flex align-items-center gap-1 flex-wrap">
-                                        {order.orderItem?.flatMap((item) =>
-                                            item.orderItemProduct?.map((product) => (
-                                                <img
-                                                    key={product.id}
-                                                    src={
-                                                        product.imageUrl
-                                                            ? `https://localhost:7050${product.imageUrl}`
-                                                            : kampanya
-                                                    }
-                                                    className="siparis-card-resim"
-                                                    alt={product.name}
-                                                    style={{
-                                                        width: "50px",
-                                                        height: "50px",
-                                                        borderRadius: "8px",
-                                                        objectFit: "cover",
-                                                        border: "1px solid #ddd",
-                                                    }}
-                                                />
-                                            ))
-                                        )}
-                                    </div>
-
-                                    <div className="text-muted" style={{ fontSize: "12px" }}>
-                                        {order.orderItem?.reduce((sum, item) => sum + (item.quantity || 0), 0)} ürün {order.status.toLowerCase()}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))
+                        );
+                    })}
+                </div>
             )}
 
             {hasMore && !loading && (
-                <div className="text-center my-3">
-                    <button
-                        onClick={loadMore}
-                        className="btn btn-outline-dark px-4 fw-medium"
-                    >
+                <div className="text-center mt-4">
+                    <button onClick={loadMore} className="modern-btn-outline">
                         Daha Fazla Yükle
                     </button>
                 </div>
             )}
 
-            {loading && <div className="text-center fw-medium my-3">Yükleniyor...</div>}
+            {loading && <div className="text-center py-4 text-muted fw-medium">Yükleniyor...</div>}
         </div>
     );
 };

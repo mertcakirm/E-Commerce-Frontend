@@ -1,195 +1,505 @@
-
-
-.giris-container{
-    height: 100vh;
-    position: relative;
-    padding: 0;
+/* ==========================================================================
+   LOGIN & REGISTER PAGE (EDITORIAL LUXE THEME)
+   ========================================================================== */
+.login-screen-wrapper {
+  background-color: #ffffff;
+  min-height: 100vh;
+  width: 100%;
 }
 
-.giris-bg{
-    object-fit: cover;
-    height: 100vh;
+.giris-container {
+  min-height: 100vh;
+  padding: 0;
+  overflow-x: hidden;
 }
 
-.forms-page{
-    height: 100vh;
+.auth-layout-row {
+  min-height: 100vh;
 }
 
-.giris-row{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    background: #fff;
-    align-items: center;
-    top: 10%;
-    left: 20%;
-    width: 60%;
-    height: 80%;
-    border: 5px solid gray;
-    border-radius: 30px;
-    backdrop-filter: blur(10px);
-    overflow: hidden;
-    transition: .4s;
-
+/* ==========================================================================
+   SOL GÖRSEL PANELİ
+   ========================================================================== */
+.auth-visual-col {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: #0f172a;
 }
 
-.login-form{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    row-gap: 30px;
-    transition: .4s;
+.auth-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.9);
+}
+
+.auth-visual-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(15, 23, 42, 0.85) 0%,
+    rgba(15, 23, 42, 0.35) 45%,
+    rgba(15, 23, 42, 0.1) 100%
+  );
+  pointer-events: none;
+}
+
+.auth-brand-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 50px clamp(24px, 5vw, 60px);
+  color: #ffffff;
+  z-index: 2;
+}
+
+.auth-brand-kicker {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.75);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.auth-brand-title {
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  margin: 0 0 12px 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.auth-brand-desc {
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 480px;
+  margin: 0;
+}
+
+/* ==========================================================================
+   SAĞ FORM PANELİ
+   ========================================================================== */
+.auth-form-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 32px clamp(20px, 4vw, 56px);
+  background-color: #ffffff;
+  min-height: 100vh;
+}
+
+/* Üst Buton */
+.auth-top-nav {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.auth-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+.auth-back-link:hover {
+  color: #0f172a;
+}
+
+/* Form Kapsayıcısı */
+.auth-card-body {
+  width: 100%;
+  max-width: 420px;
+  margin: auto;
+  padding: 20px 0;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Başlık Alanı */
+.auth-header-group {
+  margin-bottom: 8px;
+}
+
+.auth-mini-tag {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #64748b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.login-form-baslik {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px 0;
+}
+
+.auth-header-sub {
+  font-size: 13.5px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Input Alanları */
+.auth-inputs-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modern-floating {
+  position: relative;
+}
+
+.modern-floating .form-control {
+  height: 52px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 1rem 0.85rem;
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f172a;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+}
+
+.modern-floating .form-control:focus {
+  border-color: #0f172a;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
+}
+
+.modern-floating label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #64748b;
+  padding: 0.85rem;
+}
+
+/* Checkbox'lar */
+.giris-check {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.modern-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.modern-checkbox-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.custom-checkmark {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  flex-shrink: 0;
+  margin-top: 2px;
+  transition: all 0.2s ease;
+}
+
+.modern-checkbox-label input:checked ~ .custom-checkmark {
+  background-color: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+}
+
+.checkbox-text {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.checkbox-text a {
+  color: #0f172a;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Buton */
+.giris-yap-btn {
+  width: 100%;
+  height: 48px !important;
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+  margin-top: 4px;
+}
+
+.giris-yap-btn:hover {
+  background-color: #1e293b;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.22);
+}
+
+/* Form Değiştirme Butonu */
+.kayit-giris-gecis-btn {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.kayit-giris-gecis-btn button {
+  background: transparent;
+  border: none;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.kayit-giris-gecis-btn button:hover {
+  color: #2563eb;
+}
+
+/* Alt Güvenlik İbaresi */
+.auth-footer-privacy {
+  text-align: center;
+  padding-top: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.04em;
+}
+
+/* ==========================================================================
+   PAROLA SIFIRLAMA SAYFASI (UYUMLULUK)
+   ========================================================================== */
+.parola-yenile-container {
+  padding: 120px 24px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.parola-yenile-flex {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+#parola-yenile-inp {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+}
+
+.e-posta-gonder {
+  width: 100%;
+  height: 48px;
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.e-posta-gonder:hover {
+  background-color: #1e293b;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (BREAKPOINTS)
+   ========================================================================== */
+@media (max-width: 991px) {
+  .auth-form-col {
+    padding: 24px 20px;
+  }
+
+  .auth-card-body {
+    max-width: 100%;
+  }
 }
 
 
-.login-form-baslik{
-    font-size: 32px;
-    font-weight: 700;
-    text-align: center;
+
+/* ==========================================================================
+   PAROLA SIFIRLAMA SAYFASI (PASSWORD RESET)
+   ========================================================================== */
+.parola-yenile-container {
+  padding: 100px 24px;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
-.form-control{
-    border: 1px solid #000;
-    border-radius: 0px;
+.parola-yenile-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 40px 36px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.form-control:focus {
-    border-color: #000;
+.parola-icon-box {
+  width: 56px;
+  height: 56px;
+  background: #f1f5f9;
+  color: #0f172a;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
 }
 
-.giris-yap-btn{
-    padding: 10px 20px;
-    border: 0;
-    font-size: 20px;
-    font-weight: 700;
-    background-color: orange;
-    height: 50px!important;
+.parola-baslik {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 12px 0;
+  letter-spacing: -0.01em;
 }
 
-.kayit-giris-gecis-btn{
-    font-weight: 700;
-    font-size: 16px;
+.parola-aciklama {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 32px 0;
 }
 
-.kayit-giris-gecis-btn>button{
-border: 0;
-font-weight: 700;
-font-size: 16px;
-background: transparent;
-color: orange;
+.parola-yenile-flex {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.giris-check{
-    display: flex;
-    flex-direction: column;
-
+.parola-input-group {
+  position: relative;
+  width: 100%;
 }
 
-.kayit-check{
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+.parola-input-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+  color: #94a3b8;
 }
 
-.kayit-check-flex{
-    display: flex;
-    flex-direction: row;
+#parola-yenile-inp {
+  width: 100%;
+  height: 50px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 0 16px 0 46px;
+  font-size: 14.5px;
+  color: #0f172a;
+  outline: none;
+  transition: all 0.2s ease;
 }
 
-.kayit-check-flex>label{
-    font-size: small;
+#parola-yenile-inp:focus {
+  background: #ffffff;
+  border-color: #0f172a;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
 }
 
-.parola-yenile-container{
-    padding-top:200px;
-    padding-bottom: 200px;
+.e-posta-gonder {
+  width: 100%;
+  height: 50px;
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
 }
 
-.parola-yenile-flex{
-    display: flex;
-    flex-direction: column;
-    row-gap: 30px;
-    align-items: center;
+.e-posta-gonder:hover {
+  background-color: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
 }
 
-#parola-yenile-inp{
-    width: 40%;
-    border: 0;
-    border-bottom: 1px solid #000;
-    padding-left: 1%;
-    height: 40px;
-    line-height: 40px;
+.parola-alt-link {
+  margin-top: 24px;
 }
 
-#parola-yenile-inp:focus-visible {
-    outline: none;
+.parola-alt-link a {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.e-posta-gonder{
-    width: 40%;
-    height: 50px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #fff;
-    background-color: #000;
-    border: 2px solid #000;
-    border-radius: 10px;
-    transition: .4s;
+.parola-alt-link a:hover {
+  color: #0f172a;
+  text-decoration: underline;
 }
 
-.e-posta-gonder:hover{
-    color: #000;
-    background-color: #fff;
-    border: 2px solid #000;
-    transition: .4s;
+@media (max-width: 576px) {
+  .parola-yenile-card {
+    padding: 32px 20px;
+  }
 
+  .parola-baslik {
+    font-size: 1.4rem;
+  }
 }
-
-
-@media only screen and (max-width:991px) {
-
-    .giris-row{
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        background: #fff;
-        width: 100%;
-        height: 80%;
-        opacity: 1;
-        border: 0;
-    }
-    .giris-bg{
-        display: none;
-    }
-    .e-posta-gonder{
-        width: 70%;
-    }
-
-    #parola-yenile-inp{
-        width: 70%;
-    }
-}
-
-@media only screen and (max-width:430px) {
-    .giris-row{
-        position: absolute;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        background: #fff;
-        align-items: center;
-        top: 10%;
-        left: 4%;
-        width: 100%;
-        opacity: 1;
-    }
-
-    .e-posta-gonder{
-        width: 100%;
-    }
-
-    #parola-yenile-inp{
-        width: 100%;
-    }
-}
-

@@ -1,28 +1,219 @@
-.hakkimizda-container{
-    padding-top: 200px;
+/* ==========================================================================
+   HAKKIMIZDA SAYFASI (EDITORIAL LUXE THEME)
+   ========================================================================== */
+.about-page-wrapper {
+  background-color: #ffffff;
+  min-height: 100vh;
+  width: 100%;
 }
 
-.hakkimizda-baslik{
-    text-align: center;
-    width: 100%;
-    font-size: 28px;
-    text-transform: uppercase;
-    font-weight: 700;
+.hakkimizda-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding-top: 200px;
+  padding-bottom: 60px;
+  padding-left: clamp(16px, 4vw, 40px);
+  padding-right: clamp(16px, 4vw, 40px);
 }
 
-.hakkimizda-icerik{
-    padding: 2% 0%;
-    display: flex;
+/* ==========================================================================
+   HERO BAŞLIK & BİLDİRİ
+   ========================================================================== */
+.about-hero-block {
+  margin-bottom: 40px;
+}
+
+.about-tagline {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #64748b;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.hakkimizda-baslik {
+  font-size: clamp(2.2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.025em;
+  margin: 0 0 16px 0;
+  text-transform: uppercase;
+}
+
+.about-lead-statement {
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 500;
+  color: #475569;
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   GİRİŞ / MANİFESTO KARTI
+   ========================================================================== */
+.about-intro-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 36px clamp(20px, 4vw, 48px);
+  margin-bottom: 48px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+}
+
+.about-intro-text {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #334155;
+  text-align: center;
+  margin: 0 0 32px 0;
+}
+
+.about-metrics-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(20px, 5vw, 60px);
+  border-top: 1px solid #e2e8f0;
+  padding-top: 24px;
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.metric-icon {
+  color: #0f172a;
+}
+
+/* ==========================================================================
+   MİSYON & VİZYON KARTLARI
+   ========================================================================== */
+.about-pillars-grid {
+  margin-bottom: 40px;
+}
+
+.pillar-card {
+  background: #ffffff;
+  border: 1px solid #edf2f7;
+  border-radius: 20px;
+  padding: 36px 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.pillar-card:hover {
+  transform: translateY(-4px);
+  border-color: #cbd5e1;
+  box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.08);
+}
+
+.pillar-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.pillar-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pillar-icon-box.dark {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.pillar-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.pillar-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 24px;
+}
+
+.pillar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pillar-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.list-check-icon {
+  color: #0f172a;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Alt Logo */
+.about-footer-logo {
+  border-top: 1px solid #f1f5f9;
+  margin-top: 20px;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (BREAKPOINTS)
+   ========================================================================== */
+@media (max-width: 991px) {
+  .hakkimizda-container {
+    padding-top: 100px;
+  }
+
+  .pillar-card {
+    padding: 28px 24px;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-metrics-row {
     flex-direction: column;
-    row-gap: 20px;
-}
+    align-items: flex-start;
+    gap: 14px;
+  }
 
-.hakkimizda-icerik-p1{
-    font-size: 16px;
-    font-weight: 500;
-}
+  .hakkimizda-baslik {
+    font-size: 2rem;
+  }
 
-.hakkimizda-icerik-baslik{
-    font-size: 24px;
-    font-weight: 600;
+  .pillar-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
 }

@@ -1,121 +1,202 @@
-.footer-container{
-    background-color: #ededed;
-    padding: 5% 15% 1% 15%;
-    z-index: 300;
-    border-top: 3px solid #000;
+:root {
+  --footer-bg: #f8fafc;
+  --footer-border: #e2e8f0;
+  --footer-title: #0f172a;
+  --footer-text: #64748b;
+  --footer-hover: #0f172a;
 }
 
-.footer-col{
-    display: flex;
+/* ==========================================================================
+   FOOTER WRAPPER & CONTAINER
+   ========================================================================== */
+.modern-footer-wrapper {
+  background-color: var(--footer-bg);
+  border-top: 1px solid var(--footer-border);
+  margin-top: auto;
+  position: relative;
+  z-index: 10;
+}
+
+.footer-container {
+  padding-top: 60px;
+  padding-bottom: 24px;
+}
+
+.footer-top-row {
+  border-bottom: 1px solid var(--footer-border);
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tipografi */
+.footer-baslik {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--footer-title);
+  letter-spacing: 0.06em;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
+
+.footer-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-icerik {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--footer-text);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.footer-icerik:hover {
+  color: var(--footer-hover);
+  transform: translateX(4px);
+  text-decoration: none;
+}
+
+/* Sosyal Medya İkon Butonları */
+.bizi-takip-edin-footer-flex {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bizi-takip-edin-item {
+  width: 40px;
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid var(--footer-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #334155;
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bizi-takip-edin-item:hover {
+  background-color: #0f172a;
+  border-color: #0f172a;
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
+}
+
+/* Ödeme Yöntemleri */
+.footer-baslik-odeme {
+  margin-top: 28px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--footer-title);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.odeme-yontemleri-flex {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.payment-card-badge {
+  background: #ffffff;
+  border: 1px solid var(--footer-border);
+  border-radius: 6px;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+.payment-card-badge img {
+  height: 24px;
+  width: auto;
+  max-width: 65px;
+  object-fit: contain;
+}
+
+/* Alt KVKK ve Telif Satırı */
+.kvkk-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 24px;
+}
+
+.kvkk-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.kvkk-item {
+  color: var(--footer-text);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.kvkk-item:hover {
+  color: var(--footer-hover);
+  text-decoration: underline;
+}
+
+.kvkk-divider {
+  color: #cbd5e1;
+  font-size: 10px;
+}
+
+.footer-copyright {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 768px) {
+  .footer-container {
+    padding-top: 40px;
+  }
+
+  .footer-col {
+    text-align: center;
+    align-items: center;
+  }
+
+  .footer-links-list {
+    align-items: center;
+  }
+
+  .footer-icerik:hover {
+    transform: none;
+  }
+
+  .kvkk-flex {
     flex-direction: column;
-    row-gap: 10px;
+    gap: 8px;
+  }
+
+  .kvkk-divider {
+    display: none;
+  }
 }
-
-.footer-baslik{
-    font-size: 24px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.footer-icerik{
-    font-size: 16px;
-    font-weight: 700;
-    color: gray;
-    text-decoration: none;
-    transition: .6s;
-    text-transform: uppercase;
-
-}
-
-.footer-icerik:hover{
-    color: #000;
-    text-decoration: underline;
-    transition: .6s;
-}
-
-.bizi-takip-edin-footer-flex{
-    display: flex;
-    flex-direction: row;
-    column-gap: 20px;
-}
-
-.bizi-takip-edin-item{
-    width: 50px;
-    height: 50px;
-    border: 2px solid #000;
-    background-color: rgb(209, 209, 209);
-    border-radius: 50px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    transition: .1s;
-
-}
-.bizi-takip-edin-item:hover{
-    border: 3px solid #000;
-    transition: .1s;
-}
-
-.footer-baslik-odeme{
-    margin-top: 30px;
-    font-size: 24px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.odeme-yontemleri-flex{
-    display: flex;
-    flex-direction: row;
-    column-gap: 10px;
-}
-
-.odeme-yontemleri-flex>img{
-    width: 70px;
-}
-
-.kvkk-flex{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    column-gap: 10px;
-    border-top: 1px solid #000;
-}
-
-.kvkk-item{
-    color: #000;
-    text-decoration: none;
-    font-size: 16px;
-
-}
-
-/* bilgilendirmeler */
-.bilgilendirmeler-container{
-    padding: 10% 0%;
-}
-
-.accordion-body-height{
-    max-height: 400px;
-    overflow: hidden;
-    overflow-y: visible;
-}
-
-@media only screen and (max-width:991px) {
-
-    .kvkk-flex{
-        flex-wrap: wrap;
-    }
-    .footer-container{
-        height: fit-content;
-    }
-}
-
-@media only screen and (max-width:767px) {
-
-    .kvkk-flex{
-        text-align: center;
-
-    }
-}
-

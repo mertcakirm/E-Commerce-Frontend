@@ -1,31 +1,188 @@
-.custom-offcanvas {
-    width: fit-content !important;
+/* ==========================================================================
+   CATEGORIES OFFCANVAS (MODERN SIDEBAR)
+   ========================================================================== */
+.modern-categories-offcanvas {
+  width: 340px !important;
+  border-right: 1px solid #e2e8f0;
+  box-shadow: 10px 0 35px rgba(0, 0, 0, 0.06);
 }
 
-.accordion-button {
-    font-size: 16px;
+.modern-cat-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #ffffff;
+}
+
+.modern-cat-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.cat-count-badge {
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+/* Kapsayıcı Gövde (Taşmayı Önler) */
+.modern-cat-body {
+  background-color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden !important; /* Dışarı sarkmayı kökten durdurur */
+}
+
+/* Kaydırılabilir İç Kısım */
+.cat-scroll-area {
+  flex: 1; /* Ortadaki alanın kalan yüksekliğe yayılmasını sağlar */
+  overflow-y: auto; /* Yalnızca dikey kaydırmaya izin verir */
+  padding: 16px 20px;
+}
+
+/* ==========================================================================
+   TÜM ÜRÜNLER BANNER
+   ========================================================================== */
+.all-products-banner-wrap {
+  margin-bottom: 20px;
+}
+
+.all-products-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 14px 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+}
+
+.all-products-link:hover {
+  background: #1e293b;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.25);
+}
+
+.sparkle-icon {
+  color: #fcd34d;
+}
+
+/* ==========================================================================
+   AKORDEON KATEGORİLER
+   ========================================================================== */
+.modern-category-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modern-accordion-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px !important;
+  background: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.modern-accordion-button {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none !important;
+}
+
+.modern-accordion-button:not(.collapsed) {
+  background: #f8fafc !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.cat-name-text {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sub-count-tag {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  background: #f1f5f9;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-left: 10px;
+}
+
+.modern-accordion-body {
+  padding: 12px 18px 16px 18px;
+  background: #ffffff;
 }
 
 .subcategory-list {
-    list-style: none;
-    margin: 0;
-    padding-left: 20px;
-    border-left: 1px solid #ccc;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.subcategory-item {
-    padding: 8px 0;
-    cursor: pointer;
-    text-indent: 0;
-    transition: .4s;
+.subcategory-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: #475569;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.subcategory-item:hover {
-    text-indent: 10px;
-    transition: .4s;
+.subcategory-link:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding-left: 16px;
 }
 
-#categoryAccordion{
-    overflow: hidden;
-    overflow-y: visible;
+.sub-arrow {
+  color: #cbd5e1;
+  transition: color 0.2s ease;
+}
+
+.subcategory-link:hover .sub-arrow {
+  color: #0f172a;
+}
+
+/* Alt Marka Logo Kutusu */
+.cat-footer-logo-wrap {
+  padding: 20px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   MOBİL (TAM SAYFA GÖRÜNÜMÜ)
+   ========================================================================== */
+@media (max-width: 576px) {
+  .modern-categories-offcanvas {
+    width: 100% !important; /* Mobilde yarım açılmayı engelleyip tam sayfa yapar */
+  }
 }

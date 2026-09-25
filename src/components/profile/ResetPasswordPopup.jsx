@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { ResetPasswordRequest } from "../../API/ProfileApi.js";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import { HiXMark } from "react-icons/hi2";
 
 const PasswordResetPopup = ({ onClose }) => {
     const [reset, setReset] = useState({
@@ -10,19 +12,24 @@ const PasswordResetPopup = ({ onClose }) => {
     });
 
     const handleSubmit = async () => {
+        if (!reset.oldPassword || !reset.newPassword || !reset.confirmPassword) {
+            toast.warn("Lütfen tüm alanları doldurun!");
+            return;
+        }
+
         if (reset.newPassword !== reset.confirmPassword) {
-            toast.error("Parolalar eşleşmiyor!")
+            toast.error("Parolalar eşleşmiyor!");
             return;
         }
 
         try {
             await ResetPasswordRequest(reset.oldPassword, reset.newPassword);
-            toast.success("Parola başarıyla değiştirildi!")
+            toast.success("Parola başarıyla değiştirildi!");
+            onClose(false);
         } catch (error) {
             console.log(error);
-            toast.error("Parola değiştirilirken bir sorun oluştu! Daha sonra tekrar deneyin!")
+            toast.error("Parola değiştirilirken bir sorun oluştu! Daha sonra tekrar deneyin!");
         }
-        onClose(false);
     };
 
     const handleChange = (e) => {
@@ -30,51 +37,77 @@ const PasswordResetPopup = ({ onClose }) => {
         setReset(prev => ({ ...prev, [name]: value }));
     };
 
-    return (
-        <div className="modal">
-            <div className="modal-content" style={{ width: 'fit-content' }}>
-                <div className="d-flex justify-content-between">
-                    <h3>Şifre Değiştir</h3>
-                    <span className="close" onClick={() => onClose(false)}>&times;</span>
+    // Modal içeriğini doğrudan document.body içine portal ile render ediyoruz
+    return createPortal(
+        <div className="modern-modal-overlay">
+            <div className="modern-modal-dialog">
+                <div className="modern-modal-header">
+                    <h3 className="modern-modal-title">Şifre Değiştir</h3>
+                    <button
+                        type="button"
+                        className="modern-modal-close"
+                        onClick={() => onClose(false)}
+                        aria-label="Kapat"
+                    >
+                        <HiXMark size={20} />
+                    </button>
                 </div>
 
-                <div>
-                    <div className="popup-form no-scroll">
-                        <div className="popup-content" style={{ height: 'fit-content', minHeight: 'auto' }}>
-                            <input
-                                type="password"
-                                name="oldPassword"
-                                placeholder="Eski Şifreniz"
-                                value={reset.oldPassword}
-                                onChange={handleChange}
-                                className="profilim-inputs adres-input"
-                            />
-                            <input
-                                type="password"
-                                name="newPassword"
-                                placeholder="Yeni Şifreniz"
-                                value={reset.newPassword}
-                                onChange={handleChange}
-                                className="profilim-inputs adres-input"
-                            />
-                            <input
-                                type="password"
-                                name="confirmPassword"
-                                placeholder="Yeni Şifreniz Tekrar"
-                                value={reset.confirmPassword}
-                                onChange={handleChange}
-                                className="profilim-inputs adres-input"
-                            />
-                            <div className="guncelle-flex" style={{ marginTop: "20px" }}>
-
-                                <button onClick={handleSubmit}>Gönder</button>
-
-                            </div>
-                        </div>
+                <div className="modern-modal-body">
+                    <div className="modern-input-group">
+                        <label>Eski Şifre</label>
+                        <input
+                            type="password"
+                            name="oldPassword"
+                            placeholder="Mevcut şifreniz"
+                            value={reset.oldPassword}
+                            onChange={handleChange}
+                            className="modern-form-input"
+                        />
+                    </div>
+                    <div className="modern-input-group">
+                        <label>Yeni Şifre</label>
+                        <input
+                            type="password"
+                            name="newPassword"
+                            placeholder="Yeni şifreniz"
+                            value={reset.newPassword}
+                            onChange={handleChange}
+                            className="modern-form-input"
+                        />
+                    </div>
+                    <div className="modern-input-group">
+                        <label>Yeni Şifre Tekrar</label>
+                        <input
+                            type="password"
+                            name="confirmPassword"
+                            placeholder="Yeni şifrenizi doğrulayın"
+                            value={reset.confirmPassword}
+                            onChange={handleChange}
+                            className="modern-form-input"
+                        />
                     </div>
                 </div>
+
+                <div className="modern-modal-footer">
+                    <button
+                        type="button"
+                        className="modern-btn-secondary"
+                        onClick={() => onClose(false)}
+                    >
+                        Vazgeç
+                    </button>
+                    <button
+                        type="button"
+                        className="modern-btn-primary"
+                        onClick={handleSubmit}
+                    >
+                        Şifreyi Güncelle
+                    </button>
+                </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };
 

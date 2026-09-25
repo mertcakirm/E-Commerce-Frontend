@@ -1,673 +1,299 @@
-import {useState} from "react";
+import { useState, useMemo } from "react";
 import Navbar from "../components/other/navbar/navbar.jsx";
 import "./css/FrequentlyAskedQuestions.css";
+import { 
+    HiOutlineChevronDown, 
+    HiOutlineMagnifyingGlass, 
+    HiOutlineChatBubbleLeftRight,
+    HiOutlineShoppingBag,
+    HiOutlineTruck,
+    HiOutlineCreditCard,
+    HiOutlineArrowPath,
+    HiOutlineUser,
+    HiOutlineQuestionMarkCircle
+} from "react-icons/hi2";
+
+const FAQ_DATA = [
+    {
+        category: "SİPARİŞLERİM",
+        icon: HiOutlineShoppingBag,
+        items: [
+            {
+                id: "siparislerim-1",
+                question: "Nasıl sipariş verebilirim?",
+                answer: "Beğendiğiniz ürünlerin bedenini seçip 'Sepete Ekle' butonuna tıkladıktan sonra sepet sayfanızdan teslimat ve ödeme bilgilerinizi girerek siparişinizi saniyeler içinde tamamlayabilirsiniz."
+            },
+            {
+                id: "siparislerim-2",
+                question: "Siparişim tarafıma ulaşmadı, ne yapmalıyım?",
+                answer: "Hesabım sayfasındaki 'Siparişlerim' sekmesinden kargo takip numaranızı kontrol edebilir veya müşteri hizmetlerimizle iletişime geçerek anlık durum sorgulaması yapabilirsiniz."
+            },
+            {
+                id: "siparislerim-3",
+                question: "Sipariş vermek için üye olmalı mıyım?",
+                answer: "Hayır, misafir kullanıcı olarak da siparişinizi oluşturabilirsiniz. Ancak sipariş takibi ve kampanyalardan yararlanmak için üye olmanızı öneririz."
+            },
+            {
+                id: "siparislerim-4",
+                question: "Siparişimi iptal edebilir miyim?",
+                answer: "Siparişiniz kargoya verilmeden önce 'Siparişlerim' ekranından veya destek hattımız üzerinden iptal talebi oluşturabilirsiniz."
+            }
+        ]
+    },
+    {
+        category: "KARGO",
+        icon: HiOutlineTruck,
+        items: [
+            {
+                id: "kargo-1",
+                question: "Kargo ücretsiz mi?",
+                answer: "Belirli sepet tutarı üzerindeki tüm siparişlerinizde kargo tamamen ücretsizdir. Kampanya altındaki siparişlerde standart kargo ücreti ödeme adımında yansıtılır."
+            },
+            {
+                id: "kargo-2",
+                question: "Siparişim hangi kargo ile teslim edilecek?",
+                answer: "Anlaşmalı olduğumuz Yurtiçi Kargo ve MNG Kargo güvencesiyle siparişleriniz adresinize ulaştırılmaktadır."
+            },
+            {
+                id: "kargo-3",
+                question: "Kargom ne zaman ulaşır?",
+                answer: "Siparişleriniz 1-3 iş günü içinde kargoya teslim edilir. Kargo firması bulunduğunuz şehre göre 1-2 iş günü içinde teslimatı gerçekleştirir."
+            },
+            {
+                id: "kargo-4",
+                question: "Teslimat adresinde bulunmazsam ne olur?",
+                answer: "Kargo görevlisi adreste kimseyi bulamazsa bildirim notu bırakır ve paketinizi en yakın kargo şubesinden 3 iş günü içinde teslim alabilirsiniz."
+            }
+        ]
+    },
+    {
+        category: "ÖDEME",
+        icon: HiOutlineCreditCard,
+        items: [
+            {
+                id: "odeme-1",
+                question: "Hangi ödeme yöntemlerini kullanabilirim?",
+                answer: "Tüm kredi kartları, banka kartları (debit) ve anlaşmalı bankaların sanal kartlarıyla 256-bit SSL korumalı güvenli ödeme yapabilirsiniz."
+            },
+            {
+                id: "odeme-2",
+                question: "Taksit imkânı bulunuyor mu?",
+                answer: "Anlaşmalı bankaların kredi kartlarına 3, 6 ve 9 aya varan taksit seçeneklerimiz mevcuttur."
+            },
+            {
+                id: "odeme-3",
+                question: "Kapıda ödeme seçeneği var mı?",
+                answer: "Şu an için ödemeler yalnızca sitemiz üzerinden online kredi/banka kartı veya havale/EFT yoluyla alınmaktadır."
+            }
+        ]
+    },
+    {
+        category: "İADE & DEĞİŞİM",
+        icon: HiOutlineArrowPath,
+        items: [
+            {
+                id: "iade-1",
+                question: "Ürünleri nasıl iade edebilirim?",
+                answer: "Faturanız ve orijinal ambalajı ile birlikte siparişinizi teslim aldığınız tarihten itibaren 14 gün içinde anlaşmalı kargo kodu ile ücretsiz gönderebilirsiniz."
+            },
+            {
+                id: "iade-2",
+                question: "İade süresi ne kadar?",
+                answer: "Yasal cayma hakkı süresi ürünün tarafınıza ulaştığı tarihten itibaren 14 gündür."
+            },
+            {
+                id: "iade-3",
+                question: "İade kargo ücretini kim öder?",
+                answer: "Anlaşmalı kargo firmamız ve size iletilen iade kodu kullanıldığı sürece kargo ücreti tamamen firmamıza aittir."
+            }
+        ]
+    },
+    {
+        category: "ÜYELİK",
+        icon: HiOutlineUser,
+        items: [
+            {
+                id: "uyelik-1",
+                question: "Üye olmanın avantajları nelerdir?",
+                answer: "Siparişlerinizi ve kargo durumunuzu anlık izleyebilir, favori ürünlerinizi kaydedebilir ve üyelere özel indirim kuponlarından faydalanabilirsiniz."
+            },
+            {
+                id: "uyelik-2",
+                question: "Şifremi unuttum, ne yapmalıyım?",
+                answer: "Giriş yap ekranında bulunan 'Şifremi Unuttum' bağlantısına tıklayarak kayıtlı e-posta adresinize sıfırlama linki gönderebilirsiniz."
+            },
+            {
+                id: "uyelik-3",
+                question: "Kişisel verilerim güvende mi?",
+                answer: "Verileriniz KVKK standartlarına uygun olarak yüksek güvenlikli sunucularda saklanmakta ve üçüncü şahıslarla paylaşılmamaktadır."
+            }
+        ]
+    },
+    {
+        category: "DİĞER",
+        icon: HiOutlineQuestionMarkCircle,
+        items: [
+            {
+                id: "diger-1",
+                question: "Müşteri hizmetlerine nasıl ulaşabilirim?",
+                answer: "Hafta içi 09:00 - 18:00 saatleri arasında destek@siteniz.com üzerinden ya da WhatsApp destek hattımızdan bize ulaşabilirsiniz."
+            },
+            {
+                id: "diger-2",
+                question: "Toptan alım yapıyor musunuz?",
+                answer: "Toptan veya kurumsal alım talepleriniz için iletişim sayfamızdaki formu doldurabilir veya kurumsal e-posta hattımızdan teklif alabilirsiniz."
+            }
+        ]
+    }
+];
 
 const FrequentlyAskedQuestions = () => {
-    const [showPopup, setShowPopup] = useState(false);
-    const [popupContent, setPopupContent] = useState(null);
-    const [popupbaslik, setPopupBaslik] = useState(null);
-    const contents = [
-        {
-            id: "siparislerim-1",
-            content: (
-                <div>
-                    Nasıl sipariş verebilirim? Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit. Sed sit amet nulla auctor, vestibulum magna sed,
-                    convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "siparislerim-2",
-            content: (
-                <div>
-                    Siparişim tarafıma ulaşmadı, ne yapmalıyım? Lorem ipsum dolor sit
-                    amet, consectetur adipiscing elit. Sed sit amet nulla auctor,
-                    vestibulum magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "siparislerim-3",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "siparislerim-4",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "siparislerim-5",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "kargo-1",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "kargo-2",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "kargo-3",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "kargo-4",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "kargo-5",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "odeme-1",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "odeme-2",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "odeme-3",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "odeme-4",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "odeme-5",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "iade-1",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "iade-2",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "iade-3",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "iade-4",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "iade-5",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "uyelik-1",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "uyelik-2",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "uyelik-3",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "uyelik-4",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "uyelik-5",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "diger-1",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "diger-2",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "diger-3",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "diger-4",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-        {
-            id: "diger-5",
-            content: (
-                <div>
-                    Sipariş vermek için üye olmalı mıyım? Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Sed sit amet nulla auctor, vestibulum
-                    magna sed, convallis ex.
-                </div>
-            ),
-            popupbaslik: (
-                <div className="popup-card-baslik">Nasıl sipariş verebilirim?</div>
-            ),
-        },
-    ];
+    const [selectedCategory, setSelectedCategory] = useState("ALL");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [openItem, setOpenItem] = useState(null);
 
-    const handleButtonClick = (id) => {
-        const content = contents.find((item) => item.id === id);
-        if (content) {
-            setPopupContent(content.content);
-            setPopupBaslik(content.popupbaslik);
-            setShowPopup(true);
-        }
+    const toggleAccordion = (id) => {
+        setOpenItem(prev => (prev === id ? null : id));
     };
 
-    const handleClosePopup = () => {
-        setShowPopup(false);
-    };
+    // Arama ve Kategori Filtresi
+    const filteredCategories = useMemo(() => {
+        return FAQ_DATA.map(cat => {
+            const matchesCategory = selectedCategory === "ALL" || cat.category === selectedCategory;
+            if (!matchesCategory) return null;
+
+            const matchingItems = cat.items.filter(item => 
+                item.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                item.answer.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+
+            if (matchingItems.length === 0) return null;
+
+            return {
+                ...cat,
+                items: matchingItems
+            };
+        }).filter(Boolean);
+    }, [selectedCategory, searchQuery]);
+
     return (
-        <div>
-            <Navbar/>
-            <div className="for-bg">
-                <img
-                    className="bg-image img-fluid w-100"
-                    src="https://img.freepik.com/premium-photo/there-is-painting-road-that-is-field-generative-ai_974521-7512.jpg"
-                    alt=""
-                />
-                <div className="container-fluid sss-container py-5">
-                    <div className="row sss-row">
-                        <div className="col-12">
-                            <p className="sss-baslik">Sıkça Sorulan Sorular</p>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <div className="sss-card">
-                                <div className="sss-card-baslik">
-                                    <p>SİPARİŞLERİM</p>
-                                </div>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("siparislerim-1")}
-                                >
-                                    Nasıl sipariş verebilirim?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("siparislerim-2")}
-                                >
-                                    Siparişim tarafıma ulaşmadı, ne yapmalıyım?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("siparislerim-3")}
-                                >
-                                    Sipariş vermek için üye olmalı mıyım?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("siparislerim-4")}
-                                >
-                                    Üye olmanın avantajları nelerdir?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("siparislerim-5")}
-                                >
-                                    Şifremi unuttum, ne yapmalıyım?
-                                </button>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <div className="sss-card">
-                                <div className="sss-card-baslik">
-                                    <p>KARGO</p>
-                                </div>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("kargo-1")}
-                                >
-                                    Kargo ücretsiz mi?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("kargo-2")}
-                                >
-                                    Siparişim hangi kargo ile teslim edilecek?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("kargo-3")}
-                                >
-                                    Türkiye'nin her yerine teslimat yapıyor musunuz?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("kargo-4")}
-                                >
-                                    Kargom ne zaman ulaşır?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("kargo-5")}
-                                >
-                                    Teslimat adresinde bulunmazsam ne olur?
-                                </button>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <div className="sss-card">
-                                <div className="sss-card-baslik">
-                                    <p>ÖDEME</p>
-                                </div>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("odeme-1")}
-                                >
-                                    Hangi ödeme yöntemlerini kullanabilirim?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("odeme-2")}
-                                >
-                                    Havale veya EFT ile ödeme yapabilir miyim?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("odeme-3")}
-                                >
-                                    Kapıda ödeme var mı?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("odeme-4")}
-                                >
-                                    Yurtdışına teslimat yapıyor musunuz?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("odeme-5")}
-                                >
-                                    Ürün iade şartları nelerdir?
-                                </button>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <div className="sss-card">
-                                <div className="sss-card-baslik">
-                                    <p>İADE & DEĞİŞİM</p>
-                                </div>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("iade-1")}
-                                >
-                                    Ürünleri nasıl iade edebilirim?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("iade-2")}
-                                >
-                                    İade süresi ne kadar?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("iade-3")}
-                                >
-                                    İade koşulları nelerdir?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("iade-4")}
-                                >
-                                    Değişim yapmak mümkün mü?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("iade-5")}
-                                >
-                                    İade kargo ücretini kim öder?
-                                </button>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <div className="sss-card">
-                                <div className="sss-card-baslik">
-                                    <p>ÜYELİK</p>
-                                </div>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("uyelik-1")}
-                                >
-                                    Üye olmak zorunda mıyım?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("uyelik-2")}
-                                >
-                                    Üye olmanın avantajları nelerdir?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("uyelik-3")}
-                                >
-                                    Şifremi unuttum, ne yapmalıyım?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("uyelik-4")}
-                                >
-                                    Kişisel verilerim güvende mi?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("uyelik-5")}
-                                >
-                                    Üyelik bilgilerimi nasıl güncellerim?
-                                </button>
-                            </div>
-                        </div>
-                        <div className="col-lg-4 col-md-6" data-aos="fade-up">
-                            <div className="sss-card">
-                                <div className="sss-card-baslik">
-                                    <p>DİĞER</p>
-                                </div>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("diger-1")}
-                                >
-                                    İletişim bilgilerine nereden ulaşabilirim?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("diger-2")}
-                                >
-                                    Gizlilik politikası nedir?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("diger-3")}
-                                >
-                                    Çerez politikası nedir?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("diger-4")}
-                                >
-                                    Şikayet ve önerilerimi nasıl iletebilirim?
-                                </button>
-                                <button
-                                    className="sss-card-soru"
-                                    onClick={() => handleButtonClick("diger-5")}
-                                >
-                                    İş başvurusu yapabilir miyim?
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+        <div className="faq-page-wrapper">
+            <Navbar />
 
-                    <div className="row justify-content-center text-center mb-5 diger-sorular" data-aos="fade-up">
-                        <p>Dİğer Sorularınız İçİn</p>
-                        <a className="diger-sorular-button" href="#">İletişim</a>
+            <div className="faq-main-container">
+                {/* Minimalist Hero Alanı */}
+                <div className="faq-hero-section text-center" data-aos="fade-up">
+                    <span className="faq-subheading">Yardım & Destek</span>
+                    <h1 className="faq-main-title">Sıkça Sorulan Sorular</h1>
+                    <p className="faq-lead-text">
+                        Aklınıza takılan soruların yanıtlarını bulun veya doğrudan bize ulaşın.
+                    </p>
+
+                    {/* Arama Input Bar */}
+                    <div className="faq-search-box">
+                        <HiOutlineMagnifyingGlass size={20} className="faq-search-icon" />
+                        <input
+                            type="text"
+                            placeholder="Soru veya anahtar kelime arayın..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        {searchQuery && (
+                            <button
+                                type="button"
+                                className="faq-search-clear"
+                                onClick={() => setSearchQuery("")}
+                            >
+                                &times;
+                            </button>
+                        )}
                     </div>
+                </div>
+
+                {/* Kategori Filtre Butonları (Pills) */}
+                <div className="faq-category-pills" data-aos="fade-up">
+                    <button
+                        type="button"
+                        className={`faq-pill-btn ${selectedCategory === "ALL" ? "active" : ""}`}
+                        onClick={() => setSelectedCategory("ALL")}
+                    >
+                        Tümü
+                    </button>
+                    {FAQ_DATA.map((cat) => (
+                        <button
+                            key={cat.category}
+                            type="button"
+                            className={`faq-pill-btn ${selectedCategory === cat.category ? "active" : ""}`}
+                            onClick={() => setSelectedCategory(cat.category)}
+                        >
+                            <cat.icon size={16} />
+                            <span>{cat.category}</span>
+                        </button>
+                    ))}
+                </div>
+
+                {/* Akordeon Soru Listesi */}
+                <div className="faq-content-grid" data-aos="fade-up">
+                    {filteredCategories.length === 0 ? (
+                        <div className="faq-no-results text-center py-5">
+                            <p className="text-muted mb-0">Aradığınız kriterlere uygun soru bulunamadı.</p>
+                        </div>
+                    ) : (
+                        filteredCategories.map((group) => (
+                            <div key={group.category} className="faq-category-group">
+                                <div className="faq-group-header">
+                                    <group.icon size={20} className="faq-group-icon" />
+                                    <h2 className="faq-group-title">{group.category}</h2>
+                                </div>
+
+                                <div className="faq-accordion-stack">
+                                    {group.items.map((item) => {
+                                        const isOpen = openItem === item.id;
+                                        return (
+                                            <div
+                                                key={item.id}
+                                                className={`faq-accordion-item ${isOpen ? "open" : ""}`}
+                                            >
+                                                <button
+                                                    type="button"
+                                                    className="faq-accordion-question"
+                                                    onClick={() => toggleAccordion(item.id)}
+                                                    aria-expanded={isOpen}
+                                                >
+                                                    <span>{item.question}</span>
+                                                    <HiOutlineChevronDown
+                                                        size={18}
+                                                        className={`faq-arrow-icon ${isOpen ? "rotate" : ""}`}
+                                                    />
+                                                </button>
+                                                {isOpen && (
+                                                    <div className="faq-accordion-answer">
+                                                        <p className="mb-0">{item.answer}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                {/* Alt İletişim Kutusu (Card) */}
+                <div className="faq-contact-card text-center" data-aos="fade-up">
+                    <div className="faq-contact-icon-wrap">
+                        <HiOutlineChatBubbleLeftRight size={28} />
+                    </div>
+                    <h3 className="faq-contact-title">Başka Bir Sorunuz Mu Var?</h3>
+                    <p className="faq-contact-desc">
+                        Yanıtını bulamadığınız sorularınız için destek ekibimiz size yardımcı olmaktan memnuniyet duyar.
+                    </p>
+                    <a href="/iletisim" className="faq-contact-btn">
+                        Bize Ulaşın
+                    </a>
                 </div>
             </div>
-            {showPopup && (
-                <div className="popup" data-aos="fade-in">
-                    <div className="popup-content">
-                        <div className="popup-close-parent">
-                            <button className="popup-close" onClick={handleClosePopup}>
-                                <span className="close" >&times;</span>
-                            </button>
-                        </div>
-                        {popupbaslik}
-                        {popupContent}
-                    </div>
-                </div>
-            )}
         </div>
     );
 };

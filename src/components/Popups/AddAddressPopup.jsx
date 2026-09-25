@@ -1,12 +1,14 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom'; // 👈 eklendi
 import {
     AddAddressRequest,
     GetAddressSingleRequest,
     UpdateAddressRequest
 } from "../../API/AddressApi.js";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import { HiXMark } from "react-icons/hi2";
 
-const AddAddressPopup = ({onClose, id}) => {
+const AddAddressPopup = ({ onClose, id }) => {
     const [newAddress, setNewAddress] = useState({
         addressTitle: "",
         city: "",
@@ -20,17 +22,13 @@ const AddAddressPopup = ({onClose, id}) => {
         try {
             setLoading(true);
             const response = await GetAddressSingleRequest(id);
-
-            // Eğer { success: true, data: {...} } şeklinde dönüyorsa:
             const data = response.data || response;
-
             setNewAddress({
                 addressTitle: data.addressTitle || "",
                 city: data.city || "",
                 addressLine: data.addressLine || "",
                 postalCode: data.postalCode || "",
             });
-
         } catch (error) {
             console.error("Adres bilgisi alınamadı:", error);
             toast.error("Adres bilgisi alınamadı!");
@@ -53,7 +51,7 @@ const AddAddressPopup = ({onClose, id}) => {
     }, [id]);
 
     const handleInputChange = (event) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setNewAddress((prevState) => ({
             ...prevState,
             [name]: value,
@@ -62,6 +60,11 @@ const AddAddressPopup = ({onClose, id}) => {
 
     const handleSaveAddress = async (event) => {
         event.preventDefault();
+        if (!newAddress.addressTitle.trim() || !newAddress.addressLine.trim()) {
+            toast.warn("Lütfen adres başlığı ve açık adres alanlarını doldurunuz!");
+            return;
+        }
+
         try {
             if (id) {
                 await UpdateAddressRequest(id, newAddress);
@@ -77,54 +80,120 @@ const AddAddressPopup = ({onClose, id}) => {
         }
     };
 
-    return (
-        <div className="modal" >
-            <div className="modal-content" data-aos="fade-up">
-                <div className="d-flex justify-content-between">
-                    <div className="fs-3 fw-bold">
-                        {id ? "Adresi Güncelle" : "Adres Ekle"}
-                    </div>
-                    <span className="close" onClick={() => onClose(false)}>&times;</span>
+    // Body'nin en altına ışınlıyoruz
+    return createPortal(
+        <div 
+            className="modern-modal-overlay" 
+            onClick={(e) => {
+                // Sadece koyu alana tıklanınca kapansın
+                if (e.target === e.currentTarget) onClose(false);
+            }}
+        >
+            <div className="modern-modal-dialog">
+                <div className="modern-modal-header">
+                    <h3 className="modern-modal-title">
+                        {id ? "Adresi Güncelle" : "Yeni Adres Ekle"}
+                    </h3>
+                    <button
+                        type="button"
+                        className="modern-modal-close"
+                        onClick={() => onClose(false)}
+                        aria-label="Kapat"
+                    >
+                        <HiXMark size={20} />
+                    </button>
                 </div>
 
-                {loading ? (
-                    <div className="text-center py-3">Adres bilgileri yükleniyor...</div>
-                ) : (
-                    <div className="row yeni-adres-row">
-                        {[
-                            {name: "addressTitle", placeholder: "Adres Başlığı"},
-                            {name: "city", placeholder: "İl / İlçe"},
-                            {name: "postalCode", placeholder: "Posta Kodu"},
-                        ].map((input, i) => (
-                            <div className="col-12" key={i}>
-                                <input
-                                    className="adres-input"
-                                    type="text"
-                                    name={input.name}
-                                    placeholder={input.placeholder}
-                                    value={newAddress[input.name]}
-                                    onChange={handleInputChange}
-                                />
+                <form onSubmit={handleSaveAddress}>
+                    <div className="modern-modal-body">
+                        {loading ? (
+                            <div className="text-center py-4 text-muted fw-medium">
+                                Adres bilgileri yükleniyor...
                             </div>
-                        ))}
+                        ) : (
+                            <>
+                                <div className="modern-input-group">
+                                    <label htmlFor="addressTitle">Adres Başlığı</label>
+                                    <input
+                                        id="addressTitle"
+                                        className="modern-form-input adres-input"
+                                        type="text"
+                                        name="addressTitle"
+                                        placeholder="Örn: Evim, İş Yeri vb."
+                                        value={newAddress.addressTitle}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
 
-                        <div className="col-12">
-                            <textarea
-                                name="addressLine"
-                                id="adres-uzun"
-                                placeholder="Adres Tarifi"
-                                value={newAddress.addressLine}
-                                onChange={handleInputChange}
-                            />
-                        </div>
+                                <div className="row g-2">
+                                    <div className="col-7">
+                                        <div className="modern-input-group">
+                                            <label htmlFor="city">İl / İlçe</label>
+                                            <input
+                                                id="city"
+                                                className="modern-form-input adres-input"
+                                                type="text"
+                                                name="city"
+                                                placeholder="İl / İlçe"
+                                                value={newAddress.city}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-5">
+                                        <div className="modern-input-group">
+                                            <label htmlFor="postalCode">Posta Kodu</label>
+                                            <input
+                                                id="postalCode"
+                                                className="modern-form-input adres-input"
+                                                type="text"
+                                                name="postalCode"
+                                                placeholder="34000"
+                                                value={newAddress.postalCode}
+                                                onChange={handleInputChange}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
 
-                        <button id="popup-adresi-kaydet-btn" onClick={handleSaveAddress}>
-                            {id ? "Adresi Güncelle" : "Adresi Kaydet"}
-                        </button>
+                                <div className="modern-input-group">
+                                    <label htmlFor="adres-uzun">Açık Adres Tarifi</label>
+                                    <textarea
+                                        name="addressLine"
+                                        id="adres-uzun"
+                                        className="modern-form-textarea"
+                                        placeholder="Mahalle, cadde, sokak, bina ve daire no..."
+                                        value={newAddress.addressLine}
+                                        onChange={handleInputChange}
+                                        rows={3}
+                                    />
+                                </div>
+                            </>
+                        )}
                     </div>
-                )}
+
+                    {!loading && (
+                        <div className="modern-modal-footer">
+                            <button
+                                type="button"
+                                className="modern-btn-secondary"
+                                onClick={() => onClose(false)}
+                            >
+                                Vazgeç
+                            </button>
+                            <button
+                                type="submit"
+                                id="popup-adresi-kaydet-btn"
+                                className="modern-btn-primary"
+                            >
+                                {id ? "Adresi Güncelle" : "Adresi Kaydet"}
+                            </button>
+                        </div>
+                    )}
+                </form>
             </div>
-        </div>
+        </div>,
+        document.body // 👈 Hedef DOM düğümü
     );
 };
 

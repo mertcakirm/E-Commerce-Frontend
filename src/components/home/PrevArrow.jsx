@@ -1,15 +1,17 @@
-import {HiOutlineChevronLeft} from "react-icons/hi";
+import { HiArrowLeft } from "react-icons/hi2";
 
-const PrevArrow = (props) => {
-    const {className, style, onClick} = props;
+const PrevArrow = ({ className, style, onClick }) => {
     return (
-        <div
-            className={className}
-            style={{...style, display: "block"}}
+        <button
+            type="button"
+            className={`modern-carousel-arrow modern-arrow-prev ${className || ""}`}
+            style={{ ...style }}
             onClick={onClick}
+            aria-label="Önceki Kategori"
         >
-            <HiOutlineChevronLeft size={40} />
-        </div>
+            <HiArrowLeft size={18} />
+        </button>
     );
 };
+
 export default PrevArrow;

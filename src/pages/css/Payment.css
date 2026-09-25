@@ -1,1050 +1,684 @@
+/* ==========================================================================
+   CHECKOUT (ÖDEME) & PAYMENT PROCESS STYLES
+   ========================================================================== */
+.checkout-page-wrapper {
+  background-color: #f8fafc; /* Sepet dışında kalan zemin açık gri olsun */
+  min-height: 100vh;
+  width: 100%;
+}
+
 .odeme-fluid {
-    padding-top: 200px;
-    padding-bottom: 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 200px;
+  padding-bottom: 80px;
+  padding-left: clamp(16px, 4vw, 32px);
+  padding-right: clamp(16px, 4vw, 32px);
+}
+
+/* ==========================================================================
+   MODERN STEPPER (AŞAMALAR)
+   ========================================================================== */
+.checkout-stepper-container {
+  margin-bottom: 40px;
+}
+
+.checkout-stepper-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Arka plandaki bağlantı çizgisi */
+.checkout-stepper-track::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background-color: #cbd5e1;
+  z-index: 1;
+}
+
+.checkout-step-node {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background-color: #f8fafc; /* arka plan rengini alsın ki çizgi aradan gözükmesin */
+  padding: 0 10px;
+}
+
+.step-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #cbd5e1;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.step-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* Geçerli (Current) Aşama */
+.checkout-step-node.current .step-circle {
+  border-color: #0f172a;
+  background: #0f172a;
+  color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.1);
+}
+
+.checkout-step-node.current .step-title {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Tamamlanmış (Completed) Aşama */
+.checkout-step-node.completed .step-circle {
+  border-color: #16a34a;
+  background: #16a34a;
+  color: #ffffff;
+}
+
+.checkout-step-node.completed .step-title {
+  color: #16a34a;
+}
+
+
+/* ==========================================================================
+   GENEL BİLEŞENLER
+   ========================================================================== */
+.checkout-section-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.checkout-btn-text {
+  background: transparent;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+.checkout-btn-text:hover {
+  opacity: 0.7;
+}
+
+.checkout-btn-primary {
+  background-color: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+}
+
+.checkout-btn-primary:hover:not(:disabled) {
+  background-color: #1e293b;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.25);
 }
 
-
-.progress {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    padding: 0 40px;
-    margin-bottom: 60px;
-    height: 100px;
-    background: transparent;
-}
-
-.progress h3 {
-    flex-basis: 100%;
-}
-
-.progress div.step {
-    position: relative;
-    max-width: 63px;
-}
-
-.progress div.step span {
-    display: block;
-    text-align: center;
-}
-
-.progress div.step span:nth-of-type(1) {
-    position: relative;
-    height: 55px;
-    width: 55px;
-    list-style-type: none;
-    border-radius: 50%;
-    border: 4px solid #9498a3;
-    background: white;
-    text-align: center;
-    color: #9498a3;
-    line-height: 50px;
-    transition: background-color 150ms ease;
-}
-
-.progress div.step span:nth-of-type(2) {
-    color: #9498a3;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin-top: 10px;
-    white-space: nowrap;
-    text-align: center;
-}
-
-.progress div:not(.step) {
-    margin-top: 27px;
-    height: 4px;
-    width: calc((100% - 10rem) / 3);
-    background: #9498a3;
-    border: none;
-    transition: background-color 150ms ease;
-}
-
-.progress div:first-of-type:before {
-    content: none;
-}
-
-.progress div.current {
-    color: #fff;
-}
-
-.progress div:not(.step).current {
-    background: orange;
-}
-
-.progress div.step.current span:nth-of-type(2) {
-    color: orange;
-}
-
-.progress div.step.current span:first-child {
-    background: orange;
-    border-color: orange;
-    color: #fff;
-}
-
-.checkout-progress-indicator .button {
-    margin: 0 auto;
-    display: block;
-}
-
-/* buttons */
-.button-next-step {
-    display: block;
-    font-size: 1.375em;
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 50px;
-    height: 50px;
-    width: 100%;
-    text-align: center;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.button-next-step {
-    background: orange;
-    border: 0;
-    color: #fff;
-}
-
-/* inputs */
-
-.inputLabel {
-    position: relative;
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 400px;
-    padding: 4px 10px 8px 15px;
-    margin-bottom: 15px;
-    border: 1px solid #e7e7e7;
-    border-radius: 2px;
-    font-size: 20px;
-    color: #787878;
+.checkout-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-.inputLabel span {
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    transform: translateY(-50%);
-    z-index: 5;
-    transition: top 150ms ease,
-    font-size 150ms ease,
-    color 150ms ease;
+.checkout-btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #0f172a;
+  border: 1px solid #0f172a;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
 }
 
-.inputLabel .message {
-    position: absolute;
-    top: calc(100% + 1px);
-    border-radius: 2px;
-    padding: 0 10px;
-    left: 0;
-    width: 100%;
-    background: #d0021b;
-    color: #fff;
-    font-size: 13px;
-    line-height: 3em;
+.checkout-btn-outline:hover {
+  background: #0f172a;
+  color: #ffffff;
 }
 
-.inputLabel input {
-    margin-top: 30px;
-    background: transparent;
+.checkout-empty-state {
+  background: #ffffff;
+  border: 1px dashed #cbd5e1;
+  border-radius: 16px;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
 }
 
-.inputLabel.invalid span {
-    color: #d0021b;
+.checkout-empty-state p {
+  font-size: 16px;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0;
 }
 
-.inputLabel.invalid {
-    margin-bottom: 55px;
+/* ==========================================================================
+   BASKET SUMMARY SİDEBAR
+   ========================================================================== */
+.checkout-sidebar-sticky {
+  position: sticky;
+  top: 100px;
 }
 
-.inputLabel.invalid {
-    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMiIgZGF0YS1uYW1lPSJMYXllciAyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2QwMDIxYjt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPkFydGJvYXJkIDE8L3RpdGxlPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTI1NiwwQTI1NiwyNTYsMCwxLDAsNTEyLDI1NiwyNTUuNjQsMjU1LjY0LDAsMCwwLDI1NiwwWm0wLDQ4My4xOEEyMjcuMTgsMjI3LjE4LDAsMSwxLDQ4My4xOCwyNTYsMjI2LjY4LDIyNi42OCwwLDAsMSwyNTYsNDgzLjE4WiIvPjxwYXRoIGNsYXNzPSJjbHMtMSIgZD0iTTIzMy4wNiwzNDQuOTRjMC0xMi41NCwxMC4yMy0yMy4xLDIyLjc3LTIzLjFhMjMuMzksMjMuMzksMCwwLDEsMjMuMSwyMy4xYzAsMTIuMjEtMTAuNTYsMjIuNzctMjMuMSwyMi43N0EyMywyMywwLDAsMSwyMzMuMDYsMzQ0Ljk0Wk0yNDEsMjk3LjA5bC02LjI3LTE1Mi43OUgyNzdMMjcxLDI5Ny4wOVoiLz48L3N2Zz4=) no-repeat;
-    background-position: calc(100% - 20px) 50%;
-    background-size: 30px 30px;
+.checkout-summary-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
 }
 
-/* odeme 1 */
-
-.ozet-baslik {
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: 10px
+.summary-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 20px;
 }
 
-.sepet-ozet-flex {
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
+.summary-line-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 14.5px;
 }
 
-.sepet-ozet-card {
-    width: 100%;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-    padding: 2%;
-    border-radius: 10px;
-    margin: 0;
-    transition: .2s;
+.summary-key {
+  color: #64748b;
+  font-weight: 500;
 }
 
-.sepet-ozet-card:hover {
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-    transition: .2s;
+.summary-val {
+  color: #0f172a;
+  font-weight: 700;
 }
 
-
-.ozet-card-col-2 {
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 2% 0%;
+.summary-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 16px 0;
 }
 
-.ozet-card-col-2-p1 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
+.summary-total-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.ozet-card-col-2-p2 {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 0;
-    color: gray;
+.summary-total-key {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
-.ozet-card-col-3 {
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    padding: 2% 0%;
-    row-gap: 30px;
-}
+.summary-total-val {
+  font-size: 20px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
 
-.ozet-card-col-3-sil-btn {
-    background: transparent;
-    border: 0;
-    width: 200px;
-    display: flex;
-    flex-direction: row;
-    column-gap: 5px;
-    align-items: center;
-    color: gray;
-    font-size: 20px;
-    justify-content: end;
+/* ==========================================================================
+   SEPET LİSTESİ KARTLARI (BASKET)
+   ========================================================================== */
+.checkout-cart-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.ozet-card-col-3-sil-btn > svg {
-    width: 20px;
+.checkout-cart-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: border-color 0.2s ease;
 }
 
-.ozet-card-fiyat-flex {
-    display: flex;
-    flex-direction: row;
-    column-gap: 20px;
+.checkout-cart-item:hover {
+  border-color: #cbd5e1;
 }
 
-.ozet-card-fiyat-indirim {
-    padding: 5px 20px;
-    color: #fff;
-    background-color: orange;
+.cart-item-img-box {
+  width: 90px;
+  height: 120px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f1f5f9;
 }
 
-.ozet-card-fiyat-1 {
-    font-size: 20px;
-    font-weight: 600;
+.cart-item-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-.ozet-card-fiyat-2 {
-    font-size: 20px;
-    font-weight: 600;
-    color: gray;
-    text-decoration: line-through;
+.cart-img-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #94a3b8;
 }
 
-.ozet-panel {
-    background-color: rgb(243, 242, 242);
-    display: flex;
-    flex-direction: column;
-    row-gap: 10px;
-    padding: 5%;
-    border: 1px solid rgb(214, 214, 214);
-    min-height: 300px;
+.cart-item-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
 }
 
-.ozet-sag-col {
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
+.cart-item-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 4px 0;
 }
 
-.ozet-panel-item {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.cart-item-prop {
+  font-size: 12.5px;
+  color: #64748b;
+  font-weight: 500;
 }
 
-.ozet-panel-item-p1 {
-    font-size: 16px;
-    font-weight: 600;
+.cart-item-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 100px;
+  flex-shrink: 0;
 }
 
-.ozet-panel-item-p2 {
-    font-size: 20px;
-    font-weight: 700;
+.cart-qty-ctrl {
+  display: inline-flex;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.sepeti-bosalt-flex {
-    justify-content: end;
-    padding-right: 20px;
+.cart-qty-ctrl button {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-/* odeme 2 */
-
-.teslimat-bilgileri-panel-parent {
-    display: flex;
-    flex-direction: column;
-    padding: 2%;
-    border: 1px solid gainsboro;
+.cart-qty-ctrl button:hover {
+  background: #e2e8f0;
 }
 
-.kayitli-adreslerim-parent {
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    padding: 2%;
+.cart-qty-ctrl span {
+  width: 24px;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
-.kayitli-adresleri-genel-baslik {
-    font-size: 20px;
-    font-weight: 600;
+.cart-price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
 }
 
-.kayitli-adreslerim-card {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid gainsboro;
-    padding: 2%;
+.cart-price-active {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
 }
 
-.kayitli-adreslerim-card-p1 {
-    font-weight: 700;
-    width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.cart-price-slashed {
+  font-size: 13px;
+  text-decoration: line-through;
+  color: #94a3b8;
 }
 
-.kayitli-adreslerim-card > p {
-    margin: 0;
+.cart-delete-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444;
+  padding: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-.kayitli-adreslerim-card > button {
-    border: 0;
-    background: rgba(0, 108, 15, 0.63);
-    color: #fff;
-    padding: 5px 30px;
+.cart-delete-btn:hover {
+  transform: scale(1.1);
 }
 
-.adres-input {
-    width: 100% !important;
-    height: 40px;
-    border: 0;
-    border-bottom: 1px solid #000;
+/* ==========================================================================
+   ADRES KARTLARI (ADDRESS)
+   ========================================================================== */
+.checkout-address-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
 }
 
-.adres-input:focus-visible {
-    outline: none;
+.checkout-address-card {
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.yeni-adres-row {
-    row-gap: 20px;
-    padding: 2%;
+.checkout-address-card:hover {
+  border-color: #cbd5e1;
 }
 
-.yeni-adres-olarak-kaydet-chc {
-    background: gainsboro;
-    padding: 5px 30px;
+.checkout-address-card.selected {
+  border-color: #0f172a;
+  background: #f8fafc;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
 }
 
-.kargo-row {
-    padding: 5%;
+.address-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
-
-.kargo-card {
-    height: 100px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+.address-card-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
 }
 
-.kargo-card-row {
-    height: 100%;
+.address-radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  background: #ffffff;
+  position: relative;
+  transition: all 0.2s ease;
 }
 
-.kargo-resim-flex {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.address-radio.active {
+  border-color: #0f172a;
+  background: #0f172a;
 }
 
-.kargo-fiyat-flex {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    background: rgb(179, 178, 178);
-    color: #fff;
-    font-weight: 700;
+.address-radio.active::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
 }
 
-.kargo-fiyat-flex > p {
-    margin: 0;
+.address-card-body {
+  padding-left: 28px;
 }
 
-.modal {
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+.address-text-line {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.modal-content {
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #888;
-    width: fit-content;
+/* ==========================================================================
+   ÖDEME VE KART BİLGİLERİ (CARD INFO)
+   ========================================================================== */
+.checkout-payment-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 32px;
 }
 
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
+.payment-box-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+.secure-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #16a34a;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 4px 10px;
+  border-radius: 9999px;
 }
-
 
-#yeni-adres-ekle-btn {
-    background: transparent;
-    width: 30%;
-    color: #000;
-    padding: 10px 30px;
-    border-radius: 10px;
-    border: 1px solid #000000;
+.checkout-payment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-#popup-adresi-kaydet-btn {
-    background: #000;
-    color: #fff;
-    padding: 10px 30px;
-    width: 50%;
-    border-radius: 10px;
-    margin: auto;
+.checkout-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-
-/* odeme3 */
-
-.odeme-nav-tab {
-    justify-content: center;
+.checkout-input-group label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
-
 
-/*--------------------
-Form
---------------------*/
-.credit-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.checkout-input {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0 16px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #0f172a;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+  outline: none;
 }
 
-.credit-form fieldset {
-    border: none;
-    padding: 10px 0;
-    position: relative;
-    clear: both;
+.checkout-input:focus {
+  background: #ffffff;
+  border-color: #0f172a;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
 }
 
-.credit-form fieldset.fieldset-expiration {
-    width: 46%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+/* Sözleşmeler Kapsayıcısı */
+.checkout-agreements-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
 }
 
-.credit-form fieldset.fieldset-expiration .select {
-    width: 84px;
-    margin-right: 12px;
-    float: left;
+.checkout-checkbox-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  margin-bottom: 16px;
 }
 
-.credit-form fieldset.fieldset-ccv {
-    clear: none;
-    width: 15%;
+.checkout-checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
 }
 
-.credit-form fieldset label {
-    display: block;
-    text-transform: uppercase;
-    font-size: 11px;
-    color: rgba(0, 0, 0, 0.6);
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-family: Inconsolata;
+.checkout-check-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
-.credit-form fieldset input,
-.credit-form fieldset .select {
-    width: 100%;
-    height: 38px;
-    color: #333333;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    outline: none !important;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
+.checkout-checkbox-wrap input:checked ~ .checkout-check-box {
+  background: #0f172a;
+  border-color: #0f172a;
 }
 
-.sahip-fieldset {
-    display: flex;
-    flex-direction: column !important;
-    width: 46%;
+.checkout-checkbox-wrap input:checked ~ .checkout-check-box::after {
+  content: "";
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
 }
 
-.credit-form fieldset input.input-cart-number,
-.credit-form fieldset .select.input-cart-number {
-    width: 82px;
-    display: inline-block;
-    margin-right: 8px;
+.checkout-check-label {
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.5;
 }
 
-.credit-form fieldset input.input-cart-number:last-child,
-.credit-form fieldset .select.input-cart-number:last-child {
-    margin-right: 0;
+.checkout-contracts-scroll {
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 8px;
+  padding: 16px;
+  height: 150px;
+  overflow-y: auto;
 }
 
-.credit-form fieldset .select {
-    position: relative;
+/* ==========================================================================
+   RESPONSIVE DESIGN (BREAKPOINTS)
+   ========================================================================== */
+@media (max-width: 991px) {
+  .checkout-sidebar-sticky {
+    position: static;
+  }
 }
 
-.credit-form fieldset .select::after {
-    content: "";
-    border-top: 8px solid #222;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    position: absolute;
-    z-index: 2;
+@media (max-width: 768px) {
+  .odeme-fluid {
+    padding-top: 100px;
+  }
+  
+  .checkout-stepper-track::before {
     top: 14px;
-    right: 10px;
-    pointer-events: none;
-}
+    left: 15%;
+    right: 15%;
+  }
 
-.credit-form fieldset .select select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    position: absolute;
-    padding: 0;
-    border: none;
-    width: 100%;
-    outline: none !important;
-    top: 6px;
-    left: 6px;
-    background: none;
-}
+  .step-circle {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+  }
 
-.credit-form fieldset .select select :-moz-focusring {
-    color: transparent;
-    text-shadow: 0 0 0 #000;
-}
+  .step-title {
+    font-size: 11px;
+  }
 
-.credit-form button {
-    width: 100%;
-    outline: none !important;
-    background: linear-gradient(180deg, #49a09b, #3d8291);
-    text-transform: uppercase;
-    font-weight: bold;
-    border: none;
-    box-shadow: none;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    margin-top: 90px;
-}
-
-.credit-form button .fa {
-    margin-right: 6px;
-}
-
-/*--------------------
-Checkout
---------------------*/
-.checkout {
-    margin: 150px auto 30px;
-    position: relative;
-    width: 100%;
-    background: white;
-    border-radius: 15px;
-    padding: 160px 45px 30px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-    min-height: 500px;
-}
-
-/*--------------------
-Credit Card
---------------------*/
-.credit-card-box {
-    perspective: 1000;
-    width: 400px;
-    height: 280px;
-    position: absolute;
-    top: -112px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.credit-card-box:hover .flip, .credit-card-box.hover .flip {
-    transform: rotateY(180deg);
-}
-
-.credit-card-box .front,
-.credit-card-box .back {
-    width: 400px;
-    height: 250px;
-    border-radius: 15px;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    background: linear-gradient(135deg, #bd6772, #53223f);
-    position: absolute;
-    color: #fff;
-    font-family: Inconsolata;
-    top: 0;
-    left: 0;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
-}
-
-.credit-card-box .front::before,
-.credit-card-box .back::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: url("http://cdn.flaticon.com/svg/44/44386.svg") no-repeat center;
-    background-size: cover;
-    opacity: 0.05;
-}
-
-.credit-card-box .flip {
-    transition: 0.6s;
-    transform-style: preserve-3d;
-    position: relative;
-}
-
-.credit-card-box .logo {
-    position: absolute;
-    top: 9px;
-    right: 20px;
-    width: 60px;
-}
-
-.credit-card-box .logo svg {
-    width: 100%;
-    height: auto;
-    fill: #fff;
-}
-
-.credit-card-box .front {
-    z-index: 2;
-    transform: rotateY(0deg);
-}
-
-.credit-card-box .back {
-    transform: rotateY(180deg);
-}
-
-.credit-card-box .back .logo {
-    top: 185px;
-}
-
-.credit-card-box .chip {
-    position: absolute;
-    width: 60px;
-    height: 45px;
-    top: 20px;
-    left: 20px;
-    background: linear-gradient(135deg, #ddccf0 0%, #d1e9f5 44%, #f8ece7 100%);
-    border-radius: 8px;
-}
-
-.credit-card-box .chip::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    border: 4px solid rgba(128, 128, 128, 0.1);
-    width: 80%;
-    height: 70%;
-    border-radius: 5px;
-}
-
-.credit-card-box .strip {
-    background: linear-gradient(135deg, #404040, #1a1a1a);
-    position: absolute;
-    width: 100%;
-    height: 50px;
-    top: 30px;
-    left: 0;
-}
-
-.credit-card-box .number {
-    position: absolute;
-    margin: 0 auto;
-    top: 103px;
-    left: 19px;
-    font-size: 38px;
-}
-
-.credit-card-box label {
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-shadow: none;
-    text-transform: uppercase;
-    font-weight: normal;
-    opacity: 0.5;
-    display: block;
-    margin-bottom: 3px;
-}
-
-.credit-card-box .card-holder,
-.credit-card-box .card-expiration-date {
-    position: absolute;
-    margin: 0 auto;
-    top: 180px;
-    left: 19px;
-    font-size: 22px;
-    text-transform: capitalize;
-}
-
-.credit-card-box .card-expiration-date {
-    text-align: right;
-    left: auto;
-    right: 20px;
-}
-
-.credit-card-box .ccv {
-    height: 36px;
-    background: #fff;
-    width: 91%;
-    border-radius: 5px;
-    top: 110px;
-    left: 0;
-    right: 0;
-    position: absolute;
-    margin: 0 auto;
-    color: #000;
-    text-align: right;
-    padding: 10px;
-}
-
-.credit-card-box .ccv label {
-    margin: -25px 0 14px;
-    color: #fff;
-}
-
-.the-most {
-    position: fixed;
-    z-index: 1;
-    bottom: 0;
-    left: 0;
-    width: 50vw;
-    max-width: 200px;
-    padding: 10px;
-}
-
-.the-most img {
-    max-width: 100%;
-}
-
-.selects {
-    width: 100px;
-}
-
-
-.the-most {
-    position: fixed;
-    z-index: 1;
-    bottom: 0;
-    left: 0;
-    width: 50vw;
-    max-width: 200px;
-    padding: 10px;
-
-    img {
-        max-width: 100%;
-    }
-}
-
-.sozlesme-card {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding: 5%;
-    border-radius: 20px;
-}
-
-
-.sozlesme-checkbox {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: 5px;
-    padding-left: 20px;
-}
-
-.sozlesme-content {
-    max-height: 500px;
-    overflow: hidden;
-    overflow-y: scroll;
-}
-
-.havale-card {
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding: 5%;
-    border-radius: 20px;
-    margin-bottom: 50px;
-    margin-top: 50px;
-}
-
-
-.kopyala-btn-havale {
-    border: 0;
-    background: transparent;
-}
-
-.havale-card-metin {
-    font-size: 20px;
-    margin-bottom: 10px;
-    transition: .4s;
-}
-
-
-/* ödeme 4 */
-
-.onay-svg-parent {
-    display: flex;
+  .checkout-cart-item {
     flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .cart-item-actions {
+    flex-direction: row;
+    width: 100%;
     align-items: center;
-    row-gap: 50px;
-    text-align: center;
-}
+    height: auto;
+    margin-top: 10px;
+  }
 
-.onay-svg-parent > a {
-    background: #000;
-    padding: 10px 30px;
-    color: #fff;
-    text-decoration: none;
-    font-size: 20px;
-    border-radius: 20px;
-}
+  .cart-delete-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
 
-.onay-metin {
-    color: green;
-}
-
-
-@media only screen and (max-width: 991px) {
-    .kargo-resim-flex > img {
-        width: 52% !important;
-        transition: .4s;
-    }
-
-}
-
-
-@media only screen and (max-width: 767px) {
-
-    .ozet-card-col-3 {
-        align-items: baseline;
-    }
-
-    .ozet-card-col-3-sil-btn {
-        justify-content: start;
-    }
-
-
-    .sepeti-bosalt-flex {
-        justify-content: start;
-        margin: 30px 0px;
-    }
-
-    .credit-form {
-        align-items: baseline;
-    }
-
-    .credit-form fieldset.fieldset-expiration {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .credit-form fieldset.fieldset-expiration {
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .credit-form fieldset input.input-cart-number, .credit-form fieldset .select.input-cart-number {
-        width: 50px;
-        display: inline-block;
-        margin-right: 8px;
-    }
-
-    .modal-content {
-        margin: 20% auto;
-        width: 100%;
-    }
-
-    #yeni-adres-ekle-btn {
-        width: 50%;
-    }
-
-}
-
-.reset-basket-btn2 {
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    background: #e10000;
-    color: #fff;
-    border: 0;
-    padding: 10px 30px;
-}
-
-@media only screen and (max-width: 900px) {
-    .ozet-baslik {
-        margin-top: 80px !important;
-    }
-}
-
-
-@media only screen and (max-width: 430px) {
-    .kayitli-adreslerim-card {
-        flex-direction: column;
-        justify-content: start;
-        row-gap: 20px;
-    }
-
-    .checkout {
-        padding: 160px 25px 30px;
-    }
-
-    .kargo-resim-flex > img {
-        width: 100% !important;
-    }
-
-    .kayitli-adreslerim-card > p {
-        margin: 0;
-        text-align: center;
-    }
-
-
-    .credit-card-box {
-        perspective: 1000px;
-        width: 300px;
-        height: 280px;
-        position: absolute;
-        top: -112px;
-        left: 0%;
-        transform: translateX(-50%);
-        margin-left: 150px;
-    }
-
-
-    .credit-card-box .back {
-        width: 300px;
-        left: 0px;
-    }
-
-    .credit-card-box .front {
-        width: 300px;
-        left: 0;
-
-    }
-
-    .credit-card-box .front::before {
-        width: 100%;
-        left: 0;
-    }
-
-    .credit-card-box .back::before {
-        width: 100%;
-        left: 0;
-    }
-
-    .credit-card-box .number {
-        font-size: 25px;
-    }
-
-    .credit-card-box .card-holder, .credit-card-box .card-expiration-date {
-        font-size: 15px;
-    }
-
-    .sahip-fieldset {
-        width: 90%;
-    }
-
-    .havale-card-metin {
-        font-size: 14px;
-        transition: .4s;
-
-    }
-
-    #yeni-adres-ekle-btn {
-        width: 70%;
-        margin: 2% auto;
-    }
-
-    .modal-content {
-        margin: 35% auto;
-        width: 100%;
-    }
-
-    #popup-adresi-kaydet-btn {
-        width: 80%;
-    }
-}
-
-
-.cut-text {
-    width: 250px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  .checkout-payment-box,
+  .checkout-agreements-box {
+    padding: 20px;
+  }
 }

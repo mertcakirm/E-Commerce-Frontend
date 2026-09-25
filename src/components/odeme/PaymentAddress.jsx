@@ -3,7 +3,8 @@ import BasketSummary from './BasketSummary.jsx';
 import LoadingComponent from "../other/Loading.jsx";
 import { GetAddressRequest } from "../../API/AddressApi.js";
 import AddAddressPopup from "../Popups/AddAddressPopup.jsx";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import { HiOutlinePlus, HiOutlineMapPin } from "react-icons/hi2";
 
 const PaymentAddress = () => {
     const [showModal, setShowModal] = useState(false);
@@ -20,10 +21,21 @@ const PaymentAddress = () => {
     const GetAdresses = async () => {
         try {
             const data = await GetAddressRequest();
-            setAddresses(data.data);
+            const fetchedAddresses = data?.data || [];
+            setAddresses(fetchedAddresses);
+            
+            const savedAddress = localStorage.getItem("address");
+            if (savedAddress && savedAddress !== "null" && savedAddress !== "undefined") {
+                setSelectedAddressId(parseInt(savedAddress));
+            } else if (fetchedAddresses.length > 0) {
+                setSelectedAddressId(fetchedAddresses[0].id);
+            } else {
+                setSelectedAddressId(null);
+            }
         } catch (error) {
             console.error("Adresler alınamadı:", error);
             setAddresses([]);
+            setSelectedAddressId(null);
         } finally {
             setLoading(false);
         }
@@ -34,68 +46,89 @@ const PaymentAddress = () => {
     }, [refresh]);
 
     useEffect(() => {
-        localStorage.setItem("address", JSON.stringify(selectedAddressId));
-    },[selectedAddressId])
+        if (selectedAddressId !== null) {
+            localStorage.setItem("address", JSON.stringify(selectedAddressId));
+        } else {
+            localStorage.removeItem("address");
+        }
+    }, [selectedAddressId]);
 
-    const nextStep = async () => {
-        const addressCheck = localStorage.getItem("address");
-
-        if (!addressCheck || addressCheck === "null" || addressCheck === "undefined") {
-            toast.warning("Adres seçiniz!")
+    const nextStep = () => {
+        if (!selectedAddressId) {
+            toast.warning("Lütfen teslimat adresi seçiniz veya yeni adres ekleyiniz!");
             return;
         }
-
         window.location.href = "/siparis/odeme";
     };
 
     if (loading) return <LoadingComponent />;
 
     return (
-        <div className="row">
-            <div className="col-lg-7">
-                <p className="ozet-baslik">Teslimat Bilgilerim</p>
-                <div className="teslimat-bilgileri-panel-parent">
-                    <div className="kayitli-adreslerim-parent">
-                        <div className="d-flex justify-content-between">
-                            <p className="kayitli-adresleri-genel-baslik">Kayıtlı Adreslerim</p>
-                            <button id="yeni-adres-ekle-btn" onClick={()=>setShowModal(true)}>
-                                Yeni Adres Ekle
-                            </button>
-                        </div>
-
-                        {addresses.length > 0 ? (
-                            addresses.map((address) => (
-                                <div key={address.id} className="kayitli-adreslerim-card sepet-ozet-card">
-                                    <p className="kayitli-adreslerim-card-p1">
-                                        {address.addressTitle || "Adres Başlığı Yok"}
-                                    </p>
-                                    <p className="cut-text">{address.addressLine}</p>
-                                    <button onClick={() => setSelectedAddressId(address.id)}>
-                                        {selectedAddressId === address.id ? "Vazgeç" : "Kullan"}
-                                    </button>
-                                </div>
-                            ))
-                        ) : (
-                            <p>Henüz kayıtlı adresiniz bulunmuyor.</p>
-                        )}
-                    </div>
-
-
+        <div className="row g-4 g-xl-5">
+            <div className="col-lg-8">
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h2 className="checkout-section-title">Teslimat Adresi</h2>
+                    {/* Adres listesi doluysa sağ üstte küçük ekle butonunu göster */}
+                    {addresses?.length > 0 && (
+                        <button type="button" className="checkout-btn-text" onClick={() => setShowModal(true)}>
+                            <HiOutlinePlus size={18} /> Yeni Adres Ekle
+                        </button>
+                    )}
                 </div>
 
+                {/* Adres Varsa Grid Göster, Yoksa Boş Durum Tasarımını Göster */}
+                {addresses?.length > 0 ? (
+                    <div className="checkout-address-grid">
+                        {addresses.map((address) => {
+                            const isSelected = selectedAddressId === address.id;
+                            return (
+                                <div 
+                                    key={address.id} 
+                                    className={`checkout-address-card ${isSelected ? 'selected' : ''}`}
+                                    onClick={() => setSelectedAddressId(address.id)}
+                                >
+                                    <div className="address-card-header">
+                                        <div className="d-flex align-items-center gap-2">
+                                            <HiOutlineMapPin size={20} className={isSelected ? "text-primary" : "text-secondary"} />
+                                            <span className="address-card-title">{address.addressTitle || "Kayıtlı Adres"}</span>
+                                        </div>
+                                        <div className={`address-radio ${isSelected ? 'active' : ''}`}></div>
+                                    </div>
+                                    <div className="address-card-body">
+                                        <p className="address-text-line">{address.addressLine}</p>
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    <div className="checkout-empty-state">
+                        <p>Henüz kayıtlı bir teslimat adresiniz bulunmuyor.</p>
+                        <button type="button" className="checkout-btn-outline" onClick={() => setShowModal(true)}>
+                            <HiOutlinePlus size={18} style={{ marginRight: '6px' }} />
+                            Hemen Adres Ekle
+                        </button>
+                    </div>
+                )}
             </div>
 
-            <div className="col-lg-5 ozet-sag-col">
-                <BasketSummary />
-                <button onClick={nextStep} className="button-next-step primary" id="stepper">
-                    Ödemeye Geç
-                </button>
+            <div className="col-lg-4">
+                <div className="checkout-sidebar-sticky">
+                    <BasketSummary />
+                    <button 
+                        type="button" 
+                        onClick={nextStep} 
+                        className="checkout-btn-primary w-100 mt-3" 
+                        disabled={!selectedAddressId}
+                    >
+                        Sonraki Adım: Güvenli Ödeme
+                    </button>
+                </div>
             </div>
-
 
             {showModal && (
-                <AddAddressPopup onClose={(b)=>{
-                    if (b===false){
+                <AddAddressPopup onClose={(b) => {
+                    if (b === false) {
                         setShowModal(false);
                         setRefresh(!refresh);
                     }

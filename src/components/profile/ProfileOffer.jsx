@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
-import {GetOffersRequest} from "../../API/ProfileApi.js";
+import { useEffect, useState } from "react";
+import { GetOffersRequest } from "../../API/ProfileApi.js";
 import LoadingComponent from "../other/Loading.jsx";
+import { MdOutlineLocalOffer } from "react-icons/md";
 
 const ProfileOffer = () => {
     const [offers, setOffers] = useState([]);
@@ -14,9 +15,9 @@ const ProfileOffer = () => {
             } else {
                 setOffers([]);
             }
-            setLoading(false);
         } catch (error) {
             console.error("Kampanyalar alınamadı:", error);
+        } finally {
             setLoading(false);
         }
     };
@@ -35,30 +36,44 @@ const ProfileOffer = () => {
         return "https://thumb.ac-illust.com/b1/b170870007dfa419295d949814474ab2_t.jpeg";
     };
 
-    if (loading && offers.length === 0) return <LoadingComponent/>;
+    if (loading && offers.length === 0) return <LoadingComponent />;
 
     return (
-        <div className="row kampanya-row">
+        <div className="offers-container">
             {offers.length > 0 ? (
-                offers.map((offer, index) => (
-                    <div key={index} className="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <a href={`/urunler/kampanya/${offer.id}`} className="kampanya-card shadow-sm rounded-2 border" data-aos="fade-up">
-                            <img
-                                src={getImageUrl(offer.imageUrl)}
-                                className="img-fluid w-100  ratio-1x1 object-fit-cover"
-                                style={{height:'300px'}}
-                                alt={offer.name}
-                            />
-                            <div className="text-center">
-                                {offer.description || "Kampanya Detayı Yok"} <br/>
-                                <strong>%{offer.discountRate} indirim</strong>
-                            </div>
-                        </a>
-                    </div>
-                ))
+                <div className="row g-4">
+                    {offers.map((offer, index) => (
+                        <div key={index} className="col-lg-3 col-md-4 col-sm-6">
+                            <a
+                                href={`/urunler/kampanya/${offer.id}`}
+                                className="modern-offer-card"
+                            >
+                                <div className="offer-image-box">
+                                    <img
+                                        src={getImageUrl(offer.imageUrl)}
+                                        className="offer-image"
+                                        alt={offer.name || "Kampanya"}
+                                    />
+                                    {offer.discountRate && (
+                                        <span className="offer-badge">
+                                            %{offer.discountRate} İndirim
+                                        </span>
+                                    )}
+                                </div>
+                                <div className="offer-card-body">
+                                    <p className="offer-description">
+                                        {offer.description || "Kampanya Detayı Yok"}
+                                    </p>
+                                </div>
+                            </a>
+                        </div>
+                    ))}
+                </div>
             ) : (
-                <div className="text-center">
-                    Kampanya yok
+                <div className="profile-empty-state">
+                    <MdOutlineLocalOffer size={48} className="empty-icon text-muted mb-2" />
+                    <h4>Aktif Kampanya Yok</h4>
+                    <p>Şu anda hesabınıza tanımlı aktif bir kampanya bulunmuyor.</p>
                 </div>
             )}
         </div>

@@ -1,54 +1,176 @@
-.error-page-parent{
-    width: 100%;
-    height: 100vh;
-    background-color: #000;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    
+/* ==========================================================================
+   ERROR PAGE (MINIMALIST & EDITORIAL THEME)
+   ========================================================================== */
+.error-page-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  overflow: hidden;
 }
 
-.error-page {
-    text-align: center;
-    padding: 50px;
-    display: flex;
-    width: 1200px;
-    border-radius: 20px;
+/* Arka plan yumuşak ışık degrade lekesi */
+.error-bg-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(226, 232, 240, 0.6) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Merkez Kart */
+.error-card-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 620px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 48px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 16px 40px -8px rgba(15, 23, 42, 0.06);
+}
+
+/* Rozet */
+.error-code-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  margin-bottom: 8px;
+}
+
+/* Dev Hata Numarası */
+.error-main-number {
+  font-size: clamp(5rem, 12vw, 7.5rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #0f172a;
+  margin: 0;
+  user-select: none;
+  background: linear-gradient(180deg, #0f172a 30%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Başlık ve Açıklama */
+.error-text-block {
+  margin: 16px 0 32px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.error-title {
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.error-description {
+  font-size: 14.5px;
+  color: #64748b;
+  line-height: 1.6;
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+/* Aksiyon Butonları */
+.error-actions-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.error-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #0f172a;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 9999px;
+  border: 1px solid #0f172a;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.15);
+}
+
+.error-btn-primary:hover {
+  background: #1e293b;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+}
+
+.error-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 26px;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.error-btn-secondary:hover {
+  background: #f8fafc;
+  border-color: #0f172a;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (BREAKPOINTS)
+   ========================================================================== */
+@media (max-width: 576px) {
+  .error-card-container {
+    padding: 36px 20px;
+    border-radius: 18px;
+  }
+
+  .error-actions-group {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 400px;
-    row-gap: 30px;
-    background-color: #fff;
-  }
-  
-  .error-page h1 {
-    font-size: 3rem;
-    color: #ff4d4d;
-  }
-  
-  .error-page p {
-    font-size: 2rem;
-    color: #333;
-  }
-  
-  .error-page-a {
-    text-decoration: none;
-    font-size: 30px;
-    background-color: #000;
-    color: #fff;
-    padding: 10px 40px;
-    border-radius: 10px;
-    border: 2px solid #000;
-    transition: .4s;
+    gap: 10px;
   }
 
-
-  .error-page-a:hover{
-    border: 2px solid #000;
-    transform: scale(1.2);
-    transition: .4s;
+  .error-btn-primary,
+  .error-btn-secondary {
+    width: 100%;
   }
-
-  
+}

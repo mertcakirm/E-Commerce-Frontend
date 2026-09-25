@@ -1,11 +1,9 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import LoadingComponent from "../other/Loading.jsx";
-import {toast} from "react-toastify";
-import {
-    DeleteAddressRequest,
-    GetAddressRequest,
-} from "../../API/AddressApi.js";
+import { toast } from "react-toastify";
+import { DeleteAddressRequest, GetAddressRequest } from "../../API/AddressApi.js";
 import AddAddressPopup from "../Popups/AddAddressPopup.jsx";
+import { HiPlus, HiOutlinePencilSquare, HiOutlineTrash, HiOutlineMapPin } from "react-icons/hi2";
 
 const ProfileAdresses = () => {
     const [selectedAddressId, setSelectedAddressId] = useState(null);
@@ -18,7 +16,7 @@ const ProfileAdresses = () => {
         try {
             setLoading(true);
             const data = await GetAddressRequest();
-            setAddresses(data.data);
+            setAddresses(data.data || []);
         } catch (error) {
             console.log(error);
         } finally {
@@ -41,69 +39,79 @@ const ProfileAdresses = () => {
         }
     };
 
-    if (loading) return <LoadingComponent/>;
+    if (loading) return <LoadingComponent />;
 
     return (
-        <div
-            className="row col-12 py-3 w-100 adres-ekle-row top-0"
-            style={{justifyContent: "end", textAlign: "center"}}
-        >
-            <div className="d-flex w-100 align-items-center justify-content-between col-12">
-                <div className="text-center fs-4 adreslerim-profil-baslik">
-                    ADRESLERİM
+        <div className="profile-addresses-container">
+            <div className="addresses-header">
+                <div>
+                    <h3 className="section-title mb-1">Adreslerim</h3>
+                    <p className="section-subtitle mb-0">Sipariş teslimatlarında kullanılacak kayıtlı adresleriniz</p>
                 </div>
                 <button
-                    className="btn giris-yap-btn fs-6 w-auto"
+                    className="btn-add-address"
                     onClick={() => {
                         setSelectedAddressId(null);
                         setShowPopup(true);
                     }}
                 >
-                    + Yeni Adres Ekle
+                    <HiPlus size={18} />
+                    <span>Yeni Adres Ekle</span>
                 </button>
             </div>
 
-            <div className="col-12 mt-3 row justify-content-center adreslerim-row-parent" >
+            <div className="addresses-content">
                 {addresses.length === 0 ? (
-                    <div className="text-center">Henüz adres eklenmemiş.</div>
+                    <div className="profile-empty-state">
+                        <HiOutlineMapPin size={48} className="empty-icon text-muted mb-2" />
+                        <h4>Henüz Adres Yok</h4>
+                        <p>Kayıtlı teslimat adresiniz bulunmuyor. Yeni bir adres ekleyerek başlayabilirsiniz.</p>
+                    </div>
                 ) : (
-                    addresses.map((address) => (
-                        <div
-                            key={address.id}
-                            className="address-card col-12 border mb-2"
-                        >
-                            <div className="d-flex flex-column flex-lg-row align-items-center gap-5 w-75">
-                                <div className="fw-bold address-card-title">
-                                    {address.addressTitle}
+                    <div className="row g-3">
+                        {addresses.map((address) => (
+                            <div key={address.id} className="col-12 col-md-6">
+                                <div className="modern-address-card">
+                                    <div className="address-card-header">
+                                        <div className="address-title-box">
+                                            <HiOutlineMapPin size={18} className="address-icon" />
+                                            <span className="address-title-text">{address.addressTitle}</span>
+                                        </div>
+                                        <div className="address-card-actions">
+                                            <button
+                                                className="btn-icon-action edit"
+                                                onClick={() => {
+                                                    setSelectedAddressId(address.id);
+                                                    setShowPopup(true);
+                                                }}
+                                                title="Düzenle"
+                                            >
+                                                <HiOutlinePencilSquare size={16} />
+                                            </button>
+                                            <button
+                                                className="btn-icon-action delete"
+                                                onClick={() => DeleteAddress(address.id)}
+                                                title="Sil"
+                                            >
+                                                <HiOutlineTrash size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="address-card-body">
+                                        <p className="address-line-text">{address.addressLine}</p>
+                                        <p className="address-phone-text">{address.phoneNumber}</p>
+                                    </div>
                                 </div>
-                                <div>{address.addressLine}</div>
-                                <div>{address.phoneNumber}</div>
                             </div>
-                            <div className="d-flex align-items-center">
-                                <button
-                                    className="btn btn-sm btn-warning me-2"
-                                    onClick={() => {
-                                        setSelectedAddressId(address.id);
-                                        setShowPopup(true);
-                                    }}
-                                >
-                                    Düzenle
-                                </button>
-                                <button
-                                    className="btn btn-sm btn-danger"
-                                    onClick={() => DeleteAddress(address.id)}
-                                >
-                                    Sil
-                                </button>
-                            </div>
-                        </div>
-                    ))
+                        ))}
+                    </div>
                 )}
             </div>
 
             {showPopup && (
                 <AddAddressPopup
-                    id={selectedAddressId} // ✅ id gönderiliyor
+                    id={selectedAddressId}
                     onClose={() => {
                         setShowPopup(false);
                         setRefleshData(!refleshData);

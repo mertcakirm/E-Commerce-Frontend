@@ -3,14 +3,16 @@ import ProfileInfo from "../components/profile/ProfileInfo.jsx";
 import ProfileAdresses from "../components/profile/ProfileAddress.jsx";
 import ProfileOrders from "../components/profile/ProfileOrders.jsx";
 import ProfileOffer from "../components/profile/ProfileOffer.jsx";
+import { IoPersonOutline, IoMapOutline, IoPricetagOutline, IoBagCheckOutline } from "react-icons/io5";
 
 const Profile = () => {
     return (
-        <div className="container-fluid profile-container" data-aos="fade-up">
-            <div className="row">
-                <div className="col-lg-12">
-                    <div className="d-flex mb-3 justify-content-center">
-                        <ul className="nav nav-pills border rounded-5 shadow mb-3" id="pills-tab" role="tablist">
+        <div className="container profile-container" data-aos="fade-up">
+            <div className="row justify-content-center">
+                <div className="col-12 col-xl-10">
+                    {/* Modern Pill Navigasyonu */}
+                    <div className="profile-tabs-wrapper">
+                        <ul className="nav nav-pills profile-nav-pills" id="pills-tab" role="tablist">
                             <li className="nav-item" role="presentation">
                                 <button
                                     className="nav-link active"
@@ -22,7 +24,8 @@ const Profile = () => {
                                     aria-controls="pills-bilgilerim"
                                     aria-selected="true"
                                 >
-                                    Bilgilerim
+                                    <IoPersonOutline size={18} />
+                                    <span>Bilgilerim</span>
                                 </button>
                             </li>
                             <li className="nav-item" role="presentation">
@@ -36,7 +39,8 @@ const Profile = () => {
                                     aria-controls="pills-adreslerim"
                                     aria-selected="false"
                                 >
-                                    Adreslerim
+                                    <IoMapOutline size={18} />
+                                    <span>Adreslerim</span>
                                 </button>
                             </li>
                             <li className="nav-item" role="presentation">
@@ -50,7 +54,8 @@ const Profile = () => {
                                     aria-controls="pills-kampanyalarim"
                                     aria-selected="false"
                                 >
-                                    Kampanyalarım
+                                    <IoPricetagOutline size={18} />
+                                    <span>Kampanyalarım</span>
                                 </button>
                             </li>
                             <li className="nav-item" role="presentation">
@@ -64,53 +69,50 @@ const Profile = () => {
                                     aria-controls="pills-siparislerim"
                                     aria-selected="false"
                                 >
-                                    Siparişlerim
+                                    <IoBagCheckOutline size={18} />
+                                    <span>Siparişlerim</span>
                                 </button>
                             </li>
                         </ul>
-
                     </div>
 
-                    <div className="d-flex justify-content-center">
-                        <div className="tab-content w-100" id="pills-tabContent">
-                            <div
-                                className="tab-pane fade show active  p-4"
-                                id="pills-bilgilerim"
-                                role="tabpanel"
-                                aria-labelledby="pills-bilgilerim-tab"
-                                tabIndex="0"
-                            >
-                                <ProfileInfo/>
-
-                            </div>
-                            <div
-                                className="tab-pane fade row border rounded-3 shadow"
-                                id="pills-adreslerim"
-                                role="tabpanel"
-                                aria-labelledby="pills-adreslerim-tab"
-                                tabIndex="0"
-                            >
-                                <ProfileAdresses/>
-
-                            </div>
-                            <div
-                                className="tab-pane fade border shadow p-2 rounded-3"
-                                id="pills-kampanyalarim"
-                                role="tabpanel"
-                                aria-labelledby="pills-kampanyalarim-tab"
-                                tabIndex="0"
-                            >
-                                <ProfileOffer/>
-                            </div>
-                            <div
-                                className="tab-pane fade shadow border shadow rounded-3 p-3"
-                                id="pills-siparislerim"
-                                role="tabpanel"
-                                aria-labelledby="pills-siparislerim-tab"
-                                tabIndex="0"
-                            >
-                                <ProfileOrders/>
-                            </div>
+                    {/* Tab Panelleri */}
+                    <div className="tab-content profile-tab-content" id="pills-tabContent">
+                        <div
+                            className="tab-pane fade show active"
+                            id="pills-bilgilerim"
+                            role="tabpanel"
+                            aria-labelledby="pills-bilgilerim-tab"
+                            tabIndex="0"
+                        >
+                            <ProfileInfo />
+                        </div>
+                        <div
+                            className="tab-pane fade"
+                            id="pills-adreslerim"
+                            role="tabpanel"
+                            aria-labelledby="pills-adreslerim-tab"
+                            tabIndex="0"
+                        >
+                            <ProfileAdresses />
+                        </div>
+                        <div
+                            className="tab-pane fade"
+                            id="pills-kampanyalarim"
+                            role="tabpanel"
+                            aria-labelledby="pills-kampanyalarim-tab"
+                            tabIndex="0"
+                        >
+                            <ProfileOffer />
+                        </div>
+                        <div
+                            className="tab-pane fade"
+                            id="pills-siparislerim"
+                            role="tabpanel"
+                            aria-labelledby="pills-siparislerim-tab"
+                            tabIndex="0"
+                        >
+                            <ProfileOrders />
                         </div>
                     </div>
                 </div>
